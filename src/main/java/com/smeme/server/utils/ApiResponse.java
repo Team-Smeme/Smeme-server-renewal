@@ -4,25 +4,25 @@ import lombok.Builder;
 
 @Builder
 public record ApiResponse(
-        int statusCode,
-        boolean isSuccess,
+        int status,
+        boolean success,
         String message,
         Object data
 ) {
 
-    public static ApiResponse of(int statusCode, boolean isSuccess, String message, Object data) {
+    public static ApiResponse of(int status, boolean success, String message, Object data) {
         return ApiResponse.builder()
-                .statusCode(statusCode)
-                .isSuccess(isSuccess)
+                .status(status)
+                .success(success)
                 .message(message)
                 .data(data)
                 .build();
     }
 
-    public static ApiResponse of(int statusCode, boolean isSuccess, String message) {
+    public static ApiResponse of(int status, boolean success, String message) {
         return ApiResponse.builder()
-                .statusCode(statusCode)
-                .isSuccess(isSuccess)
+                .status(status)
+                .success(success)
                 .message(message)
                 .build();
     }
