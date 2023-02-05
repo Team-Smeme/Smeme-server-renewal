@@ -1,6 +1,7 @@
 package com.smeme.server.models;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,7 +38,7 @@ public class Diary {
     @Column(name = "is_public", nullable = false)
     private boolean isPublic;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
@@ -51,6 +52,16 @@ public class Diary {
 
     @OneToMany(mappedBy = "diary")
     private List<Scrap> scraps = new ArrayList<>();
+
+    @Builder
+    public Diary(User user, Topic topic, String content, TargetLang targetLang, boolean isPublic) {
+        this.user = user;
+        this.topic = topic;
+        this.content = content;
+        this.targetLang = targetLang;
+        this.isPublic = isPublic;
+        this.createdAt = LocalDateTime.now();
+    }
 
     public void setUser(User user) {
         if (Objects.nonNull(this.user)) {

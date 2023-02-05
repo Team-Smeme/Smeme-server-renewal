@@ -51,4 +51,6 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Scrap> scraps = new ArrayList<>();
+
+
 }

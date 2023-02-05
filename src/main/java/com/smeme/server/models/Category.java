@@ -1,6 +1,7 @@
 package com.smeme.server.models;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,9 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     private List<Topic> topics = new ArrayList<>();
+
+    @Builder
+    public Category(String content) {
+        this.content = content;
+    }
 }
