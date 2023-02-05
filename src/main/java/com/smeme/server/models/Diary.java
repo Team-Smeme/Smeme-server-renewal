@@ -28,7 +28,7 @@ public class Diary {
     @JoinColumn(name = "topic_id", referencedColumnName = "id", nullable = false)
     private Topic topic;
 
-    @Lob
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "target_lang", nullable = false)
