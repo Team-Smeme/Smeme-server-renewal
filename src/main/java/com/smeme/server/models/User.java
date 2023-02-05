@@ -19,7 +19,8 @@ public class User {
     private Long id;
 
     @Column(name = "social", length = 20, nullable = false)
-    private String social;
+    @Enumerated(value = EnumType.STRING)
+    private Social social;
 
     @Column(name = "social_id", nullable = false)
     private String socialId;
