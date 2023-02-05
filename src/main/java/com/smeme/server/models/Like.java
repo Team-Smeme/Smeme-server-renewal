@@ -2,6 +2,7 @@ package com.smeme.server.models;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,6 +26,7 @@ public class Like {
     @JoinColumn(name = "diary_id", referencedColumnName = "id", nullable = false)
     private Diary diary;
 
+    @Builder
     public Like(User user, Diary diary) {
         if (Objects.nonNull(this.user)) {
             this.user.getLikes().remove(this);
