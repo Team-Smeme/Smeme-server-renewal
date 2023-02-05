@@ -35,7 +35,6 @@ public class Scrap {
 
     @Builder
     public Scrap(User user, Diary diary, String paragraph) {
-
         if (Objects.nonNull(this.user)) {
             this.user.getScraps().remove(this);
         }

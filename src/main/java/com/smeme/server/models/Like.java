@@ -25,21 +25,19 @@ public class Like {
     @JoinColumn(name = "diary_id", referencedColumnName = "id", nullable = false)
     private Diary diary;
 
-    public void setUser(User user) {
+    public Like(User user, Diary diary) {
         if (Objects.nonNull(this.user)) {
             this.user.getLikes().remove(this);
         }
 
-        this.user = user;
-        user.getLikes().add(this);
-    }
-
-    public void setDiary(Diary diary) {
         if (Objects.nonNull(this.diary)) {
             this.diary.getLikes().remove(this);
         }
 
+        this.user = user;
         this.diary = diary;
+
+        user.getLikes().add(this);
         diary.getLikes().add(this);
     }
 }
