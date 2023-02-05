@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "histories")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 public class History {
 

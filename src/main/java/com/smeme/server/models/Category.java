@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "categories")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 public class Category {
 

@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "likes")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 public class Like {
 

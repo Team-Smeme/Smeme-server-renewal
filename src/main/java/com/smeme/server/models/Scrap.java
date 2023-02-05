@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "scraps")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 public class Scrap {
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "topics")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 public class Topic {
 
