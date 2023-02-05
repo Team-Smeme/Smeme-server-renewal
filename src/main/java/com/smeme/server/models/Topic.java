@@ -22,6 +22,9 @@ public class Topic {
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     private Category category;
 
+    @Column(name = "content")
+    private String content;
+
     @OneToMany(mappedBy = "topic")
     private List<Diary> diaries = new ArrayList<>();
 
