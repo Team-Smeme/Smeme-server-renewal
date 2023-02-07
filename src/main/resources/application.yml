@@ -1,2 +1,23 @@
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/smeme
+    username: smeme
+    password: smeme2022!
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
 server:
   port: 8000
+  servlet:
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true

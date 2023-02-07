@@ -1,6 +1,7 @@
 package com.smeme.server.models;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,14 @@ public class Topic {
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     private Category category;
 
+    @Column(name = "content")
+    private String content;
+
     @OneToMany(mappedBy = "topic")
     private List<Diary> diaries = new ArrayList<>();
+
+    @Builder
+    public Topic(Category category) {
+        this.category = category;
+    }
 }

@@ -1,6 +1,7 @@
 package com.smeme.server.models;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -29,7 +30,7 @@ public class Diary {
     @JoinColumn(name = "topic_id", referencedColumnName = "id", nullable = false)
     private Topic topic;
 
-    @Lob
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "target_lang", nullable = false)
@@ -40,7 +41,7 @@ public class Diary {
     private boolean isPublic;
 
     @CreatedDate
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
@@ -55,6 +56,16 @@ public class Diary {
 
     @OneToMany(mappedBy = "diary")
     private List<Scrap> scraps = new ArrayList<>();
+
+    @Builder
+    public Diary(User user, Topic topic, String content, TargetLang targetLang, boolean isPublic) {
+        this.user = user;
+        this.topic = topic;
+        this.content = content;
+        this.targetLang = targetLang;
+        this.isPublic = isPublic;
+        this.createdAt = LocalDateTime.now();
+    }
 
     public void setUser(User user) {
         if (Objects.nonNull(this.user)) {
