@@ -2,6 +2,7 @@ package com.smeme.server.services;
 
 import com.smeme.server.dtos.diary.DiaryCreateRequestDto;
 import com.smeme.server.dtos.diary.DiaryCreateResponseDto;
+import com.smeme.server.dtos.diary.DiaryPublicDetailFindResponseDto;
 import com.smeme.server.dtos.diary.DiaryPublicFindResponseDto;
 import com.smeme.server.models.Category;
 import com.smeme.server.models.Diary;
@@ -68,5 +69,16 @@ public class DiaryService {
         }
 
         return diaries;
+    }
+
+    @Transactional(readOnly = true)
+    public DiaryPublicDetailFindResponseDto findPublicDiaryById(Long diaryId, Long userId) {
+        Diary diary = diaryRepository.findById(diaryId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 일기입니다."));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
+
+        return DiaryPublicDetailFindResponseDto.from(diary, user);
     }
 }

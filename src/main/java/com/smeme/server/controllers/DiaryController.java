@@ -1,9 +1,6 @@
 package com.smeme.server.controllers;
 
-import com.smeme.server.dtos.diary.DiaryCreateRequestDto;
-import com.smeme.server.dtos.diary.DiaryCreateResponseDto;
-import com.smeme.server.dtos.diary.DiaryPublicFindRequestDto;
-import com.smeme.server.dtos.diary.DiaryPublicFindResponseDto;
+import com.smeme.server.dtos.diary.*;
 import com.smeme.server.services.DiaryService;
 import com.smeme.server.utils.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +37,19 @@ public class DiaryController {
 
         ApiResponse apiResponse = ApiResponse.of(
                 HttpStatus.OK.value(), true, "게시판 일기 조회 성공", diariesResponseDto);
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/{diaryId}")
+    public ResponseEntity<ApiResponse> findPublicDiary(
+            @PathVariable("diaryId") String diaryId, @RequestBody DiaryPublicFindRequestDto diaryRequestDto) {
+
+        DiaryPublicDetailFindResponseDto diary
+                = diaryService.findPublicDiaryById(Long.parseLong(diaryId), diaryRequestDto.userId());
+
+        ApiResponse apiResponse = ApiResponse.of(
+                HttpStatus.OK.value(), true, "게시판 일기 상세 조회 성공", diary);
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
