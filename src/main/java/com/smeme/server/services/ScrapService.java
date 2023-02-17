@@ -1,7 +1,6 @@
 package com.smeme.server.services;
 
-import com.smeme.server.dtos.scrap.ScrapRequestDto;
-import com.smeme.server.dtos.scrap.ScrapResponseDto;
+import com.smeme.server.dtos.scrap.*;
 import com.smeme.server.models.Diary;
 import com.smeme.server.models.Scrap;
 import com.smeme.server.models.User;
@@ -12,6 +11,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -32,5 +34,16 @@ public class ScrapService {
         Scrap scrap = scrapRepository.save(scrapRequestDto.toEntity(user, diary));
 
         return ScrapResponseDto.from(scrap);
+    }
+
+    @Transactional(readOnly = true)
+    public ScrapsFindResponseDto findScrapsByUser(ScrapFindRequestDto scrapRequestDto) {
+        User user = userRepository.findById(scrapRequestDto.userId())
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
+
+        List<ScrapFindResponseDto> scraps = new ArrayList<>();
+        scrapRepository.findByUser(user).forEach(scrap -> scraps.add(ScrapFindResponseDto.from(scrap)));
+
+        return ScrapsFindResponseDto.builder().scraps(scraps).build();
     }
 }
