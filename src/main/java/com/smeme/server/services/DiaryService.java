@@ -2,20 +2,21 @@ package com.smeme.server.services;
 
 import com.smeme.server.dtos.diary.DiaryCreateRequestDto;
 import com.smeme.server.dtos.diary.DiaryCreateResponseDto;
+import com.smeme.server.dtos.diary.DiaryLikeResponseDto;
 import com.smeme.server.dtos.diary.DiaryPublicDetailFindResponseDto;
 import com.smeme.server.dtos.diary.DiaryPublicFindResponseDto;
 import com.smeme.server.models.Category;
 import com.smeme.server.models.Diary;
+import com.smeme.server.models.Like;
 import com.smeme.server.models.Topic;
 import com.smeme.server.models.User;
 import com.smeme.server.repositories.CategoryRepository;
 import com.smeme.server.repositories.DiaryRepository;
+import com.smeme.server.repositories.LikeRepository;
 import com.smeme.server.repositories.TopicRepository;
 import com.smeme.server.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.exception.DataException;
-import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ public class DiaryService {
     private final UserRepository userRepository;
     private final TopicRepository topicRepository;
     private final CategoryRepository categoryRepository;
+    private final LikeRepository likeRepository;
 
     @Transactional
     public DiaryCreateResponseDto createDiary(DiaryCreateRequestDto diaryRequestDto) {
@@ -80,5 +82,35 @@ public class DiaryService {
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
 
         return DiaryPublicDetailFindResponseDto.from(diary, user);
+    }
+
+    @Transactional
+    public DiaryLikeResponseDto likeDiary(Long diaryId, Long userId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다,"));
+
+        Diary diary = diaryRepository.findById(diaryId)
+            .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 일기입니다."));
+
+        boolean hasLike = likeRepository.existsByUserAndDiary(user, diary);
+
+        if (hasLike) {
+            likeRepository.deleteByUserAndDiary(user, diary);
+
+            return DiaryLikeResponseDto.builder()
+                .hasLike(false)
+                .build();
+        } else {
+            Like like = Like.builder()
+                .diary(diary)
+                .user(user)
+                .build();
+
+            likeRepository.save(like);
+
+            return DiaryLikeResponseDto.builder()
+                .hasLike(true)
+                .build();
+        }
     }
 }

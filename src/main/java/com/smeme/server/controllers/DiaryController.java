@@ -53,4 +53,19 @@ public class DiaryController {
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
+    @PostMapping("/like")
+    public ResponseEntity<ApiResponse> likeDiary(@RequestBody DiaryLikeRequestDto requestDto) {
+        DiaryLikeResponseDto response = diaryService.likeDiary(requestDto.diaryId(), requestDto.userId());
+
+        ApiResponse apiResponse;
+
+        if (response.hasLike()) {
+            apiResponse = ApiResponse.of(HttpStatus.OK.value(), true, "추천 성공", response);
+        } else {
+            apiResponse = ApiResponse.of(HttpStatus.OK.value(), true, "추천 해제 성공", response);
+        }
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
 }
