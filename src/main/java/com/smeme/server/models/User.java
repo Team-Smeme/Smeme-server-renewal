@@ -1,6 +1,7 @@
 package com.smeme.server.models;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -53,5 +54,18 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Scrap> scraps = new ArrayList<>();
 
+    @Builder
+    public User(Social social, String socialId, TargetLang targetLang, LocalDateTime createdAt) {
+        this.social = social;
+        this.socialId = socialId;
+        this.targetLang = targetLang;
+        this.createdAt = createdAt;
+    }
 
+
+
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 }
