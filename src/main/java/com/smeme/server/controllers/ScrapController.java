@@ -39,4 +39,13 @@ public class ScrapController {
 
         return new ResponseEntity<>(apiResponse, OK);
     }
+
+    @DeleteMapping("/{scrapId}")
+    public ResponseEntity<ApiResponse> deleteScrap(@PathVariable("scrapId") String scrapId) {
+        scrapService.deleteScrap(Long.parseLong(scrapId));
+
+        ApiResponse apiResponse = ApiResponse.of(OK.value(), true, "스크랩 삭제 성공");
+
+        return new ResponseEntity<>(apiResponse, OK);
+    }
 }

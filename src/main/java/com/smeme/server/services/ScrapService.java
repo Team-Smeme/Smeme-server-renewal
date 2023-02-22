@@ -46,4 +46,12 @@ public class ScrapService {
 
         return ScrapsFindResponseDto.builder().scraps(scraps).build();
     }
+
+    @Transactional
+    public void deleteScrap(Long scrapId) {
+        scrapRepository.findById(scrapId)
+            .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 스크랩입니다."));
+
+        scrapRepository.deleteById(scrapId);
+    }
 }

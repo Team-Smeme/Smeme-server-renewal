@@ -1,12 +1,13 @@
 package com.smeme.server.utils;
 
 import lombok.Builder;
+import lombok.NonNull;
 
 @Builder
 public record ApiResponse(
         int status,
         boolean success,
-        String message,
+        @NonNull String message,
         Object data
 ) {
 
