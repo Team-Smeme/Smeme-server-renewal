@@ -40,6 +40,12 @@ public class AuthService {
 
         if (userRepository.existsBySocialId(socialId)) {
             boolean isRegistered = true;
+            Long userId = userRepository.findIdBySocialId(socialId);
+            Authentication authentication = new UserAuthentication(userId, null, null);
+            String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
+            String accessToken = jwtTokenProvider.generateAccessToken(authentication);
+
+            return new AuthSignInResponseDto(accessToken, refreshToken, isRegistered);
         }
 
         boolean isRegistered = false;
