@@ -44,8 +44,8 @@ public class AuthController {
 
          AuthGetTokenResponseDto responseDto =  authService.getToken(userId);
         ApiResponse apiResponse = ApiResponse.of(
-                HttpStatus.OK.value(), true, "토큰 재발급 성공", responseDto
-        );
+                HttpStatus.OK.value(), true, "토큰 재발급 성공", responseDto);
+        
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 

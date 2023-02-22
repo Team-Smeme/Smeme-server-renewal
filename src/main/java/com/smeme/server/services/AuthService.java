@@ -100,7 +100,8 @@ public class AuthService {
 
     public AuthGetTokenResponseDto getToken(Long userId) {
         Authentication authentication = new UserAuthentication(userId, null, null);
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
         String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
         user.updateRefreshToken(refreshToken);
         String accessToken = jwtTokenProvider.generateAccessToken(authentication);
