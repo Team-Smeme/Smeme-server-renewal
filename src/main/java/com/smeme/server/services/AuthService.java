@@ -4,14 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.smeme.server.config.jwt.JwtTokenProvider;
 import com.smeme.server.config.jwt.UserAuthentication;
+import com.smeme.server.dtos.auth.AuthGetTokenResponseDto;
 import com.smeme.server.dtos.auth.AuthSignInRequestDto;
 import com.smeme.server.dtos.auth.AuthSignInResponseDto;
 import com.smeme.server.models.Social;
 import com.smeme.server.models.TargetLang;
 import com.smeme.server.models.User;
 import com.smeme.server.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -95,4 +96,19 @@ public class AuthService {
         } catch (HttpClientErrorException e ) {
             throw e;
     }
-}}
+}
+
+    public AuthGetTokenResponseDto getToken(Long userId) {
+        Authentication authentication = new UserAuthentication(userId, null, null);
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
+        String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
+        user.updateRefreshToken(refreshToken);
+        String accessToken = jwtTokenProvider.generateAccessToken(authentication);
+        AuthGetTokenResponseDto responseDto = AuthGetTokenResponseDto.builder().
+                refreshToken(refreshToken)
+                .accessToken(accessToken)
+                .build();
+
+        return responseDto;
+    }
+}

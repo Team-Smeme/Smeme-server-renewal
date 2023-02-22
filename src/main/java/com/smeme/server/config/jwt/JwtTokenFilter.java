@@ -25,19 +25,18 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            String jwt = getJwtFromRequest(request);
-            JwtValidationType jwtValidationType = jwtTokenProvider.validateToken(jwt);
-            if ( StringUtils.hasText(jwt) && jwtValidationType == JwtValidationType.VALID_JWT) {
-                Long userId = jwtTokenProvider.getUserFromJwt(jwt);
+            String accessToken = getJwtFromRequest(request);
+            JwtValidationType jwtValidationType = jwtTokenProvider.validateToken(accessToken);
+            if ( StringUtils.hasText(accessToken) && jwtValidationType == JwtValidationType.VALID_JWT) {
+                Long userId = jwtTokenProvider.getUserFromJwt(accessToken);
 
                 UserAuthentication authentication = new UserAuthentication(userId, null, null);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             } else {
-                request.setAttribute("UnAuthorization", jwtTokenProvider);
-                request.setAttribute("UnAuthorization", jwtTokenProvider.validateToken(jwt));
+                request.setAttribute("UnAuthorization", jwtTokenProvider.validateToken(accessToken));
+
             }
         } catch (Exception exception) {
             log.error("error : ", exception);
