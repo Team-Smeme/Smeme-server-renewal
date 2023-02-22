@@ -26,7 +26,7 @@ public class Scrap {
     @JoinColumn(name = "diary_id", referencedColumnName = "id", nullable = false)
     private Diary diary;
 
-    @Lob
+    @Column(name = "paragraph", columnDefinition = "TEXT")
     private String paragraph;
 
     @Column(name = "created_at")
