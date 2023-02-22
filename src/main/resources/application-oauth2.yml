@@ -1,0 +1,3 @@
+jwt:
+  secret: aReyoUkraKen2022?
+  KAKAO_URL: https://kapi.kakao.com/v2/user/me

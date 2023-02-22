@@ -24,8 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class DiaryService {
 
     private final DiaryRepository diaryRepository;
@@ -47,7 +48,6 @@ public class DiaryService {
         return DiaryCreateResponseDto.from(savedDiary);
     }
 
-    @Transactional(readOnly = true)
     public List<DiaryPublicFindResponseDto> findPublicDiaries(String categoryId, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
@@ -73,7 +73,6 @@ public class DiaryService {
         return diaries;
     }
 
-    @Transactional(readOnly = true)
     public DiaryPublicDetailFindResponseDto findPublicDiaryById(Long diaryId, Long userId) {
         Diary diary = diaryRepository.findById(diaryId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 일기입니다."));
