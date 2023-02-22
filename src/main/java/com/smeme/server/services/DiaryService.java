@@ -80,7 +80,9 @@ public class DiaryService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
 
-        return DiaryPublicDetailFindResponseDto.from(diary, user);
+        boolean hasLike = likeRepository.existsByUserAndDiary(user, diary);
+
+        return DiaryPublicDetailFindResponseDto.from(diary, user, hasLike);
     }
 
     @Transactional
