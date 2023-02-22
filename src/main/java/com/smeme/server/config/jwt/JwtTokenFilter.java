@@ -33,10 +33,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 UserAuthentication authentication = new UserAuthentication(userId, null, null);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            } else {
-                request.setAttribute("UnAuthorization", jwtTokenProvider.validateToken(accessToken));
-
             }
         } catch (Exception exception) {
             log.error("error : ", exception);
