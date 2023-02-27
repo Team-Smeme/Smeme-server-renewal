@@ -1,23 +1,22 @@
 spring:
-  thymeleaf:
-    cache: false
+  config:
+    activate:
+      on-profile: local
+    import: application-oauth2.yml
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/smeme
-    username: smeme
-    password: smeme2022!
+    url: jdbc:h2:tcp://localhost/~/smeme-server
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
-    open-in-view: false
-server:
-  port: 8000
-  servlet:
-    encoding:
-      charset: utf-8
-      enabled: true
-      force: true
+        default_batch_fetch_size: 1000
+        auto_quote_keyword: true
+
+logging.level:
+  org.hibernate.SQL: debug
