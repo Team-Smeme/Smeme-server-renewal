@@ -12,8 +12,7 @@ public record DiaryCreateRequestDto(
         @NonNull String content,
         @NonNull TargetLang targetLang,
         long topicId,
-        boolean isPublic,
-        long userId
+        boolean isPublic
 ) {
 
     public Diary toEntity(User user, Topic topic) {

@@ -7,8 +7,7 @@ import lombok.NonNull;
 
 public record ScrapRequestDto(
         @NonNull Long diaryId,
-        @NonNull String paragraph,
-        Long userId
+        @NonNull String paragraph
 ) {
 
     public Scrap toEntity(User user, Diary diary) {

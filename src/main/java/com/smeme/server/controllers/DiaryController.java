@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -18,8 +19,10 @@ public class DiaryController {
     private final DiaryService diaryService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> createDiary(@RequestBody DiaryCreateRequestDto diaryRequestDto) {
-        DiaryCreateResponseDto diaryResponseDto = diaryService.createDiary(diaryRequestDto);
+    public ResponseEntity<ApiResponse> createDiary(
+        Principal principal, @RequestBody DiaryCreateRequestDto diaryRequestDto) {
+        DiaryCreateResponseDto diaryResponseDto = diaryService
+            .createDiary(Long.valueOf(principal.getName()), diaryRequestDto);
 
         ApiResponse apiResponse = ApiResponse.of(
                 HttpStatus.CREATED.value(), true, "일기 작성 성공", diaryResponseDto);
@@ -29,11 +32,9 @@ public class DiaryController {
 
     @GetMapping
     public ResponseEntity<ApiResponse> findPublicDiaries(
-            @RequestParam(name = "category", required = false) String category,
-            @RequestBody DiaryPublicFindRequestDto diaryRequestDto
-    ) {
+        Principal principal, @RequestParam(name = "category", required = false) String category) {
         List<DiaryPublicFindResponseDto> diariesResponseDto
-                = diaryService.findPublicDiaries(category, diaryRequestDto.userId());
+                = diaryService.findPublicDiaries(category, Long.valueOf(principal.getName()));
 
         ApiResponse apiResponse = ApiResponse.of(
                 HttpStatus.OK.value(), true, "게시판 일기 조회 성공", diariesResponseDto);
@@ -43,10 +44,10 @@ public class DiaryController {
 
     @GetMapping("/{diaryId}")
     public ResponseEntity<ApiResponse> findPublicDiary(
-            @PathVariable("diaryId") String diaryId, @RequestBody DiaryPublicFindRequestDto diaryRequestDto) {
+        Principal principal, @PathVariable("diaryId") String diaryId) {
 
         DiaryPublicDetailFindResponseDto diary
-                = diaryService.findPublicDiaryById(Long.parseLong(diaryId), diaryRequestDto.userId());
+                = diaryService.findPublicDiaryById(Long.parseLong(diaryId), Long.valueOf(principal.getName()));
 
         ApiResponse apiResponse = ApiResponse.of(
                 HttpStatus.OK.value(), true, "게시판 일기 상세 조회 성공", diary);
@@ -55,8 +56,10 @@ public class DiaryController {
     }
 
     @PostMapping("/like")
-    public ResponseEntity<ApiResponse> likeDiary(@RequestBody DiaryLikeRequestDto requestDto) {
-        DiaryLikeResponseDto response = diaryService.likeDiary(requestDto.diaryId(), requestDto.userId());
+    public ResponseEntity<ApiResponse> likeDiary(
+        Principal principal, @RequestBody DiaryLikeRequestDto requestDto) {
+        DiaryLikeResponseDto response = diaryService
+            .likeDiary(requestDto.diaryId(), Long.valueOf(principal.getName()));
 
         ApiResponse apiResponse;
 
