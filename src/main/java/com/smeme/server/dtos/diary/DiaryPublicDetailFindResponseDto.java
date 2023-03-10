@@ -23,13 +23,11 @@ public record DiaryPublicDetailFindResponseDto(
         boolean hasLike
 ) {
 
-    static public DiaryPublicDetailFindResponseDto from(Diary diary, User user) {
+    static public DiaryPublicDetailFindResponseDto from(Diary diary, User user, boolean hasLike) {
         Topic topic = diary.getTopic();
         List<Like> likes = diary.getLikes();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         User diaryUser = diary.getUser();
-
-        List<Like> likeList = likes.stream().filter(like -> like.getUser() == user).toList();
 
         return DiaryPublicDetailFindResponseDto.builder()
                 .diaryId(diary.getId())
@@ -41,7 +39,7 @@ public record DiaryPublicDetailFindResponseDto(
                 .userId(diaryUser.getId())
                 .username(diaryUser.getUsername())
                 .bio(diaryUser.getBio())
-                .hasLike(likeList.size() > 0)
+                .hasLike(hasLike)
                 .build();
     }
 }
