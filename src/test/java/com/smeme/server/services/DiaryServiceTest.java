@@ -29,7 +29,7 @@ class DiaryServiceTest {
     @Mock
     private DiaryRepository diaryRepository;
     @Mock
-    private UserRepository userRepository;
+    private UserService userService;
     @Mock
     private TopicRepository topicRepository;
 
@@ -46,22 +46,21 @@ class DiaryServiceTest {
                 .targetLang(TargetLang.en)
                 .topicId(0L)
                 .isPublic(true)
-                .userId(0L)
                 .build();
 
         Diary diary = diaryRequestDto.toEntity(user, topic);
 
         // when
-        when(userRepository.findById(0L)).thenReturn(Optional.of(user));
         when(topicRepository.findById(0L)).thenReturn(Optional.of(topic));
         when(diaryRepository.save(any())).thenReturn(diary);
+        when(userService.getUser(0L)).thenReturn(user);
 
-        DiaryCreateResponseDto diaryResponseDto = diaryService.createDiary(diaryRequestDto);
+        DiaryCreateResponseDto diaryResponseDto = diaryService.createDiary(0L, diaryRequestDto);
 
         // then
-        verify(userRepository).findById(0L);
         verify(topicRepository).findById(0L);
         verify(diaryRepository).save(any());
+        verify(userService).getUser(0L);
 
         assertThat(diaryResponseDto).isEqualTo(DiaryCreateResponseDto.from(diary));
     }
@@ -75,18 +74,14 @@ class DiaryServiceTest {
                 .targetLang(TargetLang.en)
                 .topicId(0L)
                 .isPublic(true)
-                .userId(0L)
                 .build();
 
         // when
-        when(userRepository.findById(0L)).thenReturn(Optional.empty());
 
         // then
-        assertThatThrownBy(() -> diaryService.createDiary(diaryRequestDto))
+        assertThatThrownBy(() -> diaryService.createDiary(0L, diaryRequestDto))
                 .isExactlyInstanceOf(EntityNotFoundException.class)
-                .hasMessage("존재하지 않는 유저입니다.");
-
-        verify(userRepository).findById(0L);
+                .hasMessage("존재하지 않는 랜덤 주제입니다.");
     }
 
     @Test
@@ -98,19 +93,16 @@ class DiaryServiceTest {
                 .targetLang(TargetLang.en)
                 .topicId(0L)
                 .isPublic(true)
-                .userId(0L)
                 .build();
 
         // when
-        when(userRepository.findById(0L)).thenReturn(Optional.of(user));
         when(topicRepository.findById(0L)).thenReturn(Optional.empty());
 
         // then
-        assertThatThrownBy(() -> diaryService.createDiary(diaryRequestDto))
+        assertThatThrownBy(() -> diaryService.createDiary(0L, diaryRequestDto))
                 .isExactlyInstanceOf(EntityNotFoundException.class)
                 .hasMessage("존재하지 않는 랜덤 주제입니다.");
 
-        verify(userRepository).findById(0L);
         verify(topicRepository).findById(0L);
     }
 

@@ -1,6 +1,5 @@
 package com.smeme.server.controllers;
 
-import com.smeme.server.dtos.scrap.ScrapFindRequestDto;
 import com.smeme.server.dtos.scrap.ScrapRequestDto;
 import com.smeme.server.dtos.scrap.ScrapResponseDto;
 import com.smeme.server.dtos.scrap.ScrapsFindResponseDto;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
+import java.security.Principal;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/scraps")
@@ -21,8 +22,10 @@ public class ScrapController {
     private final ScrapService scrapService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> createScrap(@RequestBody ScrapRequestDto scrapRequestDto) {
-        ScrapResponseDto scrapResponseDto = scrapService.createScrap(scrapRequestDto);
+    public ResponseEntity<ApiResponse> createScrap(
+        Principal principal, @RequestBody ScrapRequestDto scrapRequestDto) {
+        ScrapResponseDto scrapResponseDto = scrapService
+            .createScrap(Long.valueOf(principal.getName()), scrapRequestDto);
 
         ApiResponse apiResponse = ApiResponse.of(
                 CREATED.value(), true, "스크랩 저장 성공", scrapResponseDto);
@@ -31,8 +34,9 @@ public class ScrapController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse> findScrapsByUser(@RequestBody ScrapFindRequestDto requestDto) {
-        ScrapsFindResponseDto scrapsResponseDto = scrapService.findScrapsByUser(requestDto);
+    public ResponseEntity<ApiResponse> findScrapsByUser(Principal principal) {
+        ScrapsFindResponseDto scrapsResponseDto = scrapService
+            .findScrapsByUser(Long.valueOf(principal.getName()));
 
         ApiResponse apiResponse = ApiResponse.of(
                 OK.value(), true, "스크랩 리스트 조회 성공", scrapsResponseDto);

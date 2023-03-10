@@ -19,14 +19,14 @@ import java.util.List;
 @Service
 public class ScrapService {
 
+    private final UserService userService;
     private final ScrapRepository scrapRepository;
     private final UserRepository userRepository;
     private final DiaryRepository diaryRepository;
 
     @Transactional
-    public ScrapResponseDto createScrap(ScrapRequestDto scrapRequestDto) {
-        User user = userRepository.findById(scrapRequestDto.userId())
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
+    public ScrapResponseDto createScrap(Long userId, ScrapRequestDto scrapRequestDto) {
+        User user = userService.getUser(userId);
 
         Diary diary = diaryRepository.findById(scrapRequestDto.diaryId())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 일기입니다."));
@@ -37,9 +37,8 @@ public class ScrapService {
     }
 
     @Transactional(readOnly = true)
-    public ScrapsFindResponseDto findScrapsByUser(ScrapFindRequestDto scrapRequestDto) {
-        User user = userRepository.findById(scrapRequestDto.userId())
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
+    public ScrapsFindResponseDto findScrapsByUser(Long userId) {
+        User user = userService.getUser(userId);
 
         List<ScrapFindResponseDto> scraps = new ArrayList<>();
         scrapRepository.findByUser(user).forEach(scrap -> scraps.add(ScrapFindResponseDto.from(scrap)));

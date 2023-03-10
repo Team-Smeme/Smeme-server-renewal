@@ -29,6 +29,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class DiaryService {
 
+    private final UserService userService;
     private final DiaryRepository diaryRepository;
     private final UserRepository userRepository;
     private final TopicRepository topicRepository;
@@ -36,12 +37,11 @@ public class DiaryService {
     private final LikeRepository likeRepository;
 
     @Transactional
-    public DiaryCreateResponseDto createDiary(DiaryCreateRequestDto diaryRequestDto) {
-        User user = userRepository.findById(diaryRequestDto.userId())
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
-
+    public DiaryCreateResponseDto createDiary(Long userId, DiaryCreateRequestDto diaryRequestDto) {
         Topic topic = topicRepository.findById(diaryRequestDto.topicId())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 랜덤 주제입니다."));
+
+        User user = userService.getUser(userId);
 
         Diary savedDiary = diaryRepository.save(diaryRequestDto.toEntity(user, topic));
 
@@ -49,8 +49,7 @@ public class DiaryService {
     }
 
     public List<DiaryPublicFindResponseDto> findPublicDiaries(String categoryId, Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
+        User user = userService.getUser(userId);
 
         List<DiaryPublicFindResponseDto> diaries = new ArrayList<>();
 
@@ -77,8 +76,7 @@ public class DiaryService {
         Diary diary = diaryRepository.findById(diaryId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 일기입니다."));
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
+        User user = userService.getUser(userId);
 
         boolean hasLike = likeRepository.existsByUserAndDiary(user, diary);
 
@@ -87,8 +85,7 @@ public class DiaryService {
 
     @Transactional
     public DiaryLikeResponseDto likeDiary(Long diaryId, Long userId) {
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다,"));
+        User user = userService.getUser(userId);
 
         Diary diary = diaryRepository.findById(diaryId)
             .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 일기입니다."));
