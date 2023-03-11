@@ -54,6 +54,6 @@ jobs:
 
       - name: Code Deploy
         run: aws deploy create-deployment --application-name smeme-codedeploy
-        --deployment-config-name CodeDeployDefault.AllAtOnce
-        --deployment-group-name smeme-group
-        --s3-location bucket=${{ secrets.AWS_BUCKET_NAME }},bundleType=zip,key=deploy/$GITHUB_SHA.zip
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name smeme-group
+          --s3-location bucket=${{ secrets.AWS_BUCKET_NAME }},bundleType=zip,key=deploy/$GITHUB_SHA.zip
