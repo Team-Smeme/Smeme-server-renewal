@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -52,8 +53,12 @@ public class JwtTokenProvider {
 
     public JwtValidationType validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(getJwtSecretKey()).parseClaimsJws(token);
-            return JwtValidationType.VALID_JWT;
+            if (Objects.isNull(token)) {
+                return JwtValidationType.EMPTY_JWT;
+            } else {
+                Jwts.parser().setSigningKey(getJwtSecretKey()).parseClaimsJws(token);
+                return JwtValidationType.VALID_JWT;
+            }
         } catch (SignatureException ex) {
             log.error(String.valueOf(JwtValidationType.INVALID_JWT_SIGNATURE));
             return JwtValidationType.INVALID_JWT_SIGNATURE;

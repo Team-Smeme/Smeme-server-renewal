@@ -29,16 +29,21 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             JwtValidationType jwtValidationType = jwtTokenProvider.validateToken(accessToken);
             if ( StringUtils.hasText(accessToken) && jwtValidationType == JwtValidationType.VALID_JWT) {
                 Long userId = jwtTokenProvider.getUserFromJwt(accessToken);
-
-                UserAuthentication authentication = new UserAuthentication(userId, null, null);
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                setAuthentication(request, userId);
+            } else if (jwtValidationType == JwtValidationType.EMPTY_JWT) {
+                setAuthentication(request, null);
             }
         } catch (Exception exception) {
             log.error("error : ", exception);
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private void setAuthentication(HttpServletRequest request, Long userId) {
+        UserAuthentication authentication = new UserAuthentication(userId, null, null);
+        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
