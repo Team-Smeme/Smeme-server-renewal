@@ -3,7 +3,7 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ubuntu/build
+    destination: /home/ubuntu/smeme/
     overwrite: yes
 
 permissions:
@@ -11,9 +11,3 @@ permissions:
     pattern: '**'
     owner: ubuntu
     group: ubuntu
-
-hooks:
-  AfterInstall:
-    - location: scripts/deploy.sh
-      timeout: 1000
-      runas: ubuntu
