@@ -4,7 +4,7 @@ spring:
       on-profile: local
     import: application-oauth2.yml
   datasource:
-    url: jdbc:h2:tcp://localhost/~/smeme-server
+    url: jdbc:h2:mem:testdb
     username: sa
     password:
     driver-class-name: org.h2.Driver
