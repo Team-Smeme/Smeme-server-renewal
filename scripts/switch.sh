@@ -26,6 +26,11 @@ sudo service nginx reload
 
 echo "> Nginx reloaded."
 
+sudo iptables -t nat -D PREROUTING 1
+sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port ${TARGET_PORT}
+
+echo "> Forward ${TARGET_PORT} port"
+
 CURRENT_PID=$(lsof -Fp -i TCP:${CURRENT_PORT} | grep -Po 'p[0-9]+' | grep -Po '[0-9]+')
 
 sudo kill ${CURRENT_PID}
