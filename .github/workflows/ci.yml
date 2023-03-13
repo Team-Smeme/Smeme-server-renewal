@@ -1,7 +1,7 @@
 name: pr-check
 
 on:
-  push:
+  pull_request:
     branches: [ develop ]
 
 jobs:
