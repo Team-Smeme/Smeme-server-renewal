@@ -38,3 +38,5 @@ out/
 
 application-oauth2.yml
 env.properties
+
+.env

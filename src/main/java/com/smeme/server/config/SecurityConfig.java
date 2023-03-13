@@ -34,6 +34,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth").permitAll()
+                .requestMatchers("/").permitAll()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(
                         jwtTokenFilter,

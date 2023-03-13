@@ -1,7 +1,7 @@
 spring:
   config:
     activate:
-      on-profile: local
+      on-profile: prod
     import: application-oauth2.yml
   datasource:
     url: jdbc:h2:mem:testdb
