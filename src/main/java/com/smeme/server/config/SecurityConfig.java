@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth").permitAll()
+                .requestMatchers("/api/v1/auth", "/test/api/fcm").permitAll()
                 .requestMatchers("/").permitAll()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(
