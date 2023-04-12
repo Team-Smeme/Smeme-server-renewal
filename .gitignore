@@ -40,5 +40,5 @@ application-oauth2.yml
 env.properties
 
 .env
-test.json
+test02.json
 application.yml
