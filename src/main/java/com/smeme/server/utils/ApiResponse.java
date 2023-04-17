@@ -1,5 +1,9 @@
 package com.smeme.server.utils;
 
+import org.springframework.http.HttpStatus;
+
+import com.google.api.gax.httpjson.HttpJsonStatusCode;
+
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -26,5 +30,13 @@ public record ApiResponse(
                 .success(success)
                 .message(message)
                 .build();
+    }
+
+    public static ApiResponse success(String message) {
+        return ApiResponse.builder()
+            .status(HttpStatus.OK.value())
+            .success(true)
+            .message(message)
+            .build();
     }
 }
