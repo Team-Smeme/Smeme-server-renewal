@@ -19,7 +19,6 @@ public class SecurityConfig {
     private final CustomJwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtTokenFilter jwtTokenFilter;
 
-
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(
             HttpSecurity http
@@ -33,13 +32,10 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth", "/test/api/fcm").permitAll()
+                .requestMatchers("/api/v1/auth", "/api/v2/messages").permitAll()
                 .requestMatchers("/").permitAll()
                 .anyRequest().authenticated().and()
-                .addFilterBefore(
-                        jwtTokenFilter,
-                        UsernamePasswordAuthenticationFilter.class
-                )
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build(); // 권한 설정
     }
 
