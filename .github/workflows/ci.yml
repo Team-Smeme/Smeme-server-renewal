@@ -1,8 +1,8 @@
 name: pr-check
 
 on:
-#  pull_request:
-#    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
 
 jobs:
   build:
@@ -34,14 +34,13 @@ jobs:
           touch src/main/resources/application.yml
           echo "${{ secrets.APPLICATION_YML }}" >> src/main/resources/application.yml
           cat src/main/resources/application.yml
-          
 
-      - name: Create test02.json
+      - name: Create FireBase JSON file
         run: |
           pwd
-          touch src/main/resources/test02.json
-          echo "${{ secrets.TEST_JSON }}" >> src/main/resources/test02.json
-          cat src/main/resources/test02.json
+          touch src/main/resources/smeem_fcm.json
+          echo "${{ secrets.FCM_JSON }}" >> src/main/resources/smeem_fcm.json
+          cat src/main/resources/smeem_fcm.json
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
