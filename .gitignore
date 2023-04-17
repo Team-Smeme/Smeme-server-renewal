@@ -40,5 +40,6 @@ application-oauth2.yml
 env.properties
 
 .env
+*.yml
 smeem_fcm.json
 application.yml
