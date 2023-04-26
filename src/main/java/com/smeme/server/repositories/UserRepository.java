@@ -1,7 +1,7 @@
 package com.smeme.server.repositories;
 
-import com.smeme.server.models.Social;
-import com.smeme.server.models.User;
+import com.smeme.server.model.SocialType;
+import com.smeme.server.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    public User findBySocialAndSocialId(Social social, String socialId);
+    public User findBySocialAndSocialId(SocialType social, String socialId);
 
     @Query("select u.id from User u")
     public Long findIdBySocialId(String socialId);
