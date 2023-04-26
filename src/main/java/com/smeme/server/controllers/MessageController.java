@@ -1,6 +1,6 @@
 package com.smeme.server.controllers;
 
-import static com.smeme.server.utils.message.ResponseMessage.*;
+import static com.smeme.server.util.message.ResponseMessage.*;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smeme.server.dtos.message.MessageRequestDTO;
 import com.smeme.server.services.MessageService;
-import com.smeme.server.utils.ApiResponse;
+import com.smeme.server.util.ApiResponse;
 
 import lombok.RequiredArgsConstructor;
 
