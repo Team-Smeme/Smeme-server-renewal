@@ -1,4 +1,4 @@
-package com.smeme.server.services;
+package com.smeme.server.service;
 
 import static org.springframework.http.HttpHeaders.*;
 
