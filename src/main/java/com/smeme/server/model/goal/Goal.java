@@ -22,7 +22,7 @@ public class Goal {
 	@Enumerated(value = EnumType.STRING)
 	private GoalType type;
 
-	private String education;
+	private String way;
 
 	private String detail;
 }
