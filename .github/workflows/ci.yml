@@ -28,6 +28,20 @@ jobs:
           echo KAKAO_URL=${{ secrets.KAKAO_URL }} >> src/main/resources/application-oauth2.yml
           cat src/main/resources/application-oauth2.yml
 
+      - name: Create application.yml
+        run: |
+          pwd
+          touch src/main/resources/application.yml
+          echo "${{ secrets.APPLICATION_YML }}" >> src/main/resources/application.yml
+          cat src/main/resources/application.yml
+
+      - name: Create FireBase JSON file
+        run: |
+          pwd
+          touch src/main/resources/smeem_fcm.json
+          echo "${{ secrets.FCM_JSON }}" >> src/main/resources/smeem_fcm.json
+          cat src/main/resources/smeem_fcm.json
+
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
         shell: bash

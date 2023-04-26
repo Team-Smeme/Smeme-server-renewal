@@ -13,6 +13,6 @@ public class TestController {
 
 	@GetMapping
 	public ResponseEntity<ApiResponse> test() {
-		return ResponseEntity.ok(ApiResponse.success(true, "server connect"));
+		return ResponseEntity.ok(ApiResponse.success("server connect"));
 	}
 }

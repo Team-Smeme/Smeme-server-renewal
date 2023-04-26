@@ -38,6 +38,5 @@ out/
 
 *.yml
 env.properties
-
 .env
 *.json
