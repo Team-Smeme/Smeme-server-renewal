@@ -1,4 +1,4 @@
-package com.smeme.server.dtos.message;
+package com.smeme.server.dto.message;
 
 import lombok.Builder;
 

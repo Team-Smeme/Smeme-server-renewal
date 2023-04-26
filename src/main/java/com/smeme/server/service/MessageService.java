@@ -13,8 +13,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import com.google.auth.oauth2.GoogleCredentials;
-import com.smeme.server.dtos.message.MessageDTO;
-import com.smeme.server.dtos.message.MessageRequestDTO;
+import com.smeme.server.dto.message.MessageDTO;
+import com.smeme.server.dto.message.MessageRequestDTO;
 
 import lombok.RequiredArgsConstructor;
 import okhttp3.MediaType;
