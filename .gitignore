@@ -40,3 +40,4 @@ out/
 env.properties
 .env
 *.json
+.DS_Store
