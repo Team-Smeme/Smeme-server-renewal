@@ -1,10 +1,12 @@
 package com.smeme.server.service;
 
 import static com.smeme.server.util.message.ErrorMessage.*;
+import static java.util.Objects.*;
 
 import org.springframework.stereotype.Service;
 
 import com.smeme.server.dto.diary.DiaryRequestDTO;
+import com.smeme.server.dto.diary.DiaryResponseDTO;
 import com.smeme.server.model.Diary;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.topic.Topic;
@@ -33,14 +35,26 @@ public class DiaryService {
 		return diary.getId();
 	}
 
+	public DiaryResponseDTO getDiaryDetail(Long diaryId) {
+		Diary diary = getDiary(diaryId);
+		return DiaryResponseDTO.of(diary);
+	}
+
+	private Diary getDiary(Long diaryId) {
+		return diaryRepository.findById(diaryId)
+			.orElseThrow(() -> new EntityNotFoundException(INVALID_DIARY.getMessage()));
+	}
+
 	private Member getMember(Long memberId) {
 		return memberRepository.findById(memberId)
 			.orElseThrow(() -> new EntityNotFoundException(INVALID_MEMBER.getMessage()));
 	}
 
 	private Topic getTopic(Long topicId) {
-		return topicRepository.findById(topicId)
-			.orElseThrow(() -> new EntityNotFoundException(INVALID_TOPIC.getMessage()));
+		return nonNull(topicId)
+			? topicRepository.findById(topicId)
+			.orElseThrow(() -> new EntityNotFoundException(INVALID_TOPIC.getMessage()))
+			: null;
 	}
 
 	private boolean existTodayDiary(Member member) {
