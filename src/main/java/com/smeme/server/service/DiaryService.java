@@ -1,6 +1,7 @@
 package com.smeme.server.service;
 
 import static com.smeme.server.util.message.ErrorMessage.*;
+import static java.util.Objects.*;
 
 import org.springframework.stereotype.Service;
 
@@ -39,8 +40,10 @@ public class DiaryService {
 	}
 
 	private Topic getTopic(Long topicId) {
-		return topicRepository.findById(topicId)
-			.orElseThrow(() -> new EntityNotFoundException(INVALID_TOPIC.getMessage()));
+		return nonNull(topicId)
+			? topicRepository.findById(topicId)
+			.orElseThrow(() -> new EntityNotFoundException(INVALID_TOPIC.getMessage()))
+			: null;
 	}
 
 	private boolean existTodayDiary(Member member) {
