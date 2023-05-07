@@ -72,6 +72,10 @@ public class Diary {
         this.updatedAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     }
 
+    public void deleteDiary() {
+        this.isDeleted = true;
+    }
+
     private void setMember(Member member) {
         if (Objects.nonNull(this.member)) {
             this.member.getDiaries().remove(this);
