@@ -3,13 +3,17 @@ package com.smeme.server.service;
 import static com.smeme.server.util.message.ErrorMessage.*;
 import static java.util.Objects.*;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.smeme.server.dto.diary.DiaryRequestDTO;
 import com.smeme.server.dto.diary.DiaryResponseDTO;
+import com.smeme.server.model.Correction;
 import com.smeme.server.model.Diary;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.topic.Topic;
+import com.smeme.server.repository.CorrectionRepository;
 import com.smeme.server.repository.diary.DiaryRepository;
 import com.smeme.server.repository.MemberRepository;
 import com.smeme.server.repository.TopicRepository;
@@ -24,6 +28,7 @@ public class DiaryService {
 	private final DiaryRepository diaryRepository;
 	private final TopicRepository topicRepository;
 	private final MemberRepository memberRepository;
+	private final CorrectionRepository correctionRepository;
 
 	public Long createDiary(Long memberId, DiaryRequestDTO requestDTO) {
 		Member member = getMember(memberId);
@@ -37,7 +42,8 @@ public class DiaryService {
 
 	public DiaryResponseDTO getDiaryDetail(Long diaryId) {
 		Diary diary = getDiary(diaryId);
-		return DiaryResponseDTO.of(diary);
+		List<Correction> corrections = correctionRepository.findByDiaryOrderByIdDesc(diary);
+		return DiaryResponseDTO.of(diary, corrections);
 	}
 
 	private Diary getDiary(Long diaryId) {
