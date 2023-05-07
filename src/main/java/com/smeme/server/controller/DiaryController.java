@@ -9,6 +9,7 @@ import java.security.Principal;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +44,13 @@ public class DiaryController {
 	public ResponseEntity<ApiResponse> getDiaryDetail(@PathVariable Long diaryId) {
 		DiaryResponseDTO response = diaryService.getDiaryDetail(diaryId);
 		return ResponseEntity.ok(ApiResponse.success(SUCCESS_GET_DIARY.getMessage(), response));
+	}
+
+	@PatchMapping("/{diaryId}")
+	public ResponseEntity<ApiResponse> updateDiary(
+		@PathVariable Long diaryId, @RequestBody DiaryRequestDTO requestDTO) {
+		diaryService.updateDiary(diaryId, requestDTO);
+		return ResponseEntity.ok(ApiResponse.success(SUCCESS_UPDATE_DAIRY.getMessage()));
 	}
 
 	private Long getMemberId(Principal principal) {

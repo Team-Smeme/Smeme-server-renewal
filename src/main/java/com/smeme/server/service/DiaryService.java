@@ -4,6 +4,7 @@ import static com.smeme.server.util.message.ErrorMessage.*;
 import static java.util.Objects.*;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.smeme.server.dto.diary.DiaryRequestDTO;
 import com.smeme.server.dto.diary.DiaryResponseDTO;
@@ -19,12 +20,14 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class DiaryService {
 
 	private final DiaryRepository diaryRepository;
 	private final TopicRepository topicRepository;
 	private final MemberRepository memberRepository;
 
+	@Transactional
 	public Long createDiary(Long memberId, DiaryRequestDTO requestDTO) {
 		Member member = getMember(memberId);
 		Topic topic = getTopic(requestDTO.topicId());
@@ -38,6 +41,12 @@ public class DiaryService {
 	public DiaryResponseDTO getDiaryDetail(Long diaryId) {
 		Diary diary = getDiary(diaryId);
 		return DiaryResponseDTO.of(diary);
+	}
+
+	@Transactional
+	public void updateDiary(Long diaryId, DiaryRequestDTO requestDTO) {
+		Diary diary = getDiary(diaryId);
+		diary.updateContent(requestDTO.content());
 	}
 
 	private Diary getDiary(Long diaryId) {

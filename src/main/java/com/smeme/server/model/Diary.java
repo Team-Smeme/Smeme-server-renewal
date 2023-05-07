@@ -67,6 +67,11 @@ public class Diary {
         this.createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     }
 
+    public void updateContent(String content) {
+        this.content = content;
+        this.updatedAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+    }
+
     private void setMember(Member member) {
         if (Objects.nonNull(this.member)) {
             this.member.getDiaries().remove(this);
