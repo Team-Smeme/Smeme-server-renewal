@@ -4,6 +4,7 @@ import static jakarta.persistence.GenerationType.*;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,7 +38,6 @@ public class Member {
 
     private boolean hasPushAlarm;
 
-    @NotBlank(message = "닉네임은 공백일 수 없습니다.")
     @Column(length = 10, unique = true)
     private String username;
 
@@ -54,13 +54,12 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private final List<MemberBadge> badges = new ArrayList<>();
 
-    public Member(SocialType social, String socialId, GoalType goal, boolean hasPushAlarm, String username) {
+
+    @Builder
+    public Member(SocialType social, String socialId, LangType targetLang) {
         this.social = social;
         this.socialId = socialId;
-        this.goal = goal;
-        this.hasPushAlarm = hasPushAlarm;
-        this.username = username;
-        this.targetLang = LangType.en;
+        this.targetLang = targetLang;
     }
 
     public void updateRefreshToken(String refreshToken) {
