@@ -39,7 +39,7 @@ public class DiaryRepositoryImpl implements DiaryCustomRepository {
 			.from(diary)
 			.where(
 				diary.member.eq(member),
-				diary.createdAt.between(get12midnight(startDate), get12midnight(endDate)),
+				diary.createdAt.between(startDate, endDate),
 				diary.isDeleted.eq(false)
 				)
 			.fetch();

@@ -3,6 +3,8 @@ package com.smeme.server.service;
 import static com.smeme.server.util.message.ErrorMessage.*;
 import static java.util.Objects.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -20,7 +22,6 @@ import com.smeme.server.repository.CorrectionRepository;
 import com.smeme.server.repository.diary.DiaryRepository;
 import com.smeme.server.repository.MemberRepository;
 import com.smeme.server.repository.TopicRepository;
-import com.smeme.server.util.Util;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -67,8 +68,8 @@ public class DiaryService {
 	public DiariesResponseDTO getDiaries(Long memberId, String startDate, String endDate) {
 		Member member = getMember(memberId);
 		List<Diary> diaries = diaryRepository.findDiariesStartToEnd(member,
-			Util.transferStringToDateTime(startDate),
-			Util.transferStringToDateTime(endDate));
+			transferStringToStartDate(startDate),
+			transferStringToEndDateTime(endDate));
 		boolean has30Past = diaryRepository.exist30PastDiary(member);
 		return DiariesResponseDTO.of(diaries, has30Past);
 	}
@@ -99,6 +100,14 @@ public class DiaryService {
 			throw new IllegalArgumentException(EXIST_TODAY_DIARY.getMessage());
 		}
 		return false;
+	}
+
+	private LocalDateTime transferStringToStartDate(String str) {
+		return LocalDateTime.parse(str + " 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+	}
+
+	private LocalDateTime transferStringToEndDateTime(String str) {
+		return LocalDateTime.parse(str + " 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")).plusDays(1);
 	}
 
 }

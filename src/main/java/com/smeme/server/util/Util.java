@@ -19,8 +19,4 @@ public class Util {
 	public static String transferDateTimeToString(LocalDateTime dateTime) {
 		return dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 	}
-
-	public static LocalDateTime transferStringToDateTime(String str) {
-		return LocalDateTime.parse(str + " 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-	}
 }
