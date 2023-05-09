@@ -83,6 +83,12 @@ public class AuthService {
                 .build();
     }
 
+    @Transactional
+    public void signOut(Long memberId) {
+        Member member = getMemberById(memberId);
+        member.updateRefreshToken(null);
+    }
+
     private Member getMemberById(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException(INVALID_MEMBER.getMessage()));
