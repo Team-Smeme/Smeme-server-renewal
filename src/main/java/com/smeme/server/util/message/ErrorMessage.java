@@ -8,7 +8,7 @@ import lombok.Getter;
 public enum ErrorMessage {
 
     // jwt
-    INVALID_TOKEN("유효햐지 않은 토큰");
+    INVALID_TOKEN("유효하지 않은 토큰");
 
     private String message;
 }
