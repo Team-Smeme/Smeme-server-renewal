@@ -28,6 +28,14 @@ jobs:
           echo KAKAO_URL=${{ secrets.KAKAO_URL }} >> src/main/resources/application-oauth2.yml
           cat src/main/resources/application-oauth2.yml
 
+      - name: create .env file
+        working-directory: ./
+        run: |
+          pwd
+          touch .env
+          echo "${{ secrets.ENV }}" >> .env
+          cat .env
+
       - name: Create application.yml
         run: |
           pwd

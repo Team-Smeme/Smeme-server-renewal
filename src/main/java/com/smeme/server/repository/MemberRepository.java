@@ -1,5 +1,6 @@
 package com.smeme.server.repository;
 
+
 import com.smeme.server.model.Member;
 import com.smeme.server.model.SocialType;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -10,6 +10,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -63,6 +64,17 @@ public class Diary {
         this.isDeleted = false;
         this.topic = topic;
         setMember(member);
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void deleteDiary() {
+        this.isDeleted = true;
+        this.updatedAt = LocalDateTime.now();
     }
 
     private void setMember(Member member) {
