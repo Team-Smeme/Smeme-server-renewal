@@ -4,16 +4,17 @@ import com.smeme.server.config.jwt.JwtTokenProvider;
 import com.smeme.server.config.jwt.UserAuthentication;
 import com.smeme.server.dto.auth.SignInRequestDTO;
 import com.smeme.server.dto.auth.SignInResponseDTO;
+import com.smeme.server.dto.auth.token.TokenResponseDTO;
 import com.smeme.server.model.LangType;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.SocialType;
 import com.smeme.server.repository.MemberRepository;
-import com.smeme.server.util.message.ErrorMessage;
-import com.smeme.server.util.message.ResponseMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.smeme.server.util.message.ErrorMessage.*;
 
 @Service
 @RequiredArgsConstructor
@@ -30,21 +31,11 @@ public class AuthService {
     @Transactional
     public SignInResponseDTO signIn(String socialAccessToken, SignInRequestDTO signInRequestDTO) {
         String socialType = signInRequestDTO.socialType().toString();
-        String socialId;
+        String socialId = login(signInRequestDTO.socialType(), socialAccessToken);
 
-        if (socialType.equals("APPLE")) {
-            socialId = appleSignIn.getAppleData(socialAccessToken);
-        } else if (socialType.equals("KAKAO")) {
-            socialId = kakaoSignIn.getKakaoData(socialAccessToken);
-        } else {
-            throw new RuntimeException(ErrorMessage.INVALID_TOKEN.getMessage());
-        }
+        boolean isRegistered = memberRepository.findBySocialId(socialId).isEmpty() ? false : true;
 
-        boolean isRegistered = true;
-
-        if (memberRepository.findBySocialId(socialId).isEmpty()) {
-            isRegistered = false;
-
+        if (isRegistered) {
             Member member = Member.builder()
                     .social(SocialType.valueOf(socialType))
                     .socialId(socialId)
@@ -54,7 +45,7 @@ public class AuthService {
             memberRepository.save(member);
         }
 
-        Long memberId = memberRepository.findBySocialId(socialId).get().getId();
+        Long memberId = getMemberBySocialId(socialId).getId();
 
         Authentication authentication = new UserAuthentication(memberId, null, null);
 
@@ -68,9 +59,38 @@ public class AuthService {
                 .build();
     }
 
+    @Transactional
+    public TokenResponseDTO issueToken(Long memberId) {
 
+        Authentication authentication = new UserAuthentication(memberId, null, null);
 
+        String newAccessToken = jwtTokenProvider.generateAccessToken(authentication);
+        String newRefreshToken = jwtTokenProvider.generateRefreshToken(authentication);
 
+        Member member = getMember(memberId);
+        member.updateRefreshToken(newRefreshToken);
 
+        return TokenResponseDTO.builder()
+                .accessToken(newAccessToken)
+                .refreshToken(newRefreshToken)
+                .build();
+    }
 
+    private Member getMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException(INVALID_MEMBER.getMessage()));
+    }
+
+    private Member getMemberBySocialId(String socialId) {
+        return memberRepository.findBySocialId(socialId)
+                .orElseThrow(() -> new RuntimeException(INVALID_MEMBER.getMessage()));
+    }
+
+    private String login(SocialType socialType, String socialAccessToken) {
+        return switch (socialType.toString()) {
+            case "APPLE" -> appleSignIn.getAppleData(socialAccessToken);
+            case "KAKAO" -> kakaoSignIn.getKakaoData(socialAccessToken);
+            default -> throw new RuntimeException(INVALID_TOKEN.getMessage());
+        };
+    }
 }
