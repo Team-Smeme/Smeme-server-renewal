@@ -22,14 +22,14 @@ public record DiaryResponseDTO(
 	String username,
 	List<CorrectionDTO> corrections
 ) {
-	public static DiaryResponseDTO of(Diary diary) {
+	public static DiaryResponseDTO of(Diary diary, List<Correction> corrections) {
 		return DiaryResponseDTO.builder()
 			.diaryId(diary.getId())
 			.topic(getTopic(diary.getTopic()))
 			.content(diary.getContent())
 			.createdAt(getCreatedAt(diary.getCreatedAt()))
 			.username(diary.getMember().getUsername())
-			.corrections(getCorrections(diary.getCorrections()))
+			.corrections(getCorrections(corrections))
 			.build();
 	}
 
