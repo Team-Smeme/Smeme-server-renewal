@@ -60,6 +60,7 @@ public class Member {
         this.social = social;
         this.socialId = socialId;
         this.targetLang = targetLang;
+        this.goal = null;
     }
 
     public void updateRefreshToken(String refreshToken) {
