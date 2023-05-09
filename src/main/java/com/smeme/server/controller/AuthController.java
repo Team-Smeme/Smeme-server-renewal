@@ -8,19 +8,16 @@ import com.smeme.server.util.ApiResponse;
 import com.smeme.server.util.message.ResponseMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("api/v2")
 public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/api/v2/auth")
-
+    @PostMapping("/auth")
     public ResponseEntity<ApiResponse> signIn(
             @RequestHeader("Authorization") String socialAccessToken,
             @RequestBody SignInRequestDTO signInRequestDTO
@@ -30,4 +27,5 @@ public class AuthController {
 
         return ResponseEntity.ok(ApiResponse.success(ResponseMessage.SUCCESS_SIGNIN.getMessage(),signInResponseDTO));
     }
+
 }
