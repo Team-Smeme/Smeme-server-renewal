@@ -6,6 +6,7 @@ import com.smeme.server.dto.auth.SignInResponseDTO;
 import com.smeme.server.dto.auth.token.TokenResponseDTO;
 import com.smeme.server.service.auth.AuthService;
 import com.smeme.server.util.ApiResponse;
+import com.smeme.server.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +39,14 @@ public class AuthController {
     ) {
         TokenResponseDTO response = authService.issueToken(getMemberId(principal));
         return ResponseEntity.ok(ApiResponse.success(SUCCESS_ISSUE_TOKEN.getMessage(),response));
+    }
+
+    @PostMapping("/sign-out")
+    public ResponseEntity<ApiResponse> signOut(
+            Principal principal
+    ) {
+        authService.signOut(Util.getMemberId(principal));
+        return ResponseEntity.ok(ApiResponse.success(SUCCESS_SIGNOUT.getMessage()));
     }
 
     private Long getMemberId(Principal principal) {
