@@ -45,6 +45,7 @@ public class JwtTokenProvider {
         return Long.valueOf(claims.getSubject());
     }
 
+
     private Date getExpirationDate(int tokenExpirationTime) {
         Date currentDate = new Date();
         return new Date(currentDate.getTime() + tokenExpirationTime);

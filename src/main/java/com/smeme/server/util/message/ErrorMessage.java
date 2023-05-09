@@ -6,8 +6,11 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ErrorMessage {
+  
 	// auth
 	EMPTY_ACCESS_TOKEN("액세스 토큰이 없습니다."),
+  EMPTY_REFRESH_TOKEN("리프레시 토큰이 없습니다"),
+  INVALID_TOKEN("유효하지 않은 토큰입니다"),
 
 	// member
 	INVALID_MEMBER("유효하지 않은 회원입니다."),
