@@ -64,7 +64,7 @@ public class Diary {
         this.isDeleted = false;
         this.topic = topic;
         setMember(member);
-        this.createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        this.createdAt = LocalDateTime.now();
     }
 
     public void updateContent(String content) {
@@ -74,7 +74,7 @@ public class Diary {
 
     public void deleteDiary() {
         this.isDeleted = true;
-        this.updatedAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        this.updatedAt = LocalDateTime.now();
     }
 
     private void setMember(Member member) {
