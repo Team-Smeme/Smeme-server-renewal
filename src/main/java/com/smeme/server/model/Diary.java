@@ -64,11 +64,16 @@ public class Diary {
         this.isDeleted = false;
         this.topic = topic;
         setMember(member);
-        this.createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        this.createdAt = LocalDateTime.now();
     }
 
     public void updateContent(String content) {
         this.content = content;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void deleteDiary() {
+        this.isDeleted = true;
         this.updatedAt = LocalDateTime.now();
     }
 

@@ -8,6 +8,7 @@ import java.net.URI;
 import java.security.Principal;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,6 +52,12 @@ public class DiaryController {
 		@PathVariable Long diaryId, @RequestBody DiaryRequestDTO requestDTO) {
 		diaryService.updateDiary(diaryId, requestDTO);
 		return ResponseEntity.ok(ApiResponse.success(SUCCESS_UPDATE_DAIRY.getMessage()));
+	}
+
+	@DeleteMapping("/{diaryId}")
+	public ResponseEntity<ApiResponse> deleteDiary(@PathVariable Long diaryId) {
+		diaryService.deleteDiary(diaryId);
+		return ResponseEntity.ok(ApiResponse.success(SUCCESS_DELETE_DIARY.getMessage()));
 	}
 
 	private Long getMemberId(Principal principal) {

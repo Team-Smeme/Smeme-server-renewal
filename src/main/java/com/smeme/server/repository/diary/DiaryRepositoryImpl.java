@@ -20,7 +20,7 @@ public class DiaryRepositoryImpl implements DiaryCustomRepository {
 
 	@Override
 	public boolean existTodayDiary(Member member) {
-		LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+		LocalDateTime now = LocalDateTime.now();
 		return queryFactory
 			.from(diary)
 			.where(
