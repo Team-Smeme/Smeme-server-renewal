@@ -8,13 +8,17 @@ import com.smeme.server.dto.auth.token.TokenResponseDTO;
 import com.smeme.server.model.LangType;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.SocialType;
+import com.smeme.server.model.goal.Goal;
 import com.smeme.server.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 import static com.smeme.server.util.message.ErrorMessage.*;
+import static java.util.Objects.*;
 
 @Service
 @RequiredArgsConstructor
@@ -30,14 +34,14 @@ public class AuthService {
 
     @Transactional
     public SignInResponseDTO signIn(String socialAccessToken, SignInRequestDTO signInRequestDTO) {
-        String socialType = signInRequestDTO.socialType().toString();
+        SocialType socialType = signInRequestDTO.socialType();
         String socialId = login(signInRequestDTO.socialType(), socialAccessToken);
 
-        boolean isRegistered = memberRepository.findBySocialId(socialId).isEmpty() ? false : true;
+        boolean isRegistered = isMemberBySocialAndSocialId(socialType, socialId) ? true : false;
 
-        if (isRegistered) {
+        if (!isRegistered) {
             Member member = Member.builder()
-                    .social(SocialType.valueOf(socialType))
+                    .social(socialType)
                     .socialId(socialId)
                     .targetLang(LangType.en)
                     .build();
@@ -45,9 +49,11 @@ public class AuthService {
             memberRepository.save(member);
         }
 
-        Long memberId = getMemberBySocialId(socialId).getId();
+        Member signedMember = getMemberBySocialAndSocialId(socialType, socialId);
 
-        Authentication authentication = new UserAuthentication(memberId, null, null);
+        boolean hasPlan = isNull(signedMember.getGoal()) ? false : true;
+
+        Authentication authentication = new UserAuthentication(signedMember.getId(), null, null);
 
         String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
         String accessToken = jwtTokenProvider.generateAccessToken(authentication);
@@ -56,6 +62,7 @@ public class AuthService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .isRegistered(isRegistered)
+                .hasPlan(hasPlan)
                 .build();
     }
 
@@ -67,7 +74,7 @@ public class AuthService {
         String newAccessToken = jwtTokenProvider.generateAccessToken(authentication);
         String newRefreshToken = jwtTokenProvider.generateRefreshToken(authentication);
 
-        Member member = getMember(memberId);
+        Member member = getMemberById(memberId);
         member.updateRefreshToken(newRefreshToken);
 
         return TokenResponseDTO.builder()
@@ -76,14 +83,18 @@ public class AuthService {
                 .build();
     }
 
-    private Member getMember(Long memberId) {
+    private Member getMemberById(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException(INVALID_MEMBER.getMessage()));
     }
 
-    private Member getMemberBySocialId(String socialId) {
-        return memberRepository.findBySocialId(socialId)
+    private Member getMemberBySocialAndSocialId(SocialType socialType, String socialId) {
+        return memberRepository.findBySocialAndSocialId(socialType, socialId)
                 .orElseThrow(() -> new RuntimeException(INVALID_MEMBER.getMessage()));
+    }
+
+    private boolean isMemberBySocialAndSocialId(SocialType socialType, String socialId) {
+        return memberRepository.existsBySocialAndSocialId(socialType, socialId);
     }
 
     private String login(SocialType socialType, String socialAccessToken) {
