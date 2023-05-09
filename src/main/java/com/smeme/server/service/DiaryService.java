@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
+import com.smeme.server.dto.diary.DiariesResponseDTO;
 import com.smeme.server.dto.diary.DiaryRequestDTO;
 import com.smeme.server.dto.diary.DiaryResponseDTO;
 import com.smeme.server.model.Correction;
@@ -19,6 +20,7 @@ import com.smeme.server.repository.CorrectionRepository;
 import com.smeme.server.repository.diary.DiaryRepository;
 import com.smeme.server.repository.MemberRepository;
 import com.smeme.server.repository.TopicRepository;
+import com.smeme.server.util.Util;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +62,15 @@ public class DiaryService {
 	public void deleteDiary(Long diaryId) {
 		Diary diary = getDiary(diaryId);
 		diary.deleteDiary();
+	}
+
+	public DiariesResponseDTO getDiaries(Long memberId, String startDate, String endDate) {
+		Member member = getMember(memberId);
+		List<Diary> diaries = diaryRepository.findDiariesStartToEnd(member,
+			Util.transferStringToDateTime(startDate),
+			Util.transferStringToDateTime(endDate));
+		boolean has30Past = diaryRepository.exist30PastDiary(member);
+		return DiariesResponseDTO.of(diaries, has30Past);
 	}
 
 	private Diary getDiary(Long diaryId) {

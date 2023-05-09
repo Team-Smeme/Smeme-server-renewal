@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.smeme.server.dto.diary.DiariesResponseDTO;
 import com.smeme.server.dto.diary.DiaryRequestDTO;
 import com.smeme.server.dto.diary.DiaryResponseDTO;
 import com.smeme.server.service.DiaryService;
@@ -57,6 +59,13 @@ public class DiaryController {
 	public ResponseEntity<ApiResponse> deleteDiary(@PathVariable Long diaryId) {
 		diaryService.deleteDiary(diaryId);
 		return ResponseEntity.ok(ApiResponse.success(SUCCESS_DELETE_DIARY.getMessage()));
+	}
+
+	@GetMapping
+	public ResponseEntity<ApiResponse> getDiaries(Principal principal,
+		@RequestParam(name = "start") String startDate, @RequestParam(name = "end") String endDate) {
+		DiariesResponseDTO response = diaryService.getDiaries(Util.getMemberId(principal), startDate, endDate);
+		return ResponseEntity.ok(ApiResponse.success(SUCCESS_GET_DIARIES.getMessage(), response));
 	}
 
 	private URI getURI(Long diaryId) {
