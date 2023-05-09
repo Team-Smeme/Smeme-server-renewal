@@ -8,6 +8,8 @@ import java.net.URI;
 import java.security.Principal;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.smeme.server.dto.diary.DiaryRequestDTO;
+import com.smeme.server.dto.diary.DiaryResponseDTO;
 import com.smeme.server.service.DiaryService;
 import com.smeme.server.util.ApiResponse;
 
@@ -34,6 +37,12 @@ public class DiaryController {
 		return ResponseEntity
 			.created(getURI(diaryId))
 			.body(ApiResponse.success(SUCCESS_CREATE_DIARY.getMessage()));
+	}
+
+	@GetMapping("/{diaryId}")
+	public ResponseEntity<ApiResponse> getDiaryDetail(@PathVariable Long diaryId) {
+		DiaryResponseDTO response = diaryService.getDiaryDetail(diaryId);
+		return ResponseEntity.ok(ApiResponse.success(SUCCESS_GET_DIARY.getMessage(), response));
 	}
 
 	private Long getMemberId(Principal principal) {
