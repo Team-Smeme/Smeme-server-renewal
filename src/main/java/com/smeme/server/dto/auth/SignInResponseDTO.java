@@ -7,7 +7,8 @@ import lombok.Builder;
 public record SignInResponseDTO(
         String accessToken,
         String refreshToken,
-        boolean isRegistered
+        boolean isRegistered,
+        boolean hasPlan
 ) {
 
 }
