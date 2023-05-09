@@ -68,8 +68,8 @@ public class DiaryService {
 	public DiariesResponseDTO getDiaries(Long memberId, String startDate, String endDate) {
 		Member member = getMember(memberId);
 		List<Diary> diaries = diaryRepository.findDiariesStartToEnd(member,
-			transferStringToStartDate(startDate),
-			transferStringToEndDateTime(endDate));
+			transferStringToDateTime(startDate),
+			transferStringToDateTime(endDate).plusDays(1));
 		boolean has30Past = diaryRepository.exist30PastDiary(member);
 		return DiariesResponseDTO.of(diaries, has30Past);
 	}
@@ -102,12 +102,8 @@ public class DiaryService {
 		return false;
 	}
 
-	private LocalDateTime transferStringToStartDate(String str) {
+	private LocalDateTime transferStringToDateTime(String str) {
 		return LocalDateTime.parse(str + " 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-	}
-
-	private LocalDateTime transferStringToEndDateTime(String str) {
-		return LocalDateTime.parse(str + " 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")).plusDays(1);
 	}
 
 }
