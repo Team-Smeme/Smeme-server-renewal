@@ -37,7 +37,7 @@ public class AuthController {
     public ResponseEntity<ApiResponse> reissueToken(
         Principal principal
     ) {
-        TokenResponseDTO response = authService.issueToken(getMemberId(principal));
+        TokenResponseDTO response = authService.issueToken(Util.getMemberId(principal));
         return ResponseEntity.ok(ApiResponse.success(SUCCESS_ISSUE_TOKEN.getMessage(),response));
     }
 
@@ -47,12 +47,5 @@ public class AuthController {
     ) {
         authService.signOut(Util.getMemberId(principal));
         return ResponseEntity.ok(ApiResponse.success(SUCCESS_SIGNOUT.getMessage()));
-    }
-
-    private Long getMemberId(Principal principal) {
-        if (isNull(principal)) {
-            throw new SecurityException(EMPTY_REFRESH_TOKEN.getMessage());
-        }
-        return Long.valueOf(principal.getName());
     }
 }
