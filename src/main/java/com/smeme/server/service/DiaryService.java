@@ -3,12 +3,15 @@ package com.smeme.server.service;
 import static com.smeme.server.util.message.ErrorMessage.*;
 import static java.util.Objects.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
+import com.smeme.server.dto.diary.DiariesResponseDTO;
 import com.smeme.server.dto.diary.DiaryRequestDTO;
 import com.smeme.server.dto.diary.DiaryResponseDTO;
 import com.smeme.server.model.Correction;
@@ -62,6 +65,15 @@ public class DiaryService {
 		diary.deleteDiary();
 	}
 
+	public DiariesResponseDTO getDiaries(Long memberId, String startDate, String endDate) {
+		Member member = getMember(memberId);
+		List<Diary> diaries = diaryRepository.findDiariesStartToEnd(member,
+			transferStringToDateTime(startDate),
+			transferStringToDateTime(endDate).plusDays(1));
+		boolean has30Past = diaryRepository.exist30PastDiary(member);
+		return DiariesResponseDTO.of(diaries, has30Past);
+	}
+
 	private Diary getDiary(Long diaryId) {
 		Diary diary = diaryRepository.findById(diaryId)
 			.orElseThrow(() -> new EntityNotFoundException(INVALID_DIARY.getMessage()));
@@ -88,6 +100,10 @@ public class DiaryService {
 			throw new IllegalArgumentException(EXIST_TODAY_DIARY.getMessage());
 		}
 		return false;
+	}
+
+	private LocalDateTime transferStringToDateTime(String str) {
+		return LocalDateTime.parse(str + " 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 	}
 
 }
