@@ -69,7 +69,7 @@ public class Diary {
 
     public void updateContent(String content) {
         this.content = content;
-        this.updatedAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        this.updatedAt = LocalDateTime.now();
     }
 
     private void setMember(Member member) {
