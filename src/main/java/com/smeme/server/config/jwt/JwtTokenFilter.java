@@ -26,7 +26,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = new UrlPathHelper().getPathWithinApplication(request);
-        return path.startsWith("/api/v2/auth");
+        return path.equals("/api/v2/auth");
     }
 
     @Override
