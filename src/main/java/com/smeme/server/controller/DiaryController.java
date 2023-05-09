@@ -2,7 +2,6 @@ package com.smeme.server.controller;
 
 import static com.smeme.server.util.message.ResponseMessage.*;
 
-import java.net.URI;
 import java.security.Principal;
 
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.smeme.server.dto.diary.DiariesResponseDTO;
 import com.smeme.server.dto.diary.DiaryRequestDTO;
@@ -38,7 +36,7 @@ public class DiaryController {
 		Long memberId = Util.getMemberId(principal);
 		Long diaryId = diaryService.createDiary(memberId, requestDTO);
 		return ResponseEntity
-			.created(getURI(diaryId))
+			.created(Util.getURI(diaryId))
 			.body(ApiResponse.success(SUCCESS_CREATE_DIARY.getMessage()));
 	}
 
@@ -66,13 +64,5 @@ public class DiaryController {
 		@RequestParam(name = "start") String startDate, @RequestParam(name = "end") String endDate) {
 		DiariesResponseDTO response = diaryService.getDiaries(Util.getMemberId(principal), startDate, endDate);
 		return ResponseEntity.ok(ApiResponse.success(SUCCESS_GET_DIARIES.getMessage(), response));
-	}
-
-	private URI getURI(Long diaryId) {
-		return ServletUriComponentsBuilder
-			.fromCurrentRequest()
-			.path("/{diaryId}")
-			.buildAndExpand(diaryId)
-			.toUri();
 	}
 }

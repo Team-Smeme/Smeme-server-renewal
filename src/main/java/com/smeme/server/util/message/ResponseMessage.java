@@ -13,6 +13,9 @@ public enum ResponseMessage {
 	SUCCESS_DELETE_DIARY("일기 삭제 성공"),
 	SUCCESS_GET_DIARIES("일기 리스트 조회 성공"),
 
+	// correction
+	SUCCESS_CREATE_CORRECTION("일기 첨삭 성공"),
+
 	// message
 	SUCCESS_PUSH_MESSAGE("푸시알람 요청 성공"),
 
