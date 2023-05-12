@@ -36,6 +36,12 @@ public class Correction {
 		setDiary(diary);
 	}
 
+	public void deleteCorrection() {
+		if (nonNull(this.diary)) {
+			this.diary.getCorrections().remove(this);
+		}
+	}
+
 	private void setDiary(Diary diary) {
 		if (nonNull(this.diary)) {
 			this.diary.getCorrections().remove(this);
