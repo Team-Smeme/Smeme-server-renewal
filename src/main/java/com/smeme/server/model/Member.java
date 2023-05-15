@@ -45,6 +45,8 @@ public class Member {
     @Enumerated(value = EnumType.STRING)
     private LangType targetLang;
 
+    private String fcmToken;
+
     @OneToMany(mappedBy = "member")
     private final List<TrainingTime> trainingTimes = new ArrayList<>();
 
