@@ -13,7 +13,10 @@ public enum ErrorMessage {
   INVALID_TOKEN("유효하지 않은 토큰입니다"),
 
 	// member
+	EMPTY_MEMBER("존재하지 않는 회원입니다."),
+	DUPLICATE_USERNAME("이미 존재하는 닉네임입니다."),
 	INVALID_MEMBER("유효하지 않은 회원입니다."),
+	INVALID_USERNAME("유효하지 않은 닉네임입니다."),
 
 	// diary
 	EXIST_TODAY_DIARY("일기는 하루에 한 번씩 작성할 수 있습니다."),
