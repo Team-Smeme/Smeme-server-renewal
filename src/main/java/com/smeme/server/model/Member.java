@@ -3,7 +3,6 @@ package com.smeme.server.model;
 import static jakarta.persistence.GenerationType.*;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -66,4 +65,6 @@ public class Member {
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
+
+    public void updateUsername(String username) { this.username = username; }
 }
