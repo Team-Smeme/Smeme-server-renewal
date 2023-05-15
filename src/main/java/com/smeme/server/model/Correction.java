@@ -42,6 +42,10 @@ public class Correction {
 		}
 	}
 
+	public void updateCorrection(String content) {
+		this.afterSentence = content;
+	}
+
 	private void setDiary(Diary diary) {
 		if (nonNull(this.diary)) {
 			this.diary.getCorrections().remove(this);
