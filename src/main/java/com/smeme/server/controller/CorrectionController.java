@@ -3,6 +3,7 @@ package com.smeme.server.controller;
 import static com.smeme.server.util.message.ResponseMessage.*;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,5 +31,11 @@ public class CorrectionController {
 		return ResponseEntity
 			.created(Util.getURI(diaryId))
 			.body(ApiResponse.success(SUCCESS_CREATE_CORRECTION.getMessage()));
+	}
+
+	@DeleteMapping("/{correctionId}")
+	public ResponseEntity<ApiResponse> deleteCorrection(@PathVariable Long correctionId) {
+		correctionService.deleteCorrection(correctionId);
+		return ResponseEntity.ok(ApiResponse.success(SUCCESS_DELETE_CORRECTION.getMessage()));
 	}
 }

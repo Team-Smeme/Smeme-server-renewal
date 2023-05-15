@@ -15,6 +15,7 @@ public enum ResponseMessage {
 
 	// correction
 	SUCCESS_CREATE_CORRECTION("일기 첨삭 성공"),
+	SUCCESS_DELETE_CORRECTION("첨삭 삭제 성공"),
 
 	// message
 	SUCCESS_PUSH_MESSAGE("푸시알람 요청 성공"),

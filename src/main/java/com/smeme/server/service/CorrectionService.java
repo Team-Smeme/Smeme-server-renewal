@@ -29,6 +29,13 @@ public class CorrectionService {
 		correctionRepository.save(new Correction(requestDTO.sentence(), requestDTO.content(), diary));
 	}
 
+	@Transactional
+	public void deleteCorrection(Long correctionId) {
+		Correction correction = getCorrection(correctionId);
+		correction.deleteCorrection();
+		correctionRepository.deleteById(correctionId);
+	}
+
 	private Diary getDiary(Long diaryId) {
 		Diary diary = diaryRepository.findById(diaryId)
 			.orElseThrow(() -> new EntityNotFoundException(INVALID_DIARY.getMessage()));
@@ -36,5 +43,10 @@ public class CorrectionService {
 			throw new NotFoundException(DELETED_DIARY.getMessage());
 		}
 		return diary;
+	}
+
+	private Correction getCorrection(Long correctionId) {
+		return correctionRepository.findById(correctionId)
+			.orElseThrow(() -> new EntityNotFoundException(INVALID_CORRECTION.getMessage()));
 	}
 }
