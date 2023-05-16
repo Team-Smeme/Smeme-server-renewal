@@ -2,9 +2,10 @@ package com.smeme.server.service;
 
 import static com.smeme.server.util.message.ErrorMessage.*;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.webjars.NotFoundException;
 
 import com.smeme.server.dto.correction.CorrectionRequestDTO;
 import com.smeme.server.model.Correction;
@@ -46,7 +47,7 @@ public class CorrectionService {
 		Diary diary = diaryRepository.findById(diaryId)
 			.orElseThrow(() -> new EntityNotFoundException(INVALID_DIARY.getMessage()));
 		if (diary.isDeleted()) {
-			throw new NotFoundException(DELETED_DIARY.getMessage());
+			throw new NoSuchElementException(DELETED_DIARY.getMessage());
 		}
 		return diary;
 	}
