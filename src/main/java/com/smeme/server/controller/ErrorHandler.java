@@ -2,6 +2,8 @@ package com.smeme.server.controller;
 
 import static org.springframework.http.HttpStatus.*;
 
+import java.util.NoSuchElementException;
+
 import jakarta.persistence.EntityExistsException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -23,6 +25,11 @@ public class ErrorHandler {
 
 	@ExceptionHandler(ChangeSetPersister.NotFoundException.class)
 	public ResponseEntity<ApiResponse> NotFoundException(ChangeSetPersister.NotFoundException ex) {
+		return ResponseEntity.status(NOT_FOUND).body(ApiResponse.fail(ex.getMessage()));
+	}
+
+	@ExceptionHandler(NoSuchElementException.class)
+	public ResponseEntity<ApiResponse> NoSuchElementException(NoSuchElementException ex) {
 		return ResponseEntity.status(NOT_FOUND).body(ApiResponse.fail(ex.getMessage()));
 	}
 
