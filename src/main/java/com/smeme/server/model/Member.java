@@ -44,15 +44,11 @@ public class Member {
     private String fcmToken;
 
     @Column(name="term_accepted")
-    private boolean termAcceped;
-
+    private boolean termAccepted;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private LangType targetLang;
-
-    @Column(name = "terms_agreed", nullable = false)
-    private boolean termsAgreed;
 
     @OneToMany(mappedBy = "member")
     private final List<TrainingTime> trainingTimes = new ArrayList<>();
@@ -78,5 +74,5 @@ public class Member {
 
     public void updateUsername(String username) { this.username = username; }
 
-    public void updateTermAccepted(boolean termAccepted) { this.termAcceped = termAccepted; }
+    public void updateTermAccepted(boolean termAccepted) { this.termAccepted = termAccepted; }
 }
