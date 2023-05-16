@@ -40,10 +40,8 @@ public class Member {
     @Column(length = 10, unique = true)
     private String username;
 
-    @Column(name="fcm_token")
     private String fcmToken;
 
-    @Column(name="term_accepted")
     private boolean termAccepted;
 
     @Column(nullable = false)
