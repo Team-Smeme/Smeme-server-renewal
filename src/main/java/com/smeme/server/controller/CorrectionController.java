@@ -4,6 +4,7 @@ import static com.smeme.server.util.message.ResponseMessage.*;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,5 +38,12 @@ public class CorrectionController {
 	public ResponseEntity<ApiResponse> deleteCorrection(@PathVariable Long correctionId) {
 		correctionService.deleteCorrection(correctionId);
 		return ResponseEntity.ok(ApiResponse.success(SUCCESS_DELETE_CORRECTION.getMessage()));
+	}
+
+	@PatchMapping("/{correctionId}")
+	public ResponseEntity<ApiResponse> updateCorrection(
+		@PathVariable Long correctionId, @RequestBody CorrectionRequestDTO requestDTO) {
+		correctionService.updateCorrection(correctionId, requestDTO);
+		return ResponseEntity.ok(ApiResponse.success(SUCCESS_UPDATE_CORRECTION.getMessage()));
 	}
 }
