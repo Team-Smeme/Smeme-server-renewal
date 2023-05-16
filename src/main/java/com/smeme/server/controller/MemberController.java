@@ -18,7 +18,7 @@ import static com.smeme.server.util.message.ResponseMessage.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v2/member")
+@RequestMapping("/api/v2/members")
 public class MemberController {
 
     private final MemberService memberService;

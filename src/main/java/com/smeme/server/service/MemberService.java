@@ -23,7 +23,6 @@ public class MemberService {
         Member member = getMemberById(memberId);
         member.updateUsername(dto.username());
         member.updateTermAccepted(dto.termAccepted());
-        memberRepository.save(member);
     }
 
     private Member getMemberById(Long id) {
