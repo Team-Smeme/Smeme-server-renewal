@@ -1,12 +1,10 @@
 package com.smeme.server.service.auth;
 
 import com.google.gson.*;
-import com.smeme.server.model.SocialType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -27,11 +25,13 @@ import java.util.Objects;
 @Component
 public class AppleSignIn {
 
-    private final Environment env;
+    @Value("${jwt.APPLE_URL}")
+    private String APPLE_URL;
+
 
     protected JsonArray getApplePublicKeyList() {
         try {
-            URL url = new URL(env.getProperty("jwt.APPLE_URL"));
+            URL url = new URL(APPLE_URL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
