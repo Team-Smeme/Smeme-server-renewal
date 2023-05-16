@@ -1,9 +1,10 @@
 package com.smeme.server.config.jwt;
 
+
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -18,14 +19,15 @@ public class JwtTokenProvider {
 
     private static final int REFRESH_TOKEN_EXPIRATION_TIME = 1209600000; // 2주
 
-    private final Environment env;
+    @Value("${jwt.secret}")
+    private String JWT_SECRET;
 
     public String generateAccessToken(Authentication authentication) {
         return Jwts.builder()
                 .setSubject(String.valueOf(authentication.getPrincipal()))
                 .setIssuedAt(new Date())
                 .setExpiration(getExpirationDate(ACCESS_TOKEN_EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, getJwtSecretKey())
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
                 .compact();
     }
 
@@ -34,12 +36,12 @@ public class JwtTokenProvider {
                 .setSubject(String.valueOf(authentication.getPrincipal()))
                 .setIssuedAt(new Date())
                 .setExpiration(getExpirationDate(REFRESH_TOKEN_EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, getJwtSecretKey())
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
                 .compact();
     }
     public Long getUserFromJwt(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(getJwtSecretKey())
+                .setSigningKey(JWT_SECRET)
                 .parseClaimsJws(token)
                 .getBody();
         return Long.valueOf(claims.getSubject());
@@ -53,7 +55,7 @@ public class JwtTokenProvider {
 
     public JwtValidationType validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(getJwtSecretKey()).parseClaimsJws(token);
+            Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
             return JwtValidationType.VALID_JWT;
         } catch (SignatureException ex) {
             log.error(String.valueOf(JwtValidationType.INVALID_JWT_SIGNATURE));
@@ -72,9 +74,4 @@ public class JwtTokenProvider {
             return JwtValidationType.EMPTY_JWT;
         }
     }
-
-    private String getJwtSecretKey() {
-        return env.getProperty("jwt.secret");
-    }
-
 }
