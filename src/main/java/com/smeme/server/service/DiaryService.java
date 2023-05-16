@@ -6,6 +6,7 @@ import static java.util.Objects.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,7 +79,7 @@ public class DiaryService {
 		Diary diary = diaryRepository.findById(diaryId)
 			.orElseThrow(() -> new EntityNotFoundException(INVALID_DIARY.getMessage()));
 		if (diary.isDeleted()) {
-			throw new NotFoundException(DELETED_DIARY.getMessage());
+			throw new NoSuchElementException(DELETED_DIARY.getMessage());
 		}
 		return diary;
 	}
