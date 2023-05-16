@@ -21,6 +21,9 @@ public enum ResponseMessage {
 	SUCCESS_DELETE_CORRECTION("첨삭 삭제 성공"),
 	SUCCESS_UPDATE_CORRECTION("첨삭 수정 성공"),
 
+	// member
+	SUCCESS_UPDATE_USERNAME("닉네임 변경 성공"),
+
 	// message
 	SUCCESS_PUSH_MESSAGE("푸시알람 요청 성공"),
 

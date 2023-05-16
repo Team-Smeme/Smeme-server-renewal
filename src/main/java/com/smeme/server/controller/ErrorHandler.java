@@ -2,6 +2,8 @@ package com.smeme.server.controller;
 
 import static org.springframework.http.HttpStatus.*;
 
+import jakarta.persistence.EntityExistsException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -26,6 +28,16 @@ public class ErrorHandler {
 
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<ApiResponse> IllegalArgumentException(IllegalArgumentException ex) {
+		return ResponseEntity.status(BAD_REQUEST).body(ApiResponse.fail(ex.getMessage()));
+	}
+
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<ApiResponse> ConstraintViolationException(ConstraintViolationException ex) {
+		return ResponseEntity.status(BAD_REQUEST).body(ApiResponse.fail(ex.getMessage()));
+	}
+
+	@ExceptionHandler(EntityExistsException.class)
+	public ResponseEntity<ApiResponse> EntityExistsException(EntityExistsException ex) {
 		return ResponseEntity.status(BAD_REQUEST).body(ApiResponse.fail(ex.getMessage()));
 	}
 }
