@@ -27,7 +27,10 @@ public enum ErrorMessage {
 	INVALID_CORRECTION("유효하지 않은 첨삭입니다."),
 
 	// topic
-	INVALID_TOPIC("유효하지 않은 랜덤주제입니다.")
+	INVALID_TOPIC("유효하지 않은 랜덤주제입니다."),
+
+	// Push Alarm
+	INVALID_DAY_OF_WEEK("유효하지 않은 요일 값입니다.")
 	;
 
 	private final String message;
