@@ -22,6 +22,7 @@ public class MemberService {
         checkMemberDuplicate(dto.username());
         Member member = getMemberById(memberId);
         member.updateUsername(dto.username());
+        member.updateTermAccepted(dto.termAccepted());
         memberRepository.save(member);
     }
 
