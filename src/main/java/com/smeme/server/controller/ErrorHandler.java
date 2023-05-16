@@ -4,10 +4,10 @@ import static org.springframework.http.HttpStatus.*;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.webjars.NotFoundException;
 
 import com.smeme.server.util.ApiResponse;
 
@@ -21,8 +21,8 @@ public class ErrorHandler {
 		return ResponseEntity.status(NOT_FOUND).body(ApiResponse.fail(ex.getMessage()));
 	}
 
-	@ExceptionHandler(NotFoundException.class)
-	public ResponseEntity<ApiResponse> NotFoundException(NotFoundException ex) {
+	@ExceptionHandler(ChangeSetPersister.NotFoundException.class)
+	public ResponseEntity<ApiResponse> NotFoundException(ChangeSetPersister.NotFoundException ex) {
 		return ResponseEntity.status(NOT_FOUND).body(ApiResponse.fail(ex.getMessage()));
 	}
 

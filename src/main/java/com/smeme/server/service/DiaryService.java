@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.webjars.NotFoundException;
 
 import com.smeme.server.dto.diary.DiariesResponseDTO;
 import com.smeme.server.dto.diary.DiaryRequestDTO;
@@ -78,7 +77,7 @@ public class DiaryService {
 		Diary diary = diaryRepository.findById(diaryId)
 			.orElseThrow(() -> new EntityNotFoundException(INVALID_DIARY.getMessage()));
 		if (diary.isDeleted()) {
-			throw new NotFoundException(DELETED_DIARY.getMessage());
+			throw new RuntimeException(DELETED_DIARY.getMessage());
 		}
 		return diary;
 	}
