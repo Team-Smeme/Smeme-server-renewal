@@ -40,28 +40,26 @@ public class MessageService {
 
 	public void pushMessageForTrainingTime(LocalDateTime now, String title, String body) {
 		trainingTimeRepository.getTrainingTimeForPushAlarm(now)
-			.forEach(trainingTime -> {
-				try {
-					pushMessage(trainingTime.getMember().getFcmToken(), title, body);
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-			});
+			.forEach(trainingTime -> pushMessage(trainingTime.getMember().getFcmToken(), title, body));
 	}
 
-	private void pushMessage(String targetToken, String title, String body) throws Exception {
-		String message = makeMessage(targetToken, title, body);
-		RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
+	private void pushMessage(String targetToken, String title, String body) {
+		try {
+			String message = makeMessage(targetToken, title, body);
+			RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
 
-		Request request = new Request.Builder()
-			.url(FIREBASE_API_URI)
-			.post(requestBody)
-			.addHeader(AUTHORIZATION, "Bearer " + getAccessToken())
-			.addHeader(CONTENT_TYPE, "application/json; UTF-8")
-			.build();
+			Request request = new Request.Builder()
+				.url(FIREBASE_API_URI)
+				.post(requestBody)
+				.addHeader(AUTHORIZATION, "Bearer " + getAccessToken())
+				.addHeader(CONTENT_TYPE, "application/json; UTF-8")
+				.build();
 
-		OkHttpClient client = new OkHttpClient();
-		client.newCall(request).execute();
+			OkHttpClient client = new OkHttpClient();
+			client.newCall(request).execute();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private String makeMessage(String targetToken, String title, String body) throws JsonProcessingException {
