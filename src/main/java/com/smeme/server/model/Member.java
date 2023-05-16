@@ -3,7 +3,6 @@ package com.smeme.server.model;
 import static jakarta.persistence.GenerationType.*;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +40,10 @@ public class Member {
     @Column(length = 10, unique = true)
     private String username;
 
+    private String fcmToken;
+
+    private boolean termAccepted;
+
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private LangType targetLang;
@@ -66,4 +69,8 @@ public class Member {
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
+
+    public void updateUsername(String username) { this.username = username; }
+
+    public void updateTermAccepted(boolean termAccepted) { this.termAccepted = termAccepted; }
 }
