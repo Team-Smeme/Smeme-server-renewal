@@ -21,7 +21,7 @@ import com.smeme.server.model.topic.Topic;
 import com.smeme.server.repository.CorrectionRepository;
 import com.smeme.server.repository.diary.DiaryRepository;
 import com.smeme.server.repository.MemberRepository;
-import com.smeme.server.repository.TopicRepository;
+import com.smeme.server.repository.topic.TopicRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
