@@ -60,6 +60,20 @@ public class DiaryRepositoryImpl implements DiaryCustomRepository {
 			.fetchFirst() != null;
 	}
 
+	@Override
+	public List<Diary> findDiariesDeleted30Past(LocalDateTime past) {
+		return queryFactory
+			.select(diary)
+			.from(diary)
+			.where(
+				diary.isDeleted.eq(true),
+				diary.updatedAt.year().eq(past.getYear()),
+				diary.updatedAt.month().eq(past.getMonthValue()),
+				diary.updatedAt.dayOfMonth().eq(past.getDayOfMonth())
+			)
+			.fetch();
+	}
+
 	private LocalDateTime get12midnight(LocalDateTime now) {
 		return LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), 0, 0, 0);
 	}
