@@ -74,6 +74,18 @@ public class DiaryService {
 		return DiariesResponseDTO.of(diaries, has30Past);
 	}
 
+	@Transactional
+	public void deleteDiary30Past(LocalDateTime past) {
+		diaryRepository.findDiariesDeleted30Past(past)
+			.forEach(this::deleteDiaryRelation);
+	}
+
+	private void deleteDiaryRelation(Diary diary) {
+		diary.deleteFromMember();
+		correctionRepository.deleteAll(diary.getCorrections());
+		diaryRepository.deleteById(diary.getId());
+	}
+
 	private Diary getDiary(Long diaryId) {
 		Diary diary = diaryRepository.findById(diaryId)
 			.orElseThrow(() -> new EntityNotFoundException(INVALID_DIARY.getMessage()));
