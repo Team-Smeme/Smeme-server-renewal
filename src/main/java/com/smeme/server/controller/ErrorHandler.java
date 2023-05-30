@@ -6,6 +6,7 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -39,5 +40,10 @@ public class ErrorHandler {
 	@ExceptionHandler(EntityExistsException.class)
 	public ResponseEntity<ApiResponse> EntityExistsException(EntityExistsException ex) {
 		return ResponseEntity.status(BAD_REQUEST).body(ApiResponse.fail(ex.getMessage()));
+	}
+
+	@ExceptionHandler(InvalidBearerTokenException.class)
+	public ResponseEntity<ApiResponse> InvalidBearerTokenException(InvalidBearerTokenException ex) {
+		return ResponseEntity.status(UNAUTHORIZED).body(ApiResponse.fail(ex.getMessage()));
 	}
 }
