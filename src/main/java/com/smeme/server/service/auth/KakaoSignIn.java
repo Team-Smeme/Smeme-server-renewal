@@ -22,24 +22,13 @@ public class KakaoSignIn {
     private String KAKAO_URL;
 
     protected String getKakaoData(String accessToken) {
-
         RestTemplate restTemplate = new RestTemplate();
-
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", accessToken);
-
-            HttpEntity<JsonArray> httpEntity = new HttpEntity<>(headers);
-            ResponseEntity<Object> responseData = restTemplate.postForEntity(KAKAO_URL, httpEntity, Object.class);
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> map = objectMapper.convertValue(responseData.getBody(), Map.class);
-
-            String socialId = map.get("id").toString();
-
-            return socialId;
-
-        } catch (HttpClientErrorException e) {
-            throw e;
-        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", accessToken);
+        HttpEntity<JsonArray> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<Object> responseData = restTemplate.postForEntity(KAKAO_URL, httpEntity, Object.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> map = objectMapper.convertValue(responseData.getBody(), Map.class);
+        return map.get("id").toString();
     }
 }
