@@ -35,8 +35,8 @@ public class AppleSignIn {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuffer result = new StringBuffer();
-            String line = "";
+            StringBuilder result = new StringBuilder();
+            String line;
 
             while ((line = br.readLine()) != null) {
                 result.append(line);
@@ -44,9 +44,7 @@ public class AppleSignIn {
             br.close();
 
             JsonObject keys = (JsonObject) JsonParser.parseString(result.toString());
-            JsonArray keyList = (JsonArray) keys.get("keys");
-
-            return keyList;
+            return  (JsonArray) keys.get("keys");
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -78,9 +76,7 @@ public class AppleSignIn {
         if (selectedObject == null) throw new RuntimeException("공개키를 찾을 수 없습니다.");
 
         // 선택된 공개키 데이터로 공개키 생성
-        PublicKey selectedPublicKey = getPublicKey(selectedObject);
-
-        return selectedPublicKey;
+        return getPublicKey(selectedObject);
     }
 
     private PublicKey getPublicKey(JsonObject object) {
@@ -96,8 +92,7 @@ public class AppleSignIn {
         try {
             RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(nValue, eValue);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            PublicKey publicKey = keyFactory.generatePublic(publicKeySpec);
-            return publicKey;
+            return keyFactory.generatePublic(publicKeySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e);
         }
@@ -113,7 +108,6 @@ public class AppleSignIn {
                     .getBody();
 
             JsonObject userInfoObject = (JsonObject) JsonParser.parseString(new Gson().toJson(userInfo));
-            String socialId = userInfoObject.get("sub").getAsString();
-            return socialId;
+            return userInfoObject.get("sub").getAsString();
         }
 }

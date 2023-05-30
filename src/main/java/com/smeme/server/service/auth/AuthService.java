@@ -8,14 +8,11 @@ import com.smeme.server.dto.auth.token.TokenResponseDTO;
 import com.smeme.server.model.LangType;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.SocialType;
-import com.smeme.server.model.goal.Goal;
 import com.smeme.server.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Objects;
 
 import static com.smeme.server.util.message.ErrorMessage.*;
 import static java.util.Objects.*;
@@ -37,7 +34,7 @@ public class AuthService {
         SocialType socialType = signInRequestDTO.socialType();
         String socialId = login(signInRequestDTO.socialType(), socialAccessToken);
 
-        boolean isRegistered = isMemberBySocialAndSocialId(socialType, socialId) ? true : false;
+        boolean isRegistered = isMemberBySocialAndSocialId(socialType, socialId);
 
         if (!isRegistered) {
             Member member = Member.builder()
@@ -51,7 +48,7 @@ public class AuthService {
 
         Member signedMember = getMemberBySocialAndSocialId(socialType, socialId);
 
-        boolean hasPlan = isNull(signedMember.getGoal()) ? false : true;
+        boolean hasPlan = !isNull(signedMember.getGoal());
 
         Authentication authentication = new UserAuthentication(signedMember.getId(), null, null);
 

@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-import static com.smeme.server.util.message.ErrorMessage.*;
 import static com.smeme.server.util.message.ResponseMessage.*;
-import static java.util.Objects.isNull;
 
 @RestController
 @RequiredArgsConstructor
