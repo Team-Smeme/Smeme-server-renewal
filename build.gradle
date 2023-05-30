@@ -1,6 +1,10 @@
+import org.hidetake.gradle.swagger.generator.GenerateSwaggerUI
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 buildscript {
     ext {
         queryDslVersion = "5.0.0"
+        restdocsApiSpecVersion = "0.18.2"
     }
 }
 
@@ -8,9 +12,28 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.1'
     id 'io.spring.dependency-management' version '1.1.0'
-    id 'org.asciidoctor.convert' version '2.4.0'
+    // jacoco
     id 'jacoco'
+    // restdocs-api-spec
+    id 'com.epages.restdocs-api-spec' version "${restdocsApiSpecVersion}"
+    // swagger generator
+    id 'org.hidetake.swagger.generator' version '2.18.2'
 }
+
+swaggerSources {
+    sample {
+        setInputFile(file("${project.buildDir}/api-spec/openapi3.yaml"))
+        }
+    }
+
+openapi3 {
+    server('http://localhost:8080')
+    title = 'restdocs-swagger API Documentation'
+    description = 'Spring REST Docs with SwaggerUI.'
+    version = '0.0.1'
+    format = 'yaml'
+}
+
 
 jacoco {
     toolVersion = "0.8.7"
@@ -52,6 +75,9 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    // Swagger & RestDocs
+    testImplementation "com.epages:restdocs-api-spec-mockmvc:${restdocsApiSpecVersion}"
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 
     // fcm
@@ -69,16 +95,32 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
-    outputs.dir snippetsDir
     useJUnitPlatform()
 }
 
-tasks.named('asciidoctor') {
-    inputs.dir snippetsDir
-    dependsOn test
+tasks.withType(GenerateSwaggerUI) {
+    dependsOn 'openapi3'
+    copy {
+        from "build/resources/main/static/docs"
+        into "src/main/resources/static/docs/"
+    }
+}
+
+bootJar {
+    dependsOn(':openapi3')
+}
+// bootJar 실행 전, copySwaggerUI 를 실행하도록 설정
+openapi3 {
+    server = "http://localhost:8080"
+    title = "smeme api documentation"
+    description = "Spring REST Docs with SwaggerUI."
+    version = "0.0.1"
+    outputFileNamePrefix = 'open-api-3.0.1'
+    format = 'json'
+
+    outputDirectory = 'build/resources/main/static/docs'
 }
