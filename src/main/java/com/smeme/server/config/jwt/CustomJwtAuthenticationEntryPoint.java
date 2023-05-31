@@ -3,7 +3,6 @@ package com.smeme.server.config.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smeme.server.util.ApiResponse;
 import com.smeme.server.util.message.ErrorMessage;
-import com.smeme.server.util.message.ResponseMessage;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,8 +12,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class CustomJwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
