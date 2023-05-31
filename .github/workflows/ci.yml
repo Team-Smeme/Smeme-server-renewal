@@ -19,13 +19,6 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: create application-oauth2 file
-        run: |
-          pwd
-          touch src/main/resources/application-oauth2.yml
-          echo "${{ secrets.APPLICATION_OAUTH2 }}" >> src/main/resources/application-oauth2.yml
-          cat src/main/resources/application-oauth2.yml
-
       - name: create .env file
         working-directory: ./
         run: |

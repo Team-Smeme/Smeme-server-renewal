@@ -15,9 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.security.spec.InvalidKeySpecException;
 
-import static com.smeme.server.util.message.ErrorMessage.*;
 import static com.smeme.server.util.message.ResponseMessage.*;
-import static java.util.Objects.isNull;
 
 @RestController
 @RequiredArgsConstructor
