@@ -6,10 +6,10 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum BadgeType {
-	WELCOME("웰컴 배지"),
-	ACCUMULATE("일기 누적수"),
-	CONTINUITY("일기 연속 수"),
-	ETC("부가 기능 활용");
+	EVENT("Event"),
+	COUNTING("Diary Counting"),
+	COMBO("Diary Combo"),
+	EXPLORATION("Exploration");
 
 	private final String description;
 }
