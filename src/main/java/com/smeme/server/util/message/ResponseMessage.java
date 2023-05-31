@@ -16,6 +16,9 @@ public enum ResponseMessage {
 	// topic
 	SUCCESS_GET_RANDOM_TOPIC("랜덤 주제 조회 성공"),
 
+	// badges
+	SUCCESS_GET_BADGES("뱃지 리스트 조회 성공"),
+
 	// correction
 	SUCCESS_CREATE_CORRECTION("일기 첨삭 성공"),
 	SUCCESS_DELETE_CORRECTION("첨삭 삭제 성공"),
