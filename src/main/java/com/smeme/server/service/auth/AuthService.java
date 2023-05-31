@@ -26,6 +26,10 @@ import static java.util.Objects.*;
 @RequiredArgsConstructor
 public class AuthService {
 
+    private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 2 * 12 * 100L; // 2시간
+
+    private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 24 * 14L; // 2주
+
     private final JwtTokenProvider jwtTokenProvider;
 
     private final MemberRepository memberRepository;
@@ -57,8 +61,8 @@ public class AuthService {
 
         Authentication authentication = new UserAuthentication(signedMember.getId(), null, null);
 
-        String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
-        String accessToken = jwtTokenProvider.generateAccessToken(authentication);
+        String refreshToken = jwtTokenProvider.generateToken(authentication, REFRESH_TOKEN_EXPIRATION_TIME);
+        String accessToken = jwtTokenProvider.generateToken(authentication, ACCESS_TOKEN_EXPIRATION_TIME);
 
         return SignInResponseDTO.builder()
                 .accessToken(accessToken)
@@ -73,8 +77,9 @@ public class AuthService {
 
         Authentication authentication = new UserAuthentication(memberId, null, null);
 
-        String newAccessToken = jwtTokenProvider.generateAccessToken(authentication);
-        String newRefreshToken = jwtTokenProvider.generateRefreshToken(authentication);
+        String newRefreshToken = jwtTokenProvider.generateToken(authentication, REFRESH_TOKEN_EXPIRATION_TIME);
+        String newAccessToken = jwtTokenProvider.generateToken(authentication, ACCESS_TOKEN_EXPIRATION_TIME);
+
 
         Member member = getMemberById(memberId);
         member.updateRefreshToken(newRefreshToken);

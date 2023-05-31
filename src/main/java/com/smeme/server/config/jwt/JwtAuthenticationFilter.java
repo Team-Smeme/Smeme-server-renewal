@@ -12,9 +12,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.util.UrlPathHelper;
 
 import java.io.IOException;
+
+import static com.smeme.server.config.jwt.JwtValidationType.*;
 
 @Slf4j
 @Component
@@ -24,19 +25,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    protected boolean shouldNotFilter(@NonNull HttpServletRequest request) throws ServletException {
-        String path = new UrlPathHelper().getPathWithinApplication(request);
-        return path.equals("/api/v2/auth") || path.equals("/docs/swagger-ui/**");
-    }
-
-    @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         try {
-            String accessToken = getJwtFromRequest(request);
-            JwtValidationType jwtValidationType = jwtTokenProvider.validateToken(accessToken);
-            if (StringUtils.hasText(accessToken) && jwtValidationType == JwtValidationType.VALID_JWT) {
-                Long userId = jwtTokenProvider.getUserFromJwt(accessToken);
+            final String token = getJwtFromRequest(request);
 
+            if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token) == VALID_JWT) {
+                Long userId = jwtTokenProvider.getUserFromJwt(token);
                 UserAuthentication authentication = new UserAuthentication(userId, null, null);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
