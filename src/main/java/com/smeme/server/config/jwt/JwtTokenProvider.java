@@ -78,6 +78,6 @@ public class JwtTokenProvider {
 
     public Long getUserFromJwt(String token) {
         Claims claims = getBody(token);
-        return (Long) claims.get("memberId");
+        return Long.parseLong(claims.get("memberId").toString());
     }
 }
