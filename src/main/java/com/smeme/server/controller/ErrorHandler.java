@@ -8,6 +8,7 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -19,32 +20,37 @@ import jakarta.persistence.EntityNotFoundException;
 public class ErrorHandler {
 
 	@ExceptionHandler(EntityNotFoundException.class)
-	public ResponseEntity<ApiResponse> EntityNotFoundException(EntityNotFoundException ex) {
+	public ResponseEntity<ApiResponse> entityNotFoundException(EntityNotFoundException ex) {
 		return ResponseEntity.status(NOT_FOUND).body(ApiResponse.fail(ex.getMessage()));
 	}
 
 	@ExceptionHandler(ChangeSetPersister.NotFoundException.class)
-	public ResponseEntity<ApiResponse> NotFoundException(ChangeSetPersister.NotFoundException ex) {
+	public ResponseEntity<ApiResponse> notFoundException(ChangeSetPersister.NotFoundException ex) {
 		return ResponseEntity.status(NOT_FOUND).body(ApiResponse.fail(ex.getMessage()));
 	}
 
 	@ExceptionHandler(NoSuchElementException.class)
-	public ResponseEntity<ApiResponse> NoSuchElementException(NoSuchElementException ex) {
+	public ResponseEntity<ApiResponse> noSuchElementException(NoSuchElementException ex) {
 		return ResponseEntity.status(NOT_FOUND).body(ApiResponse.fail(ex.getMessage()));
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)
-	public ResponseEntity<ApiResponse> IllegalArgumentException(IllegalArgumentException ex) {
+	public ResponseEntity<ApiResponse> illegalArgumentException(IllegalArgumentException ex) {
 		return ResponseEntity.status(BAD_REQUEST).body(ApiResponse.fail(ex.getMessage()));
 	}
 
 	@ExceptionHandler(ConstraintViolationException.class)
-	public ResponseEntity<ApiResponse> ConstraintViolationException(ConstraintViolationException ex) {
+	public ResponseEntity<ApiResponse> constraintViolationException(ConstraintViolationException ex) {
 		return ResponseEntity.status(BAD_REQUEST).body(ApiResponse.fail(ex.getMessage()));
 	}
 
 	@ExceptionHandler(EntityExistsException.class)
-	public ResponseEntity<ApiResponse> EntityExistsException(EntityExistsException ex) {
+	public ResponseEntity<ApiResponse> entityExistsException(EntityExistsException ex) {
 		return ResponseEntity.status(BAD_REQUEST).body(ApiResponse.fail(ex.getMessage()));
+	}
+
+	@ExceptionHandler(InvalidBearerTokenException.class)
+	public ResponseEntity<ApiResponse> invalidBearerTokenException(InvalidBearerTokenException ex) {
+		return ResponseEntity.status(UNAUTHORIZED).body(ApiResponse.fail(ex.getMessage()));
 	}
 }

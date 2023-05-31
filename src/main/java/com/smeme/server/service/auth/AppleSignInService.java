@@ -5,7 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,8 +22,8 @@ import java.util.Base64;
 import java.util.Objects;
 
 @RequiredArgsConstructor
-@Component
-public class AppleSignIn {
+@Service
+public class AppleSignInService {
 
     @Value("${jwt.APPLE_URL}")
     private String APPLE_URL;
@@ -36,31 +36,28 @@ public class AppleSignIn {
             connection.setRequestMethod("GET");
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder result = new StringBuilder();
-            String line;
 
+            String line;
             while ((line = br.readLine()) != null) {
                 result.append(line);
             }
             br.close();
 
             JsonObject keys = (JsonObject) JsonParser.parseString(result.toString());
-            return  (JsonArray) keys.get("keys");
-
+            return (JsonArray) keys.get("keys");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    protected PublicKey makePublicKey(String accessToken, JsonArray publicKeyList) {
+    protected PublicKey makePublicKey(String accessToken, JsonArray publicKeyList) throws NoSuchAlgorithmException, InvalidKeySpecException {
         JsonObject selectedObject = null;
 
         String[] decodeArray = accessToken.split("\\.");
         String header = new String(Base64.getDecoder().decode(decodeArray[0].substring(7)));
 
-        JsonParser parser = new JsonParser();
-
-        JsonElement kid = ((JsonObject) parser.parse(header)).get("kid");
-        JsonElement alg = ((JsonObject) parser.parse(header)).get("alg");
+        JsonElement kid = ((JsonObject) JsonParser.parseString(header)).get("kid");
+        JsonElement alg = ((JsonObject) JsonParser.parseString(header)).get("alg");
 
         for (JsonElement publicKey : publicKeyList) {
             JsonObject publicKeyObject = publicKey.getAsJsonObject();
@@ -73,13 +70,14 @@ public class AppleSignIn {
             }
         }
 
-        if (selectedObject == null) throw new RuntimeException("공개키를 찾을 수 없습니다.");
+        if (selectedObject == null) {
+            throw new InvalidKeySpecException("공개키를 찾을 수 없습니다.");
+        }
 
-        // 선택된 공개키 데이터로 공개키 생성
         return getPublicKey(selectedObject);
     }
 
-    private PublicKey getPublicKey(JsonObject object) {
+    private PublicKey getPublicKey(JsonObject object) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String nStr = object.get("n").toString();
         String eStr = object.get("e").toString();
 
@@ -89,16 +87,12 @@ public class AppleSignIn {
         BigInteger nValue = new BigInteger(1, nBytes);
         BigInteger eValue = new BigInteger(1, eBytes);
 
-        try {
-            RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(nValue, eValue);
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            return keyFactory.generatePublic(publicKeySpec);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new RuntimeException(e);
-        }
+        RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(nValue, eValue);
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        return keyFactory.generatePublic(publicKeySpec);
     }
 
-    protected String getAppleData(String socialAccessToken) {
+    protected String getAppleData(String socialAccessToken) throws NoSuchAlgorithmException, InvalidKeySpecException {
             JsonArray publicKeyList = getApplePublicKeyList();
             PublicKey publicKey = makePublicKey(socialAccessToken, publicKeyList);
 

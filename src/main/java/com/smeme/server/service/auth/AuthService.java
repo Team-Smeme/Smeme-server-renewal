@@ -11,8 +11,12 @@ import com.smeme.server.model.SocialType;
 import com.smeme.server.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 import static com.smeme.server.util.message.ErrorMessage.*;
 import static java.util.Objects.*;
@@ -25,12 +29,12 @@ public class AuthService {
 
     private final MemberRepository memberRepository;
 
-    private final AppleSignIn appleSignIn;
+    private final AppleSignInService appleSignInService;
 
-    private final KakaoSignIn kakaoSignIn;
+    private final KakaoSignInService kakaoSignInService;
 
     @Transactional
-    public SignInResponseDTO signIn(String socialAccessToken, SignInRequestDTO signInRequestDTO) {
+    public SignInResponseDTO signIn(String socialAccessToken, SignInRequestDTO signInRequestDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
         SocialType socialType = signInRequestDTO.socialType();
         String socialId = login(signInRequestDTO.socialType(), socialAccessToken);
 
@@ -100,11 +104,11 @@ public class AuthService {
         return memberRepository.existsBySocialAndSocialId(socialType, socialId);
     }
 
-    private String login(SocialType socialType, String socialAccessToken) {
+    private String login(SocialType socialType, String socialAccessToken) throws NoSuchAlgorithmException, InvalidKeySpecException {
         return switch (socialType.toString()) {
-            case "APPLE" -> appleSignIn.getAppleData(socialAccessToken);
-            case "KAKAO" -> kakaoSignIn.getKakaoData(socialAccessToken);
-            default -> throw new RuntimeException(INVALID_TOKEN.getMessage());
+            case "APPLE" -> appleSignInService.getAppleData(socialAccessToken);
+            case "KAKAO" -> kakaoSignInService.getKakaoData(socialAccessToken);
+            default -> throw new InvalidBearerTokenException(INVALID_TOKEN.getMessage());
         };
     }
 }

@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
+import java.security.spec.InvalidKeySpecException;
 
 import static com.smeme.server.util.message.ResponseMessage.*;
 
@@ -26,7 +28,7 @@ public class AuthController {
     public ResponseEntity<ApiResponse> signIn(
             @RequestHeader("Authorization") String socialAccessToken,
             @RequestBody SignInRequestDTO requestDTO
-            ) {
+            ) throws NoSuchAlgorithmException, InvalidKeySpecException {
         SignInResponseDTO response = authService.signIn(socialAccessToken, requestDTO);
         return ResponseEntity.ok(ApiResponse.success(SUCCESS_SIGNIN.getMessage(),response));
     }

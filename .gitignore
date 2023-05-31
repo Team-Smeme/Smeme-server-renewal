@@ -39,5 +39,5 @@ out/
 *.yml
 env.properties
 .env
-*.json
+smeem_fcm.json
 .DS_Store

@@ -74,6 +74,13 @@ public class Diary {
     public void deleteDiary() {
         this.isDeleted = true;
         this.updatedAt = LocalDateTime.now();
+        this.member.getDiaries().remove(this);
+    }
+
+    public void deleteFromMember() {
+        if (Objects.nonNull(this.member)) {
+            this.member.getDiaries().remove(this);
+        }
     }
 
     private void setMember(Member member) {
