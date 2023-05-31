@@ -1,5 +1,6 @@
 package com.smeme.server.repository.trainingTime;
 
+import static com.smeme.server.model.QMember.*;
 import static com.smeme.server.model.training.DayType.*;
 import static com.smeme.server.model.training.QTrainingTime.*;
 import static com.smeme.server.util.message.ErrorMessage.*;
@@ -26,10 +27,13 @@ public class TrainingTimeRepositoryImpl implements TrainingTimeCustomRepository 
 		return queryFactory
 			.select(trainingTime)
 			.from(trainingTime)
+			.join(trainingTime.member, member).fetchJoin()
 			.where(
 				trainingTime.day.eq(getDayType(now.getDayOfWeek().getValue())),
 				trainingTime.hour.eq(now.getHour()),
-				trainingTime.minute.eq(now.getMinute()))
+				trainingTime.minute.eq(now.getMinute()),
+				member.hasPushAlarm.eq(true)
+			)
 			.fetch();
 	}
 
