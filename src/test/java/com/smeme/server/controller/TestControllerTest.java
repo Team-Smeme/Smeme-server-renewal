@@ -20,9 +20,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
-@WebMvcTest(TestController.class)
-@ActiveProfiles("local")
-public class TestControllerTest extends BaseControllerTest {
+@DisplayName("TestController 테스트")
+@WebMvcTest(value = TestController.class)
+class TestControllerTest extends BaseControllerTest {
 
     private static final String DEFAULT_URL = "/api/v2/test";
 
