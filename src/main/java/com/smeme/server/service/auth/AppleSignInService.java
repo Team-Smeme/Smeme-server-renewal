@@ -36,14 +36,15 @@ public class AppleSignInService {
             connection.setRequestMethod("GET");
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder result = new StringBuilder();
-            String line = "";
+
+            String line;
             while ((line = br.readLine()) != null) {
                 result.append(line);
             }
             br.close();
+
             JsonObject keys = (JsonObject) JsonParser.parseString(result.toString());
             return (JsonArray) keys.get("keys");
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -68,7 +69,11 @@ public class AppleSignInService {
                 break;
             }
         }
-        if (selectedObject == null) throw new InvalidKeySpecException("공개키를 찾을 수 없습니다.");
+
+        if (selectedObject == null) {
+            throw new InvalidKeySpecException("공개키를 찾을 수 없습니다.");
+        }
+
         return getPublicKey(selectedObject);
     }
 

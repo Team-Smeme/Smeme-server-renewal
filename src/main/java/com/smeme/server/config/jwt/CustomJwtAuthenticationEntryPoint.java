@@ -3,7 +3,6 @@ package com.smeme.server.config.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smeme.server.util.ApiResponse;
 import com.smeme.server.util.message.ErrorMessage;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
@@ -15,11 +14,10 @@ import java.io.IOException;
 
 @Component
 public class CustomJwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
-
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
       setResponse(response);
     }
 
