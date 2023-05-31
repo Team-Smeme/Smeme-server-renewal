@@ -1,8 +1,6 @@
 package com.smeme.server.dto.member;
 
-import com.smeme.server.util.message.ErrorMessage;
 import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 

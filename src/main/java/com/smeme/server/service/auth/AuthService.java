@@ -15,7 +15,6 @@ import org.springframework.security.oauth2.server.resource.InvalidBearerTokenExc
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 

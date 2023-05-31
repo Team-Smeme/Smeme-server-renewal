@@ -4,7 +4,6 @@ import com.smeme.server.dto.member.UpdateMemberRequestDTO;
 import com.smeme.server.service.MemberService;
 import com.smeme.server.util.ApiResponse;
 import com.smeme.server.util.Util;
-import com.smeme.server.util.message.ResponseMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
