@@ -25,7 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @AutoConfigureRestDocs
 @ExtendWith({RestDocumentationExtension.class})
 @WebMvcTest(properties = "spring.config.location=classpath:/application.yml")
-@ActiveProfiles("local")
 public abstract class BaseControllerTest {
 
     @Autowired
