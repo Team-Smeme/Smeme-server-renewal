@@ -2,6 +2,7 @@ package com.smeme.server.service.auth;
 
 import com.google.gson.*;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -91,8 +92,9 @@ public class AppleSignInService {
             JsonArray publicKeyList = getApplePublicKeyList();
             PublicKey publicKey = makePublicKey(socialAccessToken, publicKeyList);
 
-            Claims userInfo = Jwts.parser()
+            Claims userInfo = Jwts.parserBuilder()
                     .setSigningKey(publicKey)
+                    .build()
                     .parseClaimsJws(socialAccessToken.substring(7))
                     .getBody();
 
