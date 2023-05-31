@@ -2,12 +2,17 @@ package com.smeme.server.config.jwt;
 
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Date;
 
 @Slf4j
@@ -15,51 +20,34 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    private static final int ACCESS_TOKEN_EXPIRATION_TIME = 7200000; // 2시간
-
-    private static final int REFRESH_TOKEN_EXPIRATION_TIME = 1209600000; // 2주
-
     @Value("${jwt.secret}")
     private String JWT_SECRET;
 
-    public String generateAccessToken(Authentication authentication) {
+    @PostConstruct
+    protected void init() {
+        JWT_SECRET = Base64.getEncoder().encodeToString(JWT_SECRET.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public String generateToken(Authentication authentication, Long tokenExpirationTime) {
+        final Date now = new Date();
+
+        final Claims claims = Jwts.claims()
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + tokenExpirationTime));
+
+        claims.put("memberId", authentication.getPrincipal());
+
         return Jwts.builder()
-                .setSubject(String.valueOf(authentication.getPrincipal()))
-                .setIssuedAt(new Date())
-                .setExpiration(getExpirationDate(ACCESS_TOKEN_EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+                .setClaims(claims)
+                .signWith(getSigningKey())
                 .compact();
-    }
-
-    public String generateRefreshToken(Authentication authentication) {
-        return Jwts.builder()
-                .setSubject(String.valueOf(authentication.getPrincipal()))
-                .setIssuedAt(new Date())
-                .setExpiration(getExpirationDate(REFRESH_TOKEN_EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
-                .compact();
-    }
-    public Long getUserFromJwt(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(JWT_SECRET)
-                .parseClaimsJws(token)
-                .getBody();
-        return Long.valueOf(claims.getSubject());
-    }
-
-
-    private Date getExpirationDate(int tokenExpirationTime) {
-        Date currentDate = new Date();
-        return new Date(currentDate.getTime() + tokenExpirationTime);
     }
 
     public JwtValidationType validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
+            final Claims claims = getBody(token);
             return JwtValidationType.VALID_JWT;
-        } catch (SignatureException ex) {
-            log.error(String.valueOf(JwtValidationType.INVALID_JWT_SIGNATURE));
-            return JwtValidationType.INVALID_JWT_SIGNATURE;
         } catch (MalformedJwtException ex) {
             log.error(String.valueOf(JwtValidationType.INVALID_JWT_TOKEN));
             return JwtValidationType.INVALID_JWT_TOKEN;
@@ -73,5 +61,23 @@ public class JwtTokenProvider {
             log.error(String.valueOf(JwtValidationType.EMPTY_JWT));
             return JwtValidationType.EMPTY_JWT;
         }
+    }
+
+    private SecretKey getSigningKey() {
+        String encodedKey = Base64.getEncoder().encodeToString(JWT_SECRET.getBytes());
+        return Keys.hmacShaKeyFor(encodedKey.getBytes());
+    }
+
+    private Claims getBody(final String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    public Long getUserFromJwt(String token) {
+        Claims claims = getBody(token);
+        return (Long) claims.get("memberId");
     }
 }

@@ -2,6 +2,7 @@ package com.smeme.server.controller;
 
 import static org.springframework.http.HttpStatus.*;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 import jakarta.persistence.EntityExistsException;
@@ -52,5 +53,10 @@ public class ErrorHandler {
 	@ExceptionHandler(InvalidBearerTokenException.class)
 	public ResponseEntity<ApiResponse> invalidBearerTokenException(InvalidBearerTokenException ex) {
 		return ResponseEntity.status(UNAUTHORIZED).body(ApiResponse.fail(ex.getMessage()));
+	}
+
+	@ExceptionHandler(IOException.class)
+	public ResponseEntity<ApiResponse> ioException(IOException ex) {
+		return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(ApiResponse.fail(ex.getMessage()));
 	}
 }

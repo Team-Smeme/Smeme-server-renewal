@@ -96,8 +96,9 @@ public class AppleSignInService {
             JsonArray publicKeyList = getApplePublicKeyList();
             PublicKey publicKey = makePublicKey(socialAccessToken, publicKeyList);
 
-            Claims userInfo = Jwts.parser()
+            Claims userInfo = Jwts.parserBuilder()
                     .setSigningKey(publicKey)
+                    .build()
                     .parseClaimsJws(socialAccessToken.substring(7))
                     .getBody();
 
