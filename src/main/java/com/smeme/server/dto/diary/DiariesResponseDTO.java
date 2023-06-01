@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.smeme.server.model.Diary;
 import com.smeme.server.util.Util;
-import lombok.AllArgsConstructor;
 
 public record DiariesResponseDTO(
 	List<DiaryDTO> diaries,
