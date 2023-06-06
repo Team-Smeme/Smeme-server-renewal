@@ -23,7 +23,7 @@ import com.smeme.server.model.Member;
 import com.smeme.server.model.badge.Badge;
 import com.smeme.server.model.topic.Topic;
 import com.smeme.server.repository.BadgeRepository;
-import com.smeme.server.repository.CorrectionRepository;
+import com.smeme.server.repository.correction.CorrectionRepository;
 import com.smeme.server.repository.MemberBadgeRepository;
 import com.smeme.server.repository.diary.DiaryRepository;
 import com.smeme.server.repository.MemberRepository;
@@ -136,7 +136,7 @@ public class DiaryService {
 		if (Objects.nonNull(comboBadge) && !memberBadgeRepository.existsByMemberAndBadge(member, comboBadge)) {
 			badges.add(comboBadge);
 		}
-		badgeService.createMemberBadge(member, badges);
+		badges.forEach(badge -> badgeService.createMemberBadge(member, badge));
 		return badges;
 	}
 
@@ -147,13 +147,13 @@ public class DiaryService {
 			createdDate = createdDate.minusDays(1);
 		}
 		if (comboCount == 30) {
-			return findBadge(9L);
+			return getBadge(9L);
 		} else if (comboCount == 15) {
-			return findBadge(8L);
+			return getBadge(8L);
 		} else if (comboCount == 7) {
-			return findBadge(7L);
+			return getBadge(7L);
 		} else if (comboCount == 3) {
-			return findBadge(6L);
+			return getBadge(6L);
 		}
 		return null;
 	}
@@ -161,18 +161,18 @@ public class DiaryService {
 	private Badge getCountingDiaryBadge(Member member) {
 		int diaryCount = member.getDiaries().stream().filter(diary -> !diary.isDeleted()).toList().size();
 		if (diaryCount == 50) {
-			return findBadge(5L);
+			return getBadge(5L);
 		} else if (diaryCount == 30) {
-			return findBadge(4L);
+			return getBadge(4L);
 		} else if (diaryCount == 10) {
-			return findBadge(3L);
+			return getBadge(3L);
 		} else if (diaryCount == 1) {
-			return findBadge(2L);
+			return getBadge(2L);
 		}
 		return null;
 	}
 
-	private Badge findBadge(Long id) {
+	private Badge getBadge(Long id) {
 		return badgeRepository.findById(id)
 			.orElseThrow(() -> new EntityNotFoundException(INVALID_BADGE.getMessage()));
 	}

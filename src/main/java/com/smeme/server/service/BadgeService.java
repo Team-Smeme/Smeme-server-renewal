@@ -33,7 +33,7 @@ public class BadgeService {
     }
 
     @Transactional
-    public void createMemberBadge(Member member, List<Badge> badges) {
-        badges.forEach(badge -> memberBadgeRepository.save(new MemberBadge(member, badge)));
+    public void createMemberBadge(Member member, Badge badge) {
+        memberBadgeRepository.save(new MemberBadge(member, badge));
     }
 }
