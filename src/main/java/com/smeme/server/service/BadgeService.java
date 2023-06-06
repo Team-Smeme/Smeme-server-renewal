@@ -2,6 +2,9 @@ package com.smeme.server.service;
 
 import com.smeme.server.dto.badge.BadgeListResponseDTO;
 import com.smeme.server.dto.badge.BadgeResponseDTO;
+import com.smeme.server.model.Member;
+import com.smeme.server.model.badge.Badge;
+import com.smeme.server.model.badge.MemberBadge;
 import com.smeme.server.repository.MemberBadgeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,14 +21,19 @@ public class BadgeService {
     private final MemberBadgeRepository memberBadgeRepository;
 
     public BadgeListResponseDTO getBadgeList(Long memberId) {
-        List<BadgeResponseDTO> badgeResponseDTOList =  memberBadgeRepository.findAllByMemberId(memberId)
-                .stream()
-                .map(memberBadge -> BadgeResponseDTO.of(
-                        memberBadge.getBadge().getId(),
-                        memberBadge.getBadge().getName(),
-                        memberBadge.getBadge().getType().getDescription(),
-                        memberBadge.getBadge().getImageUrl()))
-                .toList();
+        List<BadgeResponseDTO> badgeResponseDTOList = memberBadgeRepository.findAllByMemberId(memberId)
+            .stream()
+            .map(memberBadge -> BadgeResponseDTO.of(
+                memberBadge.getBadge().getId(),
+                memberBadge.getBadge().getName(),
+                memberBadge.getBadge().getType().getDescription(),
+                memberBadge.getBadge().getImageUrl()))
+            .toList();
         return BadgeListResponseDTO.of(badgeResponseDTOList);
+    }
+
+    @Transactional
+    public void createMemberBadge(Member member, List<Badge> badges) {
+        badges.forEach(badge -> memberBadgeRepository.save(new MemberBadge(member, badge)));
     }
 }

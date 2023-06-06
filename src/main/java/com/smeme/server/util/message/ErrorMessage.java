@@ -31,7 +31,10 @@ public enum ErrorMessage {
 	INVALID_TOPIC("유효하지 않은 랜덤주제입니다."),
 
 	// Push Alarm
-	INVALID_DAY_OF_WEEK("유효하지 않은 요일 값입니다.")
+	INVALID_DAY_OF_WEEK("유효하지 않은 요일 값입니다."),
+
+	// badge
+	INVALID_BADGE("유효하지 않은 뱃지입니다.")
 	;
 
 	private final String message;

@@ -26,7 +26,8 @@ public class DiaryRepositoryImpl implements DiaryCustomRepository {
 			.from(diary)
 			.where(
 				diary.member.eq(member),
-				diary.createdAt.between(get12midnight(now), now)
+				diary.createdAt.between(get12midnight(now), now),
+				diary.isDeleted.eq(false)
 			)
 			.select(diary.id)
 			.fetchFirst() != null;
@@ -55,7 +56,8 @@ public class DiaryRepositoryImpl implements DiaryCustomRepository {
 				diary.member.eq(member),
 				diary.createdAt.year().eq(past.getYear()),
 				diary.createdAt.month().eq(past.getMonthValue()),
-				diary.createdAt.dayOfMonth().eq(past.getDayOfMonth())
+				diary.createdAt.dayOfMonth().eq(past.getDayOfMonth()),
+				diary.isDeleted.eq(false)
 			)
 			.fetchFirst() != null;
 	}
@@ -72,6 +74,21 @@ public class DiaryRepositoryImpl implements DiaryCustomRepository {
 				diary.updatedAt.dayOfMonth().eq(past.getDayOfMonth())
 			)
 			.fetch();
+	}
+
+	@Override
+	public boolean existDiaryInDate(Member member, LocalDateTime createdDate) {
+		return queryFactory
+			.select(diary)
+			.from(diary)
+			.where(
+				diary.member.eq(member),
+				diary.createdAt.year().eq(createdDate.getYear()),
+				diary.createdAt.month().eq(createdDate.getMonthValue()),
+				diary.createdAt.dayOfMonth().eq(createdDate.getDayOfMonth()),
+				diary.isDeleted.eq(false)
+			)
+			.fetchFirst() != null;
 	}
 
 	private LocalDateTime get12midnight(LocalDateTime now) {

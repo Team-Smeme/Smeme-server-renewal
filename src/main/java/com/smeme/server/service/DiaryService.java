@@ -5,20 +5,26 @@ import static java.util.Objects.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.smeme.server.dto.diary.CreatedDiaryResponseDTO;
 import com.smeme.server.dto.diary.DiariesResponseDTO;
 import com.smeme.server.dto.diary.DiaryRequestDTO;
 import com.smeme.server.dto.diary.DiaryResponseDTO;
 import com.smeme.server.model.Correction;
 import com.smeme.server.model.Diary;
 import com.smeme.server.model.Member;
+import com.smeme.server.model.badge.Badge;
 import com.smeme.server.model.topic.Topic;
+import com.smeme.server.repository.BadgeRepository;
 import com.smeme.server.repository.CorrectionRepository;
+import com.smeme.server.repository.MemberBadgeRepository;
 import com.smeme.server.repository.diary.DiaryRepository;
 import com.smeme.server.repository.MemberRepository;
 import com.smeme.server.repository.topic.TopicRepository;
@@ -35,16 +41,17 @@ public class DiaryService {
 	private final TopicRepository topicRepository;
 	private final MemberRepository memberRepository;
 	private final CorrectionRepository correctionRepository;
+	private final MemberBadgeRepository memberBadgeRepository;
+	private final BadgeRepository badgeRepository;
+	private final BadgeService badgeService;
 
 	@Transactional
-	public Long createDiary(Long memberId, DiaryRequestDTO requestDTO) {
+	public CreatedDiaryResponseDTO createDiary(Long memberId, DiaryRequestDTO requestDTO) {
 		Member member = getMember(memberId);
 		Topic topic = getTopic(requestDTO.topicId());
-		Diary diary = new Diary(requestDTO.content(), topic, member);
-		if (!existTodayDiary(member)) {
-			diaryRepository.save(diary);
-		}
-		return diary.getId();
+		Diary diary = checkExistTodayDiary(member, new Diary(requestDTO.content(), topic, member));
+		List<Badge> badges = getDiaryBadge(member, diary.getCreatedAt());
+		return CreatedDiaryResponseDTO.of(diary.getId(), badges);
 	}
 
 	public DiaryResponseDTO getDiaryDetail(Long diaryId) {
@@ -107,15 +114,66 @@ public class DiaryService {
 			: null;
 	}
 
-	private boolean existTodayDiary(Member member) {
+	private Diary checkExistTodayDiary(Member member, Diary diary) {
 		if (diaryRepository.existTodayDiary(member)) {
 			throw new IllegalArgumentException(EXIST_TODAY_DIARY.getMessage());
 		}
-		return false;
+		return diaryRepository.save(diary);
 	}
 
 	private LocalDateTime transferStringToDateTime(String str) {
 		return LocalDateTime.parse(str + " 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 	}
 
+
+	private List<Badge> getDiaryBadge(Member member, LocalDateTime createdDate) {
+		List<Badge> badges = new ArrayList<>();
+		Badge countingBadge = getCountingDiaryBadge(member);
+		if (Objects.nonNull(countingBadge) && !memberBadgeRepository.existsByMemberAndBadge(member, countingBadge)) {
+			badges.add(countingBadge);
+		}
+		Badge comboBadge = getComboDiaryBadge(member, createdDate);
+		if (Objects.nonNull(comboBadge) && !memberBadgeRepository.existsByMemberAndBadge(member, comboBadge)) {
+			badges.add(comboBadge);
+		}
+		badgeService.createMemberBadge(member, badges);
+		return badges;
+	}
+
+	private Badge getComboDiaryBadge(Member member, LocalDateTime createdDate) {
+		int comboCount = 0;
+		while (diaryRepository.existDiaryInDate(member, createdDate)) {
+			comboCount++;
+			createdDate = createdDate.minusDays(1);
+		}
+		if (comboCount == 30) {
+			return findBadge(9L);
+		} else if (comboCount == 15) {
+			return findBadge(8L);
+		} else if (comboCount == 7) {
+			return findBadge(7L);
+		} else if (comboCount == 3) {
+			return findBadge(6L);
+		}
+		return null;
+	}
+
+	private Badge getCountingDiaryBadge(Member member) {
+		int diaryCount = member.getDiaries().stream().filter(diary -> !diary.isDeleted()).toList().size();
+		if (diaryCount == 50) {
+			return findBadge(5L);
+		} else if (diaryCount == 30) {
+			return findBadge(4L);
+		} else if (diaryCount == 10) {
+			return findBadge(3L);
+		} else if (diaryCount == 1) {
+			return findBadge(2L);
+		}
+		return null;
+	}
+
+	private Badge findBadge(Long id) {
+		return badgeRepository.findById(id)
+			.orElseThrow(() -> new EntityNotFoundException(INVALID_BADGE.getMessage()));
+	}
 }
