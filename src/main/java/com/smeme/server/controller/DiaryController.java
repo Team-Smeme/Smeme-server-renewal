@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.smeme.server.dto.diary.CreatedDiaryResponseDTO;
 import com.smeme.server.dto.diary.DiariesResponseDTO;
 import com.smeme.server.dto.diary.DiaryRequestDTO;
 import com.smeme.server.dto.diary.DiaryResponseDTO;
@@ -34,10 +35,10 @@ public class DiaryController {
 	@PostMapping
 	public ResponseEntity<ApiResponse> createDiary(Principal principal, @RequestBody DiaryRequestDTO requestDTO) {
 		Long memberId = Util.getMemberId(principal);
-		Long diaryId = diaryService.createDiary(memberId, requestDTO);
+		CreatedDiaryResponseDTO response = diaryService.createDiary(memberId, requestDTO);
 		return ResponseEntity
-			.created(Util.getURI(diaryId))
-			.body(ApiResponse.success(SUCCESS_CREATE_DIARY.getMessage()));
+			.created(Util.getURI(response.diaryId()))
+			.body(ApiResponse.success(SUCCESS_CREATE_DIARY.getMessage(), response));
 	}
 
 	@GetMapping("/{diaryId}")

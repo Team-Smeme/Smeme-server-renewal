@@ -11,4 +11,5 @@ public interface DiaryCustomRepository {
 	List<Diary> findDiariesStartToEnd(Member member, LocalDateTime startDate, LocalDateTime endDate);
 	boolean exist30PastDiary(Member member);
 	List<Diary> findDiariesDeleted30Past(LocalDateTime past);
+	boolean existDiaryInDate(Member member, LocalDateTime createdDate);
 }
