@@ -1,0 +1,2 @@
+package com.smeme.server.dto.member;public record MemberGetResponseDTO() {
+}
