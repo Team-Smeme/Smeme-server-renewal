@@ -23,6 +23,7 @@ import static java.util.Objects.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AuthService {
 
     private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 2 * 12 * 100L; // 2시간
@@ -62,6 +63,8 @@ public class AuthService {
 
         String refreshToken = jwtTokenProvider.generateToken(authentication, REFRESH_TOKEN_EXPIRATION_TIME);
         String accessToken = jwtTokenProvider.generateToken(authentication, ACCESS_TOKEN_EXPIRATION_TIME);
+
+        signedMember.updateRefreshToken(refreshToken);
 
         return SignInResponseDTO.builder()
                 .accessToken(accessToken)

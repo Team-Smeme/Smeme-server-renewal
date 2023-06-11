@@ -21,14 +21,10 @@ public class BadgeService {
     private final MemberBadgeRepository memberBadgeRepository;
 
     public BadgeListResponseDTO getBadgeList(Long memberId) {
-        List<BadgeResponseDTO> badgeResponseDTOList = memberBadgeRepository.findAllByMemberId(memberId)
-            .stream()
-            .map(memberBadge -> BadgeResponseDTO.of(
-                memberBadge.getBadge().getId(),
-                memberBadge.getBadge().getName(),
-                memberBadge.getBadge().getType().getDescription(),
-                memberBadge.getBadge().getImageUrl()))
-            .toList();
+        List<BadgeResponseDTO> badgeResponseDTOList =  memberBadgeRepository.findAllByMemberId(memberId)
+                .stream()
+                .map(BadgeResponseDTO::of)
+                .toList();
         return BadgeListResponseDTO.of(badgeResponseDTOList);
     }
 
