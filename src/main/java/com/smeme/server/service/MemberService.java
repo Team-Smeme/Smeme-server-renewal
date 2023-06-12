@@ -5,8 +5,13 @@ import com.smeme.server.dto.member.MemberGetResponseDTO;
 import com.smeme.server.dto.member.MemberUpdateRequestDTO;
 import com.smeme.server.dto.training.TrainingTimeResponseDTO;
 import com.smeme.server.model.Member;
+import com.smeme.server.model.badge.Badge;
+import com.smeme.server.model.goal.Goal;
+import com.smeme.server.model.goal.GoalType;
 import com.smeme.server.model.training.TrainingTime;
+import com.smeme.server.repository.badge.MemberBadgeRepository;
 import com.smeme.server.repository.MemberRepository;
+import com.smeme.server.repository.goal.GoalRepository;
 import com.smeme.server.repository.trainingTime.TrainingTimeRepository;
 import com.smeme.server.util.message.ErrorMessage;
 import jakarta.persistence.EntityExistsException;
@@ -25,6 +30,8 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final TrainingTimeRepository trainingTimeRepository;
+    private final MemberBadgeRepository memberBadgeRepository;
+    private final GoalRepository goalRepository;
 
     @Transactional
     public void updateMember(Long memberId, MemberUpdateRequestDTO dto) {
@@ -36,7 +43,8 @@ public class MemberService {
 
     public MemberGetResponseDTO getMember(Long memberId) {
         Member member = getMemberById(memberId);
-        List<BadgeResponseDTO> badgeResponseDTOList = member.getBadges().stream().map(BadgeResponseDTO::of).toList();
+        Goal goal = getGoal(member.getGoal());
+        BadgeResponseDTO badge = BadgeResponseDTO.of(getBadge(memberId));
         List<TrainingTime> trainingTimeList = getTrainingTimeByMemberId(memberId);
         TrainingTime trainingTime = getOneTrainingTime(getTrainingTimeByMemberId(memberId));
         TrainingTimeResponseDTO trainingTimeResponseDTO = TrainingTimeResponseDTO.builder()
@@ -44,7 +52,17 @@ public class MemberService {
                                                             .hour(trainingTime.getHour())
                                                             .minute(trainingTime.getMinute())
                                                             .build();
-        return MemberGetResponseDTO.of(member, trainingTimeResponseDTO , badgeResponseDTOList);
+        return MemberGetResponseDTO.of(goal, member,trainingTimeResponseDTO , badge);
+    }
+
+    private Goal getGoal(GoalType goalType) {
+        return goalRepository.findOneByType(goalType).orElseThrow(
+                () -> new EntityNotFoundException(ErrorMessage.EMPTY_GOAL.getMessage()));
+    }
+
+    private Badge getBadge(Long memberId) {
+        return memberBadgeRepository.findFirstByMemberIdOrderByCreatedAtDesc(memberId).orElseThrow(
+                () -> new EntityNotFoundException(ErrorMessage.EMPTY_BADGE.getMessage())).getBadge();
     }
 
     private TrainingTime getOneTrainingTime(List<TrainingTime> trainingTimeList) {
