@@ -16,11 +16,9 @@ import java.time.LocalDateTime;
 @Getter
 public abstract class BaseTimeEntity {
 
-    @JsonFormat(timezone = "Asia/Seoul")
     @CreatedDate
     protected LocalDateTime createdAt;
 
-    @JsonFormat(timezone = "Asia/Seoul")
     @LastModifiedDate
     protected LocalDateTime updatedAt;
 }

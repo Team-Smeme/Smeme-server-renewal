@@ -5,9 +5,11 @@ import com.smeme.server.dto.training.TrainingTimeResponseDTO;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.goal.Goal;
 
-public record MemberGetResponseDTO(String username, String target, String way, String detail, String targetLang, boolean hasPushAlarm, TrainingTimeResponseDTO trainingTime, BadgeResponseDTO badge) {
+import java.util.List;
 
-    public static MemberGetResponseDTO of(Goal goal,Member member, TrainingTimeResponseDTO trainingTime, BadgeResponseDTO badge) {
+public record MemberGetResponseDTO(String username, String target, String way, String detail, String targetLang, boolean hasPushAlarm, TrainingTimeResponseDTO trainingTime, List<BadgeResponseDTO> badges) {
+
+    public static MemberGetResponseDTO of(Goal goal,Member member, TrainingTimeResponseDTO trainingTime, List<BadgeResponseDTO> badges) {
         return new MemberGetResponseDTO(
                 member.getUsername(),
                 member.getGoal().getDescription(),
@@ -16,7 +18,7 @@ public record MemberGetResponseDTO(String username, String target, String way, S
                 member.getTargetLang().toString(),
                 member.isHasPushAlarm(),
                 trainingTime,
-                badge
+                badges
         );
     }
 }

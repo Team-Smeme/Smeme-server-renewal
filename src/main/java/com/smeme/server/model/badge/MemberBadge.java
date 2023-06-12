@@ -38,8 +38,6 @@ public class MemberBadge extends BaseTimeEntity {
 	public MemberBadge(Member member, Badge badge) {
 		setMember(member);
 		this.badge = badge;
-		this.createdAt = LocalDateTime.now();
-		this.updatedAt = LocalDateTime.now();
 	}
 
 	private void setMember(Member member) {

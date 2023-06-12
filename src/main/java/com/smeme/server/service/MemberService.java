@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +45,8 @@ public class MemberService {
     public MemberGetResponseDTO getMember(Long memberId) {
         Member member = getMemberById(memberId);
         Goal goal = getGoal(member.getGoal());
-        BadgeResponseDTO badge = BadgeResponseDTO.of(getBadge(memberId));
+        List<BadgeResponseDTO> badges = new ArrayList<>();
+        badges.add(BadgeResponseDTO.of(getBadge(memberId)));
         List<TrainingTime> trainingTimeList = getTrainingTimeByMemberId(memberId);
         TrainingTime trainingTime = getOneTrainingTime(getTrainingTimeByMemberId(memberId));
         TrainingTimeResponseDTO trainingTimeResponseDTO = TrainingTimeResponseDTO.builder()
@@ -52,7 +54,7 @@ public class MemberService {
                                                             .hour(trainingTime.getHour())
                                                             .minute(trainingTime.getMinute())
                                                             .build();
-        return MemberGetResponseDTO.of(goal, member,trainingTimeResponseDTO , badge);
+        return MemberGetResponseDTO.of(goal, member,trainingTimeResponseDTO , badges);
     }
 
     private Goal getGoal(GoalType goalType) {
