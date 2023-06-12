@@ -17,6 +17,7 @@ import com.smeme.server.repository.badge.MemberBadgeRepository;
 import com.smeme.server.util.message.ErrorMessage;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,8 @@ public class AuthService {
 
     private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 24 * 14L; // 2주
 
-    private static final Long WELCOME_BADGE_ID = 1L;
+    @Value("${badge.welcome-badge-id}")
+    private Long WELCOME_BADGE_ID;
 
     private final JwtTokenProvider jwtTokenProvider;
 
