@@ -5,7 +5,7 @@ import com.smeme.server.dto.badge.BadgeResponseDTO;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.badge.Badge;
 import com.smeme.server.model.badge.MemberBadge;
-import com.smeme.server.repository.MemberBadgeRepository;
+import com.smeme.server.repository.badge.MemberBadgeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

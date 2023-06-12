@@ -4,6 +4,7 @@ import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.GenerationType.*;
 import static java.util.Objects.*;
 
+import com.smeme.server.model.BaseTimeEntity;
 import com.smeme.server.model.Member;
 
 import jakarta.persistence.Column;
@@ -15,10 +16,12 @@ import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @NoArgsConstructor
 @Getter
-public class MemberBadge {
+public class MemberBadge extends BaseTimeEntity {
 
 	@Id @GeneratedValue(strategy = IDENTITY)
 	@Column(name = "member_badge_id")
@@ -35,6 +38,8 @@ public class MemberBadge {
 	public MemberBadge(Member member, Badge badge) {
 		setMember(member);
 		this.badge = badge;
+		this.createdAt = LocalDateTime.now();
+		this.updatedAt = LocalDateTime.now();
 	}
 
 	private void setMember(Member member) {
