@@ -66,11 +66,6 @@ public class Member {
         this.targetLang = targetLang;
         this.goal = null;
     }
-
-    public void addWelcomeBadge(MemberBadge welcomeBadge) {
-        this.badges.add(welcomeBadge);
-    }
-
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
