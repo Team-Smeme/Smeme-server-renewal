@@ -114,9 +114,7 @@ public class AuthService {
          Badge badge = badgeRepository.findById(WELCOME_BADGE_ID).orElseThrow(
                  () -> new EntityNotFoundException(ErrorMessage.EMPTY_BADGE.getMessage())
          );
-         MemberBadge memberBadge = new MemberBadge(member, badge);
         memberBadgeRepository.save(new MemberBadge(member, badge));
-        member.addWelcomeBadge(memberBadge);
     }
 
     private Member getMemberById(Long memberId) {
