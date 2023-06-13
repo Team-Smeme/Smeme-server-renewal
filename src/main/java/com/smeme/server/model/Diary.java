@@ -6,21 +6,18 @@ import static jakarta.persistence.GenerationType.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.smeme.server.model.topic.Topic;
 
 @Entity
 @NoArgsConstructor
 @Getter
-public class Diary {
+public class Diary extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "diary_id")
@@ -36,14 +33,6 @@ public class Diary {
     private boolean isPublic;
 
     private boolean isDeleted;
-
-    @JsonFormat(timezone = "Asia/Seoul")
-    @CreatedDate
-    private LocalDateTime createdAt;
-
-    @JsonFormat(timezone = "Asia/Seoul")
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "topic_id")

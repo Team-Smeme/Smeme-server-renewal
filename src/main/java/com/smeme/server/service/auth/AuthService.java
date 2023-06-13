@@ -5,11 +5,19 @@ import com.smeme.server.config.jwt.UserAuthentication;
 import com.smeme.server.dto.auth.SignInRequestDTO;
 import com.smeme.server.dto.auth.SignInResponseDTO;
 import com.smeme.server.dto.auth.token.TokenResponseDTO;
+import com.smeme.server.dto.auth.token.TokenVO;
 import com.smeme.server.model.LangType;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.SocialType;
+import com.smeme.server.model.badge.Badge;
+import com.smeme.server.model.badge.MemberBadge;
 import com.smeme.server.repository.MemberRepository;
+import com.smeme.server.repository.badge.BadgeRepository;
+import com.smeme.server.repository.badge.MemberBadgeRepository;
+import com.smeme.server.util.message.ErrorMessage;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.stereotype.Service;
@@ -30,6 +38,9 @@ public class AuthService {
 
     private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 24 * 14L; // 2주
 
+    @Value("${badge.welcome-badge-id}")
+    private Long WELCOME_BADGE_ID;
+
     private final JwtTokenProvider jwtTokenProvider;
 
     private final MemberRepository memberRepository;
@@ -37,12 +48,14 @@ public class AuthService {
     private final AppleSignInService appleSignInService;
 
     private final KakaoSignInService kakaoSignInService;
+    private final MemberBadgeRepository memberBadgeRepository;
+    private final BadgeRepository badgeRepository;
 
     @Transactional
     public SignInResponseDTO signIn(String socialAccessToken, SignInRequestDTO signInRequestDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
+
         SocialType socialType = signInRequestDTO.socialType();
         String socialId = login(signInRequestDTO.socialType(), socialAccessToken);
-
         boolean isRegistered = isMemberBySocialAndSocialId(socialType, socialId);
 
         if (!isRegistered) {
@@ -51,7 +64,6 @@ public class AuthService {
                     .socialId(socialId)
                     .targetLang(LangType.en)
                     .build();
-
             memberRepository.save(member);
         }
 
@@ -59,16 +71,14 @@ public class AuthService {
 
         boolean hasPlan = !isNull(signedMember.getGoal());
 
-        Authentication authentication = new UserAuthentication(signedMember.getId(), null, null);
+        TokenVO tokenVO = generateToken(new UserAuthentication(signedMember.getId(), null, null));
 
-        String refreshToken = jwtTokenProvider.generateToken(authentication, REFRESH_TOKEN_EXPIRATION_TIME);
-        String accessToken = jwtTokenProvider.generateToken(authentication, ACCESS_TOKEN_EXPIRATION_TIME);
-
-        signedMember.updateRefreshToken(refreshToken);
+        signedMember.updateRefreshToken(tokenVO.refreshToken());
+        addWelcomeBadge(signedMember);
 
         return SignInResponseDTO.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
+                .accessToken(tokenVO.accessToken())
+                .refreshToken(tokenVO.refreshToken())
                 .isRegistered(isRegistered)
                 .hasPlan(hasPlan)
                 .build();
@@ -77,18 +87,14 @@ public class AuthService {
     @Transactional
     public TokenResponseDTO issueToken(Long memberId) {
 
-        Authentication authentication = new UserAuthentication(memberId, null, null);
-
-        String newRefreshToken = jwtTokenProvider.generateToken(authentication, REFRESH_TOKEN_EXPIRATION_TIME);
-        String newAccessToken = jwtTokenProvider.generateToken(authentication, ACCESS_TOKEN_EXPIRATION_TIME);
-
+        TokenVO tokenVO = generateToken(new UserAuthentication(memberId, null, null));
 
         Member member = getMemberById(memberId);
-        member.updateRefreshToken(newRefreshToken);
+        member.updateRefreshToken(tokenVO.refreshToken());
 
         return TokenResponseDTO.builder()
-                .accessToken(newAccessToken)
-                .refreshToken(newRefreshToken)
+                .accessToken(tokenVO.accessToken())
+                .refreshToken(tokenVO.refreshToken())
                 .build();
     }
 
@@ -96,6 +102,19 @@ public class AuthService {
     public void signOut(Long memberId) {
         Member member = getMemberById(memberId);
         member.updateRefreshToken(null);
+    }
+
+    private TokenVO generateToken(Authentication authentication) {
+        return TokenVO.of(
+                jwtTokenProvider.generateToken(authentication, ACCESS_TOKEN_EXPIRATION_TIME),
+                jwtTokenProvider.generateToken(authentication, REFRESH_TOKEN_EXPIRATION_TIME));
+    }
+
+    private void addWelcomeBadge(Member member) {
+         Badge badge = badgeRepository.findById(WELCOME_BADGE_ID).orElseThrow(
+                 () -> new EntityNotFoundException(ErrorMessage.EMPTY_BADGE.getMessage())
+         );
+        memberBadgeRepository.save(new MemberBadge(member, badge));
     }
 
     private Member getMemberById(Long memberId) {

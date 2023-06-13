@@ -2,6 +2,7 @@ package com.smeme.server.model;
 
 import static jakarta.persistence.GenerationType.*;
 
+import com.smeme.server.model.badge.Badge;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -65,7 +66,6 @@ public class Member {
         this.targetLang = targetLang;
         this.goal = null;
     }
-
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
