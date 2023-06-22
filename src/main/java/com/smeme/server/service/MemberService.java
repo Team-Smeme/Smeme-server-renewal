@@ -76,7 +76,7 @@ public class MemberService {
         return trainingTimeList.stream()
                 .map(trainingTime -> trainingTime.getDay().name())
                 .distinct()
-                .collect(Collectors.joining(", ", "[", "]"));
+                .collect(Collectors.joining(","));
     }
 
     private List<TrainingTime> getTrainingTimeByMemberId(Long memberId) {
