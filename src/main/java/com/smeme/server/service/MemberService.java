@@ -2,12 +2,14 @@ package com.smeme.server.service;
 
 import com.smeme.server.dto.badge.BadgeResponseDTO;
 import com.smeme.server.dto.member.MemberGetResponseDTO;
+import com.smeme.server.dto.member.MemberPlanUpdateRequestDTO;
 import com.smeme.server.dto.member.MemberUpdateRequestDTO;
 import com.smeme.server.dto.training.TrainingTimeResponseDTO;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.badge.Badge;
 import com.smeme.server.model.goal.Goal;
 import com.smeme.server.model.goal.GoalType;
+import com.smeme.server.model.training.DayType;
 import com.smeme.server.model.training.TrainingTime;
 import com.smeme.server.repository.badge.MemberBadgeRepository;
 import com.smeme.server.repository.MemberRepository;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @Service
 @Transactional(readOnly = true)
@@ -57,6 +60,29 @@ public class MemberService {
         return MemberGetResponseDTO.of(goal, member,trainingTimeResponseDTO , badges);
     }
 
+    @Transactional
+    public void updateMemberPlan(Long memberId, MemberPlanUpdateRequestDTO requestDTO) {
+        Member member = getMemberById(memberId);
+        trainingTimeRepository.deleteAll(member.getTrainingTimes());
+        member.updateHasAlarm(requestDTO.hasAlarm());
+        member.updateGoal(requestDTO.target());
+
+        for (String day : parseDay(requestDTO.trainingTime().day())) {
+            TrainingTime trainingTime = TrainingTime.builder()
+                    .day(DayType.valueOf(day))
+                    .hour(requestDTO.trainingTime().hour())
+                    .minute(requestDTO.trainingTime().minute())
+                    .member(member)
+                    .build();
+            trainingTimeRepository.save(trainingTime);
+        }
+    }
+
+    private String[] parseDay(String day) {
+        return day.split(",");
+    }
+
+
     private Goal getGoal(GoalType goalType) {
         return goalRepository.findOneByType(goalType).orElseThrow(
                 () -> new EntityNotFoundException(ErrorMessage.EMPTY_GOAL.getMessage()));
@@ -76,7 +102,7 @@ public class MemberService {
         return trainingTimeList.stream()
                 .map(trainingTime -> trainingTime.getDay().name())
                 .distinct()
-                .collect(Collectors.joining(", ", "[", "]"));
+                .collect(Collectors.joining(","));
     }
 
     private List<TrainingTime> getTrainingTimeByMemberId(Long memberId) {
