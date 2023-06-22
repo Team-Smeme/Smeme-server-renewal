@@ -36,7 +36,11 @@ public enum ResponseMessage {
 	SUCCESS_SIGNOUT("로그아웃 성공"),
 
 	// jwt
-	SUCCESS_ISSUE_TOKEN("토큰 발급 성공");
+	SUCCESS_ISSUE_TOKEN("토큰 발급 성공"),
+
+	// beta
+	SUCCESS_BETA_AUTH_TOKEN("임시토큰 발급 성공")
+	;
 
 	private final String message;
 }

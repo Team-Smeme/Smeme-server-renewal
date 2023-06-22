@@ -1,5 +1,5 @@
 package com.smeme.server.model;
 
 public enum SocialType {
-    KAKAO, APPLE
+    KAKAO, APPLE, BETA
 }
