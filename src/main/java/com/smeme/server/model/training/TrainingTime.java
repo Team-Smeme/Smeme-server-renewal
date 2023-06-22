@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -41,6 +42,7 @@ public class TrainingTime {
 	@JoinColumn(name = "member_id")
 	private Member member;
 
+	@Builder
 	public TrainingTime(DayType day, int hour, int minute, Member member) {
 		this.day = day;
 		this.hour = hour;

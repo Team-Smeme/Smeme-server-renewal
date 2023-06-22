@@ -1,5 +1,6 @@
 package com.smeme.server.controller;
 
+import com.smeme.server.dto.member.MemberPlanUpdateRequestDTO;
 import com.smeme.server.dto.member.MemberUpdateRequestDTO;
 import com.smeme.server.service.MemberService;
 import com.smeme.server.util.ApiResponse;
@@ -29,6 +30,12 @@ public class MemberController {
     @GetMapping("/me")
     public ResponseEntity<ApiResponse> getUserProfile(Principal principal) {
         return ResponseEntity.ok(ApiResponse.success(SUCCESS_GET_USER.getMessage(),memberService.getMember(Util.getMemberId(principal))));
+    }
+
+    @PatchMapping("/plan")
+    public ResponseEntity<ApiResponse> updateUserPlan(Principal principal, @RequestBody MemberPlanUpdateRequestDTO requestDTO) {
+        memberService.updateMemberPlan(Util.getMemberId(principal), requestDTO);
+        return ResponseEntity.ok(ApiResponse.success(SUCCESS_UPDATE_USER_PLAN.getMessage()));
     }
 
 }

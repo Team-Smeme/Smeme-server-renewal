@@ -73,4 +73,8 @@ public class Member {
     public void updateUsername(String username) { this.username = username; }
 
     public void updateTermAccepted(boolean termAccepted) { this.termAccepted = termAccepted; }
+
+    public void updateHasAlarm(boolean hasAlarm) { this.hasPushAlarm = hasAlarm; }
+
+    public void updateGoal(GoalType goal) {this.goal = goal; }
 }
