@@ -65,9 +65,13 @@ public class MemberService {
     @Transactional
     public void updateMemberPlan(Long memberId, MemberPlanUpdateRequestDTO requestDTO) {
         Member member = getMemberById(memberId);
-        member.updateHasAlarm(requestDTO.hasAlarm());
-        member.updateGoal(requestDTO.target());
-        if (!Objects.isNull(requestDTO.trainingTime())) updateMemberTrainingTime(member, requestDTO);
+
+        if (!Objects.isNull(requestDTO.target())) member.updateGoal(requestDTO.target());
+
+        if (!Objects.isNull(requestDTO.trainingTime())) {
+            member.updateHasAlarm(requestDTO.hasAlarm());
+            updateMemberTrainingTime(member, requestDTO);
+        }
     }
 
     private void updateMemberTrainingTime(Member member, MemberPlanUpdateRequestDTO requestDTO) {
