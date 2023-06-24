@@ -18,12 +18,14 @@ import com.smeme.server.repository.trainingTime.TrainingTimeRepository;
 import com.smeme.server.util.message.ErrorMessage;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -63,10 +65,17 @@ public class MemberService {
     @Transactional
     public void updateMemberPlan(Long memberId, MemberPlanUpdateRequestDTO requestDTO) {
         Member member = getMemberById(memberId);
-        trainingTimeRepository.deleteAll(member.getTrainingTimes());
-        member.updateHasAlarm(requestDTO.hasAlarm());
-        member.updateGoal(requestDTO.target());
 
+        if (!Objects.isNull(requestDTO.target())) member.updateGoal(requestDTO.target());
+
+        if (!Objects.isNull(requestDTO.trainingTime())) {
+            member.updateHasAlarm(requestDTO.hasAlarm());
+            updateMemberTrainingTime(member, requestDTO);
+        }
+    }
+
+    private void updateMemberTrainingTime(Member member, MemberPlanUpdateRequestDTO requestDTO) {
+        trainingTimeRepository.deleteAll(member.getTrainingTimes());
         for (String day : parseDay(requestDTO.trainingTime().day())) {
             TrainingTime trainingTime = TrainingTime.builder()
                     .day(DayType.valueOf(day))
