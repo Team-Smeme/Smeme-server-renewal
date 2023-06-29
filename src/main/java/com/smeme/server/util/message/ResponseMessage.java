@@ -41,7 +41,10 @@ public enum ResponseMessage {
 	SUCCESS_ISSUE_TOKEN("토큰 발급 성공"),
 
 	// beta
-	SUCCESS_BETA_AUTH_TOKEN("임시토큰 발급 성공")
+	SUCCESS_BETA_AUTH_TOKEN("임시토큰 발급 성공"),
+
+	// goal
+	SUCCESS_GET_GOALS("학습 목표 리스트 조회 성공")
 	;
 
 	private final String message;
