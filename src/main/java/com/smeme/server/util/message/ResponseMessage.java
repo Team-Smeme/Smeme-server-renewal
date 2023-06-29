@@ -28,6 +28,7 @@ public enum ResponseMessage {
 	SUCCESS_UPDATE_USERNAME("닉네임 변경 성공"),
 	SUCCESS_GET_USER("회원 정보 조회 성공"),
 	SUCCESS_UPDATE_USER_PLAN("회원 학습 계획 업데이트 성공"),
+	SUCCESS_CHECK_DUPLICATED_NAME("닉네임 중복 검사 성공"),
 
 	// message
 	SUCCESS_PUSH_MESSAGE("푸시알람 요청 성공"),

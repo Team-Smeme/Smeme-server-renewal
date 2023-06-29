@@ -33,6 +33,7 @@ public class SecurityConfig {
             "/swagger-ui/swagger-ui.css",
             "/error",
             "/favicon.ico",
+            "/api/v2/members/nickname/check"
     };
 
     @Bean

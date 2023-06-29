@@ -2,6 +2,7 @@ package com.smeme.server.service;
 
 import com.smeme.server.dto.badge.BadgeResponseDTO;
 import com.smeme.server.dto.member.MemberGetResponseDTO;
+import com.smeme.server.dto.member.MemberNameResponseDTO;
 import com.smeme.server.dto.member.MemberPlanUpdateRequestDTO;
 import com.smeme.server.dto.member.MemberUpdateRequestDTO;
 import com.smeme.server.dto.training.TrainingTimeResponseDTO;
@@ -18,7 +19,6 @@ import com.smeme.server.repository.trainingTime.TrainingTimeRepository;
 import com.smeme.server.util.message.ErrorMessage;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,6 +72,11 @@ public class MemberService {
             member.updateHasAlarm(requestDTO.hasAlarm());
             updateMemberTrainingTime(member, requestDTO);
         }
+    }
+
+    public MemberNameResponseDTO checkDuplicatedName(String name) {
+        boolean isExist = memberRepository.existsByUsername(name);
+        return new MemberNameResponseDTO(isExist);
     }
 
     private void updateMemberTrainingTime(Member member, MemberPlanUpdateRequestDTO requestDTO) {
