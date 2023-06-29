@@ -1,5 +1,6 @@
 package com.smeme.server.controller;
 
+import com.smeme.server.dto.member.MemberNameResponseDTO;
 import com.smeme.server.dto.member.MemberPlanUpdateRequestDTO;
 import com.smeme.server.dto.member.MemberUpdateRequestDTO;
 import com.smeme.server.service.MemberService;
@@ -36,6 +37,12 @@ public class MemberController {
     public ResponseEntity<ApiResponse> updateUserPlan(Principal principal, @RequestBody MemberPlanUpdateRequestDTO requestDTO) {
         memberService.updateMemberPlan(Util.getMemberId(principal), requestDTO);
         return ResponseEntity.ok(ApiResponse.success(SUCCESS_UPDATE_USER_PLAN.getMessage()));
+    }
+
+    @GetMapping("/nickname/check")
+    public ResponseEntity<ApiResponse> checkDuplicatedName(@RequestParam String name) {
+        MemberNameResponseDTO response = memberService.checkDuplicatedName(name);
+        return ResponseEntity.ok(ApiResponse.success(SUCCESS_CHECK_DUPLICATED_NAME.getMessage(), response));
     }
 
 }
