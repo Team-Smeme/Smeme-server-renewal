@@ -4,10 +4,13 @@ import static com.smeme.server.util.message.ResponseMessage.*;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.smeme.server.dto.goal.GoalResponseDTO;
 import com.smeme.server.dto.goal.GoalsResponseDTO;
+import com.smeme.server.model.goal.GoalType;
 import com.smeme.server.service.GoalService;
 import com.smeme.server.util.ApiResponse;
 
@@ -24,5 +27,11 @@ public class GoalController {
 	public ResponseEntity<ApiResponse> getAllGoals() {
 		GoalsResponseDTO response = goalService.getAllGoals();
 		return ResponseEntity.ok(ApiResponse.success(SUCCESS_GET_GOALS.getMessage(), response));
+	}
+
+	@GetMapping("/{type}")
+	public ResponseEntity<ApiResponse> getGoalByType(@PathVariable GoalType type) {
+		GoalResponseDTO response = goalService.getGoalByType(type);
+		return ResponseEntity.ok(ApiResponse.success(SUCCESS_GET_GOAL.getMessage(), response));
 	}
 }
