@@ -6,6 +6,7 @@ import com.smeme.server.dto.auth.SignInRequestDTO;
 import com.smeme.server.dto.auth.SignInResponseDTO;
 import com.smeme.server.dto.auth.token.TokenResponseDTO;
 import com.smeme.server.dto.auth.token.TokenVO;
+import com.smeme.server.dto.badge.BadgeResponseDTO;
 import com.smeme.server.model.LangType;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.SocialType;
@@ -25,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.smeme.server.util.message.ErrorMessage.*;
 import static java.util.Objects.*;
@@ -63,6 +66,7 @@ public class AuthService {
                     .social(socialType)
                     .socialId(socialId)
                     .targetLang(LangType.en)
+                    .fcmToken(signInRequestDTO.fcmToken())
                     .build();
             memberRepository.save(member);
         }
@@ -74,13 +78,15 @@ public class AuthService {
         TokenVO tokenVO = generateToken(new UserAuthentication(signedMember.getId(), null, null));
 
         signedMember.updateRefreshToken(tokenVO.refreshToken());
-        addWelcomeBadge(signedMember);
+        List<BadgeResponseDTO> badges = new ArrayList<>();
+        badges.add(BadgeResponseDTO.of(addWelcomeBadge(signedMember)));
 
         return SignInResponseDTO.builder()
                 .accessToken(tokenVO.accessToken())
                 .refreshToken(tokenVO.refreshToken())
                 .isRegistered(isRegistered)
                 .hasPlan(hasPlan)
+                .badges(badges)
                 .build();
     }
 
@@ -110,11 +116,12 @@ public class AuthService {
                 jwtTokenProvider.generateToken(authentication, REFRESH_TOKEN_EXPIRATION_TIME));
     }
 
-    private void addWelcomeBadge(Member member) {
+    private Badge addWelcomeBadge(Member member) {
          Badge badge = badgeRepository.findById(WELCOME_BADGE_ID).orElseThrow(
                  () -> new EntityNotFoundException(ErrorMessage.EMPTY_BADGE.getMessage())
          );
         memberBadgeRepository.save(new MemberBadge(member, badge));
+        return badge;
     }
 
     private Member getMemberById(Long memberId) {

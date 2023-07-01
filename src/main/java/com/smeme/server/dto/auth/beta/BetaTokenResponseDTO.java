@@ -1,9 +1,14 @@
 package com.smeme.server.dto.auth.beta;
 
+import com.smeme.server.dto.badge.BadgeResponseDTO;
+
+import java.util.List;
+
 public record BetaTokenResponseDTO(
-        String accessToken
+        String accessToken,
+        List<BadgeResponseDTO> badges
 ) {
-    public static BetaTokenResponseDTO of(String accessToken) {
-        return new BetaTokenResponseDTO(accessToken);
+    public static BetaTokenResponseDTO of(String accessToken, List<BadgeResponseDTO> badges) {
+        return new BetaTokenResponseDTO(accessToken, badges);
     }
 }
