@@ -63,32 +63,17 @@ public class MessageService {
 		try {
 			String message = makeMessage(targetToken, title, body);
 
+			RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
 
-			URL url = new URL(FIREBASE_API_URI);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("POST");
-			connection.setDoOutput(true);
-			connection.setRequestProperty("Authorization", "Bearer " + getAccessToken());
-			try (OutputStream os = connection.getOutputStream()){
-				byte[] requestData = message.getBytes(StandardCharsets.UTF_8);
-				os.write(requestData);
-			}
-			catch(Exception e) {
-				e.printStackTrace();
-			}
+			Request request = new Request.Builder()
+				.url(FIREBASE_API_URI)
+				.post(requestBody)
+				.addHeader(AUTHORIZATION, "Bearer " + getAccessToken())
+				.addHeader("Accept", "application/json; UTF-8")
+				.build();
 
-
-			// RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
-			//
-			// Request request = new Request.Builder()
-			// 	.url(FIREBASE_API_URI)
-			// 	.post(requestBody)
-			// 	.addHeader(AUTHORIZATION, "Bearer " + getAccessToken())
-			// 	.addHeader(CONTENT_TYPE, "application/json; UTF-8")
-			// 	.build();
-			//
-			// OkHttpClient client = new OkHttpClient();
-			// client.newCall(request).execute();
+			OkHttpClient client = new OkHttpClient();
+			client.newCall(request).execute();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
