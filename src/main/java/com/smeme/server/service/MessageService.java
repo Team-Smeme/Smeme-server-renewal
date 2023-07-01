@@ -3,6 +3,10 @@ package com.smeme.server.service;
 import static org.springframework.http.HttpHeaders.*;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.gson.JsonParser;
 import com.smeme.server.dto.message.MessageDTO;
 import com.smeme.server.model.Member;
 import com.smeme.server.repository.MemberRepository;
@@ -57,17 +62,33 @@ public class MessageService {
 	private void pushMessage(String targetToken, String title, String body) {
 		try {
 			String message = makeMessage(targetToken, title, body);
-			RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
 
-			Request request = new Request.Builder()
-				.url(FIREBASE_API_URI)
-				.post(requestBody)
-				.addHeader(AUTHORIZATION, "Bearer " + getAccessToken())
-				.addHeader(CONTENT_TYPE, "application/json; UTF-8")
-				.build();
 
-			OkHttpClient client = new OkHttpClient();
-			client.newCall(request).execute();
+			URL url = new URL(FIREBASE_API_URI);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setDoOutput(true);
+			connection.setRequestProperty("Authorization", "Bearer " + getAccessToken());
+			try (OutputStream os = connection.getOutputStream()){
+				byte[] requestData = message.getBytes(StandardCharsets.UTF_8);
+				os.write(requestData);
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+
+
+			// RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
+			//
+			// Request request = new Request.Builder()
+			// 	.url(FIREBASE_API_URI)
+			// 	.post(requestBody)
+			// 	.addHeader(AUTHORIZATION, "Bearer " + getAccessToken())
+			// 	.addHeader(CONTENT_TYPE, "application/json; UTF-8")
+			// 	.build();
+			//
+			// OkHttpClient client = new OkHttpClient();
+			// client.newCall(request).execute();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
