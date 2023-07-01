@@ -3,10 +3,6 @@ package com.smeme.server.service;
 import static org.springframework.http.HttpHeaders.*;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.gson.JsonParser;
 import com.smeme.server.dto.message.MessageDTO;
 import com.smeme.server.model.Member;
 import com.smeme.server.repository.MemberRepository;
@@ -62,6 +57,8 @@ public class MessageService {
 	private void pushMessage(String targetToken, String title, String body) {
 		try {
 			String message = makeMessage(targetToken, title, body);
+
+			System.out.println(getAccessToken());
 
 			RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
 
