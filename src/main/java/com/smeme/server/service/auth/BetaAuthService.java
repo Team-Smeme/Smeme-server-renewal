@@ -2,7 +2,9 @@ package com.smeme.server.service.auth;
 
 import com.smeme.server.config.jwt.JwtTokenProvider;
 import com.smeme.server.config.jwt.UserAuthentication;
+import com.smeme.server.dto.auth.beta.BetaSignInRequestDTO;
 import com.smeme.server.dto.auth.beta.BetaTokenResponseDTO;
+import com.smeme.server.dto.badge.BadgeResponseDTO;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.badge.Badge;
 import com.smeme.server.model.badge.MemberBadge;
@@ -37,24 +39,25 @@ public class BetaAuthService {
     private static final Long BETA_USER_EXPIRED = 60 * 60 * 1000 * 24 * 21L;
 
     @Transactional
-    public BetaTokenResponseDTO createBetaMember() {
+    public BetaTokenResponseDTO createBetaMember(BetaSignInRequestDTO requestDTO) {
 
         AtomicInteger atomicInteger = new AtomicInteger(1);
         Member betaMember = Member.builder()
                 .social(BETA)
                 .targetLang(en)
                 .socialId("beta" + atomicInteger.getAndIncrement())
+                .fcmToken(requestDTO.fcmToken())
                 .build();
         memberRepository.save(betaMember);
-        addWelcomeBadge(betaMember);
         Authentication authentication = new UserAuthentication(betaMember.getId(), null, null);
-        return BetaTokenResponseDTO.of(tokenProvider.generateToken(authentication, BETA_USER_EXPIRED));
+        return BetaTokenResponseDTO.of(tokenProvider.generateToken(authentication, BETA_USER_EXPIRED), BadgeResponseDTO.of(addWelcomeBadge(betaMember)));
     }
 
-    private void addWelcomeBadge(Member member) {
+    private Badge addWelcomeBadge(Member member) {
         Badge badge = badgeRepository.findById(WELCOME_BADGE_ID).orElseThrow(
                 () -> new EntityNotFoundException(ErrorMessage.EMPTY_BADGE.getMessage())
         );
         memberBadgeRepository.save(new MemberBadge(member, badge));
+        return badge;
     }
 }

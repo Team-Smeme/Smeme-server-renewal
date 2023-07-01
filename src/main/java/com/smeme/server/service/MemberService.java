@@ -12,6 +12,7 @@ import com.smeme.server.model.goal.Goal;
 import com.smeme.server.model.goal.GoalType;
 import com.smeme.server.model.training.DayType;
 import com.smeme.server.model.training.TrainingTime;
+import com.smeme.server.repository.badge.BadgeRepository;
 import com.smeme.server.repository.badge.MemberBadgeRepository;
 import com.smeme.server.repository.MemberRepository;
 import com.smeme.server.repository.goal.GoalRepository;
@@ -38,6 +39,7 @@ public class MemberService {
     private final TrainingTimeRepository trainingTimeRepository;
     private final MemberBadgeRepository memberBadgeRepository;
     private final GoalRepository goalRepository;
+    private final BadgeRepository badgeRepository;
 
     @Transactional
     public void updateMember(Long memberId, MemberUpdateRequestDTO dto) {
@@ -50,8 +52,6 @@ public class MemberService {
     public MemberGetResponseDTO getMember(Long memberId) {
         Member member = getMemberById(memberId);
         Goal goal = getGoal(member.getGoal());
-        List<BadgeResponseDTO> badges = new ArrayList<>();
-        badges.add(BadgeResponseDTO.of(getBadge(memberId)));
         List<TrainingTime> trainingTimeList = getTrainingTimeByMemberId(memberId);
         TrainingTime trainingTime = getOneTrainingTime(getTrainingTimeByMemberId(memberId));
         TrainingTimeResponseDTO trainingTimeResponseDTO = TrainingTimeResponseDTO.builder()
@@ -59,8 +59,9 @@ public class MemberService {
                                                             .hour(trainingTime.getHour())
                                                             .minute(trainingTime.getMinute())
                                                             .build();
-        return MemberGetResponseDTO.of(goal, member,trainingTimeResponseDTO , badges);
+        return MemberGetResponseDTO.of(goal, member,trainingTimeResponseDTO ,BadgeResponseDTO.of(getBadge(memberId)));
     }
+
 
     @Transactional
     public void updateMemberPlan(Long memberId, MemberPlanUpdateRequestDTO requestDTO) {

@@ -60,12 +60,15 @@ public class Member {
 
 
     @Builder
-    public Member(SocialType social, String socialId, LangType targetLang) {
+    public Member(SocialType social, String socialId, LangType targetLang, String fcmToken) {
         this.social = social;
         this.socialId = socialId;
         this.targetLang = targetLang;
+        this.fcmToken = fcmToken;
         this.goal = null;
     }
+
+    public void updateFcmToken(String fcmToken) {this.fcmToken = fcmToken; }
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }

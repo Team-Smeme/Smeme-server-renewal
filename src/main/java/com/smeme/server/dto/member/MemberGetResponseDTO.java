@@ -7,9 +7,9 @@ import com.smeme.server.model.goal.Goal;
 
 import java.util.List;
 
-public record MemberGetResponseDTO(String username, String target, String way, String detail, String targetLang, boolean hasPushAlarm, TrainingTimeResponseDTO trainingTime, List<BadgeResponseDTO> badges) {
+public record MemberGetResponseDTO(String username, String target, String way, String detail, String targetLang, boolean hasPushAlarm, TrainingTimeResponseDTO trainingTime, BadgeResponseDTO badge) {
 
-    public static MemberGetResponseDTO of(Goal goal,Member member, TrainingTimeResponseDTO trainingTime, List<BadgeResponseDTO> badges) {
+    public static MemberGetResponseDTO of(Goal goal,Member member, TrainingTimeResponseDTO trainingTime, BadgeResponseDTO badge) {
         return new MemberGetResponseDTO(
                 member.getUsername(),
                 member.getGoal().getDescription(),
@@ -18,7 +18,7 @@ public record MemberGetResponseDTO(String username, String target, String way, S
                 member.getTargetLang().toString(),
                 member.isHasPushAlarm(),
                 trainingTime,
-                badges
+                badge
         );
     }
 }
