@@ -19,6 +19,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.smeme.server.model.LangType.*;
@@ -50,7 +52,9 @@ public class BetaAuthService {
                 .build();
         memberRepository.save(betaMember);
         Authentication authentication = new UserAuthentication(betaMember.getId(), null, null);
-        return BetaTokenResponseDTO.of(tokenProvider.generateToken(authentication, BETA_USER_EXPIRED), BadgeResponseDTO.of(addWelcomeBadge(betaMember)));
+        List<BadgeResponseDTO> badges = new ArrayList<>();
+        badges.add(BadgeResponseDTO.of(addWelcomeBadge(betaMember)));
+        return BetaTokenResponseDTO.of(tokenProvider.generateToken(authentication, BETA_USER_EXPIRED), badges);
     }
 
     private Badge addWelcomeBadge(Member member) {
