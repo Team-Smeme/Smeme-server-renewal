@@ -57,9 +57,6 @@ public class MessageService {
 	private void pushMessage(String targetToken, String title, String body) {
 		try {
 			String message = makeMessage(targetToken, title, body);
-
-			System.out.println(getAccessToken());
-
 			RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
 
 			Request request = new Request.Builder()
