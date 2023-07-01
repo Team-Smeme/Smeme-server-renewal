@@ -16,8 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.smeme.server.dto.message.MessageDTO;
+import com.smeme.server.model.Member;
+import com.smeme.server.repository.MemberRepository;
 import com.smeme.server.repository.trainingTime.TrainingTimeRepository;
+import com.smeme.server.util.message.ErrorMessage;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -30,6 +34,7 @@ import okhttp3.RequestBody;
 public class MessageService {
 	private final ObjectMapper objectMapper;
 	private final TrainingTimeRepository trainingTimeRepository;
+	private final MemberRepository memberRepository;
 
 	@Value("${fcm.file_path}")
 	private String FIREBASE_CONFIG_PATH;
@@ -41,6 +46,12 @@ public class MessageService {
 	public void pushMessageForTrainingTime(LocalDateTime now, String title, String body) {
 		trainingTimeRepository.getTrainingTimeForPushAlarm(now)
 			.forEach(trainingTime -> pushMessage(trainingTime.getMember().getFcmToken(), title, body));
+	}
+
+	public void pushTest(String title, String body, Long memberId) {
+		Member member = memberRepository.findById(memberId)
+			.orElseThrow(() -> new EntityNotFoundException(ErrorMessage.INVALID_MEMBER.getMessage()));
+		pushMessage(member.getFcmToken(), title, body);
 	}
 
 	private void pushMessage(String targetToken, String title, String body) {
