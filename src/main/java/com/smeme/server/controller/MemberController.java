@@ -6,6 +6,7 @@ import com.smeme.server.dto.member.MemberUpdateRequestDTO;
 import com.smeme.server.service.MemberService;
 import com.smeme.server.util.ApiResponse;
 import com.smeme.server.util.Util;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class MemberController {
     }
 
     @PatchMapping("/plan")
-    public ResponseEntity<ApiResponse> updateUserPlan(Principal principal, @RequestBody MemberPlanUpdateRequestDTO requestDTO) {
+    public ResponseEntity<ApiResponse> updateUserPlan(Principal principal, @Valid @RequestBody MemberPlanUpdateRequestDTO requestDTO) {
         memberService.updateMemberPlan(Util.getMemberId(principal), requestDTO);
         return ResponseEntity.ok(ApiResponse.success(SUCCESS_UPDATE_USER_PLAN.getMessage()));
     }
