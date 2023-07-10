@@ -69,7 +69,7 @@ public class MemberService {
         if (!Objects.isNull(requestDTO.target())) member.updateGoal(requestDTO.target());
         member.updateHasAlarm(requestDTO.hasAlarm());
         trainingTimeRepository.deleteAll(member.getTrainingTimes());
-        if (!requestDTO.trainingTime().day().equals("")) updateMemberTrainingTime(member, requestDTO);
+        if (!requestDTO.trainingTime().day().equals("")) { updateMemberTrainingTime(member, requestDTO);}
     }
 
     public MemberNameResponseDTO checkDuplicatedName(String name) {
