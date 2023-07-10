@@ -24,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -68,11 +67,9 @@ public class MemberService {
         Member member = getMemberById(memberId);
 
         if (!Objects.isNull(requestDTO.target())) member.updateGoal(requestDTO.target());
-
-        if (!Objects.isNull(requestDTO.trainingTime())) {
-            member.updateHasAlarm(requestDTO.hasAlarm());
-            updateMemberTrainingTime(member, requestDTO);
-        }
+        member.updateHasAlarm(requestDTO.hasAlarm());
+        trainingTimeRepository.deleteAll(member.getTrainingTimes());
+        if (!requestDTO.trainingTime().day().equals("")) updateMemberTrainingTime(member, requestDTO);
     }
 
     public MemberNameResponseDTO checkDuplicatedName(String name) {
