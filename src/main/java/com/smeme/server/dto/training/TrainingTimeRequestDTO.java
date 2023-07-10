@@ -7,8 +7,10 @@ public record TrainingTimeRequestDTO(
         @NotNull
         String day,
 
+        @NotNull
         int hour,
 
+        @NotNull
         int minute
 ) {
 }
