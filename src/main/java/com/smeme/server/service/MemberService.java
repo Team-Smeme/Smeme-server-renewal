@@ -52,6 +52,17 @@ public class MemberService {
         Member member = getMemberById(memberId);
         Goal goal = getGoal(member.getGoal());
         List<TrainingTime> trainingTimeList = getTrainingTimeByMemberId(memberId);
+
+        // TODO: beta test이후 리팩토링
+        if( getTrainingTimeByMemberId(memberId).isEmpty()) {
+            TrainingTimeResponseDTO trainingTimeResponseDTO = TrainingTimeResponseDTO.builder()
+                    .day("")
+                    .hour(22)
+                    .minute(0)
+                    .build();
+            return MemberGetResponseDTO.of(goal, member, trainingTimeResponseDTO, BadgeResponseDTO.of(getBadge(memberId)));
+        }
+
         TrainingTime trainingTime = getOneTrainingTime(getTrainingTimeByMemberId(memberId));
         TrainingTimeResponseDTO trainingTimeResponseDTO = TrainingTimeResponseDTO.builder()
                                                             .day(getDays(trainingTimeList))
