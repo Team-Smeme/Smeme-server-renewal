@@ -9,6 +9,8 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.smeme.server.model.goal.GoalType;
+import com.smeme.server.repository.goal.GoalRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -43,9 +45,12 @@ public class MessageService {
 	@Value("${fcm.google_api}")
 	private String GOOGLE_API_URI;
 
-	public void pushMessageForTrainingTime(LocalDateTime now, String title, String body) {
+	private static final String MESSAGE_TITLE = "오늘의 영어 훈련, 딱 5분 걸려요!";
+	private static final String MESSAGE_BODY = "지금 눌러서 일기 쓰기 ✍️";
+
+	public void pushMessageForTrainingTime(LocalDateTime now) {
 		trainingTimeRepository.getTrainingTimeForPushAlarm(now)
-			.forEach(trainingTime -> pushMessage(trainingTime.getMember().getFcmToken(), title, body));
+			.forEach(trainingTime -> pushMessage(trainingTime.getMember().getFcmToken(), MESSAGE_TITLE, MESSAGE_BODY));
 	}
 
 	public void pushTest(String title, String body, Long memberId) {

@@ -20,15 +20,10 @@ public class ScheduleController {
 	private final MessageService messageService;
 	private final DiaryService diaryService;
 
-	@Value("${fcm.smeem_title}")
-	private String MESSAGE_TITLE;
-	@Value("${fcm.smeem_body}")
-	private String MESSAGE_BODY;
-
 	@Scheduled(cron = "0 0/30 * * * *")
 	public void pushMessage() throws InterruptedException {
 		Thread.sleep(1000);
-		messageService.pushMessageForTrainingTime(LocalDateTime.now(), MESSAGE_TITLE, MESSAGE_BODY);
+		messageService.pushMessageForTrainingTime(LocalDateTime.now());
 	}
 
 	@Scheduled(cron = "0 0 0 * * *")
