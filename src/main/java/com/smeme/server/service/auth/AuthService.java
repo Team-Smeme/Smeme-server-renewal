@@ -132,7 +132,7 @@ public class AuthService {
     private Member getMemberBySocialAndSocialId(SocialType socialType, String socialId) {
         return memberRepository.findBySocialAndSocialId(socialType, socialId)
                 .orElseThrow(() -> new RuntimeException(INVALID_MEMBER.getMessage()));
-    }ㅂ
+    }
 
     private boolean isMemberBySocialAndSocialId(SocialType socialType, String socialId) {
         return memberRepository.existsBySocialAndSocialId(socialType, socialId);
