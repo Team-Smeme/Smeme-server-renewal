@@ -9,8 +9,48 @@
     "url" : "http://localhost:8080"
   } ],
   "tags" : [ ],
-  "paths" : { },
+  "paths" : {
+    "/api/v2/test" : {
+      "get" : {
+        "tags" : [ "api" ],
+        "summary" : "서버 연결 테스트",
+        "description" : "서버 연결 테스트",
+        "operationId" : "test-docs",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-test594740350"
+                },
+                "examples" : {
+                  "test-docs" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"server connect\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "components" : {
-    "schemas" : { }
+    "schemas" : {
+      "api-v2-test594740350" : {
+        "type" : "object",
+        "properties" : {
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      }
+    }
   }
 }
