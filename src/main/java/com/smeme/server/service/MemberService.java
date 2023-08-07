@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
+
 
 @Service
 @Transactional(readOnly = true)
@@ -77,10 +79,17 @@ public class MemberService {
     public void updateMemberPlan(Long memberId, MemberPlanUpdateRequestDTO requestDTO) {
         Member member = getMemberById(memberId);
 
-        if (!Objects.isNull(requestDTO.target())) member.updateGoal(requestDTO.target());
-        member.updateHasAlarm(requestDTO.hasAlarm());
-        trainingTimeRepository.deleteAll(member.getTrainingTimes());
-        if (!requestDTO.trainingTime().day().equals("")) { updateMemberTrainingTime(member, requestDTO);}
+        if (nonNull(requestDTO.target())) {
+            member.updateGoal(requestDTO.target());
+        }
+
+        if (nonNull(requestDTO.hasAlarm())) {
+            member.updateHasAlarm(requestDTO.hasAlarm());
+        }
+
+        if (nonNull(requestDTO.trainingTime()) && (!"".equals(requestDTO.trainingTime().day()))) {
+                updateMemberTrainingTime(member, requestDTO);
+        }
     }
 
     public MemberNameResponseDTO checkDuplicatedName(String name) {
