@@ -23,10 +23,13 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.nonNull;
 
 
 @Service
@@ -77,10 +80,17 @@ public class MemberService {
     public void updateMemberPlan(Long memberId, MemberPlanUpdateRequestDTO requestDTO) {
         Member member = getMemberById(memberId);
 
-        if (!Objects.isNull(requestDTO.target())) member.updateGoal(requestDTO.target());
-        member.updateHasAlarm(requestDTO.hasAlarm());
-        trainingTimeRepository.deleteAll(member.getTrainingTimes());
-        if (!requestDTO.trainingTime().day().equals("")) { updateMemberTrainingTime(member, requestDTO);}
+        if (nonNull(requestDTO.target())) {
+            member.updateGoal(requestDTO.target());
+        }
+
+        if (nonNull(requestDTO.hasAlarm())) {
+            member.updateHasAlarm(requestDTO.hasAlarm());
+        }
+
+        if (nonNull(requestDTO.trainingTime()) && StringUtils.hasText(requestDTO.trainingTime().day())) {
+            updateMemberTrainingTime(member, requestDTO);
+        }
     }
 
     public MemberNameResponseDTO checkDuplicatedName(String name) {
