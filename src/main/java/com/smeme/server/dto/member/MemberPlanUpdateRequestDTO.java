@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "사용자 학습 계획 수정 요청")
 public record MemberPlanUpdateRequestDTO(
-        @Schema(description = "목표 Enum DEVELOP, HOBBY, APPLY, BUSINESS, EXAM, NONE", example = "HOBBY")
+        @Schema(description = "목표 타입", example = "HOBBY")
         GoalType target,
 
         @Schema(description = "학습 시간")
