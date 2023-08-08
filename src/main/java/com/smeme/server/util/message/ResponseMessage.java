@@ -36,6 +36,7 @@ public enum ResponseMessage {
 	// oauth
 	SUCCESS_SIGNIN("소셜로그인 성공"),
 	SUCCESS_SIGNOUT("로그아웃 성공"),
+	SUCCESS_WITHDRAW("회원 탈퇴 성공"),
 
 	// jwt
 	SUCCESS_ISSUE_TOKEN("토큰 발급 성공"),

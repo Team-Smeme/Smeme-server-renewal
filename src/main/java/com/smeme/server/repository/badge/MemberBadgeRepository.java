@@ -14,4 +14,6 @@ public interface MemberBadgeRepository extends JpaRepository<MemberBadge, Long> 
     boolean existsByMemberAndBadge(Member member, Badge badge);
 
     Optional<MemberBadge> findFirstByMemberIdOrderByCreatedAtDesc(Long memberId);
+
+    void deleteAllByMemberId(Long id);
 }

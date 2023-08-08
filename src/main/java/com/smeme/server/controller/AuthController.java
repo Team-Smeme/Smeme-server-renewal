@@ -58,10 +58,18 @@ public class AuthController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "로그아웃 성공",
                     content = @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)))})
     @PostMapping("/sign-out")
-    public ResponseEntity<ApiResponse> signOut(
-            Principal principal
-    ) {
+    public ResponseEntity<ApiResponse> signOut(Principal principal) {
         authService.signOut(Util.getMemberId(principal));
         return ResponseEntity.ok(ApiResponse.success(SUCCESS_SIGNOUT.getMessage()));
+    }
+
+    @Operation(summary = "회원 탈퇴", description = "회원 탈퇴를 합니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "회원 탈퇴 성공",
+                    content = @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)))})
+    @DeleteMapping
+    public ResponseEntity<ApiResponse> withDrawl(Principal principal) {
+        authService.withdraw(Util.getMemberId(principal));
+        return ResponseEntity.ok(ApiResponse.success(SUCCESS_WITHDRAW.getMessage()));
     }
 }

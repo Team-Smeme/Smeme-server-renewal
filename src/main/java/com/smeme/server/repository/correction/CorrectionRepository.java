@@ -9,4 +9,6 @@ import com.smeme.server.model.Diary;
 
 public interface CorrectionRepository extends JpaRepository<Correction, Long>, CorrectionCustomRepository {
 	List<Correction> findByDiaryOrderByIdDesc(Diary diary);
+
+	void deleteAllByDiaryId(Long id);
 }
