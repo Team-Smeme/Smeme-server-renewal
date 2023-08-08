@@ -10,4 +10,6 @@ public interface TrainingTimeRepository extends JpaRepository<TrainingTime, Long
 
     List<TrainingTime> findAllByMemberId(Long memberId);
 
+    void deleteAllByMemberId(Long id);
+
 }

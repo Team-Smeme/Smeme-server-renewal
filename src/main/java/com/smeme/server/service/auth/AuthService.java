@@ -15,6 +15,9 @@ import com.smeme.server.model.badge.MemberBadge;
 import com.smeme.server.repository.MemberRepository;
 import com.smeme.server.repository.badge.BadgeRepository;
 import com.smeme.server.repository.badge.MemberBadgeRepository;
+import com.smeme.server.repository.correction.CorrectionRepository;
+import com.smeme.server.repository.diary.DiaryRepository;
+import com.smeme.server.repository.trainingTime.TrainingTimeRepository;
 import com.smeme.server.util.message.ErrorMessage;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -53,9 +56,18 @@ public class AuthService {
     private final KakaoSignInService kakaoSignInService;
     private final MemberBadgeRepository memberBadgeRepository;
     private final BadgeRepository badgeRepository;
+    private final DiaryRepository diaryRepository;
+    private final TrainingTimeRepository trainingTimeRepository;
+    private final CorrectionRepository correctionRepository;
 
     @Transactional
     public SignInResponseDTO signIn(String socialAccessToken, SignInRequestDTO signInRequestDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
+
+        // isRegistered
+        // 회원 등록 까지 완료 되었는지 여부
+        // isRegistered -> True 이면 바로 홈화면으로 진입
+
+        // hasPlan
 
         SocialType socialType = signInRequestDTO.socialType();
         String socialId = login(signInRequestDTO.socialType(), socialAccessToken);
@@ -112,6 +124,10 @@ public class AuthService {
 
     @Transactional
     public void withdraw(Long memberId) {
+        diaryRepository.findAllByMemberId(memberId).forEach(diary -> correctionRepository.deleteAllByDiaryId(diary.getId()));
+        diaryRepository.deleteAllByMemberId(memberId);
+        trainingTimeRepository.deleteAllByMemberId(memberId);
+        memberBadgeRepository.deleteAllByMemberId(memberId);
         memberRepository.deleteById(memberId);
     }
 
