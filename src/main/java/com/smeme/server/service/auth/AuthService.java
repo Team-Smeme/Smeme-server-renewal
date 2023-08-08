@@ -110,6 +110,11 @@ public class AuthService {
         member.updateRefreshToken(null);
     }
 
+    @Transactional
+    public void withdraw(Long memberId) {
+        memberRepository.deleteById(memberId);
+    }
+
     private TokenVO generateToken(Authentication authentication) {
         return TokenVO.of(
                 jwtTokenProvider.generateToken(authentication, ACCESS_TOKEN_EXPIRATION_TIME),
