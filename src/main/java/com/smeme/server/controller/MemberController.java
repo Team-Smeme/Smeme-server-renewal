@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import static com.smeme.server.util.message.ResponseMessage.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/members")
 @Tag(name = "Member", description = "사용자 관련 API")
+@SecurityRequirement(name = "Authorization")
 public class MemberController {
 
     private final MemberService memberService;

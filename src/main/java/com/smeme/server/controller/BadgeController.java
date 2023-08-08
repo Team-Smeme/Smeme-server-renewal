@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import static com.smeme.server.util.message.ResponseMessage.SUCCESS_GET_BADGES;
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/members/badges")
 @Tag(name = "Badge", description = "뱃지 관련 API")
+@SecurityRequirement(name = "Authorization")
 public class BadgeController {
 
     private final BadgeService badgeService;
