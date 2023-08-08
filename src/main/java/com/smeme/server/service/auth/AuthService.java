@@ -63,12 +63,6 @@ public class AuthService {
     @Transactional
     public SignInResponseDTO signIn(String socialAccessToken, SignInRequestDTO signInRequestDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
 
-        // isRegistered
-        // 회원 등록 까지 완료 되었는지 여부
-        // isRegistered -> True 이면 바로 홈화면으로 진입
-
-        // hasPlan
-
         SocialType socialType = signInRequestDTO.socialType();
         String socialId = login(signInRequestDTO.socialType(), socialAccessToken);
         boolean isRegistered = isMemberBySocialAndSocialId(socialType, socialId);
