@@ -4,6 +4,7 @@ import static com.smeme.server.util.message.ResponseMessage.*;
 
 import java.security.Principal;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -32,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/corrections")
+@SecurityRequirement(name = "Authorization")
 public class CorrectionController {
 
 	private final CorrectionService correctionService;

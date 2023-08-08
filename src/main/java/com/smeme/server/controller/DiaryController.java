@@ -4,6 +4,7 @@ import static com.smeme.server.util.message.ResponseMessage.*;
 
 import java.security.Principal;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,13 +30,13 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Diary", description = "일기 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/diaries")
+@SecurityRequirement(name = "Authorization")
 public class DiaryController {
 
 	private final DiaryService diaryService;
