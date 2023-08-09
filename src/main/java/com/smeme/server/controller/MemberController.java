@@ -37,8 +37,7 @@ public class MemberController {
     @PatchMapping()
     public ResponseEntity<ApiResponse> updateUserProfile(
             Principal principal, @RequestBody MemberUpdateRequestDTO requestDTO) {
-        memberService.updateMember(Util.getMemberId(principal), requestDTO);
-        return ResponseEntity.ok(ApiResponse.success(SUCCESS_UPDATE_USERNAME.getMessage()));
+        return ResponseEntity.ok(ApiResponse.success(SUCCESS_UPDATE_USERNAME.getMessage(), memberService.updateMember(Util.getMemberId(principal), requestDTO)));
     }
 
     @Operation(summary = "사용자 정보 조회", description = "사용자의 정보를 조회합니다.")

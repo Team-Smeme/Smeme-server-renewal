@@ -8,6 +8,6 @@ public record MemberUpdateRequestDTO(
         String username,
 
         @Schema(description = "정책 동의 여부", example = "false")
-        boolean termAccepted
+        Boolean termAccepted
 ) {
 }
