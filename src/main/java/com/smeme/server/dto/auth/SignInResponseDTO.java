@@ -1,11 +1,9 @@
 package com.smeme.server.dto.auth;
 
 
-import com.smeme.server.dto.badge.BadgeResponseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
-import java.util.List;
 
 @Builder
 public record SignInResponseDTO(
@@ -14,10 +12,8 @@ public record SignInResponseDTO(
         @Schema(description = "smeme refresh token", example = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjIyMjU0NjY4LCJleHAiO")
         String refreshToken,
 
-        @Schema(description = "회원 등록 여부", example = "true")
-        boolean isRegistered,
-
-        List<BadgeResponseDTO> badges
+        @Schema(description = "회원 정보 등록 여부", example = "true")
+        boolean isRegistered
 ) {
 
 }
