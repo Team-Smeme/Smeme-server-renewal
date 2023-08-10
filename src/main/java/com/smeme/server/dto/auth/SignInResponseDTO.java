@@ -17,9 +17,6 @@ public record SignInResponseDTO(
         @Schema(description = "회원 등록 여부", example = "true")
         boolean isRegistered,
 
-        @Schema(description = "학습 계획 설정 여부", example = "false")
-        boolean hasPlan,
-
         List<BadgeResponseDTO> badges
 ) {
 

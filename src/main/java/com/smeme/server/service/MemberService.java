@@ -1,13 +1,11 @@
 package com.smeme.server.service;
 
 import com.smeme.server.dto.badge.BadgeResponseDTO;
-import com.smeme.server.dto.member.MemberGetResponseDTO;
-import com.smeme.server.dto.member.MemberNameResponseDTO;
-import com.smeme.server.dto.member.MemberPlanUpdateRequestDTO;
-import com.smeme.server.dto.member.MemberUpdateRequestDTO;
+import com.smeme.server.dto.member.*;
 import com.smeme.server.dto.training.TrainingTimeResponseDTO;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.badge.Badge;
+import com.smeme.server.model.badge.MemberBadge;
 import com.smeme.server.model.goal.Goal;
 import com.smeme.server.model.goal.GoalType;
 import com.smeme.server.model.training.DayType;
@@ -21,14 +19,16 @@ import com.smeme.server.util.message.ErrorMessage;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 
@@ -37,6 +37,9 @@ import static java.util.Objects.nonNull;
 @RequiredArgsConstructor
 public class MemberService {
 
+    @Value("${badge.welcome-badge-id}")
+    private Long WELCOME_BADGE_ID;
+
     private final MemberRepository memberRepository;
     private final TrainingTimeRepository trainingTimeRepository;
     private final MemberBadgeRepository memberBadgeRepository;
@@ -44,11 +47,22 @@ public class MemberService {
     private final BadgeRepository badgeRepository;
 
     @Transactional
-    public void updateMember(Long memberId, MemberUpdateRequestDTO dto) {
+    public MemberUpdateResponseDTO updateMember(Long memberId, MemberUpdateRequestDTO dto) {
         checkMemberDuplicate(dto.username());
         Member member = getMemberById(memberId);
+
+        if (nonNull(dto.termAccepted())) {
+            member.updateTermAccepted(dto.termAccepted());
+        }
+
+        ArrayList<Badge> badges = new ArrayList<>();
+        if (isNull(member.getUsername())) {
+            Badge welcomeBadge = getBadgeById(WELCOME_BADGE_ID);
+            memberBadgeRepository.save(new MemberBadge(member, welcomeBadge));
+            badges.add(welcomeBadge);
+        }
         member.updateUsername(dto.username());
-        member.updateTermAccepted(dto.termAccepted());
+        return MemberUpdateResponseDTO.of(badges);
     }
 
     public MemberGetResponseDTO getMember(Long memberId) {
@@ -150,5 +164,11 @@ public class MemberService {
         if (memberRepository.existsByUsername(username)) {
             throw new EntityExistsException(ErrorMessage.DUPLICATE_USERNAME.getMessage());
         }
+    }
+
+    private Badge getBadgeById(Long id) {
+        return badgeRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException(ErrorMessage.EMPTY_BADGE.getMessage())
+        );
     }
 }

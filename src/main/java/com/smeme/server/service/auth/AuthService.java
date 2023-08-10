@@ -6,22 +6,15 @@ import com.smeme.server.dto.auth.SignInRequestDTO;
 import com.smeme.server.dto.auth.SignInResponseDTO;
 import com.smeme.server.dto.auth.token.TokenResponseDTO;
 import com.smeme.server.dto.auth.token.TokenVO;
-import com.smeme.server.dto.badge.BadgeResponseDTO;
 import com.smeme.server.model.LangType;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.SocialType;
-import com.smeme.server.model.badge.Badge;
-import com.smeme.server.model.badge.MemberBadge;
 import com.smeme.server.repository.MemberRepository;
-import com.smeme.server.repository.badge.BadgeRepository;
 import com.smeme.server.repository.badge.MemberBadgeRepository;
 import com.smeme.server.repository.correction.CorrectionRepository;
 import com.smeme.server.repository.diary.DiaryRepository;
 import com.smeme.server.repository.trainingTime.TrainingTimeRepository;
-import com.smeme.server.util.message.ErrorMessage;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.stereotype.Service;
@@ -29,8 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.smeme.server.util.message.ErrorMessage.*;
 import static java.util.Objects.*;
@@ -44,8 +35,6 @@ public class AuthService {
 
     private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 24 * 14L; // 2주
 
-    @Value("${badge.welcome-badge-id}")
-    private Long WELCOME_BADGE_ID;
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -55,7 +44,6 @@ public class AuthService {
 
     private final KakaoSignInService kakaoSignInService;
     private final MemberBadgeRepository memberBadgeRepository;
-    private final BadgeRepository badgeRepository;
     private final DiaryRepository diaryRepository;
     private final TrainingTimeRepository trainingTimeRepository;
     private final CorrectionRepository correctionRepository;
@@ -64,10 +52,11 @@ public class AuthService {
     public SignInResponseDTO signIn(String socialAccessToken, SignInRequestDTO signInRequestDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
 
         SocialType socialType = signInRequestDTO.socialType();
-        String socialId = login(signInRequestDTO.socialType(), socialAccessToken);
-        boolean isRegistered = isMemberBySocialAndSocialId(socialType, socialId);
+        String socialId = login(socialType, socialAccessToken);
 
-        if (!isRegistered) {
+        boolean hasMember = isMemberBySocialAndSocialId(socialType, socialId);
+
+        if (!hasMember) {
             Member member = Member.builder()
                     .social(socialType)
                     .socialId(socialId)
@@ -77,22 +66,19 @@ public class AuthService {
             memberRepository.save(member);
         }
 
+        boolean isRegistered = false;
         Member signedMember = getMemberBySocialAndSocialId(socialType, socialId);
-
-        boolean hasPlan = !isNull(signedMember.getGoal());
+        if (nonNull(signedMember.getUsername())) {
+            isRegistered = true;
+        }
 
         TokenVO tokenVO = generateToken(new UserAuthentication(signedMember.getId(), null, null));
-
         signedMember.updateRefreshToken(tokenVO.refreshToken());
-        List<BadgeResponseDTO> badges = new ArrayList<>();
-        badges.add(BadgeResponseDTO.of(addWelcomeBadge(signedMember)));
 
         return SignInResponseDTO.builder()
                 .accessToken(tokenVO.accessToken())
                 .refreshToken(tokenVO.refreshToken())
                 .isRegistered(isRegistered)
-                .hasPlan(hasPlan)
-                .badges(badges)
                 .build();
     }
 
@@ -131,13 +117,6 @@ public class AuthService {
                 jwtTokenProvider.generateToken(authentication, REFRESH_TOKEN_EXPIRATION_TIME));
     }
 
-    private Badge addWelcomeBadge(Member member) {
-         Badge badge = badgeRepository.findById(WELCOME_BADGE_ID).orElseThrow(
-                 () -> new EntityNotFoundException(ErrorMessage.EMPTY_BADGE.getMessage())
-         );
-        memberBadgeRepository.save(new MemberBadge(member, badge));
-        return badge;
-    }
 
     private Member getMemberById(Long memberId) {
         return memberRepository.findById(memberId)
