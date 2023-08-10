@@ -55,14 +55,14 @@ public class MemberService {
             member.updateTermAccepted(dto.termAccepted());
         }
 
+        ArrayList<Badge> badges = new ArrayList<>();
         if (isNull(member.getUsername())) {
-            member.updateUsername(dto.username());
-            memberBadgeRepository.saveAndFlush(new MemberBadge(member, getBadgeById(WELCOME_BADGE_ID)));
-            return MemberUpdateResponseDTO.of(member.getBadges());
+            Badge welcomeBadge = getBadgeById(WELCOME_BADGE_ID);
+            memberBadgeRepository.save(new MemberBadge(member, welcomeBadge));
+            badges.add(welcomeBadge);
         }
         member.updateUsername(dto.username());
-        List<MemberBadge> memberBadges = new ArrayList<>();
-        return MemberUpdateResponseDTO.of(memberBadges);
+        return MemberUpdateResponseDTO.of(badges);
     }
 
     public MemberGetResponseDTO getMember(Long memberId) {

@@ -1,5 +1,6 @@
 package com.smeme.server.dto.member;
 
+import com.smeme.server.model.badge.Badge;
 import com.smeme.server.model.badge.MemberBadge;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -8,8 +9,8 @@ import java.util.List;
 public record MemberUpdateResponseDTO(
         List<BadgeDTO> badges
 ) {
-    public static MemberUpdateResponseDTO of(List<MemberBadge> badges) {
-        return new MemberUpdateResponseDTO(badges.stream().map(badge -> new BadgeDTO(badge.getBadge().getName(), badge.getBadge().getImageUrl())).toList());
+    public static MemberUpdateResponseDTO of(List<Badge> badges) {
+        return new MemberUpdateResponseDTO(badges.stream().map(badge -> new BadgeDTO(badge.getName(), badge.getImageUrl())).toList());
     }
 
     record BadgeDTO(

@@ -1,10 +1,7 @@
 package com.smeme.server.controller;
 
 import com.smeme.server.dto.badge.BadgeListResponseDTO;
-import com.smeme.server.dto.member.MemberGetResponseDTO;
-import com.smeme.server.dto.member.MemberNameResponseDTO;
-import com.smeme.server.dto.member.MemberPlanUpdateRequestDTO;
-import com.smeme.server.dto.member.MemberUpdateRequestDTO;
+import com.smeme.server.dto.member.*;
 import com.smeme.server.service.MemberService;
 import com.smeme.server.util.ApiResponse;
 import com.smeme.server.util.Util;
@@ -37,7 +34,8 @@ public class MemberController {
     @PatchMapping()
     public ResponseEntity<ApiResponse> updateUserProfile(
             Principal principal, @RequestBody MemberUpdateRequestDTO requestDTO) {
-        return ResponseEntity.ok(ApiResponse.success(SUCCESS_UPDATE_USERNAME.getMessage(), memberService.updateMember(Util.getMemberId(principal), requestDTO)));
+        MemberUpdateResponseDTO response = memberService.updateMember(Util.getMemberId(principal), requestDTO);
+        return ResponseEntity.ok(ApiResponse.success(SUCCESS_UPDATE_USERNAME.getMessage(), response));
     }
 
     @Operation(summary = "사용자 정보 조회", description = "사용자의 정보를 조회합니다.")
