@@ -66,11 +66,9 @@ public class AuthService {
             memberRepository.save(member);
         }
 
-        boolean isRegistered = false;
         Member signedMember = getMemberBySocialAndSocialId(socialType, socialId);
-        if (nonNull(signedMember.getUsername())) {
-            isRegistered = true;
-        }
+        boolean isRegistered = nonNull(signedMember.getUsername());
+        boolean hasPlan = nonNull(signedMember.getGoal());
 
         TokenVO tokenVO = generateToken(new UserAuthentication(signedMember.getId(), null, null));
         signedMember.updateRefreshToken(tokenVO.refreshToken());
@@ -79,6 +77,7 @@ public class AuthService {
                 .accessToken(tokenVO.accessToken())
                 .refreshToken(tokenVO.refreshToken())
                 .isRegistered(isRegistered)
+                .hasPlan(hasPlan)
                 .build();
     }
 
