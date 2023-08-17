@@ -50,15 +50,8 @@ public class DiaryController {
 			.body(ApiResponse.success(SUCCESS_CREATE_DIARY.getMessage(), response));
 	}
 
-	@Operation(summary = "일기 조회", description = "일기를 조회합니다.")
-	@ApiResponses({
-		@io.swagger.v3.oas.annotations.responses.ApiResponse(
-			responseCode = "200",
-			description = "일기 조회 성공",
-			content = @Content(schema = @Schema(implementation = DiaryResponseDTO.class)))
-	})
 	@GetMapping("/{diaryId}")
-	public ResponseEntity<ApiResponse> getDiaryDetail(@Parameter(name = "일기 id") @PathVariable Long diaryId) {
+	public ResponseEntity<ApiResponse> getDiaryDetail(@PathVariable Long diaryId) {
 		DiaryResponseDTO response = diaryService.getDiaryDetail(diaryId);
 		return ResponseEntity.ok(ApiResponse.success(SUCCESS_GET_DIARY.getMessage(), response));
 	}
