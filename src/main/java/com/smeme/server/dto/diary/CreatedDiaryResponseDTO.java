@@ -4,9 +4,6 @@ import java.util.List;
 
 import com.smeme.server.model.badge.Badge;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
-@Schema(description = "일기 생성 응답 DTO")
 public record CreatedDiaryResponseDTO(
 	Long diaryId,
 	List<BadgeDTO> badges
