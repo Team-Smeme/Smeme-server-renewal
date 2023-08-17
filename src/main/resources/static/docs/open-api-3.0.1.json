@@ -11,11 +11,51 @@
   "tags" : [ ],
   "paths" : {
     "/api/v2/diaries" : {
+      "get" : {
+        "tags" : [ "Diary" ],
+        "summary" : "일기 리스트 조회",
+        "description" : "일기 리스트 조회",
+        "operationId" : "Get Diaries Test",
+        "parameters" : [ {
+          "name" : "start",
+          "in" : "query",
+          "description" : "범위 시작 날짜(yyyy-MM-dd HH:mm)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "end",
+          "in" : "query",
+          "description" : "범위 끝 날짜(yyyy-MM-dd HH:mm)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries1551664804"
+                },
+                "examples" : {
+                  "Get Diaries Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 리스트 조회 성공\",\n  \"data\" : {\n    \"diaries\" : [ {\n      \"diaryId\" : 1,\n      \"content\" : \"Hello Smeem\",\n      \"createdAt\" : \"2023-08-01 14:00\"\n    } ],\n    \"has30Past\" : true\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "post" : {
-        "tags" : [ "api" ],
-        "summary" : "일기 작성 테스트",
-        "description" : "일기 작성 테스트",
-        "operationId" : "create diary test",
+        "tags" : [ "Diary" ],
+        "summary" : "일기 작성",
+        "description" : "일기 작성",
+        "operationId" : "Create Diary Test",
         "requestBody" : {
           "content" : {
             "application/json;charset=UTF-8" : {
@@ -23,7 +63,7 @@
                 "$ref" : "#/components/schemas/api-v2-diaries1585247654"
               },
               "examples" : {
-                "create diary test" : {
+                "Create Diary Test" : {
                   "value" : "{\n  \"content\" : \"Hello SMEEM!\",\n  \"topicId\" : 1\n}"
                 }
               }
@@ -47,7 +87,7 @@
                   "$ref" : "#/components/schemas/api-v2-diaries1685757828"
                 },
                 "examples" : {
-                  "create diary test" : {
+                  "Create Diary Test" : {
                     "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 생성 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"badges\" : [ {\n      \"name\" : \"웰컴 뱃지\",\n      \"imageUrl\" : \"image-url\"\n    } ]\n  }\n}"
                   }
                 }
@@ -69,7 +109,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-test-alarm594740350"
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
                 },
                 "examples" : {
                   "server connect test" : {
@@ -77,6 +117,118 @@
                   },
                   "test-docs" : {
                     "value" : "{\n  \"success\" : true,\n  \"message\" : \"server connect\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/diaries/{diaryId}" : {
+      "get" : {
+        "tags" : [ "Diary" ],
+        "summary" : "일기 조회",
+        "description" : "일기 조회",
+        "operationId" : "Get Diary Test",
+        "parameters" : [ {
+          "name" : "diaryId",
+          "in" : "path",
+          "description" : "일기 id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId-1520000811"
+                },
+                "examples" : {
+                  "Get Diary Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 상세 조회 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"topic\" : \"가보고 싶은 해외 여행지가 있다면 소개해 주세요!\",\n    \"content\" : \"Hello Smeem\",\n    \"createdAt\" : \"2023-08-18 04:27\",\n    \"username\" : \"스미무\",\n    \"corrections\" : [ {\n      \"correctionId\" : 1,\n      \"before\" : \"Hello\",\n      \"after\" : \"Hi\"\n    } ]\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Diary" ],
+        "summary" : "일기 삭제",
+        "description" : "일기 삭제",
+        "operationId" : "Delete Diary Test",
+        "parameters" : [ {
+          "name" : "diaryId",
+          "in" : "path",
+          "description" : "일기 id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
+                },
+                "examples" : {
+                  "Delete Diary Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 삭제 성공\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Diary" ],
+        "summary" : "일기 수정",
+        "description" : "일기 수정",
+        "operationId" : "Update Diary Test",
+        "parameters" : [ {
+          "name" : "diaryId",
+          "in" : "path",
+          "description" : "일기 id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v2-diaries-diaryId1231150871"
+              },
+              "examples" : {
+                "Update Diary Test" : {
+                  "value" : "{\n  \"content\" : \"Hello SMEEM!\",\n  \"topicId\" : 1\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
+                },
+                "examples" : {
+                  "Update Diary Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 수정 성공\",\n  \"data\" : null\n}"
                   }
                 }
               }
@@ -97,7 +249,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-test-alarm594740350"
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
                 },
                 "examples" : {
                   "test-docs2" : {
@@ -116,6 +268,123 @@
   },
   "components" : {
     "schemas" : {
+      "api-v2-diaries-diaryId-1520000811" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "createdAt" : {
+                "type" : "string",
+                "description" : "작성 날짜"
+              },
+              "corrections" : {
+                "type" : "array",
+                "description" : "일기 첨삭 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "before" : {
+                      "type" : "string",
+                      "description" : "첨삭 전 내용"
+                    },
+                    "after" : {
+                      "type" : "string",
+                      "description" : "첨삭 후 내용"
+                    },
+                    "correctionId" : {
+                      "type" : "number",
+                      "description" : "첨삭 id"
+                    }
+                  }
+                }
+              },
+              "diaryId" : {
+                "type" : "number",
+                "description" : "일기 id"
+              },
+              "topic" : {
+                "type" : "string",
+                "description" : "랜덤 주제 내용"
+              },
+              "content" : {
+                "type" : "string",
+                "description" : "일기 내용"
+              },
+              "username" : {
+                "type" : "string",
+                "description" : "작성자 이름"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-diaries-diaryId1231150871" : {
+        "type" : "object",
+        "properties" : {
+          "topicId" : {
+            "type" : "number",
+            "description" : "랜덤 주제 id"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "수정할 일기 내용"
+          }
+        }
+      },
+      "api-v2-diaries1551664804" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "has30Past" : {
+                "type" : "boolean",
+                "description" : "30일 전 일기 존재 여부"
+              },
+              "diaries" : {
+                "type" : "array",
+                "description" : "일기 정보 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "createdAt" : {
+                      "type" : "string",
+                      "description" : "일기 작성 일자"
+                    },
+                    "diaryId" : {
+                      "type" : "number",
+                      "description" : "일기 id"
+                    },
+                    "content" : {
+                      "type" : "string",
+                      "description" : "일기 내용"
+                    }
+                  }
+                }
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
       "api-v2-diaries1585247654" : {
         "type" : "object",
         "properties" : {
@@ -129,7 +398,7 @@
           }
         }
       },
-      "api-v2-test-alarm594740350" : {
+      "api-v2-diaries-diaryId594740350" : {
         "type" : "object",
         "properties" : {
           "success" : {

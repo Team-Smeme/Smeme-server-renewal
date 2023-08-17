@@ -21,10 +21,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.SimpleType;
 import com.smeme.server.dto.diary.CreatedDiaryResponseDTO;
+import com.smeme.server.dto.diary.DiariesResponseDTO;
 import com.smeme.server.dto.diary.DiaryRequestDTO;
 import com.smeme.server.dto.diary.DiaryResponseDTO;
 import com.smeme.server.util.ApiResponse;
@@ -32,7 +35,6 @@ import com.smeme.server.util.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "Diary", description = "일기 API")
 @DisplayName("DiaryController 테스트")
 @WebMvcTest(DiaryController.class)
 @SecurityRequirement(name = "Authorization")
@@ -66,12 +68,13 @@ class DiaryControllerTest extends BaseControllerTest {
 				.content(objectMapper.writeValueAsString(requestDTO)));
 
 		resultActions
-			.andDo(document("create diary test",
+			.andDo(document("Create Diary Test",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
 				resource(
 					ResourceSnippetParameters.builder()
-						.description("일기 작성 테스트")
+						.tag("Diary")
+						.description("일기 작성")
 						.requestFields(
 							fieldWithPath("content").type(STRING).description("일기 내용"),
 							fieldWithPath("topicId").type(NUMBER).description("일기 랜덤주제 id")
@@ -114,7 +117,8 @@ class DiaryControllerTest extends BaseControllerTest {
 				preprocessResponse(prettyPrint()),
 				resource(
 					ResourceSnippetParameters.builder()
-						.description("일기 조회 테스트")
+						.tag("Diary")
+						.description("일기 조회")
 						.pathParameters(
 							parameterWithName("diaryId").description("일기 id")
 						)
@@ -139,6 +143,129 @@ class DiaryControllerTest extends BaseControllerTest {
 	@Test
 	@DisplayName("일기 수정 테스트")
 	void success_update_diary_test() throws Exception {
+		// given
+		DiaryRequestDTO requestDTO = new DiaryRequestDTO("Hello SMEEM!", 1L);
+		ResponseEntity<ApiResponse> response = ResponseEntity.ok(success(SUCCESS_UPDATE_DAIRY.getMessage()));
+		Long diaryId = 1L;
 
+		// when
+		when(diaryController.updateDiary(diaryId, requestDTO)).thenReturn(response);
+
+		// then
+		ResultActions resultActions = mockMvc
+			.perform(patch(DEFAULT_URL + "/{diaryId}", diaryId)
+				.contentType(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(requestDTO)));
+
+		resultActions
+			.andDo(document("Update Diary Test",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				resource(
+					ResourceSnippetParameters.builder()
+						.tag("Diary")
+						.description("일기 수정")
+						.pathParameters(
+							parameterWithName("diaryId").description("일기 id")
+						)
+						.requestFields(
+							fieldWithPath("content").type(STRING).description("수정할 일기 내용"),
+							fieldWithPath("topicId").type(NUMBER).description("랜덤 주제 id")
+						)
+						.responseFields(
+							fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"),
+							fieldWithPath("message").type(STRING).description("응답 메시지"),
+							fieldWithPath("data").type(NULL).description("응답 데이터")
+						)
+						.build())))
+			.andExpect(MockMvcResultMatchers.status().isOk());
+	}
+
+	@Test
+	@DisplayName("일기 삭제 테스트")
+	void success_delete_diary_test() throws Exception {
+		// given
+		ResponseEntity<ApiResponse> response = ResponseEntity.ok(success(SUCCESS_DELETE_DIARY.getMessage()));
+		Long diaryId = 1L;
+
+		// when
+		when(diaryController.deleteDiary(diaryId)).thenReturn(response);
+
+		// then
+		ResultActions resultActions = mockMvc
+			.perform(delete(DEFAULT_URL + "/{diaryId}", diaryId)
+				.contentType(APPLICATION_JSON)
+				.accept(APPLICATION_JSON));
+
+		resultActions
+			.andDo(document("Delete Diary Test",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				resource(
+					ResourceSnippetParameters.builder()
+						.tag("Diary")
+						.description("일기 삭제")
+						.pathParameters(
+							parameterWithName("diaryId").description("일기 id")
+						)
+						.responseFields(
+							fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"),
+							fieldWithPath("message").type(STRING).description("응답 메시지"),
+							fieldWithPath("data").type(NULL).description("응답 데이터")
+						)
+						.build())))
+			.andExpect(MockMvcResultMatchers.status().isOk());
+	}
+
+	@Test
+	@DisplayName("일기 리스트 조회 테스트")
+	void success_get_diaries_test() throws Exception {
+		// given
+		String message = SUCCESS_GET_DIARIES.getMessage();
+		DiariesResponseDTO responseDTO = DiariesResponseDTO.testOf();
+		ResponseEntity<ApiResponse> response = ResponseEntity.ok(success(message, responseDTO));
+
+		MultiValueMap<String, String> queries = new LinkedMultiValueMap<>();
+		String startDate = "2023-08-18 00:00";
+		String endDate = "2023-09-18 00:00";
+		queries.add("start", startDate);
+		queries.add("end", endDate);
+
+		// when
+		when(diaryController.getDiaries(principal, startDate, endDate)).thenReturn(response);
+
+		// then
+		ResultActions resultActions = mockMvc
+			.perform(get(DEFAULT_URL)
+				.contentType(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.principal(principal)
+				.params(queries));
+
+		resultActions
+			.andDo(document("Get Diaries Test",
+				preprocessRequest(prettyPrint()),
+				preprocessResponse(prettyPrint()),
+				resource(
+					ResourceSnippetParameters.builder()
+						.tag("Diary")
+						.description("일기 리스트 조회")
+						.queryParameters(
+							parameterWithName("start").description("범위 시작 날짜(yyyy-MM-dd HH:mm)"),
+							parameterWithName("end").description("범위 끝 날짜(yyyy-MM-dd HH:mm)")
+						)
+						.responseFields(
+							fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"),
+							fieldWithPath("message").type(STRING).description("응답 메시지"),
+							fieldWithPath("data").type(OBJECT).description("응답 데이터"),
+							fieldWithPath("data.diaries[]").type(ARRAY).description("일기 정보 리스트"),
+							fieldWithPath("data.diaries[].diaryId").type(NUMBER).description("일기 id"),
+							fieldWithPath("data.diaries[].content").type(STRING).description("일기 내용"),
+							fieldWithPath("data.diaries[].createdAt").type(STRING).description("일기 작성 일자"),
+							fieldWithPath("data.has30Past").type(BOOLEAN).description("30일 전 일기 존재 여부")
+						)
+						.build())))
+			.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 }
