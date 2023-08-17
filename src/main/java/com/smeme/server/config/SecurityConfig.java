@@ -29,7 +29,7 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/swagger-ui/index.html",
-            "/docs/swagger-ui/index.html",
+            "/docs/**",
             "/swagger-ui/swagger-ui.css",
             "/error",
             "/favicon.ico",
