@@ -25,7 +25,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.SimpleType;
 import com.smeme.server.dto.diary.CreatedDiaryResponseDTO;
 import com.smeme.server.dto.diary.DiariesResponseDTO;
 import com.smeme.server.dto.diary.DiaryRequestDTO;
@@ -33,7 +32,6 @@ import com.smeme.server.dto.diary.DiaryResponseDTO;
 import com.smeme.server.util.ApiResponse;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 @DisplayName("DiaryController 테스트")
 @WebMvcTest(DiaryController.class)
