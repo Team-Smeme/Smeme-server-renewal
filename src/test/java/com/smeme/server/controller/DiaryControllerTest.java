@@ -80,7 +80,7 @@ class DiaryControllerTest extends BaseControllerTest {
 							fieldWithPath("topicId").type(NUMBER).description("일기 랜덤주제 id")
 						)
 						.responseHeaders(
-							headerWithName("Location").type(SimpleType.STRING).description("생성된 일기 조회 URI")
+							headerWithName("Location").description("생성된 일기 조회 URI")
 						)
 						.responseFields(
 							fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"),
@@ -131,7 +131,7 @@ class DiaryControllerTest extends BaseControllerTest {
 							fieldWithPath("data.content").type(STRING).description("일기 내용"),
 							fieldWithPath("data.createdAt").type(STRING).description("작성 날짜"),
 							fieldWithPath("data.username").type(STRING).description("작성자 이름"),
-							fieldWithPath("data.corrections[]").type(ARRAY).description("일기 첨삭 리스트"),
+							fieldWithPath("data.corrections[]").type(ARRAY).description("첨삭 리스트"),
 							fieldWithPath("data.corrections[].correctionId").type(NUMBER).description("첨삭 id"),
 							fieldWithPath("data.corrections[].before").type(STRING).description("첨삭 전 내용"),
 							fieldWithPath("data.corrections[].after").type(STRING).description("첨삭 후 내용")
