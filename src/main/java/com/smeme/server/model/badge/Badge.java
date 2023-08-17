@@ -8,8 +8,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
 @Getter
 public class Badge {
 
@@ -22,4 +24,10 @@ public class Badge {
 	private String name;
 
 	private String imageUrl;
+
+	public Badge(BadgeType type, String name, String imageUrl) {
+		this.type = type;
+		this.name = name;
+		this.imageUrl = imageUrl;
+	}
 }
