@@ -12,7 +12,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -29,25 +28,23 @@ public abstract class BaseControllerTest {
 
     @Autowired
     protected WebApplicationContext context;
-
     @Autowired
     protected ObjectMapper objectMapper;
-
     @Autowired
     protected MockMvc mockMvc;
 
     @MockBean
     private JwtTokenProvider jwtTokenProvider;
-
     @MockBean
     private CustomJwtAuthenticationEntryPoint customJwtAuthenticationEntryPoint;
 
+
     @BeforeEach
     void setUp(final RestDocumentationContextProvider restDocumentation) {
-            mockMvc = MockMvcBuilders.webAppContextSetup(context)
-                .apply(documentationConfiguration(restDocumentation))
-                .addFilters(new CharacterEncodingFilter("UTF-8", true))
-                        .alwaysDo(print())
-                        .build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(context)
+            .apply(documentationConfiguration(restDocumentation))
+            .addFilters(new CharacterEncodingFilter("UTF-8", true))
+            .alwaysDo(print())
+            .build();
     }
 }
