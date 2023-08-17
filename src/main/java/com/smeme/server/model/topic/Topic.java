@@ -4,10 +4,8 @@ import static jakarta.persistence.GenerationType.*;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
 @Getter
 public class Topic {
 
