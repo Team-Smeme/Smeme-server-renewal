@@ -41,17 +41,8 @@ public class DiaryController {
 
 	private final DiaryService diaryService;
 
-	@Operation(summary = "일기 생성", description = "일기를 생성합니다.")
-	@ApiResponses({
-		@io.swagger.v3.oas.annotations.responses.ApiResponse(
-			responseCode = "201",
-			description = "일기 생성 성공",
-			content = @Content(schema = @Schema(implementation = CreatedDiaryResponseDTO.class)))
-	})
 	@PostMapping
-	public ResponseEntity<ApiResponse> createDiary(
-		@Parameter(hidden = true) Principal principal, @RequestBody DiaryRequestDTO requestDTO
-	) {
+	public ResponseEntity<ApiResponse> createDiary(Principal principal, @RequestBody DiaryRequestDTO requestDTO) {
 		Long memberId = Util.getMemberId(principal);
 		CreatedDiaryResponseDTO response = diaryService.createDiary(memberId, requestDTO);
 		return ResponseEntity
