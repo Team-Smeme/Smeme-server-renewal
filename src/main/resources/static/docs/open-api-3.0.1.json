@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.1",
   "info" : {
-    "title" : "smeme api documentation",
+    "title" : "SMEEM API Documentation",
     "description" : "Spring REST Docs with SwaggerUI.",
     "version" : "0.0.1"
   },
@@ -102,7 +102,7 @@
         "tags" : [ "api" ],
         "summary" : "서버 연결 테스트",
         "description" : "서버 연결 테스트",
-        "operationId" : "server connect testtest-docs",
+        "operationId" : "server connect test",
         "responses" : {
           "200" : {
             "description" : "200",
@@ -113,9 +113,6 @@
                 },
                 "examples" : {
                   "server connect test" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"server connect\",\n  \"data\" : null\n}"
-                  },
-                  "test-docs" : {
                     "value" : "{\n  \"success\" : true,\n  \"message\" : \"server connect\",\n  \"data\" : null\n}"
                   }
                 }
@@ -150,7 +147,7 @@
                 },
                 "examples" : {
                   "Get Diary Test" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 상세 조회 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"topic\" : \"가보고 싶은 해외 여행지가 있다면 소개해 주세요!\",\n    \"content\" : \"Hello Smeem\",\n    \"createdAt\" : \"2023-08-18 04:27\",\n    \"username\" : \"스미무\",\n    \"corrections\" : [ {\n      \"correctionId\" : 1,\n      \"before\" : \"Hello\",\n      \"after\" : \"Hi\"\n    } ]\n  }\n}"
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 상세 조회 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"topic\" : \"가보고 싶은 해외 여행지가 있다면 소개해 주세요!\",\n    \"content\" : \"Hello Smeem\",\n    \"createdAt\" : \"2023-08-18 04:57\",\n    \"username\" : \"스미무\",\n    \"corrections\" : [ {\n      \"correctionId\" : 1,\n      \"before\" : \"Hello\",\n      \"after\" : \"Hi\"\n    } ]\n  }\n}"
                   }
                 }
               }
@@ -242,7 +239,7 @@
         "tags" : [ "api" ],
         "summary" : "푸시 알림 테스트",
         "description" : "푸시 알림 테스트",
-        "operationId" : "push alarm testtest-docs2",
+        "operationId" : "push alarm test",
         "responses" : {
           "200" : {
             "description" : "200",
@@ -252,9 +249,6 @@
                   "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
                 },
                 "examples" : {
-                  "test-docs2" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"푸시 알림 전송 성공\",\n  \"data\" : null\n}"
-                  },
                   "push alarm test" : {
                     "value" : "{\n  \"success\" : true,\n  \"message\" : \"푸시 알림 전송 성공\",\n  \"data\" : null\n}"
                   }

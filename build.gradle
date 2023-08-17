@@ -125,11 +125,10 @@ bootJar {
 // bootJar 실행 전, copySwaggerUI 를 실행하도록 설정
 openapi3 {
     server = "http://localhost:8080"
-    title = "smeme api documentation"
+    title = "SMEEM API Documentation"
     description = "Spring REST Docs with SwaggerUI."
     version = "0.0.1"
     outputFileNamePrefix = 'open-api-3.0.1'
     format = 'json'
-
     outputDirectory = 'build/resources/main/static/docs'
 }
