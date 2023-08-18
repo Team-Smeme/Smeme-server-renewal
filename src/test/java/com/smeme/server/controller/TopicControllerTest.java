@@ -1,5 +1,6 @@
 package com.smeme.server.controller;
 
+import static com.smeme.server.controller.Util.*;
 import static com.smeme.server.util.ApiResponse.*;
 import static com.smeme.server.util.message.ResponseMessage.*;
 import static org.mockito.Mockito.*;
@@ -64,7 +65,7 @@ class TopicControllerTest extends BaseControllerTest {
 		responseFields.add(fieldWithPath("data.topicId").type(NUMBER).description("랜덤 주제 id"));
 		responseFields.add(fieldWithPath("data.content").type(STRING).description("랜덤 주제 내용"));
 
-		Util.doDocument(resultActions,
+		doDocument(resultActions,
 			"Get Random Topic Test",
 			TAG,
 			"랜덤 주제 조회",
