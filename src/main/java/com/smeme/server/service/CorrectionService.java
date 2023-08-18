@@ -44,7 +44,7 @@ public class CorrectionService {
 		if (Objects.nonNull(badge) && !memberBadgeRepository.existsByMemberAndBadge(member, badge)) {
 			badgeService.createMemberBadge(member, badge);
 		}
-		return new CorrectionResponseDTO(diaryId, badge);
+		return CorrectionResponseDTO.of(diaryId, badge);
 	}
 
 	private Badge getCorrectionBadge(Member member) {
