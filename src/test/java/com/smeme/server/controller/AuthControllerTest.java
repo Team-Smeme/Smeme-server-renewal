@@ -8,10 +8,12 @@ import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -63,21 +65,21 @@ class AuthControllerTest extends BaseControllerTest {
 				.header("Authorization", otherServiceToken)
 				.content(objectMapper.writeValueAsString(requestDTO)));
 
-		ArrayList<HeaderDescriptorWithType> requestHeaders = new ArrayList<>();
+		List<HeaderDescriptorWithType> requestHeaders = new ArrayList<>();
 		requestHeaders.add(headerWithName("Authorization").description("소셜 서비스 액세스 토큰"));
 
-		ArrayList<FieldDescriptor> requestFields = new ArrayList<>();
-		requestFields.add(makeFieldDescriptor("social", STRING, "소셜 로그인 타입"));
-		requestFields.add(makeFieldDescriptor("fcmToken", STRING, "fcm 토큰"));
+		List<FieldDescriptor> requestFields = new ArrayList<>();
+		requestFields.add(fieldWithPath("social").type(STRING).description("소셜 로그인 타입"));
+		requestFields.add(fieldWithPath("fcmToken").type(STRING).description("fcm 토큰"));
 
-		ArrayList<FieldDescriptor> responseFields = new ArrayList<>();
-		responseFields.add(makeFieldDescriptor("success", BOOLEAN, "응답 성공 여부"));
-		responseFields.add(makeFieldDescriptor("message", STRING, "응답 메시지"));
-		responseFields.add(makeFieldDescriptor("data", OBJECT, "응답 데이터"));
-		responseFields.add(makeFieldDescriptor("data.accessToken", STRING, "smeem access token"));
-		responseFields.add(makeFieldDescriptor("data.refreshToken", STRING, "smeem refresh token"));
-		responseFields.add(makeFieldDescriptor("data.isRegistered", BOOLEAN, "회원 정보 등록 여부"));
-		responseFields.add(makeFieldDescriptor("data.hasPlan", BOOLEAN, "회원의 목표 유무"));
+		List<FieldDescriptor> responseFields = new ArrayList<>();
+		responseFields.add(fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"));
+		responseFields.add(fieldWithPath("message").type(STRING).description("응답 메시지"));
+		responseFields.add(fieldWithPath("data").type(OBJECT).description("응답 데이터"));
+		responseFields.add(fieldWithPath("data.accessToken").type(STRING).description("smeem access token"));
+		responseFields.add(fieldWithPath("data.refreshToken").type(STRING).description("smeem refresh token"));
+		responseFields.add(fieldWithPath("data.isRegistered").type(BOOLEAN).description("회원 정보 등록 여부"));
+		responseFields.add(fieldWithPath("data.hasPlan").type(BOOLEAN).description("회원의 목표 유무"));
 
 		doDocument(resultActions,
 			"Sign In Test",
@@ -85,6 +87,7 @@ class AuthControllerTest extends BaseControllerTest {
 			"소셜 로그인",
 			requestHeaders,
 			requestFields,
+			new ArrayList<>(),
 			responseFields,
 			status().isOk());
 	}
@@ -107,12 +110,12 @@ class AuthControllerTest extends BaseControllerTest {
 				.accept(APPLICATION_JSON)
 				.principal(principal));
 
-		ArrayList<FieldDescriptor> responseFields = new ArrayList<>();
-		responseFields.add(makeFieldDescriptor("success", BOOLEAN, "응답 성공 여부"));
-		responseFields.add(makeFieldDescriptor("message", STRING, "응답 메시지"));
-		responseFields.add(makeFieldDescriptor("data", OBJECT, "응답 데이터"));
-		responseFields.add(makeFieldDescriptor("data.accessToken", STRING, "smeem access token"));
-		responseFields.add(makeFieldDescriptor("data.refreshToken", STRING, "smeem refresh token"));
+		List<FieldDescriptor> responseFields = new ArrayList<>();
+		responseFields.add(fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"));
+		responseFields.add(fieldWithPath("message").type(STRING).description("응답 메시지"));
+		responseFields.add(fieldWithPath("data").type(OBJECT).description("응답 데이터"));
+		responseFields.add(fieldWithPath("data.accessToken").type(STRING).description("smeem access token"));
+		responseFields.add(fieldWithPath("data.refreshToken").type(STRING).description("smeem refresh token"));
 
 		doDocument(resultActions,
 			"Token Reissue Test",

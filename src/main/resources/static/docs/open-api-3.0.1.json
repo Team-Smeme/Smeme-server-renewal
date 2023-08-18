@@ -156,7 +156,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-diaries1685757828"
+                  "$ref" : "#/components/schemas/api-v2-diaries-486735900"
                 },
                 "examples" : {
                   "Create Diary Test" : {
@@ -349,7 +349,7 @@
                 },
                 "examples" : {
                   "Get Diary Test" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 상세 조회 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"topic\" : \"가보고 싶은 해외 여행지가 있다면 소개해 주세요!\",\n    \"content\" : \"Hello Smeem\",\n    \"createdAt\" : \"2023-08-18 21:10\",\n    \"username\" : \"스미무\",\n    \"corrections\" : [ {\n      \"correctionId\" : 1,\n      \"before\" : \"Hello\",\n      \"after\" : \"Hi\"\n    } ]\n  }\n}"
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 상세 조회 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"topic\" : \"가보고 싶은 해외 여행지가 있다면 소개해 주세요!\",\n    \"content\" : \"Hello Smeem\",\n    \"createdAt\" : \"2023-08-18 22:13\",\n    \"username\" : \"스미무\",\n    \"corrections\" : [ {\n      \"correctionId\" : 1,\n      \"before\" : \"Hello\",\n      \"after\" : \"Hi\"\n    } ]\n  }\n}"
                   }
                 }
               }
@@ -633,6 +633,46 @@
           }
         }
       },
+      "api-v2-diaries-486735900" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "badges" : {
+                "type" : "array",
+                "description" : "획득한 뱃지 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "imageUrl" : {
+                      "type" : "string",
+                      "description" : "뱃지 이미지 url"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "description" : "뱃지 이름"
+                    }
+                  }
+                }
+              },
+              "diaryId" : {
+                "type" : "number",
+                "description" : "생성한 일기 id"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
       "api-v2-diaries1551664804" : {
         "type" : "object",
         "properties" : {
@@ -818,46 +858,6 @@
           "fcmToken" : {
             "type" : "string",
             "description" : "fcm 토큰"
-          }
-        }
-      },
-      "api-v2-diaries1685757828" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "badges" : {
-                "type" : "array",
-                "description" : "획득한 뱃지 리스트",
-                "items" : {
-                  "type" : "object",
-                  "properties" : {
-                    "imageUrl" : {
-                      "type" : "string",
-                      "description" : "뱃지 이미지 URL"
-                    },
-                    "name" : {
-                      "type" : "string",
-                      "description" : "뱃지 이름"
-                    }
-                  }
-                }
-              },
-              "diaryId" : {
-                "type" : "number",
-                "description" : "생성한 일기 id"
-              }
-            },
-            "description" : "응답 데이터"
-          },
-          "success" : {
-            "type" : "boolean",
-            "description" : "응답 성공 여부"
-          },
-          "message" : {
-            "type" : "string",
-            "description" : "응답 메시지"
           }
         }
       },
