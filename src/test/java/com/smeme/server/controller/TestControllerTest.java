@@ -1,6 +1,5 @@
 package com.smeme.server.controller;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.smeme.server.util.ApiResponse;
 
 import org.junit.jupiter.api.DisplayName;
@@ -9,17 +8,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static com.smeme.server.controller.Util.*;
 import static com.smeme.server.util.ApiResponse.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.*;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.JsonFieldType.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
 import java.security.Principal;
 
@@ -28,6 +22,7 @@ import java.security.Principal;
 class TestControllerTest extends BaseControllerTest {
 
 	private static final String DEFAULT_URL = "/api/v2/test";
+	private final String TAG = "Test";
 
 	@MockBean
 	TestController testController;
@@ -49,20 +44,7 @@ class TestControllerTest extends BaseControllerTest {
 				.contentType(APPLICATION_JSON)
 				.accept(APPLICATION_JSON));
 
-		resultActions
-			.andDo(document("server connect test",
-				preprocessRequest(prettyPrint()),
-				preprocessResponse(prettyPrint()),
-				resource(
-					ResourceSnippetParameters.builder()
-						.description("서버 연결 테스트")
-						.requestFields()
-						.responseFields(
-							fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"),
-							fieldWithPath("message").type(STRING).description("응답 메시지"),
-							fieldWithPath("data").type(NULL).description("응답 데이터"))
-						.build())))
-			.andExpect(MockMvcResultMatchers.status().isOk());
+		doDocumentNullData(resultActions, "Server Connect Test", TAG, "서버 연결 테스트");
 	}
 
 	@Test
@@ -81,20 +63,7 @@ class TestControllerTest extends BaseControllerTest {
 				.accept(APPLICATION_JSON)
 				.principal(principal));
 
-		resultActions
-			.andDo(document("push alarm test",
-				preprocessRequest(prettyPrint()),
-				preprocessResponse(prettyPrint()),
-				resource(
-					ResourceSnippetParameters.builder()
-						.description("푸시 알림 테스트")
-						.requestFields()
-						.responseFields(
-							fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"),
-							fieldWithPath("message").type(STRING).description("응답 메시지"),
-							fieldWithPath("data").type(NULL).description("응답 데이터"))
-						.build())))
-			.andExpect(MockMvcResultMatchers.status().isOk());
+		doDocumentNullData(resultActions, "Push Alarm Test", TAG, "푸시 알림 테스트");
 	}
 }
 
