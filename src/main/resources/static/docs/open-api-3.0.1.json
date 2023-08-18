@@ -10,6 +10,78 @@
   } ],
   "tags" : [ ],
   "paths" : {
+    "/api/v2/auth" : {
+      "post" : {
+        "tags" : [ "Auth" ],
+        "summary" : "소셜 로그인",
+        "description" : "소셜 로그인",
+        "operationId" : "Sign In Test",
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "description" : "소셜 서비스 액세스 토큰",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "dsdsdsdsds"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v2-auth-1643129054"
+              },
+              "examples" : {
+                "Sign In Test" : {
+                  "value" : "{\n  \"social\" : \"KAKAO\",\n  \"fcmToken\" : \"dsdsdsdsds\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-auth-1219901506"
+                },
+                "examples" : {
+                  "Sign In Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"소셜로그인 성공\",\n  \"data\" : {\n    \"accessToken\" : \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjIyMjU0NjY4LCJleHAiO\",\n    \"refreshToken\" : \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjIyMjU0NjY4LCJleHAiO\",\n    \"isRegistered\" : true,\n    \"hasPlan\" : true\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Auth" ],
+        "summary" : "회원 탈퇴",
+        "description" : "회원 탈퇴",
+        "operationId" : "With Drawl Test",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
+                },
+                "examples" : {
+                  "With Drawl Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"회원 탈퇴 성공\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v2/diaries" : {
       "get" : {
         "tags" : [ "Diary" ],
@@ -114,6 +186,56 @@
                 "examples" : {
                   "server connect test" : {
                     "value" : "{\n  \"success\" : true,\n  \"message\" : \"server connect\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/auth/sign-out" : {
+      "post" : {
+        "tags" : [ "Auth" ],
+        "summary" : "로그아웃",
+        "description" : "로그아웃",
+        "operationId" : "Logout Test",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
+                },
+                "examples" : {
+                  "Logout Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"로그아웃 성공\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/auth/token" : {
+      "post" : {
+        "tags" : [ "Auth" ],
+        "summary" : "토큰 재발급",
+        "description" : "토큰 재발급",
+        "operationId" : "Token Reissue Test",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-auth-token1729899773"
+                },
+                "examples" : {
+                  "Token Reissue Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"토큰 발급 성공\",\n  \"data\" : {\n    \"accessToken\" : \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjIyMjU0NjY4LCJleHAiO\",\n    \"refreshToken\" : \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjIyMjU0NjY4LCJleHAiO\"\n  }\n}"
                   }
                 }
               }
@@ -227,7 +349,7 @@
                 },
                 "examples" : {
                   "Get Diary Test" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 상세 조회 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"topic\" : \"가보고 싶은 해외 여행지가 있다면 소개해 주세요!\",\n    \"content\" : \"Hello Smeem\",\n    \"createdAt\" : \"2023-08-18 19:29\",\n    \"username\" : \"스미무\",\n    \"corrections\" : [ {\n      \"correctionId\" : 1,\n      \"before\" : \"Hello\",\n      \"after\" : \"Hi\"\n    } ]\n  }\n}"
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 상세 조회 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"topic\" : \"가보고 싶은 해외 여행지가 있다면 소개해 주세요!\",\n    \"content\" : \"Hello Smeem\",\n    \"createdAt\" : \"2023-08-18 21:10\",\n    \"username\" : \"스미무\",\n    \"corrections\" : [ {\n      \"correctionId\" : 1,\n      \"before\" : \"Hello\",\n      \"after\" : \"Hi\"\n    } ]\n  }\n}"
                   }
                 }
               }
@@ -339,6 +461,31 @@
         }
       }
     },
+    "/api/v2/topics/random" : {
+      "get" : {
+        "tags" : [ "Topic" ],
+        "summary" : "랜덤 주제 조회",
+        "description" : "랜덤 주제 조회",
+        "operationId" : "Get Random Topic Test",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-topics-random459952356"
+                },
+                "examples" : {
+                  "Get Random Topic Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"랜덤 주제 조회 성공\",\n  \"data\" : {\n    \"topicId\" : 1,\n    \"content\" : \"가보고 싶은 해외 여행지가 있다면 소개해 주세요!\"\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v2/corrections/diary/{diaryId}" : {
       "post" : {
         "tags" : [ "Correction" ],
@@ -398,6 +545,33 @@
   },
   "components" : {
     "schemas" : {
+      "api-v2-auth-token1729899773" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "accessToken" : {
+                "type" : "string",
+                "description" : "smeem access token"
+              },
+              "refreshToken" : {
+                "type" : "string",
+                "description" : "smeem refresh token"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
       "api-v2-corrections-diary-diaryId1132553219" : {
         "type" : "object",
         "properties" : {
@@ -421,6 +595,41 @@
           "content" : {
             "type" : "string",
             "description" : "수정할 일기 내용"
+          }
+        }
+      },
+      "api-v2-auth-1219901506" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "isRegistered" : {
+                "type" : "boolean",
+                "description" : "회원 정보 등록 여부"
+              },
+              "hasPlan" : {
+                "type" : "boolean",
+                "description" : "회원의 목표 유무"
+              },
+              "accessToken" : {
+                "type" : "string",
+                "description" : "smeem access token"
+              },
+              "refreshToken" : {
+                "type" : "string",
+                "description" : "smeem refresh token"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
           }
         }
       },
@@ -599,6 +808,19 @@
           }
         }
       },
+      "api-v2-auth-1643129054" : {
+        "type" : "object",
+        "properties" : {
+          "social" : {
+            "type" : "string",
+            "description" : "소셜 로그인 타입"
+          },
+          "fcmToken" : {
+            "type" : "string",
+            "description" : "fcm 토큰"
+          }
+        }
+      },
       "api-v2-diaries1685757828" : {
         "type" : "object",
         "properties" : {
@@ -625,6 +847,33 @@
               "diaryId" : {
                 "type" : "number",
                 "description" : "생성한 일기 id"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-topics-random459952356" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "topicId" : {
+                "type" : "number",
+                "description" : "랜덤 주제 id"
+              },
+              "content" : {
+                "type" : "string",
+                "description" : "랜덤 주제 내용"
               }
             },
             "description" : "응답 데이터"
