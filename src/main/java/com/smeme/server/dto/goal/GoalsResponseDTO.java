@@ -4,25 +4,27 @@ import java.util.List;
 
 import com.smeme.server.model.goal.GoalType;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 public record GoalsResponseDTO(
-	@Schema(description = "학습 목표 리스트")
 	List<GoalResponseVO> goals
 ) {
 	public static GoalsResponseDTO of(List<GoalType> goalTypes) {
 		return new GoalsResponseDTO(goalTypes.stream().map(GoalResponseVO::of).toList());
 	}
+
+	public static GoalsResponseDTO testOf() {
+		return new GoalsResponseDTO(List.of(GoalResponseVO.testOf()));
+	}
 }
 
 record GoalResponseVO(
-	@Schema(description = "학습 목표 ENUM 값", example = "APPLY")
-	String goalType,
-
-	@Schema(description = "학습 목표 이름", example = "현지 언어 체득")
+	GoalType goalType,
 	String name
 ) {
 	public static GoalResponseVO of(GoalType goalType) {
-		return new GoalResponseVO(goalType.name(), goalType.getDescription());
+		return new GoalResponseVO(goalType, goalType.getDescription());
+	}
+
+	public static GoalResponseVO testOf() {
+		return new GoalResponseVO(GoalType.APPLY, "현지 언어 체득");
 	}
 }
