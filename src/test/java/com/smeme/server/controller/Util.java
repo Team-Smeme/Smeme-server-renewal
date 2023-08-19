@@ -58,6 +58,29 @@ public class Util {
 	}
 
 	/**
+	 * Request Body, Response Body
+	 */
+	public static void doDocument(
+		ResultActions resultActions,
+		String identifier,
+		String tag,
+		String description,
+		List<FieldDescriptor> requestFields,
+		List<FieldDescriptor> responseFields,
+		ResultMatcher status
+	) throws Exception {
+		resultActions
+			.andDo(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
+				resource(ResourceSnippetParameters.builder()
+					.tag(tag)
+					.description(description)
+					.requestFields(requestFields)
+					.responseFields(responseFields)
+					.build())))
+			.andExpect(status);
+	}
+
+	/**
 	 * Response Body
 	 */
 	public static void doDocument(
