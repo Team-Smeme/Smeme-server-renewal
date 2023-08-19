@@ -4,7 +4,6 @@ import com.smeme.server.dto.badge.BadgeListResponseDTO;
 import com.smeme.server.service.BadgeService;
 import com.smeme.server.util.ApiResponse;
 import com.smeme.server.util.Util;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,6 @@ import static com.smeme.server.util.message.ResponseMessage.SUCCESS_GET_BADGES;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/members/badges")
-@SecurityRequirement(name = "Authorization")
 public class BadgeController {
 
     private final BadgeService badgeService;

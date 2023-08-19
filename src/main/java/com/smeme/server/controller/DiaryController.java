@@ -4,8 +4,6 @@ import static com.smeme.server.util.message.ResponseMessage.*;
 
 import java.security.Principal;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/diaries")
-@SecurityRequirement(name = "Authorization")
 public class DiaryController {
 
 	private final DiaryService diaryService;
