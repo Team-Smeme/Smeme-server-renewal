@@ -1,8 +1,8 @@
 package com.smeme.server.dto.member;
 
 public record MemberUpdateRequestDTO(
-        @ValidUsername
-        String username,
-        Boolean termAccepted
+	@ValidUsername
+	String username,
+	Boolean termAccepted
 ) {
 }

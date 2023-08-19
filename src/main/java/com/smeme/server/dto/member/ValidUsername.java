@@ -9,6 +9,5 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidUsername {
-
-    String message() default "닉네임 제한사항에 부합하지 않습니다.";
+	String message() default "닉네임 제한사항에 부합하지 않습니다.";
 }

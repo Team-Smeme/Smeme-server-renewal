@@ -53,7 +53,10 @@ class DiaryControllerTest extends BaseControllerTest {
 	void success_create_diary_test() throws Exception {
 		// given
 		DiaryRequestDTO requestDTO = new DiaryRequestDTO("Hello SMEEM!", 1L);
-		CreatedDiaryResponseDTO responseDTO = CreatedDiaryResponseDTO.testOf();
+		CreatedDiaryResponseDTO responseDTO = new CreatedDiaryResponseDTO(
+			1L,
+			List.of(new CreatedDiaryResponseDTO.BadgeDTO("웰컴 뱃지", "image-url"))
+		);
 		ResponseEntity<ApiResponse> response = ResponseEntity
 			.created(URI.create("~/api/v2/diaries/1"))
 			.body(success(SUCCESS_CREATE_DIARY.getMessage(), responseDTO));
@@ -100,7 +103,14 @@ class DiaryControllerTest extends BaseControllerTest {
 	@DisplayName("일기 조회 테스트")
 	void success_get_diary_detail_test() throws Exception {
 		// given
-		DiaryResponseDTO responseDTO = DiaryResponseDTO.testOf();
+		DiaryResponseDTO responseDTO = new DiaryResponseDTO(
+			1L,
+			"가보고 싶은 해외 여행지가 있다면 소개해 주세요!",
+			"I want to go Bla Bla ~",
+			"2023-08-19 14:00",
+			"스미무",
+			List.of(new DiaryResponseDTO.CorrectionDTO(1L, "Hello", "Hi"))
+		);
 		ResponseEntity<ApiResponse> response = ResponseEntity.ok(success(SUCCESS_GET_DIARY.getMessage(), responseDTO));
 
 		// when
@@ -206,7 +216,10 @@ class DiaryControllerTest extends BaseControllerTest {
 	void success_get_diaries_test() throws Exception {
 		// given
 		String message = SUCCESS_GET_DIARIES.getMessage();
-		DiariesResponseDTO responseDTO = DiariesResponseDTO.testOf();
+		DiariesResponseDTO responseDTO = new DiariesResponseDTO(
+			List.of(new DiariesResponseDTO.DiaryDTO(1L, "Hello Smeem!", "2023-08-19 14:00")),
+			true
+		);
 		ResponseEntity<ApiResponse> response = ResponseEntity.ok(success(message, responseDTO));
 
 		MultiValueMap<String, String> queries = new LinkedMultiValueMap<>();

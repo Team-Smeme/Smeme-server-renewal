@@ -12,20 +12,14 @@ public record CreatedDiaryResponseDTO(
 		return new CreatedDiaryResponseDTO(diaryId, badges.stream().map(BadgeDTO::of).toList());
 	}
 
-	public static CreatedDiaryResponseDTO testOf() {
-		return new CreatedDiaryResponseDTO(1L, List.of(BadgeDTO.testOf()));
+	public record BadgeDTO(
+		String name,
+		String imageUrl
+	) {
+		public static BadgeDTO of(Badge badge) {
+			return new BadgeDTO(badge.getName(), badge.getImageUrl());
+		}
 	}
 }
 
-record BadgeDTO(
-	String name,
-	String imageUrl
-) {
-	public static BadgeDTO of(Badge badge) {
-		return new BadgeDTO(badge.getName(), badge.getImageUrl());
-	}
 
-	public static BadgeDTO testOf() {
-		return new BadgeDTO("웰컴 뱃지", "image-url");
-	}
-}

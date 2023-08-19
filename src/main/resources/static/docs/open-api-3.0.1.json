@@ -10,6 +10,45 @@
   } ],
   "tags" : [ ],
   "paths" : {
+    "/api/beta/token" : {
+      "post" : {
+        "tags" : [ "Beta" ],
+        "summary" : "베타 테스트 토큰 발급",
+        "description" : "베타 테스트 토큰 발급",
+        "operationId" : "Get Beta Token Test",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-beta-token-1880490917"
+              },
+              "examples" : {
+                "Get Beta Token Test" : {
+                  "value" : "{\n  \"fcmToken\" : \"dsdsdsdsds\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-beta-token320774595"
+                },
+                "examples" : {
+                  "Get Beta Token Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"임시토큰 발급 성공\",\n  \"data\" : {\n    \"accessToken\" : \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjIyMjU0NjY4LCJleHAiO\",\n    \"badges\" : [ {\n      \"id\" : 1,\n      \"name\" : \"웰컴 뱃지\",\n      \"type\" : \"EVENT\",\n      \"imageUrl\" : \"image-url\"\n    } ]\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v2/auth" : {
       "post" : {
         "tags" : [ "Auth" ],
@@ -115,7 +154,7 @@
                 },
                 "examples" : {
                   "Get Diaries Test" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 리스트 조회 성공\",\n  \"data\" : {\n    \"diaries\" : [ {\n      \"diaryId\" : 1,\n      \"content\" : \"Hello Smeem\",\n      \"createdAt\" : \"2023-08-01 14:00\"\n    } ],\n    \"has30Past\" : true\n  }\n}"
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 리스트 조회 성공\",\n  \"data\" : {\n    \"diaries\" : [ {\n      \"diaryId\" : 1,\n      \"content\" : \"Hello Smeem!\",\n      \"createdAt\" : \"2023-08-19 14:00\"\n    } ],\n    \"has30Past\" : true\n  }\n}"
                   }
                 }
               }
@@ -359,7 +398,7 @@
           "content" : {
             "application/json;charset=UTF-8" : {
               "schema" : {
-                "$ref" : "#/components/schemas/api-v2-corrections-diary-diaryId1132553219"
+                "$ref" : "#/components/schemas/api-v2-corrections-correctionId1132553219"
               },
               "examples" : {
                 "Update Correction Test" : {
@@ -413,7 +452,7 @@
                 },
                 "examples" : {
                   "Get Diary Test" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 상세 조회 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"topic\" : \"가보고 싶은 해외 여행지가 있다면 소개해 주세요!\",\n    \"content\" : \"Hello Smeem\",\n    \"createdAt\" : \"2023-08-19 17:03\",\n    \"username\" : \"스미무\",\n    \"corrections\" : [ {\n      \"correctionId\" : 1,\n      \"before\" : \"Hello\",\n      \"after\" : \"Hi\"\n    } ]\n  }\n}"
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 상세 조회 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"topic\" : \"가보고 싶은 해외 여행지가 있다면 소개해 주세요!\",\n    \"content\" : \"I want to go Bla Bla ~\",\n    \"createdAt\" : \"2023-08-19 14:00\",\n    \"username\" : \"스미무\",\n    \"corrections\" : [ {\n      \"correctionId\" : 1,\n      \"before\" : \"Hello\",\n      \"after\" : \"Hi\"\n    } ]\n  }\n}"
                   }
                 }
               }
@@ -550,7 +589,7 @@
                 },
                 "examples" : {
                   "Get Member's Badges Test" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"뱃지 리스트 조회 성공\",\n  \"data\" : {\n    \"badges\" : [ {\n      \"id\" : 1,\n      \"name\" : \"연속 3일 일기 뱃지\",\n      \"type\" : \"STREAK\",\n      \"imageUrl\" : \"https://m.s3.ap-northeast-2.amazonaws.com/badge/streak.png\"\n    } ]\n  }\n}"
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"뱃지 리스트 조회 성공\",\n  \"data\" : {\n    \"badges\" : [ {\n      \"id\" : 1,\n      \"name\" : \"연속 3일 일기 뱃지\",\n      \"type\" : \"COMBO\",\n      \"imageUrl\" : \"https://m.s3.ap-northeast-2.amazonaws.com/badge/streak.png\"\n    } ]\n  }\n}"
                   }
                 }
               }
@@ -692,7 +731,7 @@
           "content" : {
             "application/json;charset=UTF-8" : {
               "schema" : {
-                "$ref" : "#/components/schemas/api-v2-corrections-diary-diaryId1132553219"
+                "$ref" : "#/components/schemas/api-v2-corrections-correctionId1132553219"
               },
               "examples" : {
                 "Create Correction Test" : {
@@ -720,7 +759,7 @@
                 },
                 "examples" : {
                   "Create Correction Test" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 첨삭 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"badge\" : {\n      \"id\" : 1,\n      \"type\" : \"EVENT\",\n      \"name\" : \"웰컴 뱃지\",\n      \"imageUrl\" : \"image url\"\n    }\n  }\n}"
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 첨삭 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"badge\" : {\n      \"id\" : 1,\n      \"name\" : \"웰컴 뱃지\",\n      \"type\" : \"EVENT\",\n      \"imageUrl\" : \"image-url\"\n    }\n  }\n}"
                   }
                 }
               }
@@ -793,7 +832,7 @@
           }
         }
       },
-      "api-v2-corrections-diary-diaryId1132553219" : {
+      "api-v2-corrections-correctionId1132553219" : {
         "type" : "object",
         "properties" : {
           "sentence" : {
@@ -991,6 +1030,15 @@
           "message" : {
             "type" : "string",
             "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-beta-token-1880490917" : {
+        "type" : "object",
+        "properties" : {
+          "fcmToken" : {
+            "type" : "string",
+            "description" : "FCM 토큰"
           }
         }
       },
@@ -1392,6 +1440,54 @@
                     }
                   }
                 }
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-beta-token320774595" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "badges" : {
+                "type" : "array",
+                "description" : "뱃지 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "imageUrl" : {
+                      "type" : "string",
+                      "description" : "뱃지 이미지 URL"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "description" : "뱃지 이름"
+                    },
+                    "id" : {
+                      "type" : "number",
+                      "description" : "뱃지 id"
+                    },
+                    "type" : {
+                      "type" : "string",
+                      "description" : "뱃지 타입"
+                    }
+                  }
+                }
+              },
+              "accessToken" : {
+                "type" : "string",
+                "description" : "smeem beta access token"
               }
             },
             "description" : "응답 데이터"

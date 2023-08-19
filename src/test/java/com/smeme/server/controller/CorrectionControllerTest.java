@@ -26,8 +26,10 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.epages.restdocs.apispec.HeaderDescriptorWithType;
 import com.epages.restdocs.apispec.ParameterDescriptorWithType;
+import com.smeme.server.dto.badge.BadgeResponseDTO;
 import com.smeme.server.dto.correction.CorrectionRequestDTO;
 import com.smeme.server.dto.correction.CorrectionResponseDTO;
+import com.smeme.server.model.badge.BadgeType;
 import com.smeme.server.util.ApiResponse;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -50,7 +52,10 @@ class CorrectionControllerTest extends BaseControllerTest {
 	void success_create_correction_test() throws Exception {
 		// given
 		CorrectionRequestDTO requestDTO = new CorrectionRequestDTO("Hello", "Hi");
-		CorrectionResponseDTO responseDTO = CorrectionResponseDTO.testOf();
+		CorrectionResponseDTO responseDTO = new CorrectionResponseDTO(
+			1L,
+			new BadgeResponseDTO(1L, "웰컴 뱃지", BadgeType.EVENT, "image-url")
+		);
 		ResponseEntity<ApiResponse> response = ResponseEntity
 			.created(URI.create("~/api/v2/diaries/1"))
 			.body(success(SUCCESS_CREATE_CORRECTION.getMessage(), responseDTO));
