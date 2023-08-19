@@ -1,28 +1,31 @@
 package com.smeme.server.controller;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.*;
+import static com.smeme.server.controller.Util.*;
 import static com.smeme.server.util.ApiResponse.*;
 import static com.smeme.server.util.message.ResponseMessage.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.*;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.net.URI;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.HeaderDescriptorWithType;
+import com.epages.restdocs.apispec.ParameterDescriptorWithType;
 import com.smeme.server.dto.correction.CorrectionRequestDTO;
 import com.smeme.server.dto.correction.CorrectionResponseDTO;
 import com.smeme.server.util.ApiResponse;
@@ -35,6 +38,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 class CorrectionControllerTest extends BaseControllerTest {
 
 	private static final String DEFAULT_URL = "/api/v2/corrections";
+	private final String TAG = "Correction";
 
 	@MockBean
 	CorrectionController correctionController;
@@ -63,37 +67,37 @@ class CorrectionControllerTest extends BaseControllerTest {
 				.principal(principal)
 				.content(objectMapper.writeValueAsString(requestDTO)));
 
-		resultActions
-			.andDo(document("Create Correction Test",
-				preprocessRequest(prettyPrint()),
-				preprocessResponse(prettyPrint()),
-				resource(
-					ResourceSnippetParameters.builder()
-						.tag("Correction")
-						.description("일기 첨삭")
-						.pathParameters(
-							parameterWithName("diaryId").description("첨삭 대상 일기 id")
-						)
-						.requestFields(
-							fieldWithPath("sentence").type(STRING).description("첨삭할 문장"),
-							fieldWithPath("content").type(STRING).description("첨삭 내용")
-						)
-						.responseHeaders(
-							headerWithName("Location").description("첨삭 대상 일기 조회 URI")
-						)
-						.responseFields(
-							fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"),
-							fieldWithPath("message").type(STRING).description("응답 메시지"),
-							fieldWithPath("data").type(OBJECT).description("응답 데이터"),
-							fieldWithPath("data.diaryId").type(NUMBER).description("첨삭 대상 일기 id"),
-							fieldWithPath("data.badge").type(OBJECT).description("획득한 뱃지 정보"),
-							fieldWithPath("data.badge.id").type(NUMBER).description("뱃지 id"),
-							fieldWithPath("data.badge.type").type(STRING).description("뱃지 타입"),
-							fieldWithPath("data.badge.name").type(STRING).description("뱃지 이름"),
-							fieldWithPath("data.badge.imageUrl").type(STRING).description("뱃지 이미지 url")
-						)
-						.build())))
-			.andExpect(MockMvcResultMatchers.status().isCreated());
+		List<ParameterDescriptorWithType> parameters = new ArrayList<>();
+		parameters.add(parameterWithName("diaryId").description("첨삭 대상 일기 id"));
+
+		List<FieldDescriptor> requestFields = new ArrayList<>();
+		requestFields.add(fieldWithPath("sentence").type(STRING).description("첨삭할 문장"));
+		requestFields.add(fieldWithPath("content").type(STRING).description("첨삭 내용"));
+
+		List<HeaderDescriptorWithType> responseHeaders = new ArrayList<>();
+		responseHeaders.add(headerWithName("Location").description("첨삭 대상 일기 조회 URI"));
+
+		List<FieldDescriptor> responseFields = new ArrayList<>();
+		responseFields.add(fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"));
+		responseFields.add(fieldWithPath("message").type(STRING).description("응답 메시지"));
+		responseFields.add(fieldWithPath("data").type(OBJECT).description("응답 데이터"));
+		responseFields.add(fieldWithPath("data.diaryId").type(NUMBER).description("첨삭 대상 일기 id"));
+		responseFields.add(fieldWithPath("data.badge").type(OBJECT).description("획득한 뱃지 정보"));
+		responseFields.add(fieldWithPath("data.badge.id").type(NUMBER).description("뱃지 id"));
+		responseFields.add(fieldWithPath("data.badge.type").type(STRING).description("뱃지 타입"));
+		responseFields.add(fieldWithPath("data.badge.name").type(STRING).description("뱃지 이름"));
+		responseFields.add(fieldWithPath("data.badge.imageUrl").type(STRING).description("뱃지 이미지 url"));
+
+		doDocument(resultActions,
+			"Create Correction Test",
+			TAG,
+			"일기 첨삭",
+			parameters,
+			new ArrayList<>(),
+			requestFields,
+			responseHeaders,
+			responseFields,
+			status().isCreated());
 	}
 
 	@Test
@@ -112,24 +116,16 @@ class CorrectionControllerTest extends BaseControllerTest {
 				.contentType(APPLICATION_JSON)
 				.accept(APPLICATION_JSON));
 
-		resultActions
-			.andDo(document("Delete Correction Test",
-				preprocessRequest(prettyPrint()),
-				preprocessResponse(prettyPrint()),
-				resource(
-					ResourceSnippetParameters.builder()
-						.tag("Correction")
-						.description("첨삭 삭제")
-						.pathParameters(
-							parameterWithName("correctionId").description("첨삭 id")
-						)
-						.responseFields(
-							fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"),
-							fieldWithPath("message").type(STRING).description("응답 메시지"),
-							fieldWithPath("data").type(NULL).description("응답 데이터")
-						)
-						.build())))
-			.andExpect(MockMvcResultMatchers.status().isOk());
+		List<ParameterDescriptorWithType> parameters = new ArrayList<>();
+		parameters.add(parameterWithName("correctionId").description("첨삭 id"));
+
+		deleteDocumentPathParam(resultActions,
+			"Delete Correction Test",
+			TAG,
+			"첨삭 삭제",
+			parameters,
+			getNullDataResponseFields(),
+			status().isOk());
 	}
 
 	@Test
@@ -150,27 +146,20 @@ class CorrectionControllerTest extends BaseControllerTest {
 				.accept(APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(requestDTO)));
 
-		resultActions
-			.andDo(document("Update Correction Test",
-				preprocessRequest(prettyPrint()),
-				preprocessResponse(prettyPrint()),
-				resource(
-					ResourceSnippetParameters.builder()
-						.tag("Correction")
-						.description("첨삭 수정")
-						.pathParameters(
-							parameterWithName("correctionId").description("첨삭 id")
-						)
-						.requestFields(
-							fieldWithPath("sentence").type(STRING).description("첨삭할 문장"),
-							fieldWithPath("content").type(STRING).description("첨삭 내용")
-						)
-						.responseFields(
-							fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"),
-							fieldWithPath("message").type(STRING).description("응답 메시지"),
-							fieldWithPath("data").type(NULL).description("응답 데이터")
-						)
-						.build())))
-			.andExpect(MockMvcResultMatchers.status().isOk());
+		List<ParameterDescriptorWithType> parameters = new ArrayList<>();
+		parameters.add(parameterWithName("correctionId").description("첨삭 id"));
+
+		List<FieldDescriptor> requestFields = new ArrayList<>();
+		requestFields.add(fieldWithPath("sentence").type(STRING).description("첨삭할 문장"));
+		requestFields.add(fieldWithPath("content").type(STRING).description("첨삭 내용"));
+
+		patchDocumentPathParam(resultActions,
+			"Update Correction Test",
+			TAG,
+			"첨삭 수정",
+			parameters,
+			requestFields,
+			getNullDataResponseFields(),
+			status().isOk());
 	}
 }

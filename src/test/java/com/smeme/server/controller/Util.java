@@ -58,6 +58,35 @@ public class Util {
 	}
 
 	/**
+	 * PathParam, Request Header, Request Body, Response Header, Response Body
+	 */
+	public static void doDocument(
+		ResultActions resultActions,
+		String identifier,
+		String tag,
+		String description,
+		List<ParameterDescriptorWithType> parameters,
+		List<HeaderDescriptorWithType> requestHeaders,
+		List<FieldDescriptor> requestFields,
+		List<HeaderDescriptorWithType> responseHeaders,
+		List<FieldDescriptor> responseFields,
+		ResultMatcher status
+	) throws Exception {
+		resultActions
+			.andDo(document(identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
+				resource(ResourceSnippetParameters.builder()
+					.tag(tag)
+					.description(description)
+					.pathParameters(parameters)
+					.requestHeaders(requestHeaders)
+					.requestFields(requestFields)
+					.responseHeaders(responseHeaders)
+					.responseFields(responseFields)
+					.build())))
+			.andExpect(status);
+	}
+
+	/**
 	 * Request Body, Response Body
 	 */
 	public static void doDocument(
