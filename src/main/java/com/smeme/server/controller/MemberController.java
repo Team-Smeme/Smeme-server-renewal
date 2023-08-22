@@ -68,4 +68,13 @@ public class MemberController {
         return ResponseEntity.ok(ApiResponse.success(SUCCESS_CHECK_DUPLICATED_NAME.getMessage(), response));
     }
 
+    @Operation(summary = "사용자 푸쉬 알람 동의 여부 수정", description = "사용자의 푸쉬 알람 동의 여부를 수정합니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "사용자 푸쉬 알람 동의 여부 수정 성공")})
+    @PatchMapping("/push")
+    public ResponseEntity<ApiResponse> updateUserPush(Principal principal, @RequestBody MemberPushUpdateRequestDTO requestDTO) {
+        memberService.updateMemberPush(Util.getMemberId(principal), requestDTO);
+        return ResponseEntity.ok(ApiResponse.success(SUCCESS_UPDATE_USER_PUSH.getMessage()));
+    }
+    
 }
