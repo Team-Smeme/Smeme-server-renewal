@@ -107,6 +107,12 @@ public class MemberService {
         }
     }
 
+    @Transactional
+    public void updateMemberPush(Long memberId, MemberPushUpdateRequestDTO requestDTO) {
+        Member member = getMemberById(memberId);
+        member.updateHasAlarm(requestDTO.hasAlarm());
+    }
+
     public MemberNameResponseDTO checkDuplicatedName(String name) {
         boolean isExist = memberRepository.existsByUsername(name);
         return new MemberNameResponseDTO(isExist);
