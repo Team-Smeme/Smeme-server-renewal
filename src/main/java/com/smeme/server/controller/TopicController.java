@@ -2,7 +2,6 @@ package com.smeme.server.controller;
 
 import static com.smeme.server.util.message.ResponseMessage.*;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/topics")
-@SecurityRequirement(name = "Authorization")
 public class TopicController {
 
 	private final TopicService topicService;

@@ -6,7 +6,7 @@ public record TopicResponseDTO(
 	Long topicId,
 	String content
 ) {
-	public static TopicResponseDTO of (Topic topic) {
+	public static TopicResponseDTO of(Topic topic) {
 		return new TopicResponseDTO(topic.getId(), topic.getContent());
 	}
 }

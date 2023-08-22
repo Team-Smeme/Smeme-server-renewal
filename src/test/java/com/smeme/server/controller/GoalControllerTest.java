@@ -48,7 +48,9 @@ class GoalControllerTest extends BaseControllerTest {
 	@DisplayName("학습 목표 전체 조회 테스트")
 	void success_get_all_goals_test() throws Exception {
 		// given
-		GoalsResponseDTO responseDTO = GoalsResponseDTO.testOf();
+		GoalsResponseDTO responseDTO = new GoalsResponseDTO(
+			List.of(new GoalsResponseDTO.GoalResponseDTO(GoalType.APPLY, "현지 언어 체득"))
+		);
 		ResponseEntity<ApiResponse> response = ResponseEntity.ok(success(SUCCESS_GET_GOALS.getMessage(), responseDTO));
 
 		// when

@@ -33,15 +33,14 @@ public record DiaryResponseDTO(
 			.build();
 	}
 
-	public static DiaryResponseDTO testOf() {
-		return DiaryResponseDTO.builder()
-			.diaryId(1L)
-			.topic("가보고 싶은 해외 여행지가 있다면 소개해 주세요!")
-			.content("Hello Smeem")
-			.createdAt(getCreatedAt(LocalDateTime.now()))
-			.username("스미무")
-			.corrections(List.of(CorrectionDTO.testOf()))
-			.build();
+	public record CorrectionDTO(
+		Long correctionId,
+		String before,
+		String after
+	) {
+		static CorrectionDTO of(Correction correction) {
+			return new CorrectionDTO(correction.getId(), correction.getBeforeSentence(), correction.getAfterSentence());
+		}
 	}
 
 	private static String getTopic(Topic topic) {
@@ -54,19 +53,5 @@ public record DiaryResponseDTO(
 
 	private static List<CorrectionDTO> getCorrections(List<Correction> corrections) {
 		return corrections.stream().map(CorrectionDTO::of).toList();
-	}
-}
-
-record CorrectionDTO(
-	Long correctionId,
-	String before,
-	String after
-) {
-	static CorrectionDTO of(Correction correction) {
-		return new CorrectionDTO(correction.getId(), correction.getBeforeSentence(), correction.getAfterSentence());
-	}
-
-	static CorrectionDTO testOf() {
-		return new CorrectionDTO(1L, "Hello", "Hi");
 	}
 }

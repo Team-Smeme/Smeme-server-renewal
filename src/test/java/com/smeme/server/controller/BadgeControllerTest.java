@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.smeme.server.dto.badge.BadgeListResponseDTO;
 import com.smeme.server.dto.badge.BadgeResponseDTO;
+import com.smeme.server.model.badge.BadgeType;
 import com.smeme.server.util.ApiResponse;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -46,7 +47,7 @@ class BadgeControllerTest extends BaseControllerTest {
 	void success_get_member_badge_test() throws Exception {
 		// given
 		List<BadgeResponseDTO> badges = List.of(new BadgeResponseDTO(1L, "연속 3일 일기 뱃지",
-			"STREAK", "https://m.s3.ap-northeast-2.amazonaws.com/badge/streak.png"));
+			BadgeType.COMBO, "https://m.s3.ap-northeast-2.amazonaws.com/badge/streak.png"));
 		BadgeListResponseDTO responseDTO = new BadgeListResponseDTO(badges);
 		ResponseEntity<ApiResponse> response = ResponseEntity.ok(success(SUCCESS_GET_BADGES.getMessage(), responseDTO));
 

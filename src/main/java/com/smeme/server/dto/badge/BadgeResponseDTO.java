@@ -1,19 +1,33 @@
 package com.smeme.server.dto.badge;
 
 import com.smeme.server.model.badge.Badge;
+import com.smeme.server.model.badge.BadgeType;
 import com.smeme.server.model.badge.MemberBadge;
 
+import lombok.Builder;
+
+@Builder
 public record BadgeResponseDTO(
-        Long id,
-        String name,
-        String type,
-        String imageUrl
+	Long id,
+	String name,
+	BadgeType type,
+	String imageUrl
 ) {
     public static BadgeResponseDTO of(MemberBadge memberBadge) {
-        return new BadgeResponseDTO(memberBadge.getBadge().getId(), memberBadge.getBadge().getName(), memberBadge.getBadge().getType().toString(), memberBadge.getBadge().getImageUrl());
+        return BadgeResponseDTO.builder()
+            .id(memberBadge.getBadge().getId())
+            .name(memberBadge.getBadge().getName())
+            .type(memberBadge.getBadge().getType())
+            .imageUrl(memberBadge.getBadge().getImageUrl())
+            .build();
     }
 
-    public static BadgeResponseDTO of(Badge badge) {
-        return new BadgeResponseDTO(badge.getId(), badge.getName(), badge.getType().toString(), badge.getImageUrl());
-    }
+	public static BadgeResponseDTO of(Badge badge) {
+        return BadgeResponseDTO.builder()
+            .id(badge.getId())
+            .name(badge.getName())
+            .type(badge.getType())
+            .imageUrl(badge.getImageUrl())
+            .build();
+	}
 }

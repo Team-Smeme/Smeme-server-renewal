@@ -50,7 +50,7 @@ class BetaAuthControllerTest extends BaseControllerTest {
 		BetaSignInRequestDTO requestDTO = new BetaSignInRequestDTO("dsdsdsdsds");
 		BetaTokenResponseDTO responseDTO = new BetaTokenResponseDTO(
 			"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjIyMjU0NjY4LCJleHAiO",
-			List.of(new BadgeResponseDTO(1L, "웰컴 뱃지", BadgeType.EVENT.toString(), "image-url"))
+			List.of(new BadgeResponseDTO(1L, "웰컴 뱃지", BadgeType.EVENT, "image-url"))
 		);
 		String message = SUCCESS_BETA_AUTH_TOKEN.getMessage();
 		ResponseEntity<ApiResponse> response = ResponseEntity.ok(success(message, responseDTO));

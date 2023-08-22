@@ -16,23 +16,15 @@ public record DiariesResponseDTO(
 		);
 	}
 
-	public static DiariesResponseDTO testOf() {
-		return new DiariesResponseDTO(List.of(DiaryDTO.testOf()), true);
-	}
-}
-
-record DiaryDTO(
-	Long diaryId,
-	String content,
-	String createdAt
-) {
-	public static DiaryDTO of(Diary diary) {
-		return new DiaryDTO(diary.getId(),
-			diary.getContent(),
-			Util.transferDateTimeToString(diary.getCreatedAt()));
-	}
-
-	public static DiaryDTO testOf() {
-		return new DiaryDTO(1L, "Hello Smeem", "2023-08-01 14:00");
+	public record DiaryDTO(
+		Long diaryId,
+		String content,
+		String createdAt
+	) {
+		public static DiaryDTO of(Diary diary) {
+			return new DiaryDTO(diary.getId(),
+				diary.getContent(),
+				Util.transferDateTimeToString(diary.getCreatedAt()));
+		}
 	}
 }

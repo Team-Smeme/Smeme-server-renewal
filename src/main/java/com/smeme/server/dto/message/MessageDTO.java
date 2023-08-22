@@ -12,10 +12,16 @@ public record MessageDTO(
 		MessageVO message = new MessageVO(notification, targetToken);
 		return new MessageDTO(false, message);
 	}
-}
 
-record MessageVO(NotificationVO notification, String token) {
-}
+	record MessageVO(
+		NotificationVO notification,
+		String token
+	) {
+	}
 
-record NotificationVO(String title, String body) {
+	record NotificationVO(
+		String title,
+		String body
+	) {
+	}
 }

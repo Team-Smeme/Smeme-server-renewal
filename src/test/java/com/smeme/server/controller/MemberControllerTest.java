@@ -110,7 +110,7 @@ class MemberControllerTest extends BaseControllerTest {
 			"en",
 			true,
 			new TrainingTimeResponseDTO("월", 13, 30),
-			new BadgeResponseDTO(1L, "웰컴 뱃지", BadgeType.EVENT.toString(), imageUrl)
+			new BadgeResponseDTO(1L, "웰컴 뱃지", BadgeType.EVENT, imageUrl)
 		);
 		ResponseEntity<ApiResponse> response = ResponseEntity.ok(success(SUCCESS_GET_USER.getMessage(), responseDTO));
 

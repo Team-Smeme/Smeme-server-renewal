@@ -6,7 +6,6 @@ import com.smeme.server.dto.auth.token.TokenResponseDTO;
 import com.smeme.server.service.auth.AuthService;
 import com.smeme.server.util.ApiResponse;
 import com.smeme.server.util.Util;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +19,6 @@ import static com.smeme.server.util.message.ResponseMessage.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v2/auth")
-@Tag(name = "Auth", description = "인증/인가 관련 API")
 public class AuthController {
 
     private final AuthService authService;
