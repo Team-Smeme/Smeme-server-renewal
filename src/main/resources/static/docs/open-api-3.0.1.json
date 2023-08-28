@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.1",
   "info" : {
-    "title" : "smeme api documentation",
+    "title" : "SMEEM API Documentation",
     "description" : "Spring REST Docs with SwaggerUI.",
     "version" : "0.0.1"
   },
@@ -10,23 +10,790 @@
   } ],
   "tags" : [ ],
   "paths" : {
-    "/api/v2/test" : {
-      "get" : {
-        "tags" : [ "api" ],
-        "summary" : "서버 연결 테스트",
-        "description" : "서버 연결 테스트",
-        "operationId" : "test-docs",
+    "/api/beta/token" : {
+      "post" : {
+        "tags" : [ "Beta" ],
+        "summary" : "베타 테스트 토큰 발급",
+        "description" : "베타 테스트 토큰 발급",
+        "operationId" : "Get Beta Token Test",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-beta-token-1880490917"
+              },
+              "examples" : {
+                "Get Beta Token Test" : {
+                  "value" : "{\n  \"fcmToken\" : \"dsdsdsdsds\"\n}"
+                }
+              }
+            }
+          }
+        },
         "responses" : {
           "200" : {
             "description" : "200",
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-test594740350"
+                  "$ref" : "#/components/schemas/api-beta-token320774595"
                 },
                 "examples" : {
-                  "test-docs" : {
+                  "Get Beta Token Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"임시토큰 발급 성공\",\n  \"data\" : {\n    \"accessToken\" : \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjIyMjU0NjY4LCJleHAiO\",\n    \"badges\" : [ {\n      \"id\" : 1,\n      \"name\" : \"웰컴 뱃지\",\n      \"type\" : \"EVENT\",\n      \"imageUrl\" : \"image-url\"\n    } ]\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/auth" : {
+      "post" : {
+        "tags" : [ "Auth" ],
+        "summary" : "소셜 로그인",
+        "description" : "소셜 로그인",
+        "operationId" : "Sign In Test",
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "description" : "소셜 서비스 액세스 토큰",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "dsdsdsdsds"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v2-auth-1643129054"
+              },
+              "examples" : {
+                "Sign In Test" : {
+                  "value" : "{\n  \"social\" : \"KAKAO\",\n  \"fcmToken\" : \"dsdsdsdsds\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-auth-1219901506"
+                },
+                "examples" : {
+                  "Sign In Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"소셜로그인 성공\",\n  \"data\" : {\n    \"accessToken\" : \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjIyMjU0NjY4LCJleHAiO\",\n    \"refreshToken\" : \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjIyMjU0NjY4LCJleHAiO\",\n    \"isRegistered\" : true,\n    \"hasPlan\" : true\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Auth" ],
+        "summary" : "회원 탈퇴",
+        "description" : "회원 탈퇴",
+        "operationId" : "With Drawl Test",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
+                },
+                "examples" : {
+                  "With Drawl Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"회원 탈퇴 성공\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/diaries" : {
+      "get" : {
+        "tags" : [ "Diary" ],
+        "summary" : "일기 리스트 조회",
+        "description" : "일기 리스트 조회",
+        "operationId" : "Get Diaries Test",
+        "parameters" : [ {
+          "name" : "start",
+          "in" : "query",
+          "description" : "범위 시작 날짜(yyyy-MM-dd HH:mm)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "end",
+          "in" : "query",
+          "description" : "범위 끝 날짜(yyyy-MM-dd HH:mm)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries1551664804"
+                },
+                "examples" : {
+                  "Get Diaries Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 리스트 조회 성공\",\n  \"data\" : {\n    \"diaries\" : [ {\n      \"diaryId\" : 1,\n      \"content\" : \"Hello Smeem!\",\n      \"createdAt\" : \"2023-08-19 14:00\"\n    } ],\n    \"has30Past\" : true\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Diary" ],
+        "summary" : "일기 작성",
+        "description" : "일기 작성",
+        "operationId" : "Create Diary Test",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v2-diaries1585247654"
+              },
+              "examples" : {
+                "Create Diary Test" : {
+                  "value" : "{\n  \"content\" : \"Hello SMEEM!\",\n  \"topicId\" : 1\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "201",
+            "headers" : {
+              "Location" : {
+                "description" : "생성된 일기 조회 URI",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-486735900"
+                },
+                "examples" : {
+                  "Create Diary Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 생성 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"badges\" : [ {\n      \"name\" : \"웰컴 뱃지\",\n      \"imageUrl\" : \"image-url\"\n    } ]\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/goals" : {
+      "get" : {
+        "tags" : [ "Goal" ],
+        "summary" : "학습 목표 전체 조회",
+        "description" : "학습 목표 전체 조회",
+        "operationId" : "Get All Goals Test",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-goals-1163689825"
+                },
+                "examples" : {
+                  "Get All Goals Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"학습 목표 리스트 조회 성공\",\n  \"data\" : {\n    \"goals\" : [ {\n      \"goalType\" : \"APPLY\",\n      \"name\" : \"현지 언어 체득\"\n    } ]\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/members" : {
+      "patch" : {
+        "tags" : [ "Member" ],
+        "summary" : "회원 정보 수정",
+        "description" : "회원 정보 수정",
+        "operationId" : "Update Member Profile",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v2-members243116454"
+              },
+              "examples" : {
+                "Update Member Profile" : {
+                  "value" : "{\n  \"username\" : \"홍길동\",\n  \"termAccepted\" : false\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-members-1921060720"
+                },
+                "examples" : {
+                  "Update Member Profile" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"닉네임 변경 성공\",\n  \"data\" : {\n    \"badges\" : [ {\n      \"name\" : \"웰컴 뱃지\",\n      \"imageUrl\" : \"https://m.s3.ap-northeast-2.amazonaws.com/badge/welcome.png\"\n    } ]\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/test" : {
+      "get" : {
+        "tags" : [ "Test" ],
+        "summary" : "서버 연결 테스트",
+        "description" : "서버 연결 테스트",
+        "operationId" : "Server Connect Test",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
+                },
+                "examples" : {
+                  "Server Connect Test" : {
                     "value" : "{\n  \"success\" : true,\n  \"message\" : \"server connect\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/auth/sign-out" : {
+      "post" : {
+        "tags" : [ "Auth" ],
+        "summary" : "로그아웃",
+        "description" : "로그아웃",
+        "operationId" : "Logout Test",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
+                },
+                "examples" : {
+                  "Logout Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"로그아웃 성공\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/auth/token" : {
+      "post" : {
+        "tags" : [ "Auth" ],
+        "summary" : "토큰 재발급",
+        "description" : "토큰 재발급",
+        "operationId" : "Token Reissue Test",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-auth-token1729899773"
+                },
+                "examples" : {
+                  "Token Reissue Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"토큰 발급 성공\",\n  \"data\" : {\n    \"accessToken\" : \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjIyMjU0NjY4LCJleHAiO\",\n    \"refreshToken\" : \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjIyMjU0NjY4LCJleHAiO\"\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/corrections/{correctionId}" : {
+      "delete" : {
+        "tags" : [ "Correction" ],
+        "summary" : "첨삭 삭제",
+        "description" : "첨삭 삭제",
+        "operationId" : "Delete Correction Test",
+        "parameters" : [ {
+          "name" : "correctionId",
+          "in" : "path",
+          "description" : "첨삭 id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
+                },
+                "examples" : {
+                  "Delete Correction Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"첨삭 삭제 성공\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Correction" ],
+        "summary" : "첨삭 수정",
+        "description" : "첨삭 수정",
+        "operationId" : "Update Correction Test",
+        "parameters" : [ {
+          "name" : "correctionId",
+          "in" : "path",
+          "description" : "첨삭 id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v2-corrections-correctionId1132553219"
+              },
+              "examples" : {
+                "Update Correction Test" : {
+                  "value" : "{\n  \"sentence\" : \"Hello\",\n  \"content\" : \"Hi\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
+                },
+                "examples" : {
+                  "Update Correction Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"첨삭 수정 성공\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/diaries/{diaryId}" : {
+      "get" : {
+        "tags" : [ "Diary" ],
+        "summary" : "일기 조회",
+        "description" : "일기 조회",
+        "operationId" : "Get Diary Test",
+        "parameters" : [ {
+          "name" : "diaryId",
+          "in" : "path",
+          "description" : "일기 id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId-1397625143"
+                },
+                "examples" : {
+                  "Get Diary Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 상세 조회 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"topic\" : \"가보고 싶은 해외 여행지가 있다면 소개해 주세요!\",\n    \"content\" : \"I want to go Bla Bla ~\",\n    \"createdAt\" : \"2023-08-19 14:00\",\n    \"username\" : \"스미무\",\n    \"corrections\" : [ {\n      \"correctionId\" : 1,\n      \"before\" : \"Hello\",\n      \"after\" : \"Hi\"\n    } ]\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Diary" ],
+        "summary" : "일기 삭제",
+        "description" : "일기 삭제",
+        "operationId" : "Delete Diary Test",
+        "parameters" : [ {
+          "name" : "diaryId",
+          "in" : "path",
+          "description" : "일기 id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
+                },
+                "examples" : {
+                  "Delete Diary Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 삭제 성공\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Diary" ],
+        "summary" : "일기 수정",
+        "description" : "일기 수정",
+        "operationId" : "Update Diary Test",
+        "parameters" : [ {
+          "name" : "diaryId",
+          "in" : "path",
+          "description" : "일기 id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v2-diaries-diaryId1231150871"
+              },
+              "examples" : {
+                "Update Diary Test" : {
+                  "value" : "{\n  \"content\" : \"Hello SMEEM!\",\n  \"topicId\" : 1\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
+                },
+                "examples" : {
+                  "Update Diary Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 수정 성공\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/goals/{type}" : {
+      "get" : {
+        "tags" : [ "Goal" ],
+        "summary" : "학습 목표 조회",
+        "description" : "학습 목표 조회",
+        "operationId" : "Get Goal Test",
+        "parameters" : [ {
+          "name" : "type",
+          "in" : "path",
+          "description" : "학습 목표 ENUM 값",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-goals-type1705313935"
+                },
+                "examples" : {
+                  "Get Goal Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"학습 목표 조회 성공\",\n  \"data\" : {\n    \"name\" : \"현지 언어 체득\",\n    \"way\" : \"주 5회 이상 오늘 하루를 돌아보는 일기 작성하기\",\n    \"detail\" : \"사전 없이 일기 완성\\nsmeem 연속 일기 배지 획득\"\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/members/badges" : {
+      "get" : {
+        "tags" : [ "Badge" ],
+        "summary" : "회원 뱃지 조회",
+        "description" : "회원 뱃지 조회",
+        "operationId" : "Get Member's Badges Test",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-members-badges-2097904894"
+                },
+                "examples" : {
+                  "Get Member's Badges Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"뱃지 리스트 조회 성공\",\n  \"data\" : {\n    \"badges\" : [ {\n      \"id\" : 1,\n      \"name\" : \"연속 3일 일기 뱃지\",\n      \"type\" : \"COMBO\",\n      \"imageUrl\" : \"https://m.s3.ap-northeast-2.amazonaws.com/badge/streak.png\"\n    } ]\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/members/me" : {
+      "get" : {
+        "tags" : [ "Member" ],
+        "summary" : "회원 정보 조회",
+        "description" : "회원 정보 조회",
+        "operationId" : "Get Member Profile Test",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-members-me1949257691"
+                },
+                "examples" : {
+                  "Get Member Profile Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"회원 정보 조회 성공\",\n  \"data\" : {\n    \"username\" : \"test\",\n    \"target\" : \"자기계발\",\n    \"way\" : \"주 5회 이상 오늘 하루를 돌아보는 일기 작성하기\",\n    \"detail\" : \"사전 없이 일기 완성\\nsmeem 연속 일기 배지 획득\",\n    \"targetLang\" : \"en\",\n    \"hasPushAlarm\" : true,\n    \"trainingTime\" : {\n      \"day\" : \"월\",\n      \"hour\" : 13,\n      \"minute\" : 30\n    },\n    \"badge\" : {\n      \"id\" : 1,\n      \"name\" : \"웰컴 뱃지\",\n      \"type\" : \"EVENT\",\n      \"imageUrl\" : \"https://m.s3.ap-northeast-2.amazonaws.com/badge/welcome.png\"\n    }\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/members/plan" : {
+      "patch" : {
+        "tags" : [ "Member" ],
+        "summary" : "회원 학습 계획 수정",
+        "description" : "회원 학습 계획 수정",
+        "operationId" : "Update Member Plan Test",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v2-members-plan842379936"
+              },
+              "examples" : {
+                "Update Member Plan Test" : {
+                  "value" : "{\n  \"target\" : \"HOBBY\",\n  \"trainingTime\" : {\n    \"day\" : \"월\",\n    \"hour\" : 13,\n    \"minute\" : 30\n  },\n  \"hasAlarm\" : true\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
+                },
+                "examples" : {
+                  "Update Member Plan Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"회원 학습 계획 업데이트 성공\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/test/alarm" : {
+      "get" : {
+        "tags" : [ "Test" ],
+        "summary" : "푸시 알림 테스트",
+        "description" : "푸시 알림 테스트",
+        "operationId" : "Push Alarm Test",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
+                },
+                "examples" : {
+                  "Push Alarm Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"푸시 알림 전송 성공\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/topics/random" : {
+      "get" : {
+        "tags" : [ "Topic" ],
+        "summary" : "랜덤 주제 조회",
+        "description" : "랜덤 주제 조회",
+        "operationId" : "Get Random Topic Test",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-topics-random459952356"
+                },
+                "examples" : {
+                  "Get Random Topic Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"랜덤 주제 조회 성공\",\n  \"data\" : {\n    \"topicId\" : 1,\n    \"content\" : \"가보고 싶은 해외 여행지가 있다면 소개해 주세요!\"\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/corrections/diary/{diaryId}" : {
+      "post" : {
+        "tags" : [ "Correction" ],
+        "summary" : "일기 첨삭",
+        "description" : "일기 첨삭",
+        "operationId" : "Create Correction Test",
+        "parameters" : [ {
+          "name" : "diaryId",
+          "in" : "path",
+          "description" : "첨삭 대상 일기 id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v2-corrections-correctionId1132553219"
+              },
+              "examples" : {
+                "Create Correction Test" : {
+                  "value" : "{\n  \"sentence\" : \"Hello\",\n  \"content\" : \"Hi\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "201",
+            "headers" : {
+              "Location" : {
+                "description" : "첨삭 대상 일기 조회 URI",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-corrections-diary-diaryId2136683666"
+                },
+                "examples" : {
+                  "Create Correction Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 첨삭 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"badge\" : {\n      \"id\" : 1,\n      \"name\" : \"웰컴 뱃지\",\n      \"type\" : \"EVENT\",\n      \"imageUrl\" : \"image-url\"\n    }\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/members/nickname/check" : {
+      "get" : {
+        "tags" : [ "Member" ],
+        "summary" : "닉네임 중복 체크",
+        "description" : "닉네임 중복 체크",
+        "operationId" : "Check Duplicated Name Test",
+        "parameters" : [ {
+          "name" : "name",
+          "in" : "query",
+          "description" : "유저 닉네임",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-members-nickname-check-1939857790"
+                },
+                "examples" : {
+                  "Check Duplicated Name Test" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"닉네임 중복 검사 성공\",\n  \"data\" : {\n    \"isExist\" : true\n  }\n}"
                   }
                 }
               }
@@ -38,9 +805,693 @@
   },
   "components" : {
     "schemas" : {
-      "api-v2-test594740350" : {
+      "api-v2-auth-token1729899773" : {
         "type" : "object",
         "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "accessToken" : {
+                "type" : "string",
+                "description" : "smeem access token"
+              },
+              "refreshToken" : {
+                "type" : "string",
+                "description" : "smeem refresh token"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-corrections-correctionId1132553219" : {
+        "type" : "object",
+        "properties" : {
+          "sentence" : {
+            "type" : "string",
+            "description" : "첨삭할 문장"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "첨삭 내용"
+          }
+        }
+      },
+      "api-v2-members-nickname-check-1939857790" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "isExist" : {
+                "type" : "boolean",
+                "description" : "회원 이름 존재 여부"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-corrections-diary-diaryId2136683666" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "badge" : {
+                "type" : "object",
+                "properties" : {
+                  "imageUrl" : {
+                    "type" : "string",
+                    "description" : "뱃지 이미지 url"
+                  },
+                  "name" : {
+                    "type" : "string",
+                    "description" : "뱃지 이름"
+                  },
+                  "id" : {
+                    "type" : "number",
+                    "description" : "뱃지 id"
+                  },
+                  "type" : {
+                    "type" : "string",
+                    "description" : "뱃지 타입"
+                  }
+                },
+                "description" : "획득한 뱃지 정보"
+              },
+              "diaryId" : {
+                "type" : "number",
+                "description" : "첨삭 대상 일기 id"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-goals-type1705313935" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "name" : {
+                "type" : "string",
+                "description" : "학습 목표 이름"
+              },
+              "detail" : {
+                "type" : "string",
+                "description" : "학습 목표 내용"
+              },
+              "way" : {
+                "type" : "string",
+                "description" : "학습 목표 방식"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-diaries-diaryId594740350" : {
+        "type" : "object",
+        "properties" : {
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-auth-1643129054" : {
+        "type" : "object",
+        "properties" : {
+          "social" : {
+            "type" : "string",
+            "description" : "소셜 로그인 타입"
+          },
+          "fcmToken" : {
+            "type" : "string",
+            "description" : "fcm 토큰"
+          }
+        }
+      },
+      "api-v2-members-1921060720" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "badges" : {
+                "type" : "array",
+                "description" : "뱃지 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "imageUrl" : {
+                      "type" : "string",
+                      "description" : "뱃지 이미지 url"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "description" : "뱃지 이름"
+                    }
+                  }
+                }
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-topics-random459952356" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "topicId" : {
+                "type" : "number",
+                "description" : "랜덤 주제 id"
+              },
+              "content" : {
+                "type" : "string",
+                "description" : "랜덤 주제 내용"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-beta-token-1880490917" : {
+        "type" : "object",
+        "properties" : {
+          "fcmToken" : {
+            "type" : "string",
+            "description" : "FCM 토큰"
+          }
+        }
+      },
+      "api-v2-members-me1949257691" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "badge" : {
+                "type" : "object",
+                "properties" : {
+                  "imageUrl" : {
+                    "type" : "string",
+                    "description" : "뱃지 이미지 URL"
+                  },
+                  "name" : {
+                    "type" : "string",
+                    "description" : "뱃지 이름"
+                  },
+                  "id" : {
+                    "type" : "number",
+                    "description" : "뱃지 id"
+                  },
+                  "type" : {
+                    "type" : "string",
+                    "description" : "뱃지 타입"
+                  }
+                },
+                "description" : "뱃지 정보"
+              },
+              "targetLang" : {
+                "type" : "string",
+                "description" : "목표 언어"
+              },
+              "trainingTime" : {
+                "type" : "object",
+                "properties" : {
+                  "hour" : {
+                    "type" : "number",
+                    "description" : "학습 시간 시간"
+                  },
+                  "day" : {
+                    "type" : "string",
+                    "description" : "학습 시간 요일"
+                  },
+                  "minute" : {
+                    "type" : "number",
+                    "description" : "학습 시간 분"
+                  }
+                },
+                "description" : "학습 시간 정보"
+              },
+              "hasPushAlarm" : {
+                "type" : "boolean",
+                "description" : "푸시 알림 여부"
+              },
+              "detail" : {
+                "type" : "string",
+                "description" : "목표 세부 내용"
+              },
+              "way" : {
+                "type" : "string",
+                "description" : "목표 달성 방법"
+              },
+              "target" : {
+                "type" : "string",
+                "description" : "학습 목표"
+              },
+              "username" : {
+                "type" : "string",
+                "description" : "닉네임"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-members-plan842379936" : {
+        "type" : "object",
+        "properties" : {
+          "trainingTime" : {
+            "type" : "object",
+            "properties" : {
+              "hour" : {
+                "type" : "number",
+                "description" : "학습 시간 시간"
+              },
+              "day" : {
+                "type" : "string",
+                "description" : "학습 시간 요일"
+              },
+              "minute" : {
+                "type" : "number",
+                "description" : "학습 시간 분"
+              }
+            },
+            "description" : "학습 시간"
+          },
+          "hasAlarm" : {
+            "type" : "boolean",
+            "description" : "푸시 알람 동의 여부"
+          },
+          "target" : {
+            "type" : "string",
+            "description" : "학습 목표 타입"
+          }
+        }
+      },
+      "api-v2-diaries-diaryId1231150871" : {
+        "type" : "object",
+        "properties" : {
+          "topicId" : {
+            "type" : "number",
+            "description" : "랜덤 주제 id"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "수정할 일기 내용"
+          }
+        }
+      },
+      "api-v2-members-badges-2097904894" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "badges" : {
+                "type" : "array",
+                "description" : "뱃지 정보 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "imageUrl" : {
+                      "type" : "string",
+                      "description" : "뱃지 이미지 url"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "description" : "뱃지 이름"
+                    },
+                    "id" : {
+                      "type" : "number",
+                      "description" : "뱃지 id"
+                    },
+                    "type" : {
+                      "type" : "string",
+                      "description" : "뱃지 타입"
+                    }
+                  }
+                }
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-auth-1219901506" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "isRegistered" : {
+                "type" : "boolean",
+                "description" : "회원 정보 등록 여부"
+              },
+              "hasPlan" : {
+                "type" : "boolean",
+                "description" : "회원의 목표 유무"
+              },
+              "accessToken" : {
+                "type" : "string",
+                "description" : "smeem access token"
+              },
+              "refreshToken" : {
+                "type" : "string",
+                "description" : "smeem refresh token"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-diaries-486735900" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "badges" : {
+                "type" : "array",
+                "description" : "획득한 뱃지 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "imageUrl" : {
+                      "type" : "string",
+                      "description" : "뱃지 이미지 url"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "description" : "뱃지 이름"
+                    }
+                  }
+                }
+              },
+              "diaryId" : {
+                "type" : "number",
+                "description" : "생성한 일기 id"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-diaries-diaryId-1397625143" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "createdAt" : {
+                "type" : "string",
+                "description" : "작성 날짜"
+              },
+              "corrections" : {
+                "type" : "array",
+                "description" : "첨삭 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "before" : {
+                      "type" : "string",
+                      "description" : "첨삭 전 내용"
+                    },
+                    "after" : {
+                      "type" : "string",
+                      "description" : "첨삭 후 내용"
+                    },
+                    "correctionId" : {
+                      "type" : "number",
+                      "description" : "첨삭 id"
+                    }
+                  }
+                }
+              },
+              "diaryId" : {
+                "type" : "number",
+                "description" : "일기 id"
+              },
+              "topic" : {
+                "type" : "string",
+                "description" : "랜덤 주제 내용"
+              },
+              "content" : {
+                "type" : "string",
+                "description" : "일기 내용"
+              },
+              "username" : {
+                "type" : "string",
+                "description" : "작성자 이름"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-diaries1551664804" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "has30Past" : {
+                "type" : "boolean",
+                "description" : "30일 전 일기 존재 여부"
+              },
+              "diaries" : {
+                "type" : "array",
+                "description" : "일기 정보 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "createdAt" : {
+                      "type" : "string",
+                      "description" : "일기 작성 일자"
+                    },
+                    "diaryId" : {
+                      "type" : "number",
+                      "description" : "일기 id"
+                    },
+                    "content" : {
+                      "type" : "string",
+                      "description" : "일기 내용"
+                    }
+                  }
+                }
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-diaries1585247654" : {
+        "type" : "object",
+        "properties" : {
+          "topicId" : {
+            "type" : "number",
+            "description" : "일기 랜덤주제 id"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "일기 내용"
+          }
+        }
+      },
+      "api-v2-members243116454" : {
+        "type" : "object",
+        "properties" : {
+          "termAccepted" : {
+            "type" : "boolean",
+            "description" : "정책 동의 여부"
+          },
+          "username" : {
+            "type" : "string",
+            "description" : "회원 이름"
+          }
+        }
+      },
+      "api-v2-goals-1163689825" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "goals" : {
+                "type" : "array",
+                "description" : "학습 목표 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "goalType" : {
+                      "type" : "string",
+                      "description" : "학습 목표 ENUM 값"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "description" : "학습 목표 이름"
+                    }
+                  }
+                }
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-beta-token320774595" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "badges" : {
+                "type" : "array",
+                "description" : "뱃지 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "imageUrl" : {
+                      "type" : "string",
+                      "description" : "뱃지 이미지 URL"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "description" : "뱃지 이름"
+                    },
+                    "id" : {
+                      "type" : "number",
+                      "description" : "뱃지 id"
+                    },
+                    "type" : {
+                      "type" : "string",
+                      "description" : "뱃지 타입"
+                    }
+                  }
+                }
+              },
+              "accessToken" : {
+                "type" : "string",
+                "description" : "smeem beta access token"
+              }
+            },
+            "description" : "응답 데이터"
+          },
           "success" : {
             "type" : "boolean",
             "description" : "응답 성공 여부"

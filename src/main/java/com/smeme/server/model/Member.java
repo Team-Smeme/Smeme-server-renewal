@@ -2,7 +2,6 @@ package com.smeme.server.model;
 
 import static jakarta.persistence.GenerationType.*;
 
-import com.smeme.server.model.badge.Badge;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +17,7 @@ import com.smeme.server.model.goal.GoalType;
 @Entity
 @NoArgsConstructor
 @Getter
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "member_id")
