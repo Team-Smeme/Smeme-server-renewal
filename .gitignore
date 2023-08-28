@@ -37,8 +37,7 @@ out/
 .vscode/
 
 *.yml
-env.properties
+*.properties
 .env
 smeem_fcm.json
 .DS_Store
-open-api-3.0.1.json
