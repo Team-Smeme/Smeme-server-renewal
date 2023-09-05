@@ -21,7 +21,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomJwtAuthenticationEntryPoint customJwtAuthenticationEntryPoint;
 
-    private static final String[] AUTH_WHITELIST = {
+    private static final String[] AUTH_WHITELIST_DEV = {
             "/api/v2/auth",
             "/api/v2/test",
             "/api/beta/token",
@@ -38,8 +38,19 @@ public class SecurityConfig {
             "/api/v2/goals/{type}"
     };
 
+    private static final String[] AUTH_WHITELIST_PROD = {
+            "/api/v2/auth",
+            "/api/v2/test",
+            "/api/beta/token",
+            "/error",
+            "/favicon.ico",
+            "/api/v2/members/nickname/check",
+            "/api/v2/goals",
+            "/api/v2/goals/{type}"
+    };
+
     @Bean
-    @Profile("!prod")
+    @Profile("dev")
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
@@ -51,7 +62,27 @@ public class SecurityConfig {
                 .authenticationEntryPoint(customJwtAuthenticationEntryPoint)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers(AUTH_WHITELIST).permitAll()
+                .requestMatchers(AUTH_WHITELIST_DEV).permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
+
+    @Bean
+    @Profile("prod")
+    public SecurityFilterChain filterChainProd(HttpSecurity http) throws Exception {
+        return http
+                .csrf().disable()
+                .formLogin().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(customJwtAuthenticationEntryPoint)
+                .and()
+                .authorizeHttpRequests()
+                .requestMatchers(AUTH_WHITELIST_PROD).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
