@@ -60,7 +60,7 @@ jobs:
       - name: Upload to S3
         run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://${{ secrets.AWS_PROD_BUCKET_NAME }}/deploy/$GITHUB_SHA.zip
 
-      - name: Code Deploy # prod code deploy 생성
+      - name: Code Deploy
         run: aws deploy create-deployment --application-name smeem-codedeploy
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name prod-group
