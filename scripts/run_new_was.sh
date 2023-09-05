@@ -20,6 +20,16 @@ if [ ! -z ${TARGET_PID} ]; then
   sudo kill ${TARGET_PID}
 fi
 
-nohup java -jar -Dserver.port=${TARGET_PORT} -Dspring.profiles.active=prod /home/ubuntu/smeme/build/libs/server-0.0.1-SNAPSHOT.jar > /dev/null 2> /dev/null < /dev/null &
-echo "> Now new WAS runs at ${TARGET_PORT}."
+if [ "$DEPLOYMENT_GROUP_NAME" == "prod-group" ]
+then
+   nohup java -jar -Dserver.port=${TARGET_PORT} -Dspring.profiles.active=prod /home/ubuntu/smeme/build/libs/server-0.0.1-SNAPSHOT.jar > /dev/null 2> /dev/null < /dev/null &
+   echo "> Now new WAS runs at ${TARGET_PORT}."
+fi
+
+if [ "$DEPLOYMENT_GROUP_NAME" == "smeme-group" ]
+then
+   nohup java -jar -Dserver.port=${TARGET_PORT} -Dspring.profiles.active=dev /home/ubuntu/smeme/build/libs/server-0.0.1-SNAPSHOT.jar > /dev/null 2> /dev/null < /dev/null &
+   echo "> Now new WAS runs at ${TARGET_PORT}."
+fi
+
 exit 0
