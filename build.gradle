@@ -1,8 +1,48 @@
+import org.hidetake.gradle.swagger.generator.GenerateSwaggerUI
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+        restdocsApiSpecVersion = "0.18.2"
+    }
+}
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.1'
     id 'io.spring.dependency-management' version '1.1.0'
-    id 'org.asciidoctor.convert' version '2.4.0'
+    // jacoco
+    id 'jacoco'
+    // restdocs-api-spec
+    id 'com.epages.restdocs-api-spec' version "${restdocsApiSpecVersion}"
+    // swagger generator
+    id 'org.hidetake.swagger.generator' version '2.18.2'
+}
+
+swaggerSources {
+    sample {
+        setInputFile(file("${project.buildDir}/api-spec/openapi3.yaml"))
+        }
+    }
+
+openapi3 {
+    server('http://localhost:8080')
+    title = 'restdocs-swagger API Documentation'
+    description = 'Spring REST Docs with SwaggerUI.'
+    version = '0.0.1'
+    format = 'yaml'
+}
+
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
+
 }
 
 group = 'com.smeme'
@@ -24,24 +64,73 @@ ext {
 }
 
 dependencies {
+    // Spring Boot Starter
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // JWT
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+
+    // Swagger & RestDocs
+    testImplementation "com.epages:restdocs-api-spec-mockmvc:${restdocsApiSpecVersion}"
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+    // fcm
+    implementation 'com.google.firebase:firebase-admin:9.1.1'
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.2.2'
+
+    // QueryDSL
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    // lombok
     compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // DB
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.postgresql:postgresql'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
-    outputs.dir snippetsDir
     useJUnitPlatform()
 }
 
-tasks.named('asciidoctor') {
-    inputs.dir snippetsDir
-    dependsOn test
+tasks.withType(GenerateSwaggerUI) {
+    dependsOn 'openapi3'
+    copy {
+        from "build/resources/main/static/docs"
+        into "src/main/resources/static/docs/"
+    }
+}
+
+bootJar {
+    dependsOn(':openapi3')
+}
+// bootJar 실행 전, copySwaggerUI 를 실행하도록 설정
+openapi3 {
+    server = "http://localhost:8080"
+    title = "smeme api documentation"
+    description = "Spring REST Docs with SwaggerUI."
+    version = "0.0.1"
+    outputFileNamePrefix = 'open-api-3.0.1'
+    format = 'json'
+
+    outputDirectory = 'build/resources/main/static/docs'
 }

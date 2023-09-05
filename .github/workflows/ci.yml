@@ -1,0 +1,54 @@
+name: pr-check
+
+on:
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: create .env file
+        working-directory: ./
+        run: |
+          pwd
+          touch .env
+          echo "${{ secrets.ENV }}" >> .env
+          cat .env
+
+      - name: Create application.yml
+        run: |
+          pwd
+          touch src/main/resources/application.yml
+          echo "${{ secrets.APPLICATION_YML }}" >> src/main/resources/application.yml
+          cat src/main/resources/application.yml
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Create FireBase JSON file From AWS
+        run: |
+          aws s3 cp --region ap-northeast-2 s3://${{ secrets.AWS_BUCKET_NAME }}/json/smeem_fcm.json src/main/resources/smeem_fcm.json
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash
+
+      - name: Build with Gradle
+        run: ./gradlew build
+        shell: bash
