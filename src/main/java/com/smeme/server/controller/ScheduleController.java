@@ -25,13 +25,13 @@ public class ScheduleController {
 	@Value("${fcm.smeem_body}")
 	private String MESSAGE_BODY;
 
-	@Scheduled(cron = "0 0/30 * * * *")
+//	@Scheduled(cron = "0 0/30 * * * *")
 	public void pushMessage() throws InterruptedException {
 		Thread.sleep(1000);
 		messageService.pushMessageForTrainingTime(LocalDateTime.now(), MESSAGE_TITLE, MESSAGE_BODY);
 	}
 
-	@Scheduled(cron = "0 0 0 * * *")
+//	@Scheduled(cron = "0 0 0 * * *")
 	public void deleteDiaries30Past() throws InterruptedException {
 		Thread.sleep(1000);
 		diaryService.deleteDiary30Past(LocalDateTime.now().minusDays(30));
