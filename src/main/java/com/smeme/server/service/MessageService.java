@@ -9,9 +9,7 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.smeme.server.model.goal.GoalType;
-import com.smeme.server.repository.goal.GoalRepository;
-import org.springframework.beans.factory.annotation.Value;
+import com.smeme.server.config.ValueConfig;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,57 +32,52 @@ import okhttp3.RequestBody;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MessageService {
-	private final ObjectMapper objectMapper;
-	private final TrainingTimeRepository trainingTimeRepository;
-	private final MemberRepository memberRepository;
 
-	@Value("${fcm.file_path}")
-	private String FIREBASE_CONFIG_PATH;
-	@Value("${fcm.url}")
-	private String FIREBASE_API_URI;
-	@Value("${fcm.google_api}")
-	private String GOOGLE_API_URI;
+    private final ObjectMapper objectMapper;
+    private final TrainingTimeRepository trainingTimeRepository;
+    private final MemberRepository memberRepository;
+    private final ValueConfig valueConfig;
 
-	public void pushMessageForTrainingTime(LocalDateTime now, String title, String body) {
-		trainingTimeRepository.getTrainingTimeForPushAlarm(now)
-			.forEach(trainingTime -> pushMessage(trainingTime.getMember().getFcmToken(), title, body));
-	}
+    public void pushMessageForTrainingTime(LocalDateTime now, String title, String body) {
+        trainingTimeRepository.getTrainingTimeForPushAlarm(now)
+                .forEach(trainingTime -> pushMessage(trainingTime.getMember().getFcmToken(), title, body));
+    }
 
-	public void pushTest(String title, String body, Long memberId) {
-		Member member = memberRepository.findById(memberId)
-			.orElseThrow(() -> new EntityNotFoundException(ErrorMessage.INVALID_MEMBER.getMessage()));
-		pushMessage(member.getFcmToken(), title, body);
-	}
+    public void pushTest(String title, String body, Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.INVALID_MEMBER.getMessage()));
+        pushMessage(member.getFcmToken(), title, body);
+    }
 
-	private void pushMessage(String targetToken, String title, String body) {
-		try {
-			String message = makeMessage(targetToken, title, body);
-			RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
+    private void pushMessage(String targetToken, String title, String body) {
+        try {
+            String message = makeMessage(targetToken, title, body);
+            RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
 
-			Request request = new Request.Builder()
-				.url(FIREBASE_API_URI)
-				.post(requestBody)
-				.addHeader(AUTHORIZATION, "Bearer " + getAccessToken())
-				.addHeader("Accept", "application/json; UTF-8")
-				.build();
+            Request request = new Request.Builder()
+                    .url(valueConfig.getFIREBASE_API_URI())
+                    .post(requestBody)
+                    .addHeader(AUTHORIZATION, "Bearer " + getAccessToken())
+                    .addHeader("Accept", "application/json; UTF-8")
+                    .build();
 
-			OkHttpClient client = new OkHttpClient();
-			client.newCall(request).execute();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+            OkHttpClient client = new OkHttpClient();
+            client.newCall(request).execute();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	private String makeMessage(String targetToken, String title, String body) throws JsonProcessingException {
-		MessageDTO message = MessageDTO.of(targetToken, title, body);
-		return objectMapper.writeValueAsString(message);
-	}
+    private String makeMessage(String targetToken, String title, String body) throws JsonProcessingException {
+        MessageDTO message = MessageDTO.of(targetToken, title, body);
+        return objectMapper.writeValueAsString(message);
+    }
 
-	private String getAccessToken() throws IOException {
-		GoogleCredentials googleCredentials = GoogleCredentials
-			.fromStream(new ClassPathResource(FIREBASE_CONFIG_PATH).getInputStream())
-			.createScoped(List.of(GOOGLE_API_URI));
-		googleCredentials.refreshIfExpired();
-		return googleCredentials.getAccessToken().getTokenValue();
-	}
+    private String getAccessToken() throws IOException {
+        GoogleCredentials googleCredentials = GoogleCredentials
+                .fromStream(new ClassPathResource(valueConfig.getFIREBASE_CONFIG_PATH()).getInputStream())
+                .createScoped(List.of(valueConfig.getGOOGLE_API_URI()));
+        googleCredentials.refreshIfExpired();
+        return googleCredentials.getAccessToken().getTokenValue();
+    }
 }

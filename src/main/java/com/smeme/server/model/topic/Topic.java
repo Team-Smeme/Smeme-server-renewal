@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Topic {
 
-    @Id @GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "topic_id")
     private Long id;
 

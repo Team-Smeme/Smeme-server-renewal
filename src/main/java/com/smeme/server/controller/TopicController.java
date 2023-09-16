@@ -1,5 +1,6 @@
 package com.smeme.server.controller;
 
+import static com.smeme.server.util.ApiResponse.success;
 import static com.smeme.server.util.message.ResponseMessage.*;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -26,18 +27,18 @@ import lombok.RequiredArgsConstructor;
 @SecurityRequirement(name = "Authorization")
 public class TopicController {
 
-	private final TopicService topicService;
+    private final TopicService topicService;
 
-	@Operation(summary = "랜덤 주제 조회", description = "랜덤 주제를 임의로 조회합니다.")
-	@ApiResponses({
-		@io.swagger.v3.oas.annotations.responses.ApiResponse(
-			responseCode = "200",
-			description = "랜덤 주제 조회",
-			content = @Content(schema = @Schema(implementation = TopicResponseDTO.class)))
-	})
-	@GetMapping("/random")
-	public ResponseEntity<ApiResponse> getRandomTopic() {
-		TopicResponseDTO response = topicService.getRandomTopic();
-		return ResponseEntity.ok(ApiResponse.success(SUCCESS_GET_RANDOM_TOPIC.getMessage(), response));
-	}
+    @Operation(summary = "랜덤 주제 조회", description = "랜덤 주제를 임의로 조회합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "랜덤 주제 조회",
+                    content = @Content(schema = @Schema(implementation = TopicResponseDTO.class)))
+    })
+    @GetMapping("/random")
+    public ResponseEntity<ApiResponse> getRandomTopic() {
+        TopicResponseDTO response = topicService.getRandomTopic();
+        return ResponseEntity.ok(success(SUCCESS_GET_RANDOM_TOPIC.getMessage(), response));
+    }
 }

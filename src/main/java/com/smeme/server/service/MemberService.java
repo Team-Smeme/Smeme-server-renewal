@@ -1,5 +1,6 @@
 package com.smeme.server.service;
 
+import com.smeme.server.config.ValueConfig;
 import com.smeme.server.dto.badge.BadgeResponseDTO;
 import com.smeme.server.dto.member.*;
 import com.smeme.server.dto.training.TrainingTimeResponseDTO;
@@ -19,7 +20,6 @@ import com.smeme.server.util.message.ErrorMessage;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -37,14 +37,12 @@ import static java.util.Objects.nonNull;
 @RequiredArgsConstructor
 public class MemberService {
 
-    @Value("${badge.welcome-badge-id}")
-    private Long WELCOME_BADGE_ID;
-
     private final MemberRepository memberRepository;
     private final TrainingTimeRepository trainingTimeRepository;
     private final MemberBadgeRepository memberBadgeRepository;
     private final GoalRepository goalRepository;
     private final BadgeRepository badgeRepository;
+    private final ValueConfig valueConfig;
 
     @Transactional
     public MemberUpdateResponseDTO updateMember(Long memberId, MemberUpdateRequestDTO dto) {
@@ -57,7 +55,7 @@ public class MemberService {
 
         ArrayList<Badge> badges = new ArrayList<>();
         if (isNull(member.getUsername())) {
-            Badge welcomeBadge = getBadgeById(WELCOME_BADGE_ID);
+            Badge welcomeBadge = getBadgeById(valueConfig.getWELCOME_BADGE_ID());
             memberBadgeRepository.save(new MemberBadge(member, welcomeBadge));
             badges.add(welcomeBadge);
         }

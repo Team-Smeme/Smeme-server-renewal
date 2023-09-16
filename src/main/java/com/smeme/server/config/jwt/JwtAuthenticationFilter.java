@@ -11,12 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
 import static com.smeme.server.config.jwt.JwtValidationType.*;
+import static org.springframework.util.StringUtils.hasText;
 
 @Slf4j
 @Component
@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             final String token = getJwtFromRequest(request);
 
-            if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token) == VALID_JWT) {
+            if (hasText(token) && jwtTokenProvider.validateToken(token) == VALID_JWT) {
                 Long userId = jwtTokenProvider.getUserFromJwt(token);
                 UserAuthentication authentication = new UserAuthentication(userId, null, null);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -45,9 +45,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring("Bearer ".length());
-        }
-        return null;
+        return (hasText(bearerToken) && bearerToken.startsWith("Bearer ")) ? bearerToken.substring("Bearer ".length()) : null;
     }
 }

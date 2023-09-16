@@ -14,10 +14,10 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 public class TopicService {
 
-	private final TopicRepository topicRepository;
+    private final TopicRepository topicRepository;
 
-	public TopicResponseDTO getRandomTopic() {
-		Topic topic = topicRepository.getRandomTopic();
-		return TopicResponseDTO.of(topic);
-	}
+    public TopicResponseDTO getRandomTopic() {
+        Topic topic = topicRepository.getRandomTopic();
+        return TopicResponseDTO.of(topic);
+    }
 }

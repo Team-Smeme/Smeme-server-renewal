@@ -10,8 +10,8 @@ import jakarta.persistence.EntityManager;
 @Configuration
 public class JpaQueryFactoryConfig {
 
-	@Bean
-	JPAQueryFactory jpaQueryFactory(EntityManager em) {
-		return new JPAQueryFactory(em);
-	}
+    @Bean
+    JPAQueryFactory jpaQueryFactory(EntityManager em) {
+        return new JPAQueryFactory(em);
+    }
 }

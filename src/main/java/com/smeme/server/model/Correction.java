@@ -18,39 +18,40 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Correction {
 
-	@Id @GeneratedValue(strategy = IDENTITY)
-	@Column(name = "correction_id")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "correction_id")
+    private Long id;
 
-	private String beforeSentence;
+    private String beforeSentence;
 
-	private String afterSentence;
+    private String afterSentence;
 
-	@ManyToOne(fetch = LAZY)
-	@JoinColumn(name = "diary_id")
-	private Diary diary;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "diary_id")
+    private Diary diary;
 
-	public Correction(String beforeSentence, String afterSentence, Diary diary) {
-		this.beforeSentence = beforeSentence;
-		this.afterSentence = afterSentence;
-		setDiary(diary);
-	}
+    public Correction(String beforeSentence, String afterSentence, Diary diary) {
+        this.beforeSentence = beforeSentence;
+        this.afterSentence = afterSentence;
+        setDiary(diary);
+    }
 
-	public void deleteCorrection() {
-		if (nonNull(this.diary)) {
-			this.diary.getCorrections().remove(this);
-		}
-	}
+    public void deleteCorrection() {
+        if (nonNull(this.diary)) {
+            this.diary.getCorrections().remove(this);
+        }
+    }
 
-	public void updateCorrection(String content) {
-		this.afterSentence = content;
-	}
+    public void updateCorrection(String content) {
+        this.afterSentence = content;
+    }
 
-	private void setDiary(Diary diary) {
-		if (nonNull(this.diary)) {
-			this.diary.getCorrections().remove(this);
-		}
-		this.diary = diary;
-		diary.getCorrections().add(this);
-	}
+    private void setDiary(Diary diary) {
+        if (nonNull(this.diary)) {
+            this.diary.getCorrections().remove(this);
+        }
+        this.diary = diary;
+        diary.getCorrections().add(this);
+    }
 }

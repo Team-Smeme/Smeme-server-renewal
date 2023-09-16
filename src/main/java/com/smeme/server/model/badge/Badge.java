@@ -13,13 +13,14 @@ import lombok.Getter;
 @Getter
 public class Badge {
 
-	@Id @GeneratedValue(strategy = IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
 
-	@Enumerated(value = EnumType.STRING)
-	private BadgeType type;
+    @Enumerated(value = EnumType.STRING)
+    private BadgeType type;
 
-	private String name;
+    private String name;
 
-	private String imageUrl;
+    private String imageUrl;
 }
