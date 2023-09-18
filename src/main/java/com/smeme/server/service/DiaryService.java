@@ -46,10 +46,10 @@ public class DiaryService {
     private final BadgeService badgeService;
 
     @Transactional
-    public CreatedDiaryResponseDTO createDiary(Long memberId, DiaryRequestDTO requestDTO) {
+    public CreatedDiaryResponseDTO createDiary(Long memberId, DiaryRequestDTO request) {
         Member member = getMember(memberId);
-        Topic topic = getTopic(requestDTO.topicId());
-        Diary diary = checkExistTodayDiary(member, new Diary(requestDTO.content(), topic, member));
+        Topic topic = getTopic(request.topicId());
+        Diary diary = checkExistTodayDiary(member, new Diary(request.content(), topic, member));
         List<Badge> badges = getDiaryBadge(member, diary.getCreatedAt());
         return CreatedDiaryResponseDTO.of(diary.getId(), badges);
     }
@@ -61,9 +61,9 @@ public class DiaryService {
     }
 
     @Transactional
-    public void updateDiary(Long diaryId, DiaryRequestDTO requestDTO) {
+    public void updateDiary(Long diaryId, DiaryRequestDTO request) {
         Diary diary = getDiary(diaryId);
-        diary.updateContent(requestDTO.content());
+        diary.updateContent(request.content());
     }
 
     @Transactional

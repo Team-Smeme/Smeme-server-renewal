@@ -35,8 +35,8 @@ public class AuthController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "로그인 성공",
                     content = @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = SignInResponseDTO.class)))})
     @PostMapping
-    public ResponseEntity<ApiResponse> signIn(@RequestHeader("Authorization") String socialAccessToken, @RequestBody SignInRequestDTO requestDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        SignInResponseDTO response = authService.signIn(socialAccessToken, requestDTO);
+    public ResponseEntity<ApiResponse> signIn(@RequestHeader("Authorization") String socialAccessToken, @RequestBody SignInRequestDTO request) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        SignInResponseDTO response = authService.signIn(socialAccessToken, request);
         return ResponseEntity.ok(success(SUCCESS_SIGNIN.getMessage(), response));
     }
 

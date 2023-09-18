@@ -36,9 +36,9 @@ public class CorrectionService {
     private final BadgeService badgeService;
 
     @Transactional
-    public CorrectionResponseDTO createCorrection(Long memberId, Long diaryId, CorrectionRequestDTO requestDTO) {
+    public CorrectionResponseDTO createCorrection(Long memberId, Long diaryId, CorrectionRequestDTO request) {
         Diary diary = getDiary(diaryId);
-        correctionRepository.save(new Correction(requestDTO.sentence(), requestDTO.content(), diary));
+        correctionRepository.save(new Correction(request.sentence(), request.content(), diary));
         Member member = getMember(memberId);
         Badge badge = getCorrectionBadge(member);
         if (Objects.nonNull(badge) && !memberBadgeRepository.existsByMemberAndBadge(member, badge)) {
@@ -67,9 +67,9 @@ public class CorrectionService {
     }
 
     @Transactional
-    public void updateCorrection(Long correctionId, CorrectionRequestDTO requestDTO) {
+    public void updateCorrection(Long correctionId, CorrectionRequestDTO request) {
         Correction correction = getCorrection(correctionId);
-        correction.updateCorrection(requestDTO.content());
+        correction.updateCorrection(request.content());
     }
 
     private Diary getDiary(Long diaryId) {

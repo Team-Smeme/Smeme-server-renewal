@@ -51,8 +51,8 @@ public class DiaryController {
                     content = @Content(schema = @Schema(implementation = CreatedDiaryResponseDTO.class)))
     })
     @PostMapping
-    public ResponseEntity<ApiResponse> createDiary(@Parameter(hidden = true) Principal principal, @RequestBody DiaryRequestDTO requestDTO) {
-        CreatedDiaryResponseDTO response = diaryService.createDiary(getMemberId(principal), requestDTO);
+    public ResponseEntity<ApiResponse> createDiary(@Parameter(hidden = true) Principal principal, @RequestBody DiaryRequestDTO request) {
+        CreatedDiaryResponseDTO response = diaryService.createDiary(getMemberId(principal), request);
         return ResponseEntity
                 .created(getURI(response.diaryId()))
                 .body(success(SUCCESS_CREATE_DIARY.getMessage(), response));
@@ -79,8 +79,8 @@ public class DiaryController {
     })
     @PatchMapping("/{diaryId}")
     public ResponseEntity<ApiResponse> updateDiary(
-            @Parameter(name = "일기 id") @PathVariable Long diaryId, @RequestBody DiaryRequestDTO requestDTO) {
-        diaryService.updateDiary(diaryId, requestDTO);
+            @Parameter(name = "일기 id") @PathVariable Long diaryId, @RequestBody DiaryRequestDTO request) {
+        diaryService.updateDiary(diaryId, request);
         return ResponseEntity.ok(success(SUCCESS_UPDATE_DAIRY.getMessage()));
     }
 

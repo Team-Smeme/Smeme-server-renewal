@@ -40,14 +40,14 @@ public class BetaAuthService {
     private static final Long BETA_USER_EXPIRED = 60 * 60 * 1000 * 24 * 21L;
 
     @Transactional
-    public BetaTokenResponseDTO createBetaMember(BetaSignInRequestDTO requestDTO) {
+    public BetaTokenResponseDTO createBetaMember(BetaSignInRequestDTO request) {
 
         AtomicInteger atomicInteger = new AtomicInteger(1);
         Member betaMember = Member.builder()
                 .social(BETA)
                 .targetLang(en)
                 .socialId("beta" + atomicInteger.getAndIncrement())
-                .fcmToken(requestDTO.fcmToken())
+                .fcmToken(request.fcmToken())
                 .build();
         memberRepository.save(betaMember);
         Authentication authentication = new UserAuthentication(betaMember.getId(), null, null);

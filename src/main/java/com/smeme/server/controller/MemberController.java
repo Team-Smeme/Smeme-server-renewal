@@ -34,8 +34,8 @@ public class MemberController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "사용자 정보 수정 성공")})
     @PatchMapping()
-    public ResponseEntity<ApiResponse> updateUserProfile(Principal principal, @RequestBody MemberUpdateRequestDTO requestDTO) {
-        MemberUpdateResponseDTO response = memberService.updateMember(getMemberId(principal), requestDTO);
+    public ResponseEntity<ApiResponse> updateUserProfile(Principal principal, @RequestBody MemberUpdateRequestDTO request) {
+        MemberUpdateResponseDTO response = memberService.updateMember(getMemberId(principal), request);
         return ResponseEntity.ok(success(SUCCESS_UPDATE_USERNAME.getMessage(), response));
     }
 
@@ -53,8 +53,8 @@ public class MemberController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "사용자 학습 계획 성공")})
     @PatchMapping("/plan")
-    public ResponseEntity<ApiResponse> updateUserPlan(Principal principal, @Valid @RequestBody MemberPlanUpdateRequestDTO requestDTO) {
-        memberService.updateMemberPlan(getMemberId(principal), requestDTO);
+    public ResponseEntity<ApiResponse> updateUserPlan(Principal principal, @Valid @RequestBody MemberPlanUpdateRequestDTO request) {
+        memberService.updateMemberPlan(getMemberId(principal), request);
         return ResponseEntity.ok(success(SUCCESS_UPDATE_USER_PLAN.getMessage()));
     }
 
@@ -72,8 +72,8 @@ public class MemberController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "사용자 푸쉬 알람 동의 여부 수정 성공")})
     @PatchMapping("/push")
-    public ResponseEntity<ApiResponse> updateUserPush(Principal principal, @RequestBody MemberPushUpdateRequestDTO requestDTO) {
-        memberService.updateMemberPush(getMemberId(principal), requestDTO);
+    public ResponseEntity<ApiResponse> updateUserPush(Principal principal, @RequestBody MemberPushUpdateRequestDTO request) {
+        memberService.updateMemberPush(getMemberId(principal), request);
         return ResponseEntity.ok(success(SUCCESS_UPDATE_USER_PUSH.getMessage()));
     }
 

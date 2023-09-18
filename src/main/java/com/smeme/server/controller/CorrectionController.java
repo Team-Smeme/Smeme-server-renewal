@@ -47,9 +47,9 @@ public class CorrectionController {
     public ResponseEntity<ApiResponse> createCorrection(
             @Parameter(hidden = true) Principal principal,
             @Parameter(description = "일기 id") @PathVariable Long diaryId,
-            @RequestBody CorrectionRequestDTO requestDTO
+            @RequestBody CorrectionRequestDTO request
     ) {
-        CorrectionResponseDTO response = correctionService.createCorrection(getMemberId(principal), diaryId, requestDTO);
+        CorrectionResponseDTO response = correctionService.createCorrection(getMemberId(principal), diaryId, request);
         return ResponseEntity
                 .created(getURI(diaryId))
                 .body(success(SUCCESS_CREATE_CORRECTION.getMessage(), response));
@@ -74,8 +74,8 @@ public class CorrectionController {
                     description = "첨삭 수정 성공")
     })
     @PatchMapping("/{correctionId}")
-    public ResponseEntity<ApiResponse> updateCorrection(@Parameter(description = "첨삭 id") @PathVariable Long correctionId, @RequestBody CorrectionRequestDTO requestDTO) {
-        correctionService.updateCorrection(correctionId, requestDTO);
+    public ResponseEntity<ApiResponse> updateCorrection(@Parameter(description = "첨삭 id") @PathVariable Long correctionId, @RequestBody CorrectionRequestDTO request) {
+        correctionService.updateCorrection(correctionId, request);
         return ResponseEntity.ok(success(SUCCESS_UPDATE_CORRECTION.getMessage()));
     }
 }
