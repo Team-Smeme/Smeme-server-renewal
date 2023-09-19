@@ -72,6 +72,11 @@ public class CorrectionService {
         correction.updateCorrection(request.content());
     }
 
+    @Transactional
+    public void deleteByDiary(Diary diary) {
+
+    }
+
     private Diary getDiary(Long diaryId) {
         Diary diary = diaryRepository.findById(diaryId)
                 .orElseThrow(() -> new EntityNotFoundException(INVALID_DIARY.getMessage()));

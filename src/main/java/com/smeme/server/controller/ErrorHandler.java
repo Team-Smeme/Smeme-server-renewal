@@ -60,4 +60,9 @@ public class ErrorHandler {
 	public ResponseEntity<ApiResponse> ioException(IOException ex) {
 		return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(fail(ex.getMessage()));
 	}
+
+	@ExceptionHandler(IllegalStateException.class)
+	public ResponseEntity<ApiResponse> illegalStateException(IllegalStateException ex) {
+		return ResponseEntity.status(BAD_REQUEST).body(fail(ex.getMessage()));
+	}
 }

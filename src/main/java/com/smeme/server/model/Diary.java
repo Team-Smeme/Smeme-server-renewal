@@ -43,7 +43,7 @@ public class Diary extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "diary")
+    @OneToMany(mappedBy = "diary", orphanRemoval = true)
     private final List<Correction> corrections = new ArrayList<>();
 
     public Diary(String content, Topic topic, Member member) {
@@ -61,9 +61,8 @@ public class Diary extends BaseTimeEntity {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public void deleteDiary() {
+    public void delete() {
         this.isDeleted = true;
-        this.updatedAt = LocalDateTime.now();
         this.member.getDiaries().remove(this);
     }
 

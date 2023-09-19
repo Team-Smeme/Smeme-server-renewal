@@ -30,4 +30,8 @@ public class Util {
                 .buildAndExpand(diaryId)
                 .toUri();
     }
+
+    public static LocalDateTime getStartOfDay(LocalDateTime dateTime) {
+        return dateTime.toLocalDate().atStartOfDay();
+    }
 }

@@ -5,6 +5,8 @@ import static com.smeme.server.model.QDiary.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.smeme.server.util.Util;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,6 +18,9 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class DiaryRepositoryImpl implements DiaryCustomRepository {
+
+    @Value("${expired.duration}")
+    private String expiredDuration; // ValueConfig 파일로 옮길 것
 
     private final JPAQueryFactory queryFactory;
 
@@ -89,6 +94,20 @@ public class DiaryRepositoryImpl implements DiaryCustomRepository {
                         diary.isDeleted.eq(false)
                 )
                 .fetchFirst() != null;
+    }
+
+    @Override
+    public void deleteByMemberAndExpired(Member member) { // 30일 "지난"
+        int expiredDay = Integer.parseInt(expiredDuration);
+        LocalDateTime expiredDate = Util.getStartOfDay(LocalDateTime.now()).minusDays(expiredDay - 1);
+
+        queryFactory
+                .delete(diary)
+                .where(
+                        diary.member.eq(member),
+                        diary.createdAt.before(expiredDate)
+                )
+                .execute();
     }
 
     private LocalDateTime get12midnight(LocalDateTime now) {
