@@ -49,6 +49,8 @@ public class Member extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private LangType targetLang;
 
+    private int diaryComboCount;
+
     @OneToMany(mappedBy = "member")
     private final List<TrainingTime> trainingTimes = new ArrayList<>();
 
@@ -65,6 +67,7 @@ public class Member extends BaseTimeEntity {
         this.targetLang = targetLang;
         this.fcmToken = fcmToken;
         this.goal = null;
+        this.diaryComboCount = 0;
     }
 
     public void updateRefreshToken(String refreshToken) {
