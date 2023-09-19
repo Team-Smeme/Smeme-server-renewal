@@ -17,7 +17,7 @@ public class TopicRepositoryImpl implements TopicCustomRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Topic getRandomTopic() {
+    public Topic getRandom() {
         return queryFactory
                 .select(topic)
                 .from(topic)

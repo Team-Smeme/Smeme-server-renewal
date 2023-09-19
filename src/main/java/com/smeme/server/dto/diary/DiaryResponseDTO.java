@@ -1,14 +1,12 @@
 package com.smeme.server.dto.diary;
 
+import static com.smeme.server.util.Util.dateToString;
 import static java.util.Objects.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.smeme.server.model.Correction;
 import com.smeme.server.model.Diary;
-import com.smeme.server.model.topic.Topic;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
@@ -35,27 +33,15 @@ public record DiaryResponseDTO(
         @Schema(description = "첨삭 리스트")
         List<CorrectionDTO> corrections
 ) {
-    public static DiaryResponseDTO of(Diary diary, List<Correction> corrections) {
+    public static DiaryResponseDTO of(Diary diary) {
         return DiaryResponseDTO.builder()
                 .diaryId(diary.getId())
-                .topic(getTopic(diary.getTopic()))
+                .topic(nonNull(diary.getTopic()) ? diary.getTopic().getContent() : "")
                 .content(diary.getContent())
-                .createdAt(getCreatedAt(diary.getCreatedAt()))
+                .createdAt(dateToString(diary.getCreatedAt()))
                 .username(diary.getMember().getUsername())
-                .corrections(getCorrections(corrections))
+                .corrections(diary.getCorrections().stream().map(CorrectionDTO::of).toList())
                 .build();
-    }
-
-    private static String getTopic(Topic topic) {
-        return nonNull(topic) ? topic.getContent() : "";
-    }
-
-    private static String getCreatedAt(LocalDateTime createdAt) {
-        return createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-    }
-
-    private static List<CorrectionDTO> getCorrections(List<Correction> corrections) {
-        return corrections.stream().map(CorrectionDTO::of).toList();
     }
 
     record CorrectionDTO(

@@ -39,6 +39,12 @@ public class ValueConfig {
     @Value("${fcm.google_api}")
     private String GOOGLE_API_URI;
 
+    @Value("${smeem.duration.expired}")
+    private String DURATION_EXPIRED;
+
+    @Value("${smeem.duration.remind}")
+    private String DURATION_REMIND;
+
     @PostConstruct
     protected void init() {
         JWT_SECRET = Base64.getEncoder().encodeToString(JWT_SECRET.getBytes(StandardCharsets.UTF_8));

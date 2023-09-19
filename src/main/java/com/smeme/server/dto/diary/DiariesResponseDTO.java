@@ -6,7 +6,7 @@ import com.smeme.server.model.Diary;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import static com.smeme.server.util.Util.transferDateTimeToString;
+import static com.smeme.server.util.Util.dateToString;
 
 public record DiariesResponseDTO(
         @Schema(description = "일기 정보 리스트")
@@ -14,11 +14,8 @@ public record DiariesResponseDTO(
         @Schema(description = "30일 전 일기 존재 여부", example = "true")
         boolean has30Past
 ) {
-    public static DiariesResponseDTO of(List<Diary> diaries, boolean has30Past) {
-        return new DiariesResponseDTO(
-                diaries.stream().map(DiaryDTO::of).toList(),
-                has30Past
-        );
+    public static DiariesResponseDTO of(List<Diary> diaries, boolean hasRemind) {
+        return new DiariesResponseDTO(diaries.stream().map(DiaryDTO::of).toList(), hasRemind);
     }
 
     record DiaryDTO(
@@ -30,9 +27,7 @@ public record DiariesResponseDTO(
             String createdAt
     ) {
         public static DiaryDTO of(Diary diary) {
-            return new DiaryDTO(diary.getId(),
-                    diary.getContent(),
-                    transferDateTimeToString(diary.getCreatedAt()));
+            return new DiaryDTO(diary.getId(), diary.getContent(), dateToString(diary.getCreatedAt()));
         }
     }
 }

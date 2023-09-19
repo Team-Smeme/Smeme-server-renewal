@@ -20,14 +20,14 @@ public class TopicService {
 
     private final TopicRepository topicRepository;
 
-    public TopicResponseDTO getRandomTopic() {
-        Topic topic = topicRepository.getRandomTopic();
+    public TopicResponseDTO getRandom() {
+        Topic topic = topicRepository.getRandom();
         return TopicResponseDTO.of(topic);
     }
 
-    protected Topic getTopic(Long topicId) {
-        return nonNull(topicId)
-                ? topicRepository.findById(topicId)
+    protected Topic get(Long id) {
+        return nonNull(id)
+                ? topicRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(INVALID_TOPIC.getMessage()))
                 : null;
     }

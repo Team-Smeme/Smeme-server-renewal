@@ -1,8 +1,9 @@
 package com.smeme.server.model;
 
-import static com.smeme.server.util.Util.getStartOfDay;
 import static jakarta.persistence.GenerationType.*;
+import static java.time.LocalDateTime.now;
 
+import com.smeme.server.model.badge.Badge;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -51,7 +52,7 @@ public class Member extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private LangType targetLang;
 
-    private int diaryComboCount; //TODO: 논의
+    private int diaryComboCount;
 
     @OneToMany(mappedBy = "member")
     private final List<TrainingTime> trainingTimes = new ArrayList<>();
@@ -69,7 +70,7 @@ public class Member extends BaseTimeEntity {
         this.targetLang = targetLang;
         this.fcmToken = fcmToken;
         this.goal = null;
-        this.diaryComboCount = 0; //TODO: 논의
+        this.diaryComboCount = 0;
     }
 
     public void updateRefreshToken(String refreshToken) {
@@ -92,14 +93,37 @@ public class Member extends BaseTimeEntity {
         this.goal = goal;
     }
 
-    public boolean isExistTodayDiary() {
-        LocalDateTime now = getStartOfDay(LocalDateTime.now());
-        return diaries.stream().anyMatch(diary -> getStartOfDay(diary.createdAt).equals(now));
+    public boolean wroteDiaryToday() {
+        return this.diaries.stream()
+                .filter(Diary::isValid)
+                .anyMatch(diary -> diary.isCreatedAt(now()));
     }
 
-    //TODO: 논의
     public void updateDiaryCombo(boolean isCombo) {
         this.diaryComboCount = isCombo ? this.diaryComboCount + 1 : 1;
+    }
+
+    public void updateDiaryCombo() {
+        List<Diary> diaries = this.diaries.stream()
+                .filter(diary -> diary.isValid() && !diary.isCreatedAt(now()))
+                .sorted((a, b) -> b.createdAt.compareTo(a.createdAt)).toList();
+
+        int count = wroteDiaryToday() ? 1 : 0;
+        LocalDateTime day = now();
+
+        for (Diary diary : diaries) {
+            day = day.minusDays(1);
+            if (!diary.isCreatedAt(day)) {
+                break;
+            }
+            count++;
+        }
+
+        this.diaryComboCount = count;
+    }
+
+    public boolean hasNotBadge(Badge badge) {
+        return badges.stream().noneMatch(memberBadge -> memberBadge.getBadge().equals(badge));
     }
 
 }

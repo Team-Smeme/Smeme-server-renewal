@@ -28,8 +28,7 @@ public class ScheduleController {
     }
 
     @Scheduled(cron = "0 0 0 * * *")
-    public void deleteDiaries30Past() throws InterruptedException {
-        Thread.sleep(1000);
-        diaryService.deleteDiary30Past(LocalDateTime.now().minusDays(30));
+    public void deleteExpiredDiaries() {
+        diaryService.deleteByExpiredDate();
     }
 }

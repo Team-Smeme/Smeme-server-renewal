@@ -23,12 +23,12 @@ public class GoalService {
 
     private final GoalRepository goalRepository;
 
-    public GoalsResponseDTO getAllGoals() {
+    public GoalsResponseDTO getAll() {
         List<GoalType> goalTypes = List.of(GoalType.values());
         return GoalsResponseDTO.of(goalTypes);
     }
 
-    public GoalResponseDTO getGoalByType(GoalType goalType) {
+    public GoalResponseDTO getByType(GoalType goalType) {
         Goal goal = goalRepository.findOneByType(goalType)
                 .orElseThrow(() -> new EntityNotFoundException(EMPTY_GOAL.getMessage()));
         return new GoalResponseDTO(goalType.getDescription(), goal.getWay(), goal.getDetail());
