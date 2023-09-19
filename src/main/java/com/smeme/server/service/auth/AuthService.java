@@ -49,9 +49,9 @@ public class AuthService {
     private final CorrectionRepository correctionRepository;
 
     @Transactional
-    public SignInResponseDTO signIn(String socialAccessToken, SignInRequestDTO signInRequestDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public SignInResponseDTO signIn(String socialAccessToken, SignInRequestDTO request) throws NoSuchAlgorithmException, InvalidKeySpecException {
 
-        SocialType socialType = signInRequestDTO.socialType();
+        SocialType socialType = request.socialType();
         String socialId = login(socialType, socialAccessToken);
 
         boolean hasMember = isMemberBySocialAndSocialId(socialType, socialId);
@@ -61,7 +61,7 @@ public class AuthService {
                     .social(socialType)
                     .socialId(socialId)
                     .targetLang(LangType.en)
-                    .fcmToken(signInRequestDTO.fcmToken())
+                    .fcmToken(request.fcmToken())
                     .build();
             memberRepository.save(member);
         }

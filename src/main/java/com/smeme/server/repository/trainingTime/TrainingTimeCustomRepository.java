@@ -6,5 +6,5 @@ import java.util.List;
 import com.smeme.server.model.training.TrainingTime;
 
 public interface TrainingTimeCustomRepository {
-	List<TrainingTime> getTrainingTimeForPushAlarm(LocalDateTime now);
+    List<TrainingTime> getTrainingTimeForPushAlarm(LocalDateTime now);
 }

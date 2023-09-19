@@ -13,39 +13,37 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
 @Getter
 public class MemberBadge extends BaseTimeEntity {
 
-	@Id @GeneratedValue(strategy = IDENTITY)
-	@Column(name = "member_badge_id")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "member_badge_id")
+    private Long id;
 
-	@ManyToOne(fetch = LAZY)
-	@JoinColumn(name = "member_id")
-	private Member member;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-	@ManyToOne(fetch = LAZY)
-	@JoinColumn(name = "badge_id")
-	private Badge badge;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "badge_id")
+    private Badge badge;
 
-	public MemberBadge(Member member, Badge badge) {
-		setMember(member);
-		this.badge = badge;
-	}
+    public MemberBadge(Member member, Badge badge) {
+        setMember(member);
+        this.badge = badge;
+    }
 
-	private void setMember(Member member) {
-		if (nonNull(this.member)) {
-			this.member.getBadges().remove(this);
-		}
-		this.member = member;
-		member.getBadges().add(this);
-	}
+    private void setMember(Member member) {
+        if (nonNull(this.member)) {
+            this.member.getBadges().remove(this);
+        }
+        this.member = member;
+        member.getBadges().add(this);
+    }
 }

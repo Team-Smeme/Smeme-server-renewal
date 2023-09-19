@@ -19,7 +19,8 @@ import com.smeme.server.model.goal.GoalType;
 @Getter
 public class Member extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
@@ -57,7 +58,6 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member")
     private final List<MemberBadge> badges = new ArrayList<>();
 
-
     @Builder
     public Member(SocialType social, String socialId, LangType targetLang, String fcmToken) {
         this.social = social;
@@ -67,16 +67,23 @@ public class Member extends BaseTimeEntity {
         this.goal = null;
     }
 
-    public void updateFcmToken(String fcmToken) {this.fcmToken = fcmToken; }
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
 
-    public void updateUsername(String username) { this.username = username; }
+    public void updateUsername(String username) {
+        this.username = username;
+    }
 
-    public void updateTermAccepted(boolean termAccepted) { this.termAccepted = termAccepted; }
+    public void updateTermAccepted(boolean termAccepted) {
+        this.termAccepted = termAccepted;
+    }
 
-    public void updateHasAlarm(boolean hasAlarm) { this.hasPushAlarm = hasAlarm; }
+    public void updateHasAlarm(boolean hasAlarm) {
+        this.hasPushAlarm = hasAlarm;
+    }
 
-    public void updateGoal(GoalType goal) {this.goal = goal; }
+    public void updateGoal(GoalType goal) {
+        this.goal = goal;
+    }
 }

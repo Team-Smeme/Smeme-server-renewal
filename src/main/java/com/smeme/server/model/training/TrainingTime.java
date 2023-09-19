@@ -24,37 +24,38 @@ import lombok.NoArgsConstructor;
 @Getter
 public class TrainingTime {
 
-	@Id @GeneratedValue(strategy = IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
 
-	@Enumerated(value = EnumType.STRING)
-	private DayType day;
+    @Enumerated(value = EnumType.STRING)
+    private DayType day;
 
-	@Min(value = 1, message = "시(hour)는 1 이상이어야 합니다.")
-	@Max(value = 24, message = "시(hour)는 24 이하여야 합니다.")
-	private int hour;
+    @Min(value = 1, message = "시(hour)는 1 이상이어야 합니다.")
+    @Max(value = 24, message = "시(hour)는 24 이하여야 합니다.")
+    private int hour;
 
-	@Min(value = 0, message = "분(minute)은 0 이상이어야 합니다.")
-	@Max(value = 59, message = "분(minute)은 59 이하이어야 합니다.")
-	private int minute;
+    @Min(value = 0, message = "분(minute)은 0 이상이어야 합니다.")
+    @Max(value = 59, message = "분(minute)은 59 이하이어야 합니다.")
+    private int minute;
 
-	@ManyToOne(fetch = LAZY)
-	@JoinColumn(name = "member_id")
-	private Member member;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-	@Builder
-	public TrainingTime(DayType day, int hour, int minute, Member member) {
-		this.day = day;
-		this.hour = hour;
-		this.minute = minute;
-		setMember(member);
-	}
+    @Builder
+    public TrainingTime(DayType day, int hour, int minute, Member member) {
+        this.day = day;
+        this.hour = hour;
+        this.minute = minute;
+        setMember(member);
+    }
 
-	private void setMember(Member member) {
-		if (nonNull(this.member)) {
-			this.member.getTrainingTimes().remove(this);
-		}
-		this.member = member;
-		member.getTrainingTimes().add(this);
-	}
+    private void setMember(Member member) {
+        if (nonNull(this.member)) {
+            this.member.getTrainingTimes().remove(this);
+        }
+        this.member = member;
+        member.getTrainingTimes().add(this);
+    }
 }

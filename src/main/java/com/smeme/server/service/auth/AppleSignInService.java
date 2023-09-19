@@ -1,10 +1,10 @@
 package com.smeme.server.service.auth;
 
 import com.google.gson.*;
+import com.smeme.server.config.ValueConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -25,13 +25,11 @@ import java.util.Objects;
 @Service
 public class AppleSignInService {
 
-    @Value("${jwt.APPLE_URL}")
-    private String APPLE_URL;
-
+    private final ValueConfig valueConfig;
 
     protected JsonArray getApplePublicKeyList() {
         try {
-            URL url = new URL(APPLE_URL);
+            URL url = new URL(valueConfig.getAPPLE_URL());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -81,8 +79,8 @@ public class AppleSignInService {
         String nStr = object.get("n").toString();
         String eStr = object.get("e").toString();
 
-        byte[] nBytes = Base64.getUrlDecoder().decode(nStr.substring(1, nStr.length() -1));
-        byte[] eBytes = Base64.getUrlDecoder().decode(eStr.substring(1, eStr.length() -1));
+        byte[] nBytes = Base64.getUrlDecoder().decode(nStr.substring(1, nStr.length() - 1));
+        byte[] eBytes = Base64.getUrlDecoder().decode(eStr.substring(1, eStr.length() - 1));
 
         BigInteger nValue = new BigInteger(1, nBytes);
         BigInteger eValue = new BigInteger(1, eBytes);
@@ -93,16 +91,16 @@ public class AppleSignInService {
     }
 
     protected String getAppleData(String socialAccessToken) throws NoSuchAlgorithmException, InvalidKeySpecException {
-            JsonArray publicKeyList = getApplePublicKeyList();
-            PublicKey publicKey = makePublicKey(socialAccessToken, publicKeyList);
+        JsonArray publicKeyList = getApplePublicKeyList();
+        PublicKey publicKey = makePublicKey(socialAccessToken, publicKeyList);
 
-            Claims userInfo = Jwts.parserBuilder()
-                    .setSigningKey(publicKey)
-                    .build()
-                    .parseClaimsJws(socialAccessToken.substring(7))
-                    .getBody();
+        Claims userInfo = Jwts.parserBuilder()
+                .setSigningKey(publicKey)
+                .build()
+                .parseClaimsJws(socialAccessToken.substring(7))
+                .getBody();
 
-            JsonObject userInfoObject = (JsonObject) JsonParser.parseString(new Gson().toJson(userInfo));
-            return userInfoObject.get("sub").getAsString();
-        }
+        JsonObject userInfoObject = (JsonObject) JsonParser.parseString(new Gson().toJson(userInfo));
+        return userInfoObject.get("sub").getAsString();
+    }
 }

@@ -21,16 +21,16 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 public class GoalService {
 
-	private final GoalRepository goalRepository;
+    private final GoalRepository goalRepository;
 
-	public GoalsResponseDTO getAllGoals() {
-		List<GoalType> goalTypes = List.of(GoalType.values());
-		return GoalsResponseDTO.of(goalTypes);
-	}
+    public GoalsResponseDTO getAllGoals() {
+        List<GoalType> goalTypes = List.of(GoalType.values());
+        return GoalsResponseDTO.of(goalTypes);
+    }
 
-	public GoalResponseDTO getGoalByType(GoalType goalType) {
-		Goal goal = goalRepository.findOneByType(goalType)
-			.orElseThrow(() -> new EntityNotFoundException(EMPTY_GOAL.getMessage()));
-		return new GoalResponseDTO(goalType.getDescription(), goal.getWay(), goal.getDetail());
-	}
+    public GoalResponseDTO getGoalByType(GoalType goalType) {
+        Goal goal = goalRepository.findOneByType(goalType)
+                .orElseThrow(() -> new EntityNotFoundException(EMPTY_GOAL.getMessage()));
+        return new GoalResponseDTO(goalType.getDescription(), goal.getWay(), goal.getDetail());
+    }
 }

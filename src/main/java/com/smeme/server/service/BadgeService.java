@@ -21,7 +21,7 @@ public class BadgeService {
     private final MemberBadgeRepository memberBadgeRepository;
 
     public BadgeListResponseDTO getBadgeList(Long memberId) {
-        List<BadgeResponseDTO> badgeResponseDTOList =  memberBadgeRepository.findAllByMemberId(memberId)
+        List<BadgeResponseDTO> badgeResponseDTOList = memberBadgeRepository.findAllByMemberId(memberId)
                 .stream()
                 .map(BadgeResponseDTO::of)
                 .toList();

@@ -19,7 +19,8 @@ import com.smeme.server.model.topic.Topic;
 @Getter
 public class Diary extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "diary_id")
     private Long id;
 
