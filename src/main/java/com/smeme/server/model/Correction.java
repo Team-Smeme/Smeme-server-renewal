@@ -37,13 +37,7 @@ public class Correction {
         setDiary(diary);
     }
 
-    public void deleteCorrection() {
-        if (nonNull(this.diary)) {
-            this.diary.getCorrections().remove(this);
-        }
-    }
-
-    public void updateCorrection(String content) {
+    public void updateContent(String content) {
         this.afterSentence = content;
     }
 

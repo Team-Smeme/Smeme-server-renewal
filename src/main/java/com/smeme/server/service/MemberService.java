@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.smeme.server.util.message.ErrorMessage.INVALID_MEMBER;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -114,6 +115,11 @@ public class MemberService {
     public MemberNameResponseDTO checkDuplicatedName(String name) {
         boolean isExist = memberRepository.existsByUsername(name);
         return new MemberNameResponseDTO(isExist);
+    }
+
+    protected Member get(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(INVALID_MEMBER.getMessage()));
     }
 
     private void updateMemberTrainingTime(Member member, MemberPlanUpdateRequestDTO request) {

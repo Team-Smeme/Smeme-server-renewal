@@ -51,8 +51,8 @@ public class DiaryController {
                     content = @Content(schema = @Schema(implementation = CreatedDiaryResponseDTO.class)))
     })
     @PostMapping
-    public ResponseEntity<ApiResponse> createDiary(@Parameter(hidden = true) Principal principal, @RequestBody DiaryRequestDTO request) {
-        CreatedDiaryResponseDTO response = diaryService.createDiary(getMemberId(principal), request);
+    public ResponseEntity<ApiResponse> save(@Parameter(hidden = true) Principal principal, @RequestBody DiaryRequestDTO request) {
+        CreatedDiaryResponseDTO response = diaryService.save(getMemberId(principal), request);
         return ResponseEntity
                 .created(getURI(response.diaryId()))
                 .body(success(SUCCESS_CREATE_DIARY.getMessage(), response));
@@ -66,8 +66,8 @@ public class DiaryController {
                     content = @Content(schema = @Schema(implementation = DiaryResponseDTO.class)))
     })
     @GetMapping("/{diaryId}")
-    public ResponseEntity<ApiResponse> getDiaryDetail(@Parameter(name = "일기 id") @PathVariable Long diaryId) {
-        DiaryResponseDTO response = diaryService.getDiaryDetail(diaryId);
+    public ResponseEntity<ApiResponse> getDetail(@Parameter(name = "일기 id") @PathVariable Long diaryId) {
+        DiaryResponseDTO response = diaryService.getDetail(diaryId);
         return ResponseEntity.ok(success(SUCCESS_GET_DIARY.getMessage(), response));
     }
 
@@ -78,9 +78,11 @@ public class DiaryController {
                     description = "일기 수정 성공")
     })
     @PatchMapping("/{diaryId}")
-    public ResponseEntity<ApiResponse> updateDiary(
-            @Parameter(name = "일기 id") @PathVariable Long diaryId, @RequestBody DiaryRequestDTO request) {
-        diaryService.updateDiary(diaryId, request);
+    public ResponseEntity<ApiResponse> update(
+            @Parameter(name = "일기 id") @PathVariable Long diaryId,
+            @RequestBody DiaryRequestDTO request
+    ) {
+        diaryService.update(diaryId, request);
         return ResponseEntity.ok(success(SUCCESS_UPDATE_DAIRY.getMessage()));
     }
 
@@ -91,8 +93,8 @@ public class DiaryController {
                     description = "일기 삭제 성공")
     })
     @DeleteMapping("/{diaryId}")
-    public ResponseEntity<ApiResponse> deleteDiary(@Parameter(name = "일기 id") @PathVariable Long diaryId) {
-        diaryService.deleteDiary(diaryId);
+    public ResponseEntity<ApiResponse> delete(@Parameter(name = "일기 id") @PathVariable Long diaryId) {
+        diaryService.delete(diaryId);
         return ResponseEntity.ok(success(SUCCESS_DELETE_DIARY.getMessage()));
     }
 
@@ -106,8 +108,8 @@ public class DiaryController {
     @GetMapping
     public ResponseEntity<ApiResponse> getDiaries(
             @Parameter(hidden = true) Principal principal,
-            @Parameter(name = "범위 시작 날짜(yyyy-MM-dd HH:mm)") @RequestParam(name = "start") String startDate,
-            @Parameter(name = "범위 끝 날짜(yyyy-MM-dd HH:mm)") @RequestParam(name = "end") String endDate
+            @Parameter(name = "범위 시작 날짜(yyyy-MM-dd)") @RequestParam(name = "start") String startDate,
+            @Parameter(name = "범위 끝 날짜(yyyy-MM-dd)") @RequestParam(name = "end") String endDate
     ) {
         DiariesResponseDTO response = diaryService.getDiaries(getMemberId(principal), startDate, endDate);
         return ResponseEntity.ok(success(SUCCESS_GET_DIARIES.getMessage(), response));

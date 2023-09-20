@@ -44,12 +44,12 @@ public class CorrectionController {
                     description = "일기 첨삭 성공")
     })
     @PostMapping("/diary/{diaryId}")
-    public ResponseEntity<ApiResponse> createCorrection(
+    public ResponseEntity<ApiResponse> save(
             @Parameter(hidden = true) Principal principal,
             @Parameter(description = "일기 id") @PathVariable Long diaryId,
             @RequestBody CorrectionRequestDTO request
     ) {
-        CorrectionResponseDTO response = correctionService.createCorrection(getMemberId(principal), diaryId, request);
+        CorrectionResponseDTO response = correctionService.save(getMemberId(principal), diaryId, request);
         return ResponseEntity
                 .created(getURI(diaryId))
                 .body(success(SUCCESS_CREATE_CORRECTION.getMessage(), response));
@@ -62,8 +62,8 @@ public class CorrectionController {
                     description = "첨삭 삭제 성공")
     })
     @DeleteMapping("/{correctionId}")
-    public ResponseEntity<ApiResponse> deleteCorrection(@Parameter(description = "첨삭 id") @PathVariable Long correctionId) {
-        correctionService.deleteCorrection(correctionId);
+    public ResponseEntity<ApiResponse> delete(@Parameter(description = "첨삭 id") @PathVariable Long correctionId) {
+        correctionService.delete(correctionId);
         return ResponseEntity.ok(success(SUCCESS_DELETE_CORRECTION.getMessage()));
     }
 
@@ -74,8 +74,8 @@ public class CorrectionController {
                     description = "첨삭 수정 성공")
     })
     @PatchMapping("/{correctionId}")
-    public ResponseEntity<ApiResponse> updateCorrection(@Parameter(description = "첨삭 id") @PathVariable Long correctionId, @RequestBody CorrectionRequestDTO request) {
-        correctionService.updateCorrection(correctionId, request);
+    public ResponseEntity<ApiResponse> update(@Parameter(description = "첨삭 id") @PathVariable Long correctionId, @RequestBody CorrectionRequestDTO request) {
+        correctionService.update(correctionId, request);
         return ResponseEntity.ok(success(SUCCESS_UPDATE_CORRECTION.getMessage()));
     }
 }

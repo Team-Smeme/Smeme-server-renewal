@@ -1,15 +1,15 @@
 package com.smeme.server.service;
 
+import static com.smeme.server.util.Util.stringToDate;
 import static com.smeme.server.util.message.ErrorMessage.*;
+import static java.lang.Integer.parseInt;
+import static java.time.LocalDateTime.now;
 import static java.util.Objects.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
+import com.smeme.server.config.ValueConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,17 +17,11 @@ import com.smeme.server.dto.diary.CreatedDiaryResponseDTO;
 import com.smeme.server.dto.diary.DiariesResponseDTO;
 import com.smeme.server.dto.diary.DiaryRequestDTO;
 import com.smeme.server.dto.diary.DiaryResponseDTO;
-import com.smeme.server.model.Correction;
 import com.smeme.server.model.Diary;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.badge.Badge;
 import com.smeme.server.model.topic.Topic;
-import com.smeme.server.repository.badge.BadgeRepository;
-import com.smeme.server.repository.correction.CorrectionRepository;
-import com.smeme.server.repository.badge.MemberBadgeRepository;
 import com.smeme.server.repository.diary.DiaryRepository;
-import com.smeme.server.repository.MemberRepository;
-import com.smeme.server.repository.topic.TopicRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -38,63 +32,67 @@ import lombok.RequiredArgsConstructor;
 public class DiaryService {
 
     private final DiaryRepository diaryRepository;
-    private final TopicRepository topicRepository;
-    private final MemberRepository memberRepository;
-    private final CorrectionRepository correctionRepository;
-    private final MemberBadgeRepository memberBadgeRepository;
-    private final BadgeRepository badgeRepository;
+
     private final BadgeService badgeService;
+    private final TopicService topicService;
+    private final MemberService memberService;
+    private final CorrectionService correctionService;
+
+    private final ValueConfig valueConfig;
 
     @Transactional
-    public CreatedDiaryResponseDTO createDiary(Long memberId, DiaryRequestDTO request) {
-        Member member = getMember(memberId);
-        Topic topic = getTopic(request.topicId());
-        Diary diary = checkExistTodayDiary(member, new Diary(request.content(), topic, member));
-        List<Badge> badges = getDiaryBadge(member, diary.getCreatedAt());
+    public CreatedDiaryResponseDTO save(Long memberId, DiaryRequestDTO request) {
+        Member member = memberService.get(memberId);
+
+        if (member.wroteDiaryToday()) {
+            throw new IllegalStateException(EXIST_TODAY_DIARY.getMessage());
+        }
+
+        Topic topic = topicService.get(request.topicId());
+        Diary diary = diaryRepository.save(new Diary(request.content(), topic, member));
+
+        List<Badge> badges = obtainBadges(member, diary.getCreatedAt());
+        badges.forEach(badge -> badgeService.saveMemberBadge(member, badge));
+
         return CreatedDiaryResponseDTO.of(diary.getId(), badges);
     }
 
-    public DiaryResponseDTO getDiaryDetail(Long diaryId) {
-        Diary diary = getDiary(diaryId);
-        List<Correction> corrections = correctionRepository.findByDiaryOrderByIdDesc(diary);
-        return DiaryResponseDTO.of(diary, corrections);
+    public DiaryResponseDTO getDetail(Long id) {
+        Diary diary = getFetchJoinCorrections(id);
+        return DiaryResponseDTO.of(diary);
     }
 
     @Transactional
-    public void updateDiary(Long diaryId, DiaryRequestDTO request) {
-        Diary diary = getDiary(diaryId);
+    public void update(Long id, DiaryRequestDTO request) {
+        Diary diary = get(id);
         diary.updateContent(request.content());
     }
 
     @Transactional
-    public void deleteDiary(Long diaryId) {
-        Diary diary = getDiary(diaryId);
-        diary.deleteDiary();
+    public void delete(Long id) {
+        Diary diary = get(id);
+        diary.delete();
     }
 
     public DiariesResponseDTO getDiaries(Long memberId, String startDate, String endDate) {
-        Member member = getMember(memberId);
-        List<Diary> diaries = diaryRepository.findDiariesStartToEnd(member,
-                transferStringToDateTime(startDate),
-                transferStringToDateTime(endDate).plusDays(1));
-        boolean has30Past = diaryRepository.exist30PastDiary(member);
-        return DiariesResponseDTO.of(diaries, has30Past);
+        Member member = memberService.get(memberId);
+        List<Diary> diaries = member.getDiaries().stream()
+                .filter(diary -> diary.isValid() && diary.isBetween(stringToDate(startDate), stringToDate(endDate)))
+                .toList();
+        boolean hasRemind = member.getDiaries().stream()
+                .filter(Diary::isValid)
+                .anyMatch(diary -> diary.isCreatedAt(now().minusDays(parseInt(valueConfig.getDURATION_REMIND()))));
+
+        return DiariesResponseDTO.of(diaries, hasRemind);
     }
 
     @Transactional
-    public void deleteDiary30Past(LocalDateTime past) {
-        diaryRepository.findDiariesDeleted30Past(past)
-                .forEach(this::deleteDiaryRelation);
+    public void deleteByExpiredDate() {
+        diaryRepository.findByExpiredDate().forEach(this::delete);
     }
 
-    private void deleteDiaryRelation(Diary diary) {
-        diary.deleteFromMember();
-        correctionRepository.deleteAll(diary.getCorrections());
-        diaryRepository.deleteById(diary.getId());
-    }
-
-    private Diary getDiary(Long diaryId) {
-        Diary diary = diaryRepository.findById(diaryId)
+    protected Diary get(Long id) {
+        Diary diary = diaryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(INVALID_DIARY.getMessage()));
         if (diary.isDeleted()) {
             throw new NoSuchElementException(DELETED_DIARY.getMessage());
@@ -102,78 +100,62 @@ public class DiaryService {
         return diary;
     }
 
-    private Member getMember(Long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException(INVALID_MEMBER.getMessage()));
-    }
-
-    private Topic getTopic(Long topicId) {
-        return nonNull(topicId)
-                ? topicRepository.findById(topicId)
-                .orElseThrow(() -> new EntityNotFoundException(INVALID_TOPIC.getMessage()))
-                : null;
-    }
-
-    private Diary checkExistTodayDiary(Member member, Diary diary) {
-        if (diaryRepository.existTodayDiary(member)) {
-            throw new IllegalArgumentException(EXIST_TODAY_DIARY.getMessage());
+    protected Diary getFetchJoinCorrections(Long id) {
+        Diary diary = diaryRepository.findByIdFetchJoinCorrections(id)
+                .orElseThrow(() -> new EntityNotFoundException(INVALID_DIARY.getMessage()));
+        if (diary.isDeleted()) {
+            throw new EntityNotFoundException(INVALID_DIARY.getMessage());
         }
-        return diaryRepository.save(diary);
+        return diary;
     }
 
-    private LocalDateTime transferStringToDateTime(String str) {
-        return LocalDateTime.parse(str + " 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-    }
-
-
-    private List<Badge> getDiaryBadge(Member member, LocalDateTime createdDate) {
+    private List<Badge> obtainBadges(Member member, LocalDateTime createdAt) {
         List<Badge> badges = new ArrayList<>();
-        Badge countingBadge = getCountingDiaryBadge(member);
-        if (Objects.nonNull(countingBadge) && !memberBadgeRepository.existsByMemberAndBadge(member, countingBadge)) {
+
+        Badge countingBadge = obtainCountingBadge(member);
+        if (nonNull(countingBadge) && member.hasNotBadge(countingBadge)) {
             badges.add(countingBadge);
         }
-        Badge comboBadge = getComboDiaryBadge(member, createdDate);
-        if (Objects.nonNull(comboBadge) && !memberBadgeRepository.existsByMemberAndBadge(member, comboBadge)) {
+
+        Badge comboBadge = obtainComboBadge(member, createdAt);
+        if (nonNull(comboBadge) && member.hasNotBadge(comboBadge)) {
             badges.add(comboBadge);
         }
-        badges.forEach(badge -> badgeService.createMemberBadge(member, badge));
+
         return badges;
     }
 
-    private Badge getComboDiaryBadge(Member member, LocalDateTime createdDate) {
-        int comboCount = 0;
-        while (diaryRepository.existDiaryInDate(member, createdDate)) {
-            comboCount++;
-            createdDate = createdDate.minusDays(1);
-        }
-        if (comboCount == 30) {
-            return getBadge(9L);
-        } else if (comboCount == 15) {
-            return getBadge(8L);
-        } else if (comboCount == 7) {
-            return getBadge(7L);
-        } else if (comboCount == 3) {
-            return getBadge(6L);
-        }
-        return null;
+    private Badge obtainCountingBadge(Member member) {
+        int count = member.getDiaries().stream().filter(Diary::isValid).toList().size();
+
+        return switch (count) {
+            case 50 -> badgeService.get(5L);
+            case 30 -> badgeService.get(4L);
+            case 10 -> badgeService.get(3L);
+            case 1 -> badgeService.get(2L);
+            default -> null;
+        };
     }
 
-    private Badge getCountingDiaryBadge(Member member) {
-        int diaryCount = member.getDiaries().stream().filter(diary -> !diary.isDeleted()).toList().size();
-        if (diaryCount == 50) {
-            return getBadge(5L);
-        } else if (diaryCount == 30) {
-            return getBadge(4L);
-        } else if (diaryCount == 10) {
-            return getBadge(3L);
-        } else if (diaryCount == 1) {
-            return getBadge(2L);
-        }
-        return null;
+    private Badge obtainComboBadge(Member member, LocalDateTime createdAt) {
+        boolean isCombo = member.getDiaries().stream()
+                .filter(Diary::isValid)
+                .anyMatch(diary -> diary.isCreatedAt(createdAt.minusDays(1)));
+
+        member.updateDiaryCombo(isCombo);
+
+        return switch (member.getDiaryComboCount()) {
+            case 30 -> badgeService.get(9L);
+            case 15 -> badgeService.get(8L);
+            case 7 -> badgeService.get(7L);
+            case 3 -> badgeService.get(6L);
+            default -> null;
+        };
     }
 
-    private Badge getBadge(Long id) {
-        return badgeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(INVALID_BADGE.getMessage()));
+    private void delete(Diary diary) {
+        diary.deleteFromMember();
+        correctionService.deleteCorrections(diary.getCorrections());
+        diaryRepository.deleteById(diary.getId());
     }
 }

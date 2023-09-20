@@ -37,8 +37,8 @@ public class TopicController {
                     content = @Content(schema = @Schema(implementation = TopicResponseDTO.class)))
     })
     @GetMapping("/random")
-    public ResponseEntity<ApiResponse> getRandomTopic() {
-        TopicResponseDTO response = topicService.getRandomTopic();
+    public ResponseEntity<ApiResponse> getRandom() {
+        TopicResponseDTO response = topicService.getRandom();
         return ResponseEntity.ok(success(SUCCESS_GET_RANDOM_TOPIC.getMessage(), response));
     }
 }
