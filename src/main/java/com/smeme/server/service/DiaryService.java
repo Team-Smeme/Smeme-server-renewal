@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import com.smeme.server.config.ValueConfig;
+import com.smeme.server.repository.correction.CorrectionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,11 +33,11 @@ import lombok.RequiredArgsConstructor;
 public class DiaryService {
 
     private final DiaryRepository diaryRepository;
+    private final CorrectionRepository correctionRepository;
 
     private final BadgeService badgeService;
     private final TopicService topicService;
     private final MemberService memberService;
-    private final CorrectionService correctionService;
 
     private final ValueConfig valueConfig;
 
@@ -155,7 +156,7 @@ public class DiaryService {
 
     private void delete(Diary diary) {
         diary.deleteFromMember();
-        correctionService.deleteCorrections(diary.getCorrections());
+        correctionRepository.deleteAll(diary.getCorrections());
         diaryRepository.deleteById(diary.getId());
     }
 }
