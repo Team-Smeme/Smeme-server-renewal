@@ -21,7 +21,7 @@ public class ScheduleController {
     private final DiaryService diaryService;
     private final ValueConfig valueConfig;
 
-    @Scheduled(cron = "0 0/30 * * * *")
+//    @Scheduled(cron = "0 0/30 * * * *")
     public void pushMessage() throws InterruptedException {
         Thread.sleep(1000);
         messageService.pushMessageForTrainingTime(LocalDateTime.now(), valueConfig.getMESSAGE_TITLE(), valueConfig.getMESSAGE_BODY());
