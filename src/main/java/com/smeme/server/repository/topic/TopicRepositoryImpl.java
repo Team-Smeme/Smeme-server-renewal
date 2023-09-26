@@ -14,15 +14,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TopicRepositoryImpl implements TopicCustomRepository {
 
-	private final JPAQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
 
-	@Override
-	public Topic getRandomTopic() {
-		return queryFactory
-			.select(topic)
-			.from(topic)
-			.orderBy(random().asc())
-			.limit(1)
-			.fetchFirst();
-	}
+    @Override
+    public Topic getRandom() {
+        return queryFactory
+                .select(topic)
+                .from(topic)
+                .orderBy(random().asc())
+                .limit(1)
+                .fetchFirst();
+    }
 }

@@ -1,5 +1,6 @@
 package com.smeme.server.controller;
 
+import static com.smeme.server.util.ApiResponse.success;
 import static com.smeme.server.util.message.ResponseMessage.*;
 
 import org.springframework.http.ResponseEntity;
@@ -28,33 +29,31 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v2/goals")
 public class GoalController {
 
-	private final GoalService goalService;
+    private final GoalService goalService;
 
-	@Operation(summary = "모든 학습 목표 조회", description = "모든 학습 목표 리스트를 조회합니다.")
-	@ApiResponses({
-		@io.swagger.v3.oas.annotations.responses.ApiResponse(
-			responseCode = "200",
-			description = "학습 목표 리스트 조회 성공",
-			content = @Content(schema = @Schema(implementation = GoalsResponseDTO.class)))
-	})
-	@GetMapping
-	public ResponseEntity<ApiResponse> getAllGoals() {
-		GoalsResponseDTO response = goalService.getAllGoals();
-		return ResponseEntity.ok(ApiResponse.success(SUCCESS_GET_GOALS.getMessage(), response));
-	}
+    @Operation(summary = "모든 학습 목표 조회", description = "모든 학습 목표 리스트를 조회합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "학습 목표 리스트 조회 성공",
+                    content = @Content(schema = @Schema(implementation = GoalsResponseDTO.class)))
+    })
+    @GetMapping
+    public ResponseEntity<ApiResponse> getAll() {
+        GoalsResponseDTO response = goalService.getAll();
+        return ResponseEntity.ok(success(SUCCESS_GET_GOALS.getMessage(), response));
+    }
 
-	@Operation(summary = "학습 목표 조회", description = "학습 목표 내용을 조회합니다.")
-	@ApiResponses({
-		@io.swagger.v3.oas.annotations.responses.ApiResponse(
-			responseCode = "200",
-			description = "학습 목표 조회 성공",
-			content = @Content(schema = @Schema(implementation = GoalResponseDTO.class)))
-	})
-	@GetMapping("/{type}")
-	public ResponseEntity<ApiResponse> getGoalByType(
-		@Parameter(description = "학습 목표 ENUM 값") @PathVariable GoalType type
-	) {
-		GoalResponseDTO response = goalService.getGoalByType(type);
-		return ResponseEntity.ok(ApiResponse.success(SUCCESS_GET_GOAL.getMessage(), response));
-	}
+    @Operation(summary = "학습 목표 조회", description = "학습 목표 내용을 조회합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "학습 목표 조회 성공",
+                    content = @Content(schema = @Schema(implementation = GoalResponseDTO.class)))
+    })
+    @GetMapping("/{type}")
+    public ResponseEntity<ApiResponse> getByType(@Parameter(description = "학습 목표 ENUM 값") @PathVariable GoalType type) {
+        GoalResponseDTO response = goalService.getByType(type);
+        return ResponseEntity.ok(success(SUCCESS_GET_GOAL.getMessage(), response));
+    }
 }

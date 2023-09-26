@@ -30,9 +30,10 @@ public class BetaAuthController {
     @Operation(summary = "베타 테스트용 임시 토큰 발급", description = "베타 테스트용 임시 토큰을 발급합니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "베타 테스트용 임시 토큰 발급 성공"
-            ,content = @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = BetaTokenResponseDTO.class)))})
+                    , content = @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = BetaTokenResponseDTO.class)))})
     @PostMapping("/token")
-    public ResponseEntity<ApiResponse> getToken(@RequestBody BetaSignInRequestDTO betaSignInRequestDTO) {
-        return ResponseEntity.ok(ApiResponse.success(SUCCESS_BETA_AUTH_TOKEN.getMessage(), betaAuthService.createBetaMember(betaSignInRequestDTO)));
+    public ResponseEntity<ApiResponse> getToken(@RequestBody BetaSignInRequestDTO request) {
+        BetaTokenResponseDTO response = betaAuthService.createBetaMember(request);
+        return ResponseEntity.ok(ApiResponse.success(SUCCESS_BETA_AUTH_TOKEN.getMessage(), response));
     }
 }

@@ -1,7 +1,9 @@
 package com.smeme.server.model;
 
+import static com.smeme.server.util.Util.getStartOfDay;
 import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.GenerationType.*;
+import static java.util.Objects.nonNull;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,7 +12,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import com.smeme.server.model.topic.Topic;
 
@@ -19,7 +20,8 @@ import com.smeme.server.model.topic.Topic;
 @Getter
 public class Diary extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "diary_id")
     private Long id;
 
@@ -57,23 +59,37 @@ public class Diary extends BaseTimeEntity {
 
     public void updateContent(String content) {
         this.content = content;
-        this.updatedAt = LocalDateTime.now();
     }
 
-    public void deleteDiary() {
+    public void delete() {
         this.isDeleted = true;
-        this.updatedAt = LocalDateTime.now();
-        this.member.getDiaries().remove(this);
+        deleteFromMember();
+        this.member.updateDiaryCombo();
     }
 
     public void deleteFromMember() {
-        if (Objects.nonNull(this.member)) {
+        if (nonNull(this.member)) {
             this.member.getDiaries().remove(this);
         }
     }
 
+    public boolean isValid() {
+        return !this.isDeleted;
+    }
+
+    public boolean isCreatedAt(LocalDateTime createdAt) {
+        return getStartOfDay(this.createdAt).isEqual(getStartOfDay(createdAt));
+    }
+
+    public boolean isBetween(LocalDateTime startAt, LocalDateTime endAt) {
+        LocalDateTime createdAt = getStartOfDay(this.createdAt);
+        startAt = getStartOfDay(startAt);
+        endAt = getStartOfDay(endAt);
+        return createdAt.equals(startAt) || (createdAt.isAfter(startAt) && createdAt.isBefore(endAt)) || createdAt.equals(endAt);
+    }
+
     private void setMember(Member member) {
-        if (Objects.nonNull(this.member)) {
+        if (nonNull(this.member)) {
             this.member.getDiaries().remove(this);
         }
         this.member = member;

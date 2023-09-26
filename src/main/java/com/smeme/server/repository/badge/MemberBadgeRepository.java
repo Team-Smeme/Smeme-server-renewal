@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface MemberBadgeRepository extends JpaRepository<MemberBadge, Long> {
 
     List<MemberBadge> findAllByMemberId(Long memberId);
+
     boolean existsByMemberAndBadge(Member member, Badge badge);
 
     Optional<MemberBadge> findFirstByMemberIdOrderByCreatedAtDesc(Long memberId);

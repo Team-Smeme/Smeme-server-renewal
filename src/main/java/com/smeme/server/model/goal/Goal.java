@@ -14,15 +14,16 @@ import lombok.Getter;
 @Getter
 public class Goal {
 
-	@Id @GeneratedValue(strategy = IDENTITY)
-	@Column(name = "goal_id")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "goal_id")
+    private Long id;
 
-	@Column(unique = true)
-	@Enumerated(value = EnumType.STRING)
-	private GoalType type;
+    @Column(unique = true)
+    @Enumerated(value = EnumType.STRING)
+    private GoalType type;
 
-	private String way;
+    private String way;
 
-	private String detail;
+    private String detail;
 }

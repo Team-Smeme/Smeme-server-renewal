@@ -1,5 +1,6 @@
 package com.smeme.server.service.auth;
 
+import com.smeme.server.config.ValueConfig;
 import com.smeme.server.config.jwt.JwtTokenProvider;
 import com.smeme.server.config.jwt.UserAuthentication;
 import com.smeme.server.dto.auth.beta.BetaSignInRequestDTO;
@@ -14,7 +15,6 @@ import com.smeme.server.repository.badge.MemberBadgeRepository;
 import com.smeme.server.util.message.ErrorMessage;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,20 +35,19 @@ public class BetaAuthService {
     private final MemberBadgeRepository memberBadgeRepository;
     private final JwtTokenProvider tokenProvider;
     private final BadgeRepository badgeRepository;
+    private final ValueConfig valueConfig;
 
-    @Value("${badge.welcome-badge-id}")
-    private Long WELCOME_BADGE_ID;
     private static final Long BETA_USER_EXPIRED = 60 * 60 * 1000 * 24 * 21L;
 
     @Transactional
-    public BetaTokenResponseDTO createBetaMember(BetaSignInRequestDTO requestDTO) {
+    public BetaTokenResponseDTO createBetaMember(BetaSignInRequestDTO request) {
 
         AtomicInteger atomicInteger = new AtomicInteger(1);
         Member betaMember = Member.builder()
                 .social(BETA)
                 .targetLang(en)
                 .socialId("beta" + atomicInteger.getAndIncrement())
-                .fcmToken(requestDTO.fcmToken())
+                .fcmToken(request.fcmToken())
                 .build();
         memberRepository.save(betaMember);
         Authentication authentication = new UserAuthentication(betaMember.getId(), null, null);
@@ -58,7 +57,7 @@ public class BetaAuthService {
     }
 
     private Badge addWelcomeBadge(Member member) {
-        Badge badge = badgeRepository.findById(WELCOME_BADGE_ID).orElseThrow(
+        Badge badge = badgeRepository.findById(valueConfig.getWELCOME_BADGE_ID()).orElseThrow(
                 () -> new EntityNotFoundException(ErrorMessage.EMPTY_BADGE.getMessage())
         );
         memberBadgeRepository.save(new MemberBadge(member, badge));

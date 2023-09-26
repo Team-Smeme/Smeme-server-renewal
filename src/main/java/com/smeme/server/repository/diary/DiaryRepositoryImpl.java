@@ -1,15 +1,19 @@
 package com.smeme.server.repository.diary;
 
+import static com.smeme.server.model.QCorrection.correction;
 import static com.smeme.server.model.QDiary.*;
+import static com.smeme.server.util.Util.getStartOfDay;
+import static java.lang.Integer.parseInt;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
+import com.smeme.server.config.ValueConfig;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.smeme.server.model.Diary;
-import com.smeme.server.model.Member;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,81 +21,29 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DiaryRepositoryImpl implements DiaryCustomRepository {
 
-	private final JPAQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
+    private final ValueConfig valueConfig;
 
-	@Override
-	public boolean existTodayDiary(Member member) {
-		LocalDateTime now = LocalDateTime.now();
-		return queryFactory
-			.from(diary)
-			.where(
-				diary.member.eq(member),
-				diary.createdAt.between(get12midnight(now), now),
-				diary.isDeleted.eq(false)
-			)
-			.select(diary.id)
-			.fetchFirst() != null;
-	}
+    @Override
+    public List<Diary> findByExpiredDate() {
+        int expiredDay = parseInt(valueConfig.getDURATION_EXPIRED());
+        LocalDateTime expiredDate = getStartOfDay(LocalDateTime.now()).minusDays(expiredDay - 1);
 
-	@Override
-	public List<Diary> findDiariesStartToEnd(Member member, LocalDateTime startDate, LocalDateTime endDate) {
-		return queryFactory
-			.select(diary)
-			.from(diary)
-			.where(
-				diary.member.eq(member),
-				diary.createdAt.between(startDate, endDate),
-				diary.isDeleted.eq(false)
-				)
-			.fetch();
-	}
+        return queryFactory
+                .selectFrom(diary)
+                .where(
+                        diary.isDeleted.eq(true),
+                        diary.createdAt.before(expiredDate)
+                )
+                .fetch();
+    }
 
-	@Override
-	public boolean exist30PastDiary(Member member) {
-		LocalDateTime past = LocalDateTime.now().minusDays(30);
-		return queryFactory
-			.select(diary)
-			.from(diary)
-			.where(
-				diary.member.eq(member),
-				diary.createdAt.year().eq(past.getYear()),
-				diary.createdAt.month().eq(past.getMonthValue()),
-				diary.createdAt.dayOfMonth().eq(past.getDayOfMonth()),
-				diary.isDeleted.eq(false)
-			)
-			.fetchFirst() != null;
-	}
-
-	@Override
-	public List<Diary> findDiariesDeleted30Past(LocalDateTime past) {
-		return queryFactory
-			.select(diary)
-			.from(diary)
-			.where(
-				diary.isDeleted.eq(true),
-				diary.updatedAt.year().eq(past.getYear()),
-				diary.updatedAt.month().eq(past.getMonthValue()),
-				diary.updatedAt.dayOfMonth().eq(past.getDayOfMonth())
-			)
-			.fetch();
-	}
-
-	@Override
-	public boolean existDiaryInDate(Member member, LocalDateTime createdDate) {
-		return queryFactory
-			.select(diary)
-			.from(diary)
-			.where(
-				diary.member.eq(member),
-				diary.createdAt.year().eq(createdDate.getYear()),
-				diary.createdAt.month().eq(createdDate.getMonthValue()),
-				diary.createdAt.dayOfMonth().eq(createdDate.getDayOfMonth()),
-				diary.isDeleted.eq(false)
-			)
-			.fetchFirst() != null;
-	}
-
-	private LocalDateTime get12midnight(LocalDateTime now) {
-		return LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), 0, 0, 0);
-	}
+    @Override
+    public Optional<Diary> findByIdFetchJoinCorrections(Long id) {
+        return Optional.ofNullable(queryFactory
+                .selectFrom(diary)
+                .where(diary.id.eq(id))
+                .leftJoin(diary.corrections, correction).fetchJoin().distinct()
+                .fetchFirst());
+    }
 }

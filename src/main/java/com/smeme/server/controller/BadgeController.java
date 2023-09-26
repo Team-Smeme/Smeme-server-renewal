@@ -3,7 +3,6 @@ package com.smeme.server.controller;
 import com.smeme.server.dto.badge.BadgeListResponseDTO;
 import com.smeme.server.service.BadgeService;
 import com.smeme.server.util.ApiResponse;
-import com.smeme.server.util.Util;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
+import static com.smeme.server.util.ApiResponse.success;
+import static com.smeme.server.util.Util.getMemberId;
 import static com.smeme.server.util.message.ResponseMessage.SUCCESS_GET_BADGES;
 
 @RestController
@@ -35,7 +36,8 @@ public class BadgeController {
                     content = @Content(schema = @Schema(implementation = BadgeListResponseDTO.class)))})
     @GetMapping
     public ResponseEntity<ApiResponse> getBadgeList(Principal principal) {
-        return ResponseEntity.ok(ApiResponse.success(SUCCESS_GET_BADGES.getMessage(), badgeService.getBadgeList(Util.getMemberId(principal))));
+        BadgeListResponseDTO response = badgeService.getBadgeList(getMemberId(principal));
+        return ResponseEntity.ok(success(SUCCESS_GET_BADGES.getMessage(), response));
     }
 
 }

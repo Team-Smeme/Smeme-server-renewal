@@ -1,5 +1,6 @@
 package com.smeme.server.service;
 
+import com.smeme.server.config.ValueConfig;
 import com.smeme.server.dto.badge.BadgeResponseDTO;
 import com.smeme.server.dto.member.*;
 import com.smeme.server.dto.training.TrainingTimeResponseDTO;
@@ -19,7 +20,6 @@ import com.smeme.server.util.message.ErrorMessage;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.smeme.server.util.message.ErrorMessage.INVALID_MEMBER;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -37,31 +38,29 @@ import static java.util.Objects.nonNull;
 @RequiredArgsConstructor
 public class MemberService {
 
-    @Value("${badge.welcome-badge-id}")
-    private Long WELCOME_BADGE_ID;
-
     private final MemberRepository memberRepository;
     private final TrainingTimeRepository trainingTimeRepository;
     private final MemberBadgeRepository memberBadgeRepository;
     private final GoalRepository goalRepository;
     private final BadgeRepository badgeRepository;
+    private final ValueConfig valueConfig;
 
     @Transactional
-    public MemberUpdateResponseDTO updateMember(Long memberId, MemberUpdateRequestDTO dto) {
-        checkMemberDuplicate(dto.username());
+    public MemberUpdateResponseDTO updateMember(Long memberId, MemberUpdateRequestDTO request) {
+        checkMemberDuplicate(request.username());
         Member member = getMemberById(memberId);
 
-        if (nonNull(dto.termAccepted())) {
-            member.updateTermAccepted(dto.termAccepted());
+        if (nonNull(request.termAccepted())) {
+            member.updateTermAccepted(request.termAccepted());
         }
 
         ArrayList<Badge> badges = new ArrayList<>();
         if (isNull(member.getUsername())) {
-            Badge welcomeBadge = getBadgeById(WELCOME_BADGE_ID);
+            Badge welcomeBadge = getBadgeById(valueConfig.getWELCOME_BADGE_ID());
             memberBadgeRepository.save(new MemberBadge(member, welcomeBadge));
             badges.add(welcomeBadge);
         }
-        member.updateUsername(dto.username());
+        member.updateUsername(request.username());
         return MemberUpdateResponseDTO.of(badges);
     }
 
@@ -91,26 +90,26 @@ public class MemberService {
 
 
     @Transactional
-    public void updateMemberPlan(Long memberId, MemberPlanUpdateRequestDTO requestDTO) {
+    public void updateMemberPlan(Long memberId, MemberPlanUpdateRequestDTO request) {
         Member member = getMemberById(memberId);
 
-        if (nonNull(requestDTO.target())) {
-            member.updateGoal(requestDTO.target());
+        if (nonNull(request.target())) {
+            member.updateGoal(request.target());
         }
 
-        if (nonNull(requestDTO.hasAlarm())) {
-            member.updateHasAlarm(requestDTO.hasAlarm());
+        if (nonNull(request.hasAlarm())) {
+            member.updateHasAlarm(request.hasAlarm());
         }
 
-        if (nonNull(requestDTO.trainingTime()) && StringUtils.hasText(requestDTO.trainingTime().day())) {
-            updateMemberTrainingTime(member, requestDTO);
+        if (nonNull(request.trainingTime()) && StringUtils.hasText(request.trainingTime().day())) {
+            updateMemberTrainingTime(member, request);
         }
     }
 
     @Transactional
-    public void updateMemberPush(Long memberId, MemberPushUpdateRequestDTO requestDTO) {
+    public void updateMemberPush(Long memberId, MemberPushUpdateRequestDTO request) {
         Member member = getMemberById(memberId);
-        member.updateHasAlarm(requestDTO.hasAlarm());
+        member.updateHasAlarm(request.hasAlarm());
     }
 
     public MemberNameResponseDTO checkDuplicatedName(String name) {
@@ -118,13 +117,18 @@ public class MemberService {
         return new MemberNameResponseDTO(isExist);
     }
 
-    private void updateMemberTrainingTime(Member member, MemberPlanUpdateRequestDTO requestDTO) {
+    protected Member get(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(INVALID_MEMBER.getMessage()));
+    }
+
+    private void updateMemberTrainingTime(Member member, MemberPlanUpdateRequestDTO request) {
         trainingTimeRepository.deleteAll(member.getTrainingTimes());
-        for (String day : parseDay(requestDTO.trainingTime().day())) {
+        for (String day : parseDay(request.trainingTime().day())) {
             TrainingTime trainingTime = TrainingTime.builder()
                     .day(DayType.valueOf(day))
-                    .hour(requestDTO.trainingTime().hour())
-                    .minute(requestDTO.trainingTime().minute())
+                    .hour(request.trainingTime().hour())
+                    .minute(request.trainingTime().minute())
                     .member(member)
                     .build();
             trainingTimeRepository.save(trainingTime);
