@@ -1,11 +1,18 @@
 package com.smeme.server.service.auth;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
 import com.smeme.server.config.ValueConfig;
+import com.smeme.server.config.jwt.RestTemplateConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,6 +26,7 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
+import java.util.Map;
 import java.util.Objects;
 
 @RequiredArgsConstructor
@@ -26,12 +34,16 @@ import java.util.Objects;
 public class AppleSignInService {
 
     private final ValueConfig valueConfig;
+    private final RestTemplateConfig restTemplateConfig;
 
-    protected JsonArray getApplePublicKeyList() {
+    protected JsonArray getApplePublicKeys() {
         try {
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders headers = new HttpHeaders();
+            ResponseEntity<Object> responseData = restTemplateConfig.restTemplate().getForEntity(valueConfig.getAPPLE_URL(), Object.class);
             URL url = new URL(valueConfig.getAPPLE_URL());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+            connection.setRequestMethod(HttpMethod.GET.name());
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder result = new StringBuilder();
 
@@ -75,6 +87,20 @@ public class AppleSignInService {
         return getPublicKey(selectedObject);
     }
 
+    protected String getAppleData(String socialAccessToken) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        JsonArray publicKeyList = getApplePublicKeys();
+        PublicKey publicKey = makePublicKey(socialAccessToken, publicKeyList);
+
+        Claims userInfo = Jwts.parserBuilder()
+                .setSigningKey(publicKey)
+                .build()
+                .parseClaimsJws(socialAccessToken.substring(7))
+                .getBody();
+
+        JsonObject userInfoObject = (JsonObject) JsonParser.parseString(new Gson().toJson(userInfo));
+        return userInfoObject.get("sub").getAsString();
+    }
+
     private PublicKey getPublicKey(JsonObject object) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String nStr = object.get("n").toString();
         String eStr = object.get("e").toString();
@@ -90,17 +116,4 @@ public class AppleSignInService {
         return keyFactory.generatePublic(publicKeySpec);
     }
 
-    protected String getAppleData(String socialAccessToken) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        JsonArray publicKeyList = getApplePublicKeyList();
-        PublicKey publicKey = makePublicKey(socialAccessToken, publicKeyList);
-
-        Claims userInfo = Jwts.parserBuilder()
-                .setSigningKey(publicKey)
-                .build()
-                .parseClaimsJws(socialAccessToken.substring(7))
-                .getBody();
-
-        JsonObject userInfoObject = (JsonObject) JsonParser.parseString(new Gson().toJson(userInfo));
-        return userInfoObject.get("sub").getAsString();
-    }
 }

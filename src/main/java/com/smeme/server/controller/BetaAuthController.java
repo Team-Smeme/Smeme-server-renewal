@@ -23,6 +23,7 @@ import static com.smeme.server.util.message.ResponseMessage.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/beta")
 @Tag(name = "BetaAuth", description = "베타 테스트용 인증 API")
+@Deprecated
 public class BetaAuthController {
 
     private final BetaAuthService betaAuthService;

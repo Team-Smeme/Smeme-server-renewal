@@ -29,6 +29,7 @@ import static com.smeme.server.model.SocialType.*;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Deprecated
 public class BetaAuthService {
 
     private final MemberRepository memberRepository;

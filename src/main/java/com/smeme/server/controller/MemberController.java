@@ -45,7 +45,7 @@ public class MemberController {
                     , content = @Content(schema = @Schema(implementation = MemberGetResponseDTO.class)))})
     @GetMapping("/me")
     public ResponseEntity<ApiResponse> getUserProfile(Principal principal) {
-        MemberGetResponseDTO response = memberService.getMember(getMemberId(principal));
+        MemberGetResponseDTO response = memberService.getInfo(getMemberId(principal));
         return ResponseEntity.ok(success(SUCCESS_GET_USER.getMessage(), response));
     }
 
@@ -73,7 +73,7 @@ public class MemberController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "사용자 푸쉬 알람 동의 여부 수정 성공")})
     @PatchMapping("/push")
     public ResponseEntity<ApiResponse> updateUserPush(Principal principal, @RequestBody MemberPushUpdateRequestDTO request) {
-        memberService.updateMemberPush(getMemberId(principal), request);
+        memberService.updateHasAlarm(getMemberId(principal), request);
         return ResponseEntity.ok(success(SUCCESS_UPDATE_USER_PUSH.getMessage()));
     }
 

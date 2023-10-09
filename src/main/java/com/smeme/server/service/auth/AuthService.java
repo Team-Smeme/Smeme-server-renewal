@@ -10,10 +10,10 @@ import com.smeme.server.model.LangType;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.SocialType;
 import com.smeme.server.repository.MemberRepository;
-import com.smeme.server.repository.badge.MemberBadgeRepository;
-import com.smeme.server.repository.correction.CorrectionRepository;
-import com.smeme.server.repository.diary.DiaryRepository;
-import com.smeme.server.repository.trainingTime.TrainingTimeRepository;
+import com.smeme.server.service.CorrectionService;
+import com.smeme.server.service.DiaryService;
+import com.smeme.server.service.MemberBadgeService;
+import com.smeme.server.service.TrainingTimeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
@@ -41,12 +41,11 @@ public class AuthService {
     private final MemberRepository memberRepository;
 
     private final AppleSignInService appleSignInService;
-
     private final KakaoSignInService kakaoSignInService;
-    private final MemberBadgeRepository memberBadgeRepository;
-    private final DiaryRepository diaryRepository;
-    private final TrainingTimeRepository trainingTimeRepository;
-    private final CorrectionRepository correctionRepository;
+    private final MemberBadgeService memberBadgeService;
+    private final DiaryService diaryService;
+    private final TrainingTimeService trainingTimeService;
+    private final CorrectionService correctionService;
 
     @Transactional
     public SignInResponseDTO signIn(String socialAccessToken, SignInRequestDTO request) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -103,10 +102,10 @@ public class AuthService {
 
     @Transactional
     public void withdraw(Long memberId) {
-        diaryRepository.findAllByMemberId(memberId).forEach(diary -> correctionRepository.deleteAllByDiaryId(diary.getId()));
-        diaryRepository.deleteAllByMemberId(memberId);
-        trainingTimeRepository.deleteAllByMemberId(memberId);
-        memberBadgeRepository.deleteAllByMemberId(memberId);
+        diaryService.getAllByMemberId(memberId).forEach(diary -> correctionService.deleteAllByDiaryId(diary.getId()));
+        diaryService.deleteAllByMemberId(memberId);
+        trainingTimeService.deleteAllByMemberId(memberId);
+        memberBadgeService.deleteAllByMemberId(memberId);
         memberRepository.deleteById(memberId);
     }
 

@@ -92,6 +92,15 @@ public class DiaryService {
         diaryRepository.findByExpiredDate().forEach(this::delete);
     }
 
+    @Transactional
+    public void deleteAllByMemberId(Long memberId) {
+        diaryRepository.deleteAllByMemberId(memberId);
+    }
+
+    public List<Diary> getAllByMemberId(Long memberId) {
+        return diaryRepository.findAllByMemberId(memberId);
+    }
+
     protected Diary get(Long id) {
         Diary diary = diaryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(INVALID_DIARY.getMessage()));
