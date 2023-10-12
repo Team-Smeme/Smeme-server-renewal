@@ -1,5 +1,6 @@
 package com.smeme.server.repository.trainingTime;
 
+import com.smeme.server.model.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.smeme.server.model.training.TrainingTime;
@@ -10,6 +11,6 @@ public interface TrainingTimeRepository extends JpaRepository<TrainingTime, Long
 
     List<TrainingTime> findAllByMemberId(Long memberId);
 
-    void deleteAllByMemberId(Long id);
+    void deleteAllByMember(Member member);
 
 }

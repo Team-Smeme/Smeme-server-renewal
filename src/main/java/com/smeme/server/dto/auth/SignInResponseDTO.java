@@ -1,6 +1,7 @@
 package com.smeme.server.dto.auth;
 
 
+import com.smeme.server.dto.auth.token.TokenVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
@@ -16,5 +17,9 @@ public record SignInResponseDTO(
         @Schema(description = "회원의 목표 언어", example = "EN")
         boolean hasPlan
 ) {
+
+        public static SignInResponseDTO of(TokenVO tokenVO, boolean isRegistered, boolean hasPlan) {
+                return new SignInResponseDTO(tokenVO.accessToken(), tokenVO.refreshToken(), isRegistered, hasPlan);
+        }
 
 }

@@ -60,30 +60,21 @@ public class MemberService {
         return MemberUpdateResponseDTO.of(badges);
     }
 
-    public MemberGetResponseDTO getInfo(Long memberId) {
+    public MemberGetResponseDTO getMemberProfile(Long memberId) {
         Member member = get(memberId);
         GoalResponseDTO goal = goalService.getByType(member.getGoal());
         List<TrainingTime> trainingTimeList = trainingTimeService.getAllByMemberId(memberId);
 
         // 기본 시간 설정
         if (trainingTimeService.getAllByMemberId(memberId).isEmpty()) {
-            TrainingTimeResponseDTO trainingTimeResponseDTO = TrainingTimeResponseDTO.builder()
-                    .day("")
-                    .hour(22)
-                    .minute(0)
-                    .build();
+            TrainingTimeResponseDTO trainingTimeResponseDTO = TrainingTimeResponseDTO.of("", 22, 0);
             return MemberGetResponseDTO.of(goal, member, trainingTimeResponseDTO, BadgeResponseDTO.of(memberBadgeService.getBadgeByMemberId(memberId)));
         }
 
         TrainingTime trainingTime = getOneTrainingTime(trainingTimeList);
-        TrainingTimeResponseDTO trainingTimeResponseDTO = TrainingTimeResponseDTO.builder()
-                .day(getDays(trainingTimeList))
-                .hour(trainingTime.getHour())
-                .minute(trainingTime.getMinute())
-                .build();
+        TrainingTimeResponseDTO trainingTimeResponseDTO = TrainingTimeResponseDTO.of(getDays(trainingTimeList), trainingTime.getHour(), trainingTime.getMinute());
         return MemberGetResponseDTO.of(goal, member, trainingTimeResponseDTO, BadgeResponseDTO.of(memberBadgeService.getBadgeByMemberId(memberId)));
     }
-
 
     @Transactional
     public void updateMemberPlan(Long memberId, MemberPlanUpdateRequestDTO request) {

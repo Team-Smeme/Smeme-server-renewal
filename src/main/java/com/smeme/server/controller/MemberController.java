@@ -45,7 +45,7 @@ public class MemberController {
                     , content = @Content(schema = @Schema(implementation = MemberGetResponseDTO.class)))})
     @GetMapping("/me")
     public ResponseEntity<ApiResponse> getUserProfile(Principal principal) {
-        MemberGetResponseDTO response = memberService.getInfo(getMemberId(principal));
+        MemberGetResponseDTO response = memberService.getMemberProfile(getMemberId(principal));
         return ResponseEntity.ok(success(SUCCESS_GET_USER.getMessage(), response));
     }
 

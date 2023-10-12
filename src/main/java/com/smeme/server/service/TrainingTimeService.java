@@ -1,6 +1,5 @@
 package com.smeme.server.service;
 
-import com.smeme.server.model.Diary;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.training.TrainingTime;
 import com.smeme.server.repository.trainingTime.TrainingTimeRepository;
@@ -15,8 +14,8 @@ public class TrainingTimeService {
 
     private final TrainingTimeRepository trainingTimeRepository;
 
-    public void deleteAllByMemberId(Long memberId) {
-        trainingTimeRepository.deleteAllByMemberId(memberId);
+    public void deleteAllByMember(Member member) {
+        trainingTimeRepository.deleteAllByMember(member);
     }
 
     protected TrainingTime get(Long id) {

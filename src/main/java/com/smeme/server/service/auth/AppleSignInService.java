@@ -1,18 +1,13 @@
 package com.smeme.server.service.auth;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
 import com.smeme.server.config.ValueConfig;
 import com.smeme.server.config.jwt.RestTemplateConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,7 +21,6 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
-import java.util.Map;
 import java.util.Objects;
 
 @RequiredArgsConstructor
@@ -38,9 +32,6 @@ public class AppleSignInService {
 
     protected JsonArray getApplePublicKeys() {
         try {
-            RestTemplate restTemplate = new RestTemplate();
-            HttpHeaders headers = new HttpHeaders();
-            ResponseEntity<Object> responseData = restTemplateConfig.restTemplate().getForEntity(valueConfig.getAPPLE_URL(), Object.class);
             URL url = new URL(valueConfig.getAPPLE_URL());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(HttpMethod.GET.name());

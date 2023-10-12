@@ -72,12 +72,7 @@ public class AuthService {
         TokenVO tokenVO = generateToken(new UserAuthentication(signedMember.getId(), null, null));
         signedMember.updateRefreshToken(tokenVO.refreshToken());
 
-        return SignInResponseDTO.builder()
-                .accessToken(tokenVO.accessToken())
-                .refreshToken(tokenVO.refreshToken())
-                .isRegistered(isRegistered)
-                .hasPlan(hasPlan)
-                .build();
+        return SignInResponseDTO.of(tokenVO, isRegistered, hasPlan);
     }
 
     @Transactional
@@ -85,7 +80,7 @@ public class AuthService {
 
         TokenVO tokenVO = generateToken(new UserAuthentication(memberId, null, null));
 
-        Member member = getMemberById(memberId);
+        Member member = get(memberId);
         member.updateRefreshToken(tokenVO.refreshToken());
 
         return TokenResponseDTO.builder()
@@ -96,16 +91,17 @@ public class AuthService {
 
     @Transactional
     public void signOut(Long memberId) {
-        Member member = getMemberById(memberId);
+        Member member = get(memberId);
         member.updateRefreshToken(null);
     }
 
     @Transactional
     public void withdraw(Long memberId) {
+        Member member = get(memberId);
         diaryService.getAllByMemberId(memberId).forEach(diary -> correctionService.deleteAllByDiaryId(diary.getId()));
-        diaryService.deleteAllByMemberId(memberId);
-        trainingTimeService.deleteAllByMemberId(memberId);
-        memberBadgeService.deleteAllByMemberId(memberId);
+        diaryService.deleteAllByMember(member);
+        trainingTimeService.deleteAllByMember(member);
+        memberBadgeService.deleteAllByMember(member);
         memberRepository.deleteById(memberId);
     }
 
@@ -116,7 +112,7 @@ public class AuthService {
     }
 
 
-    private Member getMemberById(Long memberId) {
+    private Member get(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException(INVALID_MEMBER.getMessage()));
     }
