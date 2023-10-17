@@ -30,8 +30,8 @@ public class TrainingTimeService {
         trainingTimeRepository.save(trainingTime);
     }
 
-    protected List<TrainingTime> getAllByMemberId(Long memberId) {
-        return trainingTimeRepository.findAllByMemberId(memberId);
+    protected List<TrainingTime> getAllByMember(Member member) {
+        return trainingTimeRepository.findAllByMember(member);
     }
 
 }

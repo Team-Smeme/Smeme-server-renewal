@@ -40,6 +40,7 @@ public class MemberService {
     private final MemberBadgeService memberBadgeService;
 
     private final ValueConfig valueConfig;
+    private Member member;
 
     @Transactional
     public MemberUpdateResponseDTO updateMember(Long memberId, MemberUpdateRequestDTO request) {
@@ -60,15 +61,16 @@ public class MemberService {
         return MemberUpdateResponseDTO.of(badges);
     }
 
-    public MemberGetResponseDTO getMemberProfile(Long memberId) {
+    public MemberGetResponseDTO getProfile(Long memberId) {
         Member member = get(memberId);
         GoalResponseDTO goal = goalService.getByType(member.getGoal());
-        List<TrainingTime> trainingTimeList = trainingTimeService.getAllByMemberId(memberId);
+        List<TrainingTime> trainingTimeList = trainingTimeService.getAllByMember(member);
 
         // 기본 시간 설정
-        if (trainingTimeService.getAllByMemberId(memberId).isEmpty()) {
+        if (trainingTimeService.getAllByMember(member).isEmpty()) {
             TrainingTimeResponseDTO trainingTimeResponseDTO = TrainingTimeResponseDTO.of("", 22, 0);
-            return MemberGetResponseDTO.of(goal, member, trainingTimeResponseDTO, BadgeResponseDTO.of(memberBadgeService.getBadgeByMemberId(memberId)));
+            BadgeResponseDTO badgeResponseDTO = BadgeResponseDTO.of(memberBadgeService.getBadgeByMemberId(memberId));
+            return MemberGetResponseDTO.of(goal, member, trainingTimeResponseDTO,badgeResponseDTO);
         }
 
         TrainingTime trainingTime = getOneTrainingTime(trainingTimeList);
@@ -105,8 +107,7 @@ public class MemberService {
     }
 
     protected Member get(Long id) {
-        return memberRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(INVALID_MEMBER.getMessage()));
+        return member;
     }
 
     private void updateTrainingTime(Member member, MemberPlanUpdateRequestDTO request) {
