@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.smeme.server.util.message.ErrorMessage.INVALID_MEMBER;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -40,7 +39,6 @@ public class MemberService {
     private final MemberBadgeService memberBadgeService;
 
     private final ValueConfig valueConfig;
-    private Member member;
 
     @Transactional
     public MemberUpdateResponseDTO updateMember(Long memberId, MemberUpdateRequestDTO request) {
@@ -107,7 +105,8 @@ public class MemberService {
     }
 
     protected Member get(Long id) {
-        return member;
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.EMPTY_MEMBER.getMessage()));
     }
 
     private void updateTrainingTime(Member member, MemberPlanUpdateRequestDTO request) {
