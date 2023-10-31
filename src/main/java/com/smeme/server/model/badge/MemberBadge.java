@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,6 +35,8 @@ public class MemberBadge extends BaseTimeEntity {
     @JoinColumn(name = "badge_id")
     private Badge badge;
 
+
+    @Builder
     public MemberBadge(Member member, Badge badge) {
         setMember(member);
         this.badge = badge;

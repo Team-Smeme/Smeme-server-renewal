@@ -15,7 +15,7 @@
         "tags" : [ "api" ],
         "summary" : "서버 연결 테스트",
         "description" : "서버 연결 테스트",
-        "operationId" : "test-docs",
+        "operationId" : "test controller success test",
         "responses" : {
           "200" : {
             "description" : "200",
@@ -25,7 +25,7 @@
                   "$ref" : "#/components/schemas/api-v2-test594740350"
                 },
                 "examples" : {
-                  "test-docs" : {
+                  "test controller success test" : {
                     "value" : "{\n  \"success\" : true,\n  \"message\" : \"server connect\",\n  \"data\" : null\n}"
                   }
                 }
@@ -50,6 +50,15 @@
             "description" : "응답 메시지"
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "Authorization": {
+        "type": "http",
+        "description": "Authorization: Bearer ~",
+        "in": "header",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }

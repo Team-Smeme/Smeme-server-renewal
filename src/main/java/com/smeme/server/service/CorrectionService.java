@@ -55,6 +55,12 @@ public class CorrectionService {
         correction.updateContent(request.content());
     }
 
+    @Transactional
+    public void deleteAllByDiaryId(Long diaryId) {
+        correctionRepository.deleteAllByDiaryId(diaryId);
+    }
+
+
     protected void deleteCorrections(List<Correction> corrections) {
         correctionRepository.deleteAll(corrections);
     }

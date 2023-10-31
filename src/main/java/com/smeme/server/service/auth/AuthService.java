@@ -10,10 +10,10 @@ import com.smeme.server.model.LangType;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.SocialType;
 import com.smeme.server.repository.MemberRepository;
-import com.smeme.server.repository.badge.MemberBadgeRepository;
-import com.smeme.server.repository.correction.CorrectionRepository;
-import com.smeme.server.repository.diary.DiaryRepository;
-import com.smeme.server.repository.trainingTime.TrainingTimeRepository;
+import com.smeme.server.service.CorrectionService;
+import com.smeme.server.service.DiaryService;
+import com.smeme.server.service.MemberBadgeService;
+import com.smeme.server.service.TrainingTimeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
@@ -31,7 +31,7 @@ import static java.util.Objects.*;
 @Transactional(readOnly = true)
 public class AuthService {
 
-    private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 2 * 12 * 100L; // 2시간
+    private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 2 * 12 * 1000000L; // 2시간
 
     private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 24 * 14L; // 2주
 
@@ -41,12 +41,11 @@ public class AuthService {
     private final MemberRepository memberRepository;
 
     private final AppleSignInService appleSignInService;
-
     private final KakaoSignInService kakaoSignInService;
-    private final MemberBadgeRepository memberBadgeRepository;
-    private final DiaryRepository diaryRepository;
-    private final TrainingTimeRepository trainingTimeRepository;
-    private final CorrectionRepository correctionRepository;
+    private final MemberBadgeService memberBadgeService;
+    private final DiaryService diaryService;
+    private final TrainingTimeService trainingTimeService;
+    private final CorrectionService correctionService;
 
     @Transactional
     public SignInResponseDTO signIn(String socialAccessToken, SignInRequestDTO request) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -73,12 +72,7 @@ public class AuthService {
         TokenVO tokenVO = generateToken(new UserAuthentication(signedMember.getId(), null, null));
         signedMember.updateRefreshToken(tokenVO.refreshToken());
 
-        return SignInResponseDTO.builder()
-                .accessToken(tokenVO.accessToken())
-                .refreshToken(tokenVO.refreshToken())
-                .isRegistered(isRegistered)
-                .hasPlan(hasPlan)
-                .build();
+        return SignInResponseDTO.of(tokenVO, isRegistered, hasPlan);
     }
 
     @Transactional
@@ -86,7 +80,7 @@ public class AuthService {
 
         TokenVO tokenVO = generateToken(new UserAuthentication(memberId, null, null));
 
-        Member member = getMemberById(memberId);
+        Member member = get(memberId);
         member.updateRefreshToken(tokenVO.refreshToken());
 
         return TokenResponseDTO.builder()
@@ -97,16 +91,17 @@ public class AuthService {
 
     @Transactional
     public void signOut(Long memberId) {
-        Member member = getMemberById(memberId);
+        Member member = get(memberId);
         member.updateRefreshToken(null);
     }
 
     @Transactional
     public void withdraw(Long memberId) {
-        diaryRepository.findAllByMemberId(memberId).forEach(diary -> correctionRepository.deleteAllByDiaryId(diary.getId()));
-        diaryRepository.deleteAllByMemberId(memberId);
-        trainingTimeRepository.deleteAllByMemberId(memberId);
-        memberBadgeRepository.deleteAllByMemberId(memberId);
+        Member member = get(memberId);
+        diaryService.getAllByMemberId(memberId).forEach(diary -> correctionService.deleteAllByDiaryId(diary.getId()));
+        diaryService.deleteAllByMember(member);
+        trainingTimeService.deleteAllByMember(member);
+        memberBadgeService.deleteAllByMember(member);
         memberRepository.deleteById(memberId);
     }
 
@@ -117,7 +112,7 @@ public class AuthService {
     }
 
 
-    private Member getMemberById(Long memberId) {
+    private Member get(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException(INVALID_MEMBER.getMessage()));
     }
