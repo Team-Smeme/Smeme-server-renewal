@@ -62,7 +62,7 @@ public class MemberService {
     public MemberGetResponseDTO getProfile(Long memberId) {
         Member member = get(memberId);
         GoalResponseDTO goal = goalService.getByType(member.getGoal());
-        List<TrainingTime> trainingTimeList = trainingTimeService.getAllByMember(member);
+        List<TrainingTime> trainingTimes = trainingTimeService.getAllByMember(member);
 
         // 기본 시간 설정
         if (trainingTimeService.getAllByMember(member).isEmpty()) {
@@ -71,8 +71,8 @@ public class MemberService {
             return MemberGetResponseDTO.of(goal, member, trainingTimeResponseDTO,badgeResponseDTO);
         }
 
-        TrainingTime trainingTime = getOneTrainingTime(trainingTimeList);
-        TrainingTimeResponseDTO trainingTimeResponseDTO = TrainingTimeResponseDTO.of(getDays(trainingTimeList), trainingTime.getHour(), trainingTime.getMinute());
+        TrainingTime trainingTime = getOneTrainingTime(trainingTimes);
+        TrainingTimeResponseDTO trainingTimeResponseDTO = TrainingTimeResponseDTO.of(getDays(trainingTimes), trainingTime.getHour(), trainingTime.getMinute());
         return MemberGetResponseDTO.of(goal, member, trainingTimeResponseDTO, BadgeResponseDTO.of(memberBadgeService.getBadgeByMemberId(memberId)));
     }
 
@@ -127,9 +127,9 @@ public class MemberService {
     }
 
 
-    private TrainingTime getOneTrainingTime(List<TrainingTime> trainingTimeList) {
-        return trainingTimeList.stream().findFirst().orElseThrow(
-                () -> new EntityNotFoundException(ErrorMessage.EMPTY_TRAINING_TIME.getMessage()));
+    private TrainingTime getOneTrainingTime(List<TrainingTime> trainingTimes) {
+        return trainingTimes.stream().findFirst().orElseThrow(
+                () -> new EntityNotFoundException(ErrorMessage.NOT_SET_TRAINING_TIME.getMessage()));
     }
 
     private String getDays(List<TrainingTime> trainingTimeList) {
