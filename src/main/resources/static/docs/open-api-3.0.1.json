@@ -10,12 +10,59 @@
   } ],
   "tags" : [ ],
   "paths" : {
+    "/api/v2/diaries" : {
+      "post" : {
+        "tags" : [ "Diary" ],
+        "summary" : "일기 작성",
+        "description" : "일기 작성",
+        "operationId" : "일기 작성 성공 Example",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v2-diaries-1124915790"
+              },
+              "examples" : {
+                "일기 작성 성공 Example" : {
+                  "value" : "{\n  \"content\" : \"Hello SMEEM!\",\n  \"topicId\" : 1\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "201",
+            "headers" : {
+              "Location" : {
+                "description" : "생성된 일기 조회 URI",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-486735900"
+                },
+                "examples" : {
+                  "일기 작성 성공 Example" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 작성 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"badges\" : [ {\n      \"name\" : \"뱃지 이름1\",\n      \"imageUrl\" : \"image-url1\"\n    }, {\n      \"name\" : \"뱃지 이름2\",\n      \"imageUrl\" : \"image-url2\"\n    } ]\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v2/test" : {
       "get" : {
         "tags" : [ "api" ],
         "summary" : "서버 연결 테스트",
         "description" : "서버 연결 테스트",
-        "operationId" : "test controller success test",
+        "operationId" : "test-docs",
         "responses" : {
           "200" : {
             "description" : "200",
@@ -25,7 +72,7 @@
                   "$ref" : "#/components/schemas/api-v2-test594740350"
                 },
                 "examples" : {
-                  "test controller success test" : {
+                  "test-docs" : {
                     "value" : "{\n  \"success\" : true,\n  \"message\" : \"server connect\",\n  \"data\" : null\n}"
                   }
                 }
@@ -38,6 +85,59 @@
   },
   "components" : {
     "schemas" : {
+      "api-v2-diaries-1124915790" : {
+        "type" : "object",
+        "properties" : {
+          "topicId" : {
+            "type" : "number",
+            "description" : "랜덤 주제 id(8~54) or null"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "일기 내용"
+          }
+        }
+      },
+      "api-v2-diaries-486735900" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "badges" : {
+                "type" : "array",
+                "description" : "획득한 뱃지 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "imageUrl" : {
+                      "type" : "string",
+                      "description" : "뱃지 이미지 url"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "description" : "뱃지 이름"
+                    }
+                  }
+                }
+              },
+              "diaryId" : {
+                "type" : "number",
+                "description" : "생성한 일기 id"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
       "api-v2-test594740350" : {
         "type" : "object",
         "properties" : {
@@ -50,15 +150,6 @@
             "description" : "응답 메시지"
           }
         }
-      }
-    },
-    "securitySchemes": {
-      "Authorization": {
-        "type": "http",
-        "description": "Authorization: Bearer ~",
-        "in": "header",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
       }
     }
   }

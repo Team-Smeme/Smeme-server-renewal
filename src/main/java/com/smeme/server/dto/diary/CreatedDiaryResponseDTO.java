@@ -17,7 +17,7 @@ public record CreatedDiaryResponseDTO(
         return new CreatedDiaryResponseDTO(diaryId, badges.stream().map(BadgeDTO::of).toList());
     }
 
-    record BadgeDTO(
+    public record BadgeDTO(
             @Schema(description = "뱃지 이름", example = "웰컴 뱃지")
             String name,
             @Schema(description = "뱃지 이미지 url", example = "image-url")
