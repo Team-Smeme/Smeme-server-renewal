@@ -114,6 +114,52 @@
             }
           }
         }
+      },
+      "patch" : {
+        "tags" : [ "Diary" ],
+        "summary" : "일기 수정",
+        "description" : "일기 수정",
+        "operationId" : "일기 수정 성공 Example",
+        "parameters" : [ {
+          "name" : "diaryId",
+          "in" : "path",
+          "description" : "일기 id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-v2-diaries-diaryId1231150871"
+              },
+              "examples" : {
+                "일기 수정 성공 Example" : {
+                  "value" : "{\n  \"content\" : \"Hello SMEEM!!\",\n  \"topicId\" : 1\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-test594740350"
+                },
+                "examples" : {
+                  "일기 수정 성공 Example" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 수정 성공\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -129,6 +175,19 @@
           "content" : {
             "type" : "string",
             "description" : "일기 내용"
+          }
+        }
+      },
+      "api-v2-diaries-diaryId1231150871" : {
+        "type" : "object",
+        "properties" : {
+          "topicId" : {
+            "type" : "number",
+            "description" : "랜덤 주제 id"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "수정할 일기 내용"
           }
         }
       },

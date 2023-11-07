@@ -142,6 +142,47 @@ class DiaryControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("일기 수정 테스트")
+    void success_update_diary() throws Exception {
+        // given
+        Long diaryId = 1L;
+        DiaryRequestDTO request = new DiaryRequestDTO("Hello SMEEM!!", 1L);
+        ResponseEntity<ApiResponse> result = ResponseEntity.ok(success("일기 수정 성공"));
+
+        // when
+        when(diaryController.update(diaryId, request)).thenReturn(result);
+
+        // then
+        mockMvc.perform(patch(DEFAULT_URL + "/{diaryId}", diaryId)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andDo(
+                        document("일기 수정 성공 Example",
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()),
+                                resource(ResourceSnippetParameters.builder()
+                                        .tag(TAG)
+                                        .description("일기 수정")
+                                        .pathParameters(
+                                                parameterWithName("diaryId").description("일기 id")
+                                        )
+                                        .requestFields(
+                                                fieldWithPath("content").type(STRING).description("수정할 일기 내용"),
+                                                fieldWithPath("topicId").type(NUMBER).description("랜덤 주제 id")
+                                        )
+                                        .responseFields(
+                                                fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"),
+                                                fieldWithPath("message").type(STRING).description("응답 메시지"),
+                                                fieldWithPath("data").type(NULL).description("응답 데이터")
+                                        )
+                                        .build()
+                                )
+                        ))
+                .andExpect(status().isOk());
+    }
+
     private List<CreatedDiaryResponseDTO.BadgeDTO> badges() {
         List<CreatedDiaryResponseDTO.BadgeDTO> badges = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
