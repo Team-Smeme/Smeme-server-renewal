@@ -69,7 +69,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-test594740350"
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
                 },
                 "examples" : {
                   "test-docs" : {
@@ -115,6 +115,38 @@
           }
         }
       },
+      "delete" : {
+        "tags" : [ "Diary" ],
+        "summary" : "일기 삭제",
+        "description" : "일기 삭제",
+        "operationId" : "일기 삭제 성공 Example",
+        "parameters" : [ {
+          "name" : "diaryId",
+          "in" : "path",
+          "description" : "일기 id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
+                },
+                "examples" : {
+                  "일기 삭제 성공 Example" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 삭제 성공\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "patch" : {
         "tags" : [ "Diary" ],
         "summary" : "일기 수정",
@@ -149,7 +181,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-test594740350"
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId594740350"
                 },
                 "examples" : {
                   "일기 수정 성공 Example" : {
@@ -291,7 +323,7 @@
           }
         }
       },
-      "api-v2-test594740350" : {
+      "api-v2-diaries-diaryId594740350" : {
         "type" : "object",
         "properties" : {
           "success" : {

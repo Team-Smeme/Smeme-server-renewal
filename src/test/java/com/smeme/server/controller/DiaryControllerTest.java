@@ -183,6 +183,41 @@ class DiaryControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("일기 삭제 테스트")
+    void success_delete_diary() throws Exception {
+        // given
+        Long diaryId = 1L;
+        ResponseEntity<ApiResponse> result = ResponseEntity.ok(success("일기 삭제 성공"));
+
+        // when
+        when(diaryController.delete(diaryId)).thenReturn(result);
+
+        // then
+        mockMvc.perform(delete(DEFAULT_URL + "/{diaryId}", diaryId)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andDo(
+                        document("일기 삭제 성공 Example",
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()),
+                                resource(ResourceSnippetParameters.builder()
+                                        .tag(TAG)
+                                        .description("일기 삭제")
+                                        .pathParameters(
+                                                parameterWithName("diaryId").description("일기 id")
+                                        )
+                                        .responseFields(
+                                                fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"),
+                                                fieldWithPath("message").type(STRING).description("응답 메시지"),
+                                                fieldWithPath("data").type(NULL).description("응답 데이터")
+                                        )
+                                        .build()
+                                )
+                        ))
+                .andExpect(status().isOk());
+    }
+
     private List<CreatedDiaryResponseDTO.BadgeDTO> badges() {
         List<CreatedDiaryResponseDTO.BadgeDTO> badges = new ArrayList<>();
         for (int i = 0; i < 2; i++) {

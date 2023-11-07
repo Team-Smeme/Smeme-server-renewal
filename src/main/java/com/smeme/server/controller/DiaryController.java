@@ -61,14 +61,9 @@ public class DiaryController {
         return ResponseEntity.ok(success(SUCCESS_UPDATE_DAIRY.getMessage()));
     }
 
-    @Operation(summary = "일기 삭제", description = "일기를 삭제합니다.")
-    @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "200",
-                    description = "일기 삭제 성공")
-    })
+    @Operation(description = "일기 삭제")
     @DeleteMapping("/{diaryId}")
-    public ResponseEntity<ApiResponse> delete(@Parameter(name = "일기 id") @PathVariable Long diaryId) {
+    public ResponseEntity<ApiResponse> delete(@PathVariable Long diaryId) {
         diaryService.delete(diaryId);
         return ResponseEntity.ok(success(SUCCESS_DELETE_DIARY.getMessage()));
     }
