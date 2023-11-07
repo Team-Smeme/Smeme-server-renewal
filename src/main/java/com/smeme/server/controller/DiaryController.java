@@ -54,17 +54,9 @@ public class DiaryController {
         return ResponseEntity.ok(success(SUCCESS_GET_DIARY.getMessage(), response));
     }
 
-    @Operation(summary = "일기 수정", description = "일기를 수정합니다.")
-    @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "200",
-                    description = "일기 수정 성공")
-    })
+    @Operation(description = "일기 수정")
     @PatchMapping("/{diaryId}")
-    public ResponseEntity<ApiResponse> update(
-            @Parameter(name = "일기 id") @PathVariable Long diaryId,
-            @RequestBody DiaryRequestDTO request
-    ) {
+    public ResponseEntity<ApiResponse> update(@PathVariable Long diaryId, @RequestBody DiaryRequestDTO request) {
         diaryService.update(diaryId, request);
         return ResponseEntity.ok(success(SUCCESS_UPDATE_DAIRY.getMessage()));
     }
