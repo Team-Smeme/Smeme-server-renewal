@@ -97,6 +97,31 @@
         }
       }
     },
+    "/api/v2/goals" : {
+      "get" : {
+        "tags" : [ "Goal" ],
+        "summary" : "전체 학습 목표 조회",
+        "description" : "전체 학습 목표 조회",
+        "operationId" : "전체 학습 목표 조회 성공 Example",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-goals-1163689825"
+                },
+                "examples" : {
+                  "전체 학습 목표 조회 성공 Example" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"전체 학습 목표 조회 성공\",\n  \"data\" : {\n    \"goals\" : [ {\n      \"goalType\" : \"APPLY\",\n      \"name\" : \"현지 언어 체득1\"\n    }, {\n      \"goalType\" : \"APPLY\",\n      \"name\" : \"현지 언어 체득2\"\n    } ]\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v2/test" : {
       "get" : {
         "tags" : [ "api" ],
@@ -226,6 +251,40 @@
                 "examples" : {
                   "일기 수정 성공 Example" : {
                     "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 수정 성공\",\n  \"data\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/goals/{type}" : {
+      "get" : {
+        "tags" : [ "Goal" ],
+        "summary" : "전체 학습 목표 조회",
+        "description" : "전체 학습 목표 조회",
+        "operationId" : "학습 목표 조회 성공 Example",
+        "parameters" : [ {
+          "name" : "type",
+          "in" : "path",
+          "description" : "학습 목표 ENUM 값",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-goals-type1705313935"
+                },
+                "examples" : {
+                  "학습 목표 조회 성공 Example" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"학습 목표 조회 성공\",\n  \"data\" : {\n    \"name\" : \"현지 언어 체득\",\n    \"way\" : \"주 5회 이상 오늘 하루를 돌아보는 일기 작성하기\",\n    \"detail\" : \"사전 없이 일기 완성\\nsmeem 연속 일기 배지 획득\"\n  }\n}"
                   }
                 }
               }
@@ -393,6 +452,73 @@
               "username" : {
                 "type" : "string",
                 "description" : "작성자 이름"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-goals-type1705313935" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "name" : {
+                "type" : "string",
+                "description" : "학습 목표 이름"
+              },
+              "detail" : {
+                "type" : "string",
+                "description" : "학습 목표 내용"
+              },
+              "way" : {
+                "type" : "string",
+                "description" : "학습 목표 방식"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-goals-1163689825" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "goals" : {
+                "type" : "array",
+                "description" : "학습 목표 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "goalType" : {
+                      "type" : "string",
+                      "description" : "학습 목표 ENUM 값"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "description" : "학습 목표 이름"
+                    }
+                  }
+                }
               }
             },
             "description" : "응답 데이터"
