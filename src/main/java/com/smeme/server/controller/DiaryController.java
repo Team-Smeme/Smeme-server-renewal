@@ -38,7 +38,7 @@ import lombok.RequiredArgsConstructor;
 public class DiaryController {
     private final DiaryService diaryService;
 
-    @Operation(description = "일기 생성.")
+    @Operation(description = "일기 생성")
     @PostMapping
     public ResponseEntity<ApiResponse> save(@Parameter(hidden = true) Principal principal, @RequestBody DiaryRequestDTO request) {
         CreatedDiaryResponseDTO response = diaryService.save(getMemberId(principal), request);
@@ -47,15 +47,9 @@ public class DiaryController {
                 .body(success(SUCCESS_CREATE_DIARY.getMessage(), response));
     }
 
-    @Operation(summary = "일기 조회", description = "일기를 조회합니다.")
-    @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "200",
-                    description = "일기 조회 성공",
-                    content = @Content(schema = @Schema(implementation = DiaryResponseDTO.class)))
-    })
+    @Operation(description = "일기 조회")
     @GetMapping("/{diaryId}")
-    public ResponseEntity<ApiResponse> getDetail(@Parameter(name = "일기 id") @PathVariable Long diaryId) {
+    public ResponseEntity<ApiResponse> getDetail(@PathVariable Long diaryId) {
         DiaryResponseDTO response = diaryService.getDetail(diaryId);
         return ResponseEntity.ok(success(SUCCESS_GET_DIARY.getMessage(), response));
     }

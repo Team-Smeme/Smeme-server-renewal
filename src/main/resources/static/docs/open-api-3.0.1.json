@@ -81,6 +81,40 @@
           }
         }
       }
+    },
+    "/api/v2/diaries/{diaryId}" : {
+      "get" : {
+        "tags" : [ "Diary" ],
+        "summary" : "일기 조회",
+        "description" : "일기 조회",
+        "operationId" : "일기 조회 성공 Example",
+        "parameters" : [ {
+          "name" : "diaryId",
+          "in" : "path",
+          "description" : "일기 id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId-1124023080"
+                },
+                "examples" : {
+                  "일기 조회 성공 Example" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 조회 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"topic\" : \"가보고 싶은 해외 여행 지가 있다면 소개해 주세요!\",\n    \"content\" : \"I want to go Bla Bla ...\",\n    \"createdAt\" : \"2023-08-19 14:00\",\n    \"username\" : \"스미무\",\n    \"corrections\" : [ {\n      \"correctionId\" : 1,\n      \"before\" : \"before1\",\n      \"after\" : \"after1\"\n    }, {\n      \"correctionId\" : 1,\n      \"before\" : \"before2\",\n      \"after\" : \"after2\"\n    } ]\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components" : {
@@ -124,6 +158,66 @@
               "diaryId" : {
                 "type" : "number",
                 "description" : "생성한 일기 id"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-diaries-diaryId-1124023080" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "createdAt" : {
+                "type" : "string",
+                "description" : "작성 날짜"
+              },
+              "corrections" : {
+                "type" : "array",
+                "description" : "첨삭 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "before" : {
+                      "type" : "string",
+                      "description" : "첨삭 전 내용"
+                    },
+                    "after" : {
+                      "type" : "string",
+                      "description" : "첨삭 후 내용"
+                    },
+                    "correctionId" : {
+                      "type" : "number",
+                      "description" : "첨삭 id"
+                    }
+                  }
+                }
+              },
+              "diaryId" : {
+                "type" : "number",
+                "description" : "일기 id"
+              },
+              "topic" : {
+                "type" : "string",
+                "description" : "랜덤 주제"
+              },
+              "content" : {
+                "type" : "string",
+                "description" : "일기 내용"
+              },
+              "username" : {
+                "type" : "string",
+                "description" : "작성자 이름"
               }
             },
             "description" : "응답 데이터"
