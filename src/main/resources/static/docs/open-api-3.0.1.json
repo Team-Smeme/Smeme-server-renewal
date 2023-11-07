@@ -292,6 +292,31 @@
           }
         }
       }
+    },
+    "/api/v2/topics/random" : {
+      "get" : {
+        "tags" : [ "Topic" ],
+        "summary" : "랜덤 주제 조회",
+        "description" : "랜덤 주제 조회",
+        "operationId" : "랜덤 주제 조회 성공 Example",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-topics-random459952356"
+                },
+                "examples" : {
+                  "랜덤 주제 조회 성공 Example" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"랜덤 주제 조회 성공\",\n  \"data\" : {\n    \"topicId\" : 1,\n    \"content\" : \"가보고 싶은 해외 여행 지가 있다면 소개해 주세요!\"\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components" : {
@@ -536,6 +561,33 @@
       "api-v2-diaries-diaryId594740350" : {
         "type" : "object",
         "properties" : {
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-topics-random459952356" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "topicId" : {
+                "type" : "number",
+                "description" : "랜덤 주제 id"
+              },
+              "content" : {
+                "type" : "string",
+                "description" : "랜덤 주제 내용"
+              }
+            },
+            "description" : "응답 데이터"
+          },
           "success" : {
             "type" : "boolean",
             "description" : "응답 성공 여부"
