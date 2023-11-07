@@ -26,10 +26,6 @@ import com.smeme.server.service.DiaryService;
 import com.smeme.server.util.ApiResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -40,7 +36,7 @@ public class DiaryController {
 
     @Operation(description = "일기 생성")
     @PostMapping
-    public ResponseEntity<ApiResponse> save(@Parameter(hidden = true) Principal principal, @RequestBody DiaryRequestDTO request) {
+    public ResponseEntity<ApiResponse> save(Principal principal, @RequestBody DiaryRequestDTO request) {
         CreatedDiaryResponseDTO response = diaryService.save(getMemberId(principal), request);
         return ResponseEntity
                 .created(getURI(response.diaryId()))
@@ -68,18 +64,12 @@ public class DiaryController {
         return ResponseEntity.ok(success(SUCCESS_DELETE_DIARY.getMessage()));
     }
 
-    @Operation(summary = "일기 리스트 조회", description = "일기 리스트를 조회합니다.")
-    @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "200",
-                    description = "일기 리스트 조회 성공",
-                    content = @Content(schema = @Schema(implementation = DiariesResponseDTO.class)))
-    })
+    @Operation(description = "일기 리스트 조회")
     @GetMapping
     public ResponseEntity<ApiResponse> getDiaries(
-            @Parameter(hidden = true) Principal principal,
-            @Parameter(name = "범위 시작 날짜(yyyy-MM-dd)") @RequestParam(name = "start") String startDate,
-            @Parameter(name = "범위 끝 날짜(yyyy-MM-dd)") @RequestParam(name = "end") String endDate
+            Principal principal,
+            @RequestParam(name = "start") String startDate,
+            @RequestParam(name = "end") String endDate
     ) {
         DiariesResponseDTO response = diaryService.getDiaries(getMemberId(principal), startDate, endDate);
         return ResponseEntity.ok(success(SUCCESS_GET_DIARIES.getMessage(), response));

@@ -2,6 +2,8 @@ package com.smeme.server.controller;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.smeme.server.dto.diary.CreatedDiaryResponseDTO;
+import com.smeme.server.dto.diary.DiariesResponseDTO;
+import com.smeme.server.dto.diary.DiariesResponseDTO.DiaryDTO;
 import com.smeme.server.dto.diary.DiaryRequestDTO;
 import com.smeme.server.dto.diary.DiaryResponseDTO;
 import com.smeme.server.dto.diary.DiaryResponseDTO.CorrectionDTO;
@@ -11,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.net.URI;
 import java.security.Principal;
@@ -218,6 +222,55 @@ class DiaryControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("일기 리스트 조회 테스트")
+    void success_get_diaries() throws Exception {
+        // given
+        DiariesResponseDTO response = new DiariesResponseDTO(diaries(), true);
+        ResponseEntity<ApiResponse> result = ResponseEntity.ok(success("일기 리스트 조회 성공", response));
+
+        MultiValueMap<String, String> queries = new LinkedMultiValueMap<>();
+        String startDate = "2023-08-18 00:00";
+        String endDate = "2023-09-18 00:00";
+        queries.add("start", startDate);
+        queries.add("end", endDate);
+
+        // when
+        when(diaryController.getDiaries(principal, startDate, endDate)).thenReturn(result);
+
+        // then
+        mockMvc.perform(get(DEFAULT_URL)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .principal(principal)
+                        .params(queries))
+                .andDo(
+                        document("일기 리스트 조회 성공 Example",
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()),
+                                resource(ResourceSnippetParameters.builder()
+                                        .tag(TAG)
+                                        .description("일기 리스트 조회")
+                                        .queryParameters(
+                                                parameterWithName("start").description("범위 시작 날짜(yyyy-MM-dd HH:mm)"),
+                                                parameterWithName("end").description("범위 끝 날짜(yyyy-MM-dd HH:mm)")
+                                        )
+                                        .responseFields(
+                                                fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"),
+                                                fieldWithPath("message").type(STRING).description("응답 메시지"),
+                                                fieldWithPath("data").type(OBJECT).description("응답 데이터"),
+                                                fieldWithPath("data.diaries[]").type(ARRAY).description("일기 정보 리스트"),
+                                                fieldWithPath("data.diaries[].diaryId").type(NUMBER).description("일기 id"),
+                                                fieldWithPath("data.diaries[].content").type(STRING).description("일기 내용"),
+                                                fieldWithPath("data.diaries[].createdAt").type(STRING).description("일기 작성 일자"),
+                                                fieldWithPath("data.has30Past").type(BOOLEAN).description("30일 전 일기 존재 여부")
+                                        )
+                                        .build()
+                                )
+                        ))
+                .andExpect(status().isOk());
+    }
+
     private List<CreatedDiaryResponseDTO.BadgeDTO> badges() {
         List<CreatedDiaryResponseDTO.BadgeDTO> badges = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
@@ -234,4 +287,11 @@ class DiaryControllerTest extends BaseControllerTest {
         return corrections;
     }
 
+    private List<DiaryDTO> diaries() {
+        List<DiaryDTO> diaries = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            diaries.add(new DiaryDTO((long) (i + 1), "Hello SMEEM" + (i + 1), "2023-08-2" + i + " 14:00"));
+        }
+        return diaries;
+    }
 }

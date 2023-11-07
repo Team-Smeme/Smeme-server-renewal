@@ -11,6 +11,46 @@
   "tags" : [ ],
   "paths" : {
     "/api/v2/diaries" : {
+      "get" : {
+        "tags" : [ "Diary" ],
+        "summary" : "일기 리스트 조회",
+        "description" : "일기 리스트 조회",
+        "operationId" : "일기 리스트 조회 성공 Example",
+        "parameters" : [ {
+          "name" : "start",
+          "in" : "query",
+          "description" : "범위 시작 날짜(yyyy-MM-dd HH:mm)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "end",
+          "in" : "query",
+          "description" : "범위 끝 날짜(yyyy-MM-dd HH:mm)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-v2-diaries1551664804"
+                },
+                "examples" : {
+                  "일기 리스트 조회 성공 Example" : {
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 리스트 조회 성공\",\n  \"data\" : {\n    \"diaries\" : [ {\n      \"diaryId\" : 1,\n      \"content\" : \"Hello SMEEM1\",\n      \"createdAt\" : \"2023-08-20 14:00\"\n    }, {\n      \"diaryId\" : 2,\n      \"content\" : \"Hello SMEEM2\",\n      \"createdAt\" : \"2023-08-21 14:00\"\n    } ],\n    \"has30Past\" : true\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "post" : {
         "tags" : [ "Diary" ],
         "summary" : "일기 작성",
@@ -249,6 +289,50 @@
               "diaryId" : {
                 "type" : "number",
                 "description" : "생성한 일기 id"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
+      "api-v2-diaries1551664804" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "has30Past" : {
+                "type" : "boolean",
+                "description" : "30일 전 일기 존재 여부"
+              },
+              "diaries" : {
+                "type" : "array",
+                "description" : "일기 정보 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "createdAt" : {
+                      "type" : "string",
+                      "description" : "일기 작성 일자"
+                    },
+                    "diaryId" : {
+                      "type" : "number",
+                      "description" : "일기 id"
+                    },
+                    "content" : {
+                      "type" : "string",
+                      "description" : "일기 내용"
+                    }
+                  }
+                }
               }
             },
             "description" : "응답 데이터"
