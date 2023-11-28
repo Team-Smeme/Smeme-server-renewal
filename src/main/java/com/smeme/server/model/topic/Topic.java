@@ -3,6 +3,7 @@ package com.smeme.server.model.topic;
 import static jakarta.persistence.GenerationType.*;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +21,10 @@ public class Topic {
     private Category category;
 
     private String content;
+
+    @Builder
+    public Topic(Category category, String content) {
+        this.category = category;
+        this.content = content;
+    }
 }
