@@ -7,7 +7,6 @@ import static com.smeme.server.util.message.ResponseMessage.*;
 
 import java.security.Principal;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,89 +26,50 @@ import com.smeme.server.service.DiaryService;
 import com.smeme.server.util.ApiResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
-@Tag(name = "Diary", description = "일기 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/diaries")
-@SecurityRequirement(name = "Authorization")
 public class DiaryController {
-
     private final DiaryService diaryService;
 
-    @Operation(summary = "일기 생성", description = "일기를 생성합니다.")
-    @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "201",
-                    description = "일기 생성 성공",
-                    content = @Content(schema = @Schema(implementation = CreatedDiaryResponseDTO.class)))
-    })
+    @Operation(description = "일기 생성")
     @PostMapping
-    public ResponseEntity<ApiResponse> save(@Parameter(hidden = true) Principal principal, @RequestBody DiaryRequestDTO request) {
+    public ResponseEntity<ApiResponse> save(Principal principal, @RequestBody DiaryRequestDTO request) {
         CreatedDiaryResponseDTO response = diaryService.save(getMemberId(principal), request);
         return ResponseEntity
                 .created(getURI(response.diaryId()))
                 .body(success(SUCCESS_CREATE_DIARY.getMessage(), response));
     }
 
-    @Operation(summary = "일기 조회", description = "일기를 조회합니다.")
-    @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "200",
-                    description = "일기 조회 성공",
-                    content = @Content(schema = @Schema(implementation = DiaryResponseDTO.class)))
-    })
+    @Operation(description = "일기 조회")
     @GetMapping("/{diaryId}")
-    public ResponseEntity<ApiResponse> getDetail(@Parameter(name = "일기 id") @PathVariable Long diaryId) {
+    public ResponseEntity<ApiResponse> getDetail(@PathVariable Long diaryId) {
         DiaryResponseDTO response = diaryService.getDetail(diaryId);
         return ResponseEntity.ok(success(SUCCESS_GET_DIARY.getMessage(), response));
     }
 
-    @Operation(summary = "일기 수정", description = "일기를 수정합니다.")
-    @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "200",
-                    description = "일기 수정 성공")
-    })
+    @Operation(description = "일기 수정")
     @PatchMapping("/{diaryId}")
-    public ResponseEntity<ApiResponse> update(
-            @Parameter(name = "일기 id") @PathVariable Long diaryId,
-            @RequestBody DiaryRequestDTO request
-    ) {
+    public ResponseEntity<ApiResponse> update(@PathVariable Long diaryId, @RequestBody DiaryRequestDTO request) {
         diaryService.update(diaryId, request);
         return ResponseEntity.ok(success(SUCCESS_UPDATE_DAIRY.getMessage()));
     }
 
-    @Operation(summary = "일기 삭제", description = "일기를 삭제합니다.")
-    @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "200",
-                    description = "일기 삭제 성공")
-    })
+    @Operation(description = "일기 삭제")
     @DeleteMapping("/{diaryId}")
-    public ResponseEntity<ApiResponse> delete(@Parameter(name = "일기 id") @PathVariable Long diaryId) {
+    public ResponseEntity<ApiResponse> delete(@PathVariable Long diaryId) {
         diaryService.delete(diaryId);
         return ResponseEntity.ok(success(SUCCESS_DELETE_DIARY.getMessage()));
     }
 
-    @Operation(summary = "일기 리스트 조회", description = "일기 리스트를 조회합니다.")
-    @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "200",
-                    description = "일기 리스트 조회 성공",
-                    content = @Content(schema = @Schema(implementation = DiariesResponseDTO.class)))
-    })
+    @Operation(description = "일기 리스트 조회")
     @GetMapping
     public ResponseEntity<ApiResponse> getDiaries(
-            @Parameter(hidden = true) Principal principal,
-            @Parameter(name = "범위 시작 날짜(yyyy-MM-dd)") @RequestParam(name = "start") String startDate,
-            @Parameter(name = "범위 끝 날짜(yyyy-MM-dd)") @RequestParam(name = "end") String endDate
+            Principal principal,
+            @RequestParam(name = "start") String startDate,
+            @RequestParam(name = "end") String endDate
     ) {
         DiariesResponseDTO response = diaryService.getDiaries(getMemberId(principal), startDate, endDate);
         return ResponseEntity.ok(success(SUCCESS_GET_DIARIES.getMessage(), response));
