@@ -2,9 +2,11 @@ package com.smeme.server.service.auth;
 
 import com.google.gson.*;
 import com.smeme.server.config.ValueConfig;
+import com.smeme.server.config.jwt.RestTemplateConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -26,12 +28,13 @@ import java.util.Objects;
 public class AppleSignInService {
 
     private final ValueConfig valueConfig;
+    private final RestTemplateConfig restTemplateConfig;
 
-    protected JsonArray getApplePublicKeyList() {
+    protected JsonArray getApplePublicKeys() {
         try {
             URL url = new URL(valueConfig.getAPPLE_URL());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+            connection.setRequestMethod(HttpMethod.GET.name());
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder result = new StringBuilder();
 
@@ -75,6 +78,20 @@ public class AppleSignInService {
         return getPublicKey(selectedObject);
     }
 
+    protected String getAppleData(String socialAccessToken) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        JsonArray publicKeyList = getApplePublicKeys();
+        PublicKey publicKey = makePublicKey(socialAccessToken, publicKeyList);
+
+        Claims userInfo = Jwts.parserBuilder()
+                .setSigningKey(publicKey)
+                .build()
+                .parseClaimsJws(socialAccessToken.substring(7))
+                .getBody();
+
+        JsonObject userInfoObject = (JsonObject) JsonParser.parseString(new Gson().toJson(userInfo));
+        return userInfoObject.get("sub").getAsString();
+    }
+
     private PublicKey getPublicKey(JsonObject object) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String nStr = object.get("n").toString();
         String eStr = object.get("e").toString();
@@ -90,17 +107,4 @@ public class AppleSignInService {
         return keyFactory.generatePublic(publicKeySpec);
     }
 
-    protected String getAppleData(String socialAccessToken) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        JsonArray publicKeyList = getApplePublicKeyList();
-        PublicKey publicKey = makePublicKey(socialAccessToken, publicKeyList);
-
-        Claims userInfo = Jwts.parserBuilder()
-                .setSigningKey(publicKey)
-                .build()
-                .parseClaimsJws(socialAccessToken.substring(7))
-                .getBody();
-
-        JsonObject userInfoObject = (JsonObject) JsonParser.parseString(new Gson().toJson(userInfo));
-        return userInfoObject.get("sub").getAsString();
-    }
 }

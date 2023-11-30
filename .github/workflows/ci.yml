@@ -19,20 +19,12 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: create .env file
-        working-directory: ./
+      - name: Create application-secret.yml
         run: |
           pwd
-          touch .env
-          echo "${{ secrets.ENV }}" >> .env
-          cat .env
-
-      - name: Create application.yml
-        run: |
-          pwd
-          touch src/main/resources/application.yml
-          echo "${{ secrets.APPLICATION_YML }}" >> src/main/resources/application.yml
-          cat src/main/resources/application.yml
+          touch src/main/resources/application-secret.yml
+          echo "${{ secrets.APPLICATION_SECRET_YML }}" >> src/main/resources/application-secret.yml
+          cat src/main/resources/application-secret.yml
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

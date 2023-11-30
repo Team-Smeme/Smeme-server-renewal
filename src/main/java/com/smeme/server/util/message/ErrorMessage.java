@@ -35,6 +35,8 @@ public enum ErrorMessage {
 
     // Training Time
     EMPTY_TRAINING_TIME("존재하지 않는 학습계획 입니다."),
+    NOT_SET_TRAINING_TIME("학습계획이 설정되지 않았습니다."),
+
     // badge
     INVALID_BADGE("유효하지 않은 뱃지입니다."),
     EMPTY_BADGE("존재하지 않는 뱃지입니다."),

@@ -37,10 +37,10 @@ out/
 .vscode/
 
 application.properties
-application-dev.yml
-application-prod.yml
 application-oauth2.yml
 *.properties
 .env
 smeem_fcm.json
 .DS_Store
+
+application-secret.yml

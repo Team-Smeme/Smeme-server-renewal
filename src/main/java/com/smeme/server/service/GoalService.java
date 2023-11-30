@@ -31,6 +31,6 @@ public class GoalService {
     public GoalResponseDTO getByType(GoalType goalType) {
         Goal goal = goalRepository.findOneByType(goalType)
                 .orElseThrow(() -> new EntityNotFoundException(EMPTY_GOAL.getMessage()));
-        return new GoalResponseDTO(goalType.getDescription(), goal.getWay(), goal.getDetail());
+        return new GoalResponseDTO(goal.getType().getDescription(), goal.getWay(), goal.getDetail());
     }
 }

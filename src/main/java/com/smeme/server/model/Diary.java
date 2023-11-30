@@ -6,6 +6,7 @@ import static jakarta.persistence.GenerationType.*;
 import static java.util.Objects.nonNull;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -47,6 +48,7 @@ public class Diary extends BaseTimeEntity {
     @OneToMany(mappedBy = "diary")
     private final List<Correction> corrections = new ArrayList<>();
 
+    @Builder
     public Diary(String content, Topic topic, Member member) {
         this.content = content;
         this.targetLang = member.getTargetLang();

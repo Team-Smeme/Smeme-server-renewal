@@ -8,6 +8,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
@@ -26,4 +27,11 @@ public class Goal {
     private String way;
 
     private String detail;
+
+    @Builder
+    public Goal(GoalType type, String way, String detail) {
+        this.type = type;
+        this.way = way;
+        this.detail = detail;
+    }
 }
