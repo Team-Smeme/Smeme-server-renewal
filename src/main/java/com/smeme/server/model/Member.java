@@ -95,7 +95,6 @@ public class Member extends BaseTimeEntity {
 
     public boolean wroteDiaryToday() {
         return this.diaries.stream()
-                .filter(Diary::isValid)
                 .anyMatch(diary -> diary.isCreatedAt(now()));
     }
 
@@ -105,7 +104,7 @@ public class Member extends BaseTimeEntity {
 
     public void updateDiaryCombo() {
         List<Diary> diaries = this.diaries.stream()
-                .filter(diary -> diary.isValid() && !diary.isCreatedAt(now()))
+                .filter(diary -> !diary.isCreatedAt(now()))
                 .sorted((a, b) -> b.createdAt.compareTo(a.createdAt)).toList();
 
         int count = wroteDiaryToday() ? 1 : 0;

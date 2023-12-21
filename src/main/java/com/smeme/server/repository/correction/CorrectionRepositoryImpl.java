@@ -22,10 +22,7 @@ public class CorrectionRepositoryImpl implements CorrectionCustomRepository {
                 .select(correction.count())
                 .from(correction)
                 .leftJoin(correction.diary, diary)
-                .where(
-                        diary.member.eq(member),
-                        diary.isDeleted.eq(false)
-                )
+                .where(diary.member.eq(member))
                 .fetchFirst());
     }
 }
