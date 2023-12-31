@@ -6,6 +6,7 @@ import static java.lang.Integer.parseInt;
 import static java.time.LocalDateTime.now;
 import static java.util.Objects.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -107,8 +108,8 @@ public class DiaryService {
     }
 
     private LocalDateTime getExpiryDate() {
-        int expiredDay = parseInt(valueConfig.getDURATION_EXPIRED());
-        return LocalDateTime.now().minusDays(expiredDay - 1).toLocalDate().atStartOfDay();
+        int expiredDay = parseInt(valueConfig.getDURATION_EXPIRED()) - 1;
+        return LocalDate.now().minusDays(expiredDay).atStartOfDay();
     }
 
     @Transactional
