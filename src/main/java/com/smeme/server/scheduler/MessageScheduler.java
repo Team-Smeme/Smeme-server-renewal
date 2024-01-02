@@ -1,34 +1,24 @@
-package com.smeme.server.controller;
+package com.smeme.server.scheduler;
+
+import com.smeme.server.config.ValueConfig;
+import com.smeme.server.service.MessageService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-import com.smeme.server.config.ValueConfig;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.smeme.server.service.DiaryService;
-import com.smeme.server.service.MessageService;
-
-import lombok.RequiredArgsConstructor;
-
-@RestController
+@Component
 @EnableScheduling
 @RequiredArgsConstructor
-public class ScheduleController {
-
+public class MessageScheduler {
     private final MessageService messageService;
-    private final DiaryService diaryService;
     private final ValueConfig valueConfig;
 
-    @Scheduled(cron = "0 0/30 * * * *")
+    @Scheduled(cron = "${fcm.cron_expression}")
     public void pushMessage() throws InterruptedException {
         Thread.sleep(1000);
         messageService.pushMessageForTrainingTime(LocalDateTime.now(), valueConfig.getMESSAGE_TITLE(), valueConfig.getMESSAGE_BODY());
-    }
-
-    @Scheduled(cron = "0 0 0 * * *")
-    public void deleteExpiredDiaries() {
-        diaryService.deleteByExpiredDate();
     }
 }
