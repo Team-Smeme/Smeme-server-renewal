@@ -35,8 +35,6 @@ public class Diary extends BaseTimeEntity {
 
     private boolean isPublic;
 
-    private boolean isDeleted;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "topic_id")
     private Topic topic;
@@ -53,7 +51,6 @@ public class Diary extends BaseTimeEntity {
         this.content = content;
         this.targetLang = member.getTargetLang();
         this.isPublic = true;
-        this.isDeleted = false;
         this.topic = topic;
         setMember(member);
         this.createdAt = LocalDateTime.now();
@@ -63,20 +60,11 @@ public class Diary extends BaseTimeEntity {
         this.content = content;
     }
 
-    public void delete() {
-        this.isDeleted = true;
-        deleteFromMember();
-        this.member.updateDiaryCombo();
-    }
-
     public void deleteFromMember() {
         if (nonNull(this.member)) {
             this.member.getDiaries().remove(this);
+            this.member.updateDiaryCombo();
         }
-    }
-
-    public boolean isValid() {
-        return !this.isDeleted;
     }
 
     public boolean isCreatedAt(LocalDateTime createdAt) {

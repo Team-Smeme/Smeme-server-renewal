@@ -6,11 +6,14 @@ import static java.lang.Integer.parseInt;
 import static java.time.LocalDateTime.now;
 import static java.util.Objects.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import com.smeme.server.config.ValueConfig;
+import com.smeme.server.model.DeletedDiary;
 import com.smeme.server.repository.correction.CorrectionRepository;
+import com.smeme.server.repository.diary.DeletedDiaryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +37,7 @@ public class DiaryService {
 
     private final DiaryRepository diaryRepository;
     private final CorrectionRepository correctionRepository;
+    private final DeletedDiaryRepository deletedDiaryRepository;
 
     private final BadgeService badgeService;
     private final TopicService topicService;
@@ -72,24 +76,40 @@ public class DiaryService {
     @Transactional
     public void delete(Long id) {
         Diary diary = get(id);
-        diary.delete();
+        copyToDeletedDiary(diary);
+        delete(diary);
+    }
+
+    private void copyToDeletedDiary(Diary diary) {
+        deletedDiaryRepository.save(new DeletedDiary(diary));
+    }
+
+    private void delete(Diary diary) {
+        diary.deleteFromMember();
+        correctionRepository.deleteAll(diary.getCorrections());
+        diaryRepository.deleteById(diary.getId());
     }
 
     public DiariesResponseDTO getDiaries(Long memberId, String startDate, String endDate) {
         Member member = memberService.get(memberId);
         List<Diary> diaries = member.getDiaries().stream()
-                .filter(diary -> diary.isValid() && diary.isBetween(stringToDate(startDate), stringToDate(endDate)))
+                .filter(diary -> diary.isBetween(stringToDate(startDate), stringToDate(endDate)))
                 .toList();
         boolean hasRemind = member.getDiaries().stream()
-                .filter(Diary::isValid)
                 .anyMatch(diary -> diary.isCreatedAt(now().minusDays(parseInt(valueConfig.getDURATION_REMIND()))));
 
         return DiariesResponseDTO.of(diaries, hasRemind);
     }
 
     @Transactional
-    public void deleteByExpiredDate() {
-        diaryRepository.findByExpiredDate().forEach(this::delete);
+    public void deleteExpiredDiary() {
+        LocalDateTime expiryDate = getExpiryDate();
+        deletedDiaryRepository.deleteByUpdatedAtBefore(expiryDate);
+    }
+
+    private LocalDateTime getExpiryDate() {
+        int expiredDay = parseInt(valueConfig.getDURATION_EXPIRED()) - 1;
+        return LocalDate.now().minusDays(expiredDay).atStartOfDay();
     }
 
     @Transactional
@@ -102,21 +122,13 @@ public class DiaryService {
     }
 
     protected Diary get(Long id) {
-        Diary diary = diaryRepository.findById(id)
+        return diaryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(INVALID_DIARY.getMessage()));
-        if (diary.isDeleted()) {
-            throw new NoSuchElementException(DELETED_DIARY.getMessage());
-        }
-        return diary;
     }
 
     protected Diary getFetchJoinCorrections(Long id) {
-        Diary diary = diaryRepository.findByIdFetchJoinCorrections(id)
+        return diaryRepository.findByIdFetchJoinCorrections(id)
                 .orElseThrow(() -> new EntityNotFoundException(INVALID_DIARY.getMessage()));
-        if (diary.isDeleted()) {
-            throw new EntityNotFoundException(INVALID_DIARY.getMessage());
-        }
-        return diary;
     }
 
     private List<Badge> obtainBadges(Member member, LocalDateTime createdAt) {
@@ -136,7 +148,7 @@ public class DiaryService {
     }
 
     private Badge obtainCountingBadge(Member member) {
-        int count = member.getDiaries().stream().filter(Diary::isValid).toList().size();
+        int count = member.getDiaries().stream().toList().size();
 
         return switch (count) {
             case 50 -> badgeService.get(5L);
@@ -149,7 +161,6 @@ public class DiaryService {
 
     private Badge obtainComboBadge(Member member, LocalDateTime createdAt) {
         boolean isCombo = member.getDiaries().stream()
-                .filter(Diary::isValid)
                 .anyMatch(diary -> diary.isCreatedAt(createdAt.minusDays(1)));
 
         member.updateDiaryCombo(isCombo);
@@ -161,11 +172,5 @@ public class DiaryService {
             case 3 -> badgeService.get(6L);
             default -> null;
         };
-    }
-
-    private void delete(Diary diary) {
-        diary.deleteFromMember();
-        correctionRepository.deleteAll(diary.getCorrections());
-        diaryRepository.deleteById(diary.getId());
     }
 }
