@@ -1,5 +1,6 @@
 spring:
   config:
+    import: application-secret.yml
     activate:
       on-profile: prod
   datasource:
