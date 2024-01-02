@@ -35,8 +35,6 @@ public class Diary extends BaseTimeEntity {
 
     private boolean isPublic;
 
-    private boolean isDeleted; //TODO: DB 수정 작업 후 삭제
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "topic_id")
     private Topic topic;
