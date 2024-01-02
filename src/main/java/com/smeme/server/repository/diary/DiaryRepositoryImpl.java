@@ -3,7 +3,6 @@ package com.smeme.server.repository.diary;
 import static com.smeme.server.model.QCorrection.correction;
 import static com.smeme.server.model.QDiary.*;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
@@ -26,13 +25,5 @@ public class DiaryRepositoryImpl implements DiaryCustomRepository {
                 .where(diary.id.eq(id))
                 .leftJoin(diary.corrections, correction).fetchJoin().distinct()
                 .fetchFirst());
-    }
-
-    @Override
-    public List<Diary> findDeleted() {
-        return queryFactory
-                .selectFrom(diary)
-                .where(diary.isDeleted.eq(true))
-                .fetch();
     }
 }
