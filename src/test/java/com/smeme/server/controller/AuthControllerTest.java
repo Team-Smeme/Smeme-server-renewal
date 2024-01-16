@@ -3,7 +3,6 @@ package com.smeme.server.controller;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.smeme.server.fixture.auth.AuthFixture;
-import com.smeme.server.fixture.correction.CorrectionFixture;
 import lombok.val;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 
-import java.net.URI;
 import java.security.Principal;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;

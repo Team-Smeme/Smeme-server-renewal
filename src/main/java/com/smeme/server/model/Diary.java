@@ -43,9 +43,6 @@ public class Diary extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "diary")
-    private final List<Correction> corrections = new ArrayList<>();
-
     @Builder
     public Diary(String content, Topic topic, Member member) {
         this.content = content;

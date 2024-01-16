@@ -10,7 +10,6 @@ import com.smeme.server.model.LangType;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.SocialType;
 import com.smeme.server.repository.MemberRepository;
-import com.smeme.server.service.CorrectionService;
 import com.smeme.server.service.DiaryService;
 import com.smeme.server.service.MemberBadgeService;
 import com.smeme.server.service.TrainingTimeService;
@@ -45,7 +44,6 @@ public class AuthService {
     private final MemberBadgeService memberBadgeService;
     private final DiaryService diaryService;
     private final TrainingTimeService trainingTimeService;
-    private final CorrectionService correctionService;
 
     @Transactional
     public SignInResponseDTO signIn(String socialAccessToken, SignInRequestDTO request) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -98,7 +96,6 @@ public class AuthService {
     @Transactional
     public void withdraw(Long memberId) {
         Member member = get(memberId);
-        diaryService.getAllByMemberId(memberId).forEach(diary -> correctionService.deleteAllByDiaryId(diary.getId()));
         diaryService.deleteAllByMember(member);
         trainingTimeService.deleteAllByMember(member);
         memberBadgeService.deleteAllByMember(member);

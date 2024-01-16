@@ -7,7 +7,7 @@ import com.smeme.server.model.Diary;
 
 import java.util.List;
 
-public interface DiaryRepository extends JpaRepository<Diary, Long>, DiaryCustomRepository {
+public interface DiaryRepository extends JpaRepository<Diary, Long> {
 
     void deleteAllByMember(Member member);
 
