@@ -6,7 +6,6 @@ import com.smeme.server.dto.diary.DiariesResponseDTO;
 import com.smeme.server.dto.diary.DiariesResponseDTO.DiaryDTO;
 import com.smeme.server.dto.diary.DiaryRequestDTO;
 import com.smeme.server.dto.diary.DiaryResponseDTO;
-import com.smeme.server.dto.diary.DiaryResponseDTO.CorrectionDTO;
 import com.smeme.server.util.ApiResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -104,8 +103,7 @@ class DiaryControllerTest extends BaseControllerTest {
                 "가보고 싶은 해외 여행 지가 있다면 소개해 주세요!",
                 "I want to go Bla Bla ...",
                 "2023-08-19 14:00",
-                "스미무",
-                corrections());
+                "스미무");
         ResponseEntity<ApiResponse> result = ResponseEntity.ok(success("일기 조회 성공", response));
 
         // when
@@ -134,11 +132,7 @@ class DiaryControllerTest extends BaseControllerTest {
                                                 fieldWithPath("data.topic").type(STRING).description("랜덤 주제"),
                                                 fieldWithPath("data.content").type(STRING).description("일기 내용"),
                                                 fieldWithPath("data.createdAt").type(STRING).description("작성 날짜"),
-                                                fieldWithPath("data.username").type(STRING).description("작성자 이름"),
-                                                fieldWithPath("data.corrections[]").type(ARRAY).description("첨삭 리스트"),
-                                                fieldWithPath("data.corrections[].correctionId").type(NUMBER).description("첨삭 id"),
-                                                fieldWithPath("data.corrections[].before").type(STRING).description("첨삭 전 내용"),
-                                                fieldWithPath("data.corrections[].after").type(STRING).description("첨삭 후 내용")
+                                                fieldWithPath("data.username").type(STRING).description("작성자 이름")
                                         )
                                         .build()
                                 )
@@ -277,14 +271,6 @@ class DiaryControllerTest extends BaseControllerTest {
             badges.add(new CreatedDiaryResponseDTO.BadgeDTO("뱃지 이름" + (i + 1), "image-url" + (i + 1)));
         }
         return badges;
-    }
-
-    private List<CorrectionDTO> corrections() {
-        List<CorrectionDTO> corrections = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            corrections.add(new CorrectionDTO(1L, "before" + (i + 1), "after" + (i + 1)));
-        }
-        return corrections;
     }
 
     private List<DiaryDTO> diaries() {

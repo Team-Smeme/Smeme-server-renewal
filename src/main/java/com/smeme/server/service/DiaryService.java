@@ -12,7 +12,6 @@ import java.util.*;
 
 import com.smeme.server.config.ValueConfig;
 import com.smeme.server.model.DeletedDiary;
-import com.smeme.server.repository.correction.CorrectionRepository;
 import com.smeme.server.repository.diary.DeletedDiaryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +35,6 @@ import lombok.RequiredArgsConstructor;
 public class DiaryService {
 
     private final DiaryRepository diaryRepository;
-    private final CorrectionRepository correctionRepository;
     private final DeletedDiaryRepository deletedDiaryRepository;
 
     private final BadgeService badgeService;
@@ -63,7 +61,7 @@ public class DiaryService {
     }
 
     public DiaryResponseDTO getDetail(Long id) {
-        Diary diary = getFetchJoinCorrections(id);
+        Diary diary = get(id);
         return DiaryResponseDTO.of(diary);
     }
 
@@ -86,7 +84,6 @@ public class DiaryService {
 
     private void delete(Diary diary) {
         diary.deleteFromMember();
-        correctionRepository.deleteAll(diary.getCorrections());
         diaryRepository.deleteById(diary.getId());
     }
 
@@ -123,11 +120,6 @@ public class DiaryService {
 
     protected Diary get(Long id) {
         return diaryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(INVALID_DIARY.getMessage()));
-    }
-
-    protected Diary getFetchJoinCorrections(Long id) {
-        return diaryRepository.findByIdFetchJoinCorrections(id)
                 .orElseThrow(() -> new EntityNotFoundException(INVALID_DIARY.getMessage()));
     }
 
