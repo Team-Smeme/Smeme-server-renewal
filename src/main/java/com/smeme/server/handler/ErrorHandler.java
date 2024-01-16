@@ -1,4 +1,4 @@
-package com.smeme.server.controller;
+package com.smeme.server.handler;
 
 import static com.smeme.server.util.ApiResponse.fail;
 import static org.springframework.http.HttpStatus.*;

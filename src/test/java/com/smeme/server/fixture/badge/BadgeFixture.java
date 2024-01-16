@@ -1,13 +1,11 @@
 package com.smeme.server.fixture.badge;
 
-
 import com.smeme.server.dto.badge.BadgeListResponseDTO;
 import com.smeme.server.dto.badge.BadgeResponseDTO;
-import com.smeme.server.model.badge.Badge;
 import com.smeme.server.model.badge.BadgeType;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class BadgeFixture {
 
@@ -16,35 +14,31 @@ public class BadgeFixture {
     private static final BadgeType BADGE_TYPE = BadgeType.COMBO;
     private static final String BADGE_IMAGE_URL = "https://m.s3.ap-northeast-2.amazonaws.com/badge/streak.png";
 
-    public static Badge createBadge() {
-        return Badge.builder()
-                .name(BADGE_NAME)
+    public static BadgeResponseDTO createBadgeResponseDTO() {
+        return BadgeResponseDTO.builder()
                 .id(BADGE_ID)
-                .type(BADGE_TYPE)
+                .name(BADGE_NAME)
+                .type(BADGE_TYPE.toString())
                 .imageUrl(BADGE_IMAGE_URL)
                 .build();
     }
 
-    public static BadgeResponseDTO createBadgeResponseDTO() {
-        return BadgeResponseDTO.of(createBadge());
+    public static BadgeListResponseDTO createBadgeListResponseDTO() {
+        return new BadgeListResponseDTO(createBadgeResponses());
     }
 
-    public static BadgeListResponseDTO createBadgeListResponseDTO() {
-        List<BadgeResponseDTO> badges = new ArrayList<>();
+    private static List<BadgeListResponseDTO.BadgeResponseDTO> createBadgeResponses() {
+        return Stream.iterate(1, i -> i + 1).limit(5)
+                .map(BadgeFixture::createBadgeResponse)
+                .toList();
+    }
 
-        for (long l = 1L; l < 3L; l++) {
-            badges.add(
-                    BadgeResponseDTO.of(
-                            Badge.builder()
-                                    .id(l)
-                                    .name(BADGE_NAME)
-                                    .type(BADGE_TYPE)
-                                    .imageUrl(BADGE_IMAGE_URL)
-                                    .build()
-                    )
-            );
-        }
-        return BadgeListResponseDTO.of(badges);
+    private static BadgeListResponseDTO.BadgeResponseDTO createBadgeResponse(int i) {
+        return BadgeListResponseDTO.BadgeResponseDTO.builder()
+                .name(BADGE_NAME + i)
+                .type(BADGE_TYPE)
+                .imageUrl("https://...")
+                .build();
     }
 
 }

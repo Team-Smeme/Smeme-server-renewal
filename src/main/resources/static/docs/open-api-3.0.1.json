@@ -69,7 +69,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-corrections-correctionId594740350"
+                  "$ref" : "#/components/schemas/api-v2-auth594740350"
                 },
                 "examples" : {
                   "회원탈퇴 Example" : {
@@ -204,7 +204,7 @@
           "content" : {
             "application/json;charset=UTF-8" : {
               "schema" : {
-                "$ref" : "#/components/schemas/api-v2-corrections-correctionId486549215"
+                "$ref" : "#/components/schemas/api-v2-members486549215"
               },
               "examples" : {
                 "유저 프로필 업데이트 성공 Example" : {
@@ -245,7 +245,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-corrections-correctionId594740350"
+                  "$ref" : "#/components/schemas/api-v2-auth594740350"
                 },
                 "examples" : {
                   "test-docs" : {
@@ -270,7 +270,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-corrections-correctionId594740350"
+                  "$ref" : "#/components/schemas/api-v2-auth594740350"
                 },
                 "examples" : {
                   "로그아웃 Example" : {
@@ -308,100 +308,6 @@
         }
       }
     },
-    "/api/v2/corrections/{correctionId}" : {
-      "delete" : {
-        "tags" : [ "Correction" ],
-        "summary" : "첨삭 삭제",
-        "description" : "첨삭 삭제",
-        "operationId" : "첨삭 삭제 Example",
-        "parameters" : [ {
-          "name" : "correctionId",
-          "in" : "path",
-          "description" : "",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/api-v2-corrections-correctionId486549215"
-              },
-              "examples" : {
-                "첨삭 삭제 Example" : {
-                  "value" : "{\n  \"sentence\" : \"correction test sentence\",\n  \"content\" : \"correction test content\"\n}"
-                }
-              }
-            }
-          }
-        },
-        "responses" : {
-          "200" : {
-            "description" : "200",
-            "content" : {
-              "application/json;charset=UTF-8" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-corrections-correctionId594740350"
-                },
-                "examples" : {
-                  "첨삭 삭제 Example" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"첨삭 삭제 성공\",\n  \"data\" : null\n}"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch" : {
-        "tags" : [ "Correction" ],
-        "summary" : "첨삭 수정",
-        "description" : "첨삭 수정",
-        "operationId" : "첨삭 수정 Example",
-        "parameters" : [ {
-          "name" : "correctionId",
-          "in" : "path",
-          "description" : "",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json;charset=UTF-8" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/api-v2-corrections-correctionId-539047035"
-              },
-              "examples" : {
-                "첨삭 수정 Example" : {
-                  "value" : "{\n  \"sentence\" : \"correction test sentence\",\n  \"content\" : \"correction test content\"\n}"
-                }
-              }
-            }
-          }
-        },
-        "responses" : {
-          "200" : {
-            "description" : "200",
-            "content" : {
-              "application/json;charset=UTF-8" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-corrections-correctionId594740350"
-                },
-                "examples" : {
-                  "첨삭 수정 Example" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"첨삭 수정 성공\",\n  \"data\" : null\n}"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v2/diaries/{diaryId}" : {
       "get" : {
         "tags" : [ "Diary" ],
@@ -423,11 +329,11 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId-1124023080"
+                  "$ref" : "#/components/schemas/api-v2-diaries-diaryId-1777546585"
                 },
                 "examples" : {
                   "일기 조회 성공 Example" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 조회 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"topic\" : \"가보고 싶은 해외 여행 지가 있다면 소개해 주세요!\",\n    \"content\" : \"I want to go Bla Bla ...\",\n    \"createdAt\" : \"2023-08-19 14:00\",\n    \"username\" : \"스미무\",\n    \"corrections\" : [ {\n      \"correctionId\" : 1,\n      \"before\" : \"before1\",\n      \"after\" : \"after1\"\n    }, {\n      \"correctionId\" : 1,\n      \"before\" : \"before2\",\n      \"after\" : \"after2\"\n    } ]\n  }\n}"
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 조회 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"topic\" : \"가보고 싶은 해외 여행 지가 있다면 소개해 주세요!\",\n    \"content\" : \"I want to go Bla Bla ...\",\n    \"createdAt\" : \"2023-08-19 14:00\",\n    \"username\" : \"스미무\"\n  }\n}"
                   }
                 }
               }
@@ -455,7 +361,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-corrections-correctionId594740350"
+                  "$ref" : "#/components/schemas/api-v2-auth594740350"
                 },
                 "examples" : {
                   "일기 삭제 성공 Example" : {
@@ -501,7 +407,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-corrections-correctionId594740350"
+                  "$ref" : "#/components/schemas/api-v2-auth594740350"
                 },
                 "examples" : {
                   "일기 수정 성공 Example" : {
@@ -560,11 +466,11 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-members-badges-599940611"
+                  "$ref" : "#/components/schemas/api-v2-members-badges1519826817"
                 },
                 "examples" : {
                   "뱃지 목록 조회 Example" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"뱃지 리스트 조회 성공\",\n  \"data\" : {\n    \"badges\" : [ {\n      \"id\" : 1,\n      \"name\" : \"연속 3일 일기 뱃지\",\n      \"type\" : \"COMBO\",\n      \"imageUrl\" : \"https://m.s3.ap-northeast-2.amazonaws.com/badge/streak.png\"\n    }, {\n      \"id\" : 2,\n      \"name\" : \"연속 3일 일기 뱃지\",\n      \"type\" : \"COMBO\",\n      \"imageUrl\" : \"https://m.s3.ap-northeast-2.amazonaws.com/badge/streak.png\"\n    } ]\n  }\n}"
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"뱃지 리스트 조회 성공\",\n  \"data\" : {\n    \"badges\" : [ {\n      \"name\" : \"연속 3일 일기 뱃지1\",\n      \"type\" : \"COMBO\",\n      \"imageUrl\" : \"https://...\"\n    }, {\n      \"name\" : \"연속 3일 일기 뱃지2\",\n      \"type\" : \"COMBO\",\n      \"imageUrl\" : \"https://...\"\n    }, {\n      \"name\" : \"연속 3일 일기 뱃지3\",\n      \"type\" : \"COMBO\",\n      \"imageUrl\" : \"https://...\"\n    }, {\n      \"name\" : \"연속 3일 일기 뱃지4\",\n      \"type\" : \"COMBO\",\n      \"imageUrl\" : \"https://...\"\n    }, {\n      \"name\" : \"연속 3일 일기 뱃지5\",\n      \"type\" : \"COMBO\",\n      \"imageUrl\" : \"https://...\"\n    } ]\n  }\n}"
                   }
                 }
               }
@@ -608,7 +514,7 @@
           "content" : {
             "application/json;charset=UTF-8" : {
               "schema" : {
-                "$ref" : "#/components/schemas/api-v2-corrections-correctionId486549215"
+                "$ref" : "#/components/schemas/api-v2-members486549215"
               },
               "examples" : {
                 "사용자 정보 수정 성공 Example" : {
@@ -624,7 +530,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-corrections-correctionId594740350"
+                  "$ref" : "#/components/schemas/api-v2-auth594740350"
                 },
                 "examples" : {
                   "사용자 정보 수정 성공 Example" : {
@@ -663,7 +569,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-corrections-correctionId594740350"
+                  "$ref" : "#/components/schemas/api-v2-auth594740350"
                 },
                 "examples" : {
                   "푸시 알림 동의여부 성공 Example" : {
@@ -701,62 +607,6 @@
         }
       }
     },
-    "/api/v2/corrections/diary/{diaryId}" : {
-      "post" : {
-        "tags" : [ "Correction" ],
-        "summary" : "첨삭 추가",
-        "description" : "첨삭 추가",
-        "operationId" : "첨삭 추가 Example",
-        "parameters" : [ {
-          "name" : "diaryId",
-          "in" : "path",
-          "description" : "",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json;charset=UTF-8" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/api-v2-corrections-correctionId-539047035"
-              },
-              "examples" : {
-                "첨삭 추가 Example" : {
-                  "value" : "{\n  \"sentence\" : \"correction test sentence\",\n  \"content\" : \"correction test content\"\n}"
-                }
-              }
-            }
-          }
-        },
-        "responses" : {
-          "201" : {
-            "description" : "201",
-            "headers" : {
-              "Location" : {
-                "description" : "생성된 첨삭 조회 URI",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            },
-            "content" : {
-              "application/json;charset=UTF-8" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-corrections-diary-diaryId1208203954"
-                },
-                "examples" : {
-                  "첨삭 추가 Example" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 첨삭 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"badges\" : [ {\n      \"name\" : \"연속 3일 일기 뱃지\",\n      \"imageUrl\" : \"https://m.s3.ap-northeast-2.amazonaws.com/badge/streak.png\"\n    } ]\n  }\n}"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v2/members/nickname/check" : {
       "get" : {
         "tags" : [ "Member" ],
@@ -769,7 +619,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-corrections-correctionId594740350"
+                  "$ref" : "#/components/schemas/api-v2-auth594740350"
                 },
                 "examples" : {
                   "닉네임 중복 체크 성공 Example" : {
@@ -785,50 +635,6 @@
   },
   "components" : {
     "schemas" : {
-      "api-v2-members-badges-599940611" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "badges" : {
-                "type" : "array",
-                "description" : "뱃지 목록",
-                "items" : {
-                  "type" : "object",
-                  "properties" : {
-                    "imageUrl" : {
-                      "type" : "string",
-                      "description" : "뱃지 이미지 URL"
-                    },
-                    "name" : {
-                      "type" : "string",
-                      "description" : "뱃지 이름"
-                    },
-                    "id" : {
-                      "type" : "number",
-                      "description" : "뱃지 ID"
-                    },
-                    "type" : {
-                      "type" : "string",
-                      "description" : "뱃지 타입"
-                    }
-                  }
-                }
-              }
-            },
-            "description" : "응답 데이터"
-          },
-          "success" : {
-            "type" : "boolean",
-            "description" : "응답 성공 여부"
-          },
-          "message" : {
-            "type" : "string",
-            "description" : "응답 메시지"
-          }
-        }
-      },
       "api-v2-members1042223039" : {
         "type" : "object",
         "properties" : {
@@ -1000,6 +806,45 @@
           }
         }
       },
+      "api-v2-diaries-diaryId-1777546585" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "createdAt" : {
+                "type" : "string",
+                "description" : "작성 날짜"
+              },
+              "diaryId" : {
+                "type" : "number",
+                "description" : "일기 id"
+              },
+              "topic" : {
+                "type" : "string",
+                "description" : "랜덤 주제"
+              },
+              "content" : {
+                "type" : "string",
+                "description" : "일기 내용"
+              },
+              "username" : {
+                "type" : "string",
+                "description" : "작성자 이름"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
       "api-v2-members-push-1005876473" : {
         "type" : "object",
         "properties" : {
@@ -1009,7 +854,7 @@
           }
         }
       },
-      "api-v2-corrections-correctionId594740350" : {
+      "api-v2-auth594740350" : {
         "type" : "object",
         "properties" : {
           "success" : {
@@ -1049,7 +894,20 @@
           }
         }
       },
-      "api-v2-corrections-diary-diaryId1208203954" : {
+      "api-v2-diaries-diaryId1231150871" : {
+        "type" : "object",
+        "properties" : {
+          "topicId" : {
+            "type" : "number",
+            "description" : "랜덤 주제 id"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "수정할 일기 내용"
+          }
+        }
+      },
+      "api-v2-members-badges1519826817" : {
         "type" : "object",
         "properties" : {
           "data" : {
@@ -1068,13 +926,13 @@
                     "name" : {
                       "type" : "string",
                       "description" : "뱃지 이름"
+                    },
+                    "type" : {
+                      "type" : "string",
+                      "description" : "뱃지 타입"
                     }
                   }
                 }
-              },
-              "diaryId" : {
-                "type" : "number",
-                "description" : "일기 ID"
               }
             },
             "description" : "응답 데이터"
@@ -1086,19 +944,6 @@
           "message" : {
             "type" : "string",
             "description" : "응답 메시지"
-          }
-        }
-      },
-      "api-v2-diaries-diaryId1231150871" : {
-        "type" : "object",
-        "properties" : {
-          "topicId" : {
-            "type" : "number",
-            "description" : "랜덤 주제 id"
-          },
-          "content" : {
-            "type" : "string",
-            "description" : "수정할 일기 내용"
           }
         }
       },
@@ -1186,79 +1031,6 @@
           }
         }
       },
-      "api-v2-diaries-diaryId-1124023080" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "createdAt" : {
-                "type" : "string",
-                "description" : "작성 날짜"
-              },
-              "corrections" : {
-                "type" : "array",
-                "description" : "첨삭 리스트",
-                "items" : {
-                  "type" : "object",
-                  "properties" : {
-                    "before" : {
-                      "type" : "string",
-                      "description" : "첨삭 전 내용"
-                    },
-                    "after" : {
-                      "type" : "string",
-                      "description" : "첨삭 후 내용"
-                    },
-                    "correctionId" : {
-                      "type" : "number",
-                      "description" : "첨삭 id"
-                    }
-                  }
-                }
-              },
-              "diaryId" : {
-                "type" : "number",
-                "description" : "일기 id"
-              },
-              "topic" : {
-                "type" : "string",
-                "description" : "랜덤 주제"
-              },
-              "content" : {
-                "type" : "string",
-                "description" : "일기 내용"
-              },
-              "username" : {
-                "type" : "string",
-                "description" : "작성자 이름"
-              }
-            },
-            "description" : "응답 데이터"
-          },
-          "success" : {
-            "type" : "boolean",
-            "description" : "응답 성공 여부"
-          },
-          "message" : {
-            "type" : "string",
-            "description" : "응답 메시지"
-          }
-        }
-      },
-      "api-v2-corrections-correctionId-539047035" : {
-        "type" : "object",
-        "properties" : {
-          "sentence" : {
-            "type" : "string",
-            "description" : "첨삭 전 문장"
-          },
-          "content" : {
-            "type" : "string",
-            "description" : "첨삭 후 문장"
-          }
-        }
-      },
       "api-v2-goals-1163689825" : {
         "type" : "object",
         "properties" : {
@@ -1322,7 +1094,7 @@
           }
         }
       },
-      "api-v2-corrections-correctionId486549215" : {
+      "api-v2-members486549215" : {
         "type" : "object"
       }
     }
