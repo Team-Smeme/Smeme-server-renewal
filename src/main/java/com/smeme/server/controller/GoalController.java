@@ -15,11 +15,8 @@ import com.smeme.server.model.goal.GoalType;
 import com.smeme.server.service.GoalService;
 import com.smeme.server.util.ApiResponse;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
-@Tag(name = "Goal", description = "학습 목표 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/goals")
@@ -27,14 +24,12 @@ public class GoalController {
 
     private final GoalService goalService;
 
-    @Operation(description = "전체 학습 목표 조회")
     @GetMapping
     public ResponseEntity<ApiResponse> getAll() {
         GoalsResponseDTO response = goalService.getAll();
         return ResponseEntity.ok(success(SUCCESS_GET_GOALS.getMessage(), response));
     }
 
-    @Operation(description = "학습 목표 조회")
     @GetMapping("/{type}")
     public ResponseEntity<ApiResponse> getByType(@PathVariable GoalType type) {
         GoalResponseDTO response = goalService.getByType(type);

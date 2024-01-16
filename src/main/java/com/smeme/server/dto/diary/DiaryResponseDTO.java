@@ -3,8 +3,6 @@ package com.smeme.server.dto.diary;
 import static com.smeme.server.util.Util.dateToString;
 import static java.util.Objects.*;
 
-import java.util.List;
-
 import com.smeme.server.model.Diary;
 
 import lombok.AccessLevel;
