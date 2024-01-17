@@ -1,7 +1,6 @@
 package com.smeme.server.service;
 
 import com.smeme.server.dto.badge.BadgeListResponseDTO;
-import com.smeme.server.dto.badge.BadgeResponseDTO;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.badge.Badge;
 import com.smeme.server.model.badge.MemberBadge;
@@ -16,7 +15,6 @@ import java.util.List;
 
 import static com.smeme.server.util.message.ErrorMessage.INVALID_BADGE;
 
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -26,11 +24,9 @@ public class BadgeService {
     private final BadgeRepository badgeRepository;
 
     public BadgeListResponseDTO getBadgeList(Long memberId) {
-        List<BadgeResponseDTO> badgeResponseDTOList = memberBadgeRepository.findAllByMemberId(memberId)
-                .stream()
-                .map(BadgeResponseDTO::of)
-                .toList();
-        return BadgeListResponseDTO.of(badgeResponseDTOList);
+        List<Badge> badges = badgeRepository.findAll();
+        List<MemberBadge> memberBadges = memberBadgeRepository.findAllByMemberId(memberId);
+        return BadgeListResponseDTO.of(badges, memberBadges);
     }
 
     @Transactional

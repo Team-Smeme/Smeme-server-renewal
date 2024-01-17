@@ -7,16 +7,8 @@ import com.smeme.server.fixture.trainingtime.TrainingTimeFixture;
 import com.smeme.server.model.LangType;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.SocialType;
-import com.smeme.server.model.badge.Badge;
-import com.smeme.server.model.badge.BadgeType;
 import com.smeme.server.model.goal.GoalType;
 import lombok.val;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.smeme.server.fixture.badge.BadgeFixture.createBadgeResponseDTO;
-import static com.smeme.server.fixture.goal.GoalFixture.createGoalResponseDTO;
 
 public class MemberFixture {
 
@@ -26,16 +18,7 @@ public class MemberFixture {
     private static final String MEMBER_SOCIAL_ID = "123456789";
     private static final String MEMBER_FCM_TOKEN = "fcm_token";
     private static final LangType TARGET_LANG = LangType.en;
-    private static final boolean MEMBER_IS_EXIST = true;
-
-
     private static final boolean HAS_ALARM = true;
-
-    // Badge
-    private static final String BADGE_NAME = "연속 3일 일기 뱃지";
-    private static final Long BADGE_ID = 1L;
-    private static final BadgeType BADGE_TYPE = BadgeType.COMBO;
-    private static final String BADGE_IMAGE_URL = "https://m.s3.ap-northeast-2.amazonaws.com/badge/streak.png";
 
     public static Member createMember() {
         val member =  Member.builder()
@@ -57,10 +40,6 @@ public class MemberFixture {
         );
     }
 
-    public static MemberNameResponseDTO createMemberNameResponseDTO() {
-        return new MemberNameResponseDTO(MEMBER_IS_EXIST);
-    }
-
     public static MemberUpdateRequestDTO createMemberUpdateRequestDTO() {
         return new MemberUpdateRequestDTO(MEMBER_USERNAME, HAS_ALARM);
     }
@@ -71,22 +50,6 @@ public class MemberFixture {
                 TrainingTimeFixture.createTrainingTimeRequestDTO(),
                 HAS_ALARM
         );
-    }
-
-    public static MemberUpdateResponseDTO createMemberUpdateResponseDTO() {
-
-        List<Badge> badges = new ArrayList<>();
-
-        for (long l = 1L; l < 5L; l++) {
-            Badge badge = Badge.builder()
-                    .id(l)
-                    .name(BADGE_NAME)
-                    .type(BADGE_TYPE)
-                    .imageUrl(BADGE_IMAGE_URL)
-                    .build();
-            badges.add(badge);
-        }
-        return MemberUpdateResponseDTO.of(badges);
     }
 
     public static MemberPushUpdateRequestDTO createMemberPushUpdateRequestDTO() {

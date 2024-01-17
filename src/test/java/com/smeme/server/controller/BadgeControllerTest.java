@@ -47,7 +47,6 @@ public class BadgeControllerTest extends BaseControllerTest {
                         fieldWithPath("message").type(STRING).description("응답 메시지"),
                         fieldWithPath("data").type(OBJECT).description("응답 데이터"),
                         fieldWithPath("data.badges").type(ARRAY).description("뱃지 목록"),
-                        fieldWithPath("data.badges[].id").type(NUMBER).description("뱃지 ID"),
                         fieldWithPath("data.badges[].name").type(STRING).description("뱃지 이름"),
                         fieldWithPath("data.badges[].type").type(STRING).description("뱃지 타입"),
                         fieldWithPath("data.badges[].imageUrl").type(STRING).description("뱃지 이미지 URL")
