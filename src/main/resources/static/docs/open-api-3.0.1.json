@@ -466,11 +466,11 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-members-badges1519826817"
+                  "$ref" : "#/components/schemas/api-v2-members-badges1884183897"
                 },
                 "examples" : {
                   "뱃지 목록 조회 Example" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"뱃지 리스트 조회 성공\",\n  \"data\" : {\n    \"badges\" : [ {\n      \"name\" : \"연속 3일 일기 뱃지1\",\n      \"type\" : \"COMBO\",\n      \"imageUrl\" : \"https://...\"\n    }, {\n      \"name\" : \"연속 3일 일기 뱃지2\",\n      \"type\" : \"COMBO\",\n      \"imageUrl\" : \"https://...\"\n    }, {\n      \"name\" : \"연속 3일 일기 뱃지3\",\n      \"type\" : \"COMBO\",\n      \"imageUrl\" : \"https://...\"\n    }, {\n      \"name\" : \"연속 3일 일기 뱃지4\",\n      \"type\" : \"COMBO\",\n      \"imageUrl\" : \"https://...\"\n    }, {\n      \"name\" : \"연속 3일 일기 뱃지5\",\n      \"type\" : \"COMBO\",\n      \"imageUrl\" : \"https://...\"\n    } ]\n  }\n}"
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"뱃지 리스트 조회 성공\",\n  \"data\" : {\n    \"badgeTypes\" : [ {\n      \"badgeType\" : \"COMBO\",\n      \"badgeTypeName\" : \"연속 3일 일기 뱃지\",\n      \"badges\" : [ {\n        \"name\" : \"연속 3일 일기 뱃지1\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지2\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지3\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지4\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지5\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      } ]\n    }, {\n      \"badgeType\" : \"COMBO\",\n      \"badgeTypeName\" : \"연속 3일 일기 뱃지\",\n      \"badges\" : [ {\n        \"name\" : \"연속 3일 일기 뱃지1\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지2\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지3\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지4\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지5\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      } ]\n    }, {\n      \"badgeType\" : \"COMBO\",\n      \"badgeTypeName\" : \"연속 3일 일기 뱃지\",\n      \"badges\" : [ {\n        \"name\" : \"연속 3일 일기 뱃지1\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지2\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지3\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지4\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지5\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      } ]\n    }, {\n      \"badgeType\" : \"COMBO\",\n      \"badgeTypeName\" : \"연속 3일 일기 뱃지\",\n      \"badges\" : [ {\n        \"name\" : \"연속 3일 일기 뱃지1\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지2\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지3\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지4\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지5\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      } ]\n    }, {\n      \"badgeType\" : \"COMBO\",\n      \"badgeTypeName\" : \"연속 3일 일기 뱃지\",\n      \"badges\" : [ {\n        \"name\" : \"연속 3일 일기 뱃지1\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지2\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지3\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지4\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      }, {\n        \"name\" : \"연속 3일 일기 뱃지5\",\n        \"type\" : \"COMBO\",\n        \"imageUrl\" : \"https://...\"\n      } ]\n    } ]\n  }\n}"
                   }
                 }
               }
@@ -907,29 +907,46 @@
           }
         }
       },
-      "api-v2-members-badges1519826817" : {
+      "api-v2-members-badges1884183897" : {
         "type" : "object",
         "properties" : {
           "data" : {
             "type" : "object",
             "properties" : {
-              "badges" : {
+              "badgeTypes" : {
                 "type" : "array",
-                "description" : "뱃지 목록",
+                "description" : "뱃지 타입 목록",
                 "items" : {
                   "type" : "object",
                   "properties" : {
-                    "imageUrl" : {
-                      "type" : "string",
-                      "description" : "뱃지 이미지 URL"
+                    "badges" : {
+                      "type" : "array",
+                      "description" : "타입별 뱃지 리스트",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "imageUrl" : {
+                            "type" : "string",
+                            "description" : "뱃지 이미지 URL"
+                          },
+                          "name" : {
+                            "type" : "string",
+                            "description" : "뱃지 이름"
+                          },
+                          "type" : {
+                            "type" : "string",
+                            "description" : "뱃지 타입"
+                          }
+                        }
+                      }
                     },
-                    "name" : {
-                      "type" : "string",
-                      "description" : "뱃지 이름"
-                    },
-                    "type" : {
+                    "badgeType" : {
                       "type" : "string",
                       "description" : "뱃지 타입"
+                    },
+                    "badgeTypeName" : {
+                      "type" : "string",
+                      "description" : "뱃지 타입 이름"
                     }
                   }
                 }

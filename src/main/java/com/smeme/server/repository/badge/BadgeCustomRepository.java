@@ -5,5 +5,5 @@ import com.smeme.server.model.badge.Badge;
 import java.util.List;
 
 public interface BadgeCustomRepository {
-    List<Badge> findAllOrderByName();
+    List<Badge> findAllOrderById();
 }

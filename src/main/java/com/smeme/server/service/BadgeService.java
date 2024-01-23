@@ -28,7 +28,7 @@ public class BadgeService {
     private final BadgeRepository badgeRepository;
 
     public BadgeListResponseDTO getBadgeList(Long memberId) {
-        val badges = badgeRepository.findAllOrderByName();
+        val badges = badgeRepository.findAllOrderById();
         val badgeMap = classifiedByType(badges);
         val memberBadges = memberBadgeRepository.findAllByMemberId(memberId);
         return BadgeListResponseDTO.of(badgeMap, memberBadges);

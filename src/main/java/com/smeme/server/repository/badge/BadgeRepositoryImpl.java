@@ -1,6 +1,5 @@
 package com.smeme.server.repository.badge;
 
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.smeme.server.model.badge.Badge;
 import lombok.*;
@@ -16,11 +15,10 @@ public class BadgeRepositoryImpl implements BadgeCustomRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<Badge> findAllOrderByName() {
-        val contentInKRExpression = Expressions.stringTemplate("SUBSTR({0}, 1, 1)", badge.name);
+    public List<Badge> findAllOrderById() {
         return queryFactory
                 .selectFrom(badge)
-                .orderBy(contentInKRExpression.asc())
+                .orderBy(badge.id.asc())
                 .fetch();
     }
 }
