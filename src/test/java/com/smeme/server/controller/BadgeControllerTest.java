@@ -46,10 +46,13 @@ public class BadgeControllerTest extends BaseControllerTest {
                         fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"),
                         fieldWithPath("message").type(STRING).description("응답 메시지"),
                         fieldWithPath("data").type(OBJECT).description("응답 데이터"),
-                        fieldWithPath("data.badges").type(ARRAY).description("뱃지 목록"),
-                        fieldWithPath("data.badges[].name").type(STRING).description("뱃지 이름"),
-                        fieldWithPath("data.badges[].type").type(STRING).description("뱃지 타입"),
-                        fieldWithPath("data.badges[].imageUrl").type(STRING).description("뱃지 이미지 URL")
+                        fieldWithPath("data.badgeTypes").type(ARRAY).description("뱃지 타입 목록"),
+                        fieldWithPath("data.badgeTypes[].badgeType").type(STRING).description("뱃지 타입"),
+                        fieldWithPath("data.badgeTypes[].badgeTypeName").type(STRING).description("뱃지 타입 이름"),
+                        fieldWithPath("data.badgeTypes[].badges").type(ARRAY).description("타입별 뱃지 리스트"),
+                        fieldWithPath("data.badgeTypes[].badges[].name").type(STRING).description("뱃지 이름"),
+                        fieldWithPath("data.badgeTypes[].badges[].type").type(STRING).description("뱃지 타입"),
+                        fieldWithPath("data.badgeTypes[].badges[].imageUrl").type(STRING).description("뱃지 이미지 URL")
                 )
                 .build();
         // when

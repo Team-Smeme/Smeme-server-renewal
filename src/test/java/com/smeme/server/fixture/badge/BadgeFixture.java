@@ -1,6 +1,7 @@
 package com.smeme.server.fixture.badge;
 
 import com.smeme.server.dto.badge.BadgeListResponseDTO;
+import com.smeme.server.dto.badge.BadgeListResponseDTO.BadgeTypeResponseDTO;
 import com.smeme.server.dto.badge.BadgeResponseDTO;
 import com.smeme.server.model.badge.BadgeType;
 
@@ -24,7 +25,17 @@ public class BadgeFixture {
     }
 
     public static BadgeListResponseDTO createBadgeListResponseDTO() {
-        return new BadgeListResponseDTO(createBadgeResponses());
+        return new BadgeListResponseDTO(createBadgeTypesResponse());
+    }
+
+    private static List<BadgeTypeResponseDTO> createBadgeTypesResponse() {
+        return Stream.iterate(1, i -> i + 1).limit(5)
+                .map(i -> createBadgeTypeResponse())
+                .toList();
+    }
+
+    private static BadgeTypeResponseDTO createBadgeTypeResponse() {
+        return new BadgeTypeResponseDTO(BADGE_TYPE, BADGE_NAME, createBadgeResponses());
     }
 
     private static List<BadgeListResponseDTO.BadgeResponseDTO> createBadgeResponses() {
