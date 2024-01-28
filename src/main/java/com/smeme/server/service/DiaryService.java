@@ -112,6 +112,7 @@ public class DiaryService {
     @Transactional
     public void deleteAllByMember(Member member) {
         diaryRepository.deleteAllByMember(member);
+        deletedDiaryRepository.deleteByMember(member);
     }
 
     public List<Diary> getAllByMemberId(Long memberId) {
