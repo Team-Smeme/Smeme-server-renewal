@@ -40,7 +40,7 @@ public class SecurityConfig {
     };
 
     @Bean
-    @Profile("dev")
+    @Profile({"dev", "local"})
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
