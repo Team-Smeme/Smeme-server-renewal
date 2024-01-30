@@ -54,7 +54,7 @@ class DiaryControllerTest extends BaseControllerTest {
     void success_create_diary() throws Exception {
         // given
         DiaryRequestDTO request = new DiaryRequestDTO("Hello SMEEM!", 1L);
-        CreatedDiaryResponseDTO response = new CreatedDiaryResponseDTO(1L, badges());
+        CreatedDiaryResponseDTO response = new CreatedDiaryResponseDTO(1L, acquiredBadges());
         ResponseEntity<ApiResponse> result = ResponseEntity
                 .created(URI.create("localhost:8080/api/v2/diaries/1"))
                 .body(success("일기 작성 성공", response));
@@ -269,7 +269,7 @@ class DiaryControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
-    private List<AcquiredBadgeResponseDTO> badges() { // acquiredBadge
+    private List<AcquiredBadgeResponseDTO> acquiredBadges() {
         return Stream.iterate(1, i -> i + 1).limit(5)
                 .map(i -> acquiredBadge()).toList();
     }
