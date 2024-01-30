@@ -1,21 +1,14 @@
 package com.smeme.server.dto.member;
 
+import com.smeme.server.dto.badge.AcquiredBadgeResponseDTO;
 import com.smeme.server.model.badge.Badge;
 
 import java.util.List;
 
 public record MemberUpdateResponseDTO(
-        List<BadgeDTO> badges
+        List<AcquiredBadgeResponseDTO> badges
 ) {
     public static MemberUpdateResponseDTO of(List<Badge> badges) {
-        return new MemberUpdateResponseDTO(badges.stream()
-                .map(badge -> new BadgeDTO(badge.getName(), badge.getImageUrl())).toList());
-    }
-
-    record BadgeDTO(
-            String name,
-            String imageUrl
-    ) {
+        return new MemberUpdateResponseDTO(badges.stream().map(AcquiredBadgeResponseDTO::of).toList());
     }
 }
-

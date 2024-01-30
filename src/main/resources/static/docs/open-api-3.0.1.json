@@ -156,11 +156,11 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-v2-diaries-486735900"
+                  "$ref" : "#/components/schemas/api-v2-diaries-609397821"
                 },
                 "examples" : {
                   "일기 작성 성공 Example" : {
-                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 작성 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"badges\" : [ {\n      \"name\" : \"뱃지 이름1\",\n      \"imageUrl\" : \"image-url1\"\n    }, {\n      \"name\" : \"뱃지 이름2\",\n      \"imageUrl\" : \"image-url2\"\n    } ]\n  }\n}"
+                    "value" : "{\n  \"success\" : true,\n  \"message\" : \"일기 작성 성공\",\n  \"data\" : {\n    \"diaryId\" : 1,\n    \"badges\" : [ {\n      \"name\" : \"뱃지 이름\",\n      \"imageUrl\" : \"badge-image-url\",\n      \"type\" : \"EVENT\"\n    }, {\n      \"name\" : \"뱃지 이름\",\n      \"imageUrl\" : \"badge-image-url\",\n      \"type\" : \"EVENT\"\n    }, {\n      \"name\" : \"뱃지 이름\",\n      \"imageUrl\" : \"badge-image-url\",\n      \"type\" : \"EVENT\"\n    }, {\n      \"name\" : \"뱃지 이름\",\n      \"imageUrl\" : \"badge-image-url\",\n      \"type\" : \"EVENT\"\n    }, {\n      \"name\" : \"뱃지 이름\",\n      \"imageUrl\" : \"badge-image-url\",\n      \"type\" : \"EVENT\"\n    } ]\n  }\n}"
                   }
                 }
               }
@@ -867,6 +867,50 @@
           }
         }
       },
+      "api-v2-diaries-609397821" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "badges" : {
+                "type" : "array",
+                "description" : "획득한 뱃지 리스트",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "imageUrl" : {
+                      "type" : "string",
+                      "description" : "뱃지 이미지 url"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "description" : "뱃지 이름"
+                    },
+                    "type" : {
+                      "type" : "string",
+                      "description" : "뱃지 타입"
+                    }
+                  }
+                }
+              },
+              "diaryId" : {
+                "type" : "number",
+                "description" : "생성한 일기 id"
+              }
+            },
+            "description" : "응답 데이터"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "응답 성공 여부"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "응답 메시지"
+          }
+        }
+      },
       "api-v2-topics-random459952356" : {
         "type" : "object",
         "properties" : {
@@ -950,46 +994,6 @@
                     }
                   }
                 }
-              }
-            },
-            "description" : "응답 데이터"
-          },
-          "success" : {
-            "type" : "boolean",
-            "description" : "응답 성공 여부"
-          },
-          "message" : {
-            "type" : "string",
-            "description" : "응답 메시지"
-          }
-        }
-      },
-      "api-v2-diaries-486735900" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "badges" : {
-                "type" : "array",
-                "description" : "획득한 뱃지 리스트",
-                "items" : {
-                  "type" : "object",
-                  "properties" : {
-                    "imageUrl" : {
-                      "type" : "string",
-                      "description" : "뱃지 이미지 url"
-                    },
-                    "name" : {
-                      "type" : "string",
-                      "description" : "뱃지 이름"
-                    }
-                  }
-                }
-              },
-              "diaryId" : {
-                "type" : "number",
-                "description" : "생성한 일기 id"
               }
             },
             "description" : "응답 데이터"
