@@ -27,7 +27,7 @@ swaggerSources {
     }
 
 openapi3 {
-    server('http://localhost:8080')
+    server(LOCALHOST)
     title = 'restdocs-swagger API Documentation'
     description = 'Spring REST Docs with SwaggerUI.'
     version = '0.0.1'
@@ -100,10 +100,10 @@ dependencies {
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
     // lombok
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testCompileOnly 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     // DB
     runtimeOnly 'com.h2database:h2'
@@ -115,7 +115,6 @@ tasks.named('test') {
 }
 
 tasks.withType(GenerateSwaggerUI) {
-    dependsOn 'openapi3'
     copy {
         from "build/resources/main/static/docs"
         into "src/main/resources/static/docs/"
@@ -125,14 +124,17 @@ tasks.withType(GenerateSwaggerUI) {
 bootJar {
     dependsOn(':openapi3')
 }
+
 // bootJar 실행 전, copySwaggerUI 를 실행하도록 설정
 openapi3 {
-    server = "http://localhost:8080"
+    servers = [
+            {url = DEV_HOST},
+            {url = LOCALHOST}
+    ]
     title = "smeme api documentation"
     description = "Spring REST Docs with SwaggerUI."
     version = "0.0.1"
     outputFileNamePrefix = 'open-api-3.0.1'
     format = 'json'
-
     outputDirectory = 'build/resources/main/static/docs'
 }

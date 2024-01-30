@@ -19,6 +19,11 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      - name: Set up Gradle Properties
+        run: |
+          touch ./gradle.properties
+          echo "${ secrets.GRADLE_PROPERTY }" >> ./gradle.properties
+
       - name: Create application-secret.yml
         run: |
           pwd
@@ -42,7 +47,7 @@ jobs:
         shell: bash
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew clean build
         shell: bash
 
       - name: Make zip file

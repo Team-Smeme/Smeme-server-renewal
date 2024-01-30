@@ -43,4 +43,7 @@ application-oauth2.yml
 smeem_fcm.json
 .DS_Store
 
+### Secret ###
 application-secret.yml
+gradle.properties
+open-api-3.0.1.json
