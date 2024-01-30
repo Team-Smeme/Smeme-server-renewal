@@ -1,11 +1,13 @@
 package com.smeme.server.controller;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.smeme.server.dto.badge.AcquiredBadgeResponseDTO;
 import com.smeme.server.dto.diary.CreatedDiaryResponseDTO;
 import com.smeme.server.dto.diary.DiariesResponseDTO;
 import com.smeme.server.dto.diary.DiariesResponseDTO.DiaryDTO;
 import com.smeme.server.dto.diary.DiaryRequestDTO;
 import com.smeme.server.dto.diary.DiaryResponseDTO;
+import com.smeme.server.model.badge.BadgeType;
 import com.smeme.server.util.ApiResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,7 @@ import java.net.URI;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static com.smeme.server.util.ApiResponse.success;
@@ -87,7 +90,8 @@ class DiaryControllerTest extends BaseControllerTest {
                                                 fieldWithPath("data.diaryId").type(NUMBER).description("생성한 일기 id"),
                                                 fieldWithPath("data.badges[]").type(ARRAY).description("획득한 뱃지 리스트"),
                                                 fieldWithPath("data.badges[].name").type(STRING).description("뱃지 이름"),
-                                                fieldWithPath("data.badges[].imageUrl").type(STRING).description("뱃지 이미지 url")
+                                                fieldWithPath("data.badges[].imageUrl").type(STRING).description("뱃지 이미지 url"),
+                                                fieldWithPath("data.badges[].type").type(STRING).description("뱃지 타입")
                                         )
                                         .build()
                                 )
@@ -265,12 +269,13 @@ class DiaryControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
-    private List<CreatedDiaryResponseDTO.BadgeDTO> badges() {
-        List<CreatedDiaryResponseDTO.BadgeDTO> badges = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            badges.add(new CreatedDiaryResponseDTO.BadgeDTO("뱃지 이름" + (i + 1), "image-url" + (i + 1)));
-        }
-        return badges;
+    private List<AcquiredBadgeResponseDTO> badges() { // acquiredBadge
+        return Stream.iterate(1, i -> i + 1).limit(5)
+                .map(i -> acquiredBadge()).toList();
+    }
+
+    private AcquiredBadgeResponseDTO acquiredBadge() {
+        return new AcquiredBadgeResponseDTO("뱃지 이름", "badge-image-url", BadgeType.EVENT);
     }
 
     private List<DiaryDTO> diaries() {
