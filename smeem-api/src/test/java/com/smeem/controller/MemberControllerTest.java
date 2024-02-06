@@ -2,6 +2,7 @@ package com.smeem.controller;
 
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.smeem.api.member.controller.MemberController;
 import com.smeem.fixture.member.MemberFixture;
 import lombok.val;
 import org.junit.jupiter.api.DisplayName;
@@ -13,10 +14,9 @@ import org.springframework.http.ResponseEntity;
 import java.security.Principal;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.smeme.server.util.message.ResponseMessage.SUCCESS_UPDATE_USER_PLAN;
+
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static com.smeme.server.util.ApiResponse.success;
-import static com.smeme.server.util.message.ResponseMessage.SUCCESS_UPDATE_USER_PUSH;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -173,7 +173,7 @@ public class MemberControllerTest extends BaseControllerTest {
                 )
                 .build();
         // when
-        when(memberController.checkDuplicatedName("com.smeem.test"))
+        when(memberController.checkDuplicatedName("test"))
                 .thenReturn(ResponseEntity.ok(success("닉네임 중복 체크 성공")));
 
         // then
