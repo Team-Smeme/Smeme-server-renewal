@@ -1,0 +1,72 @@
+package com.smeem.controller;
+
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.smeme.server.dto.topic.TopicResponseDTO;
+import com.smeme.server.util.ApiResponse;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
+
+import java.security.Principal;
+
+import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static com.smeme.server.util.ApiResponse.success;
+import static org.mockito.Mockito.when;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.JsonFieldType.*;
+import static org.springframework.restdocs.payload.JsonFieldType.STRING;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@DisplayName("TopicController 테스트")
+@WebMvcTest(TopicController.class)
+class TopicControllerTest extends BaseControllerTest {
+    @MockBean
+    TopicController topicController;
+    @MockBean
+    Principal principal;
+
+    private final String DEFAULT_URL = "/api/v2/topics";
+    private final String TAG = "Topic";
+
+    @Test
+    @DisplayName("랜덤 주제 조회 테스트")
+    void success_get_random_topic_test() throws Exception {
+        // given
+        TopicResponseDTO response = new TopicResponseDTO(1L, "가보고 싶은 해외 여행 지가 있다면 소개해 주세요!");
+        ResponseEntity<ApiResponse> result = ResponseEntity.ok(success("랜덤 주제 조회 성공", response));
+
+        // when
+        when(topicController.getRandom()).thenReturn(result);
+
+        // then
+        mockMvc.perform(get(DEFAULT_URL + "/random")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .principal(principal))
+                .andDo(
+                        document("랜덤 주제 조회 성공 Example",
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()),
+                                resource(ResourceSnippetParameters.builder()
+                                        .tag(TAG)
+                                        .description("랜덤 주제 조회")
+                                        .responseFields(
+                                                fieldWithPath("success").type(BOOLEAN).description("응답 성공 여부"),
+                                                fieldWithPath("message").type(STRING).description("응답 메시지"),
+                                                fieldWithPath("data").type(OBJECT).description("응답 데이터"),
+                                                fieldWithPath("data.topicId").type(NUMBER).description("랜덤 주제 id"),
+                                                fieldWithPath("data.content").type(STRING).description("랜덤 주제 내용")
+                                        )
+                                        .build()
+                                )
+                        ))
+                .andExpect(status().isOk());
+    }
+}
