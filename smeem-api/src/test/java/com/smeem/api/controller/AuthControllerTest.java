@@ -1,20 +1,20 @@
 package com.smeem.api.controller;
 
-
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.smeem.api.auth.controller.AuthController;
+import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.fixture.auth.AuthFixture;
 import lombok.val;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.ResponseEntity;
 
 import java.security.Principal;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.smeme.server.util.ApiResponse.success;
-import static com.smeme.server.util.message.ResponseMessage.*;
+import static com.smeem.common.code.success.AuthSuccessCode.*;
+import static com.smeem.common.code.success.TokenSuccessCode.SUCCESS_ISSUE_TOKEN;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -66,7 +66,7 @@ public class AuthControllerTest extends BaseControllerTest {
                 )
                 .build();
         // when
-        val result =  ResponseEntity.ok(success(SUCCESS_SIGNIN.getMessage(), AuthFixture.createSignInResponseDTO()));
+        val result = ApiResponseUtil.success(SUCCESS_SIGNIN, AuthFixture.createSignInResponseDTO());
 
         when(authController.signIn(SOCIAL_ACCESS_TOKEN , AuthFixture.createSignInRequestDTO()))
                 .thenReturn(result);
@@ -102,7 +102,7 @@ public class AuthControllerTest extends BaseControllerTest {
                 )
                 .build();
         // when
-        val result = ResponseEntity.ok(success(SUCCESS_ISSUE_TOKEN.getMessage(), AuthFixture.createTokenResponseDTO()));
+        val result = ApiResponseUtil.success(SUCCESS_ISSUE_TOKEN, AuthFixture.createTokenResponseDTO());
 
         when(authController.reissueToken(principal)).thenReturn(result);
 
@@ -132,7 +132,7 @@ public class AuthControllerTest extends BaseControllerTest {
                 )
                 .build();
         // when
-        val result = ResponseEntity.ok(success(SUCCESS_SIGNOUT.getMessage()));
+        val result = ApiResponseUtil.success(SUCCESS_SIGNOUT);
 
         when(authController.signOut(principal)).thenReturn(result);
 
@@ -160,7 +160,7 @@ public class AuthControllerTest extends BaseControllerTest {
                 )
                 .build();
         // when
-        val result = ResponseEntity.ok(success(SUCCESS_WITHDRAW.getMessage()));
+        val result = ApiResponseUtil.success(SUCCESS_WITHDRAW);
 
         when(authController.withDrawl(principal)).thenReturn(result);
 
