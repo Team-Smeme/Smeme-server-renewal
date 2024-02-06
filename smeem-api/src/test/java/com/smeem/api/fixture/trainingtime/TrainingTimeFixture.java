@@ -1,14 +1,16 @@
 package com.smeem.api.fixture.trainingtime;
 
 import com.smeem.api.fixture.member.MemberFixture;
-import com.smeme.server.dto.training.TrainingTimeRequestDTO;
-import com.smeme.server.dto.training.TrainingTimeResponseDTO;
-import com.smeme.server.model.training.DayType;
-import com.smeme.server.model.training.TrainingTime;
+import com.smeem.api.member.controller.dto.request.TrainingTimeRequestDTO;
+import com.smeem.api.member.controller.dto.response.TrainingTimeResponseDTO;
+import com.smeem.domain.training.model.DayType;
+import com.smeem.domain.training.model.TrainingTime;
+
+import static com.smeem.domain.training.model.DayType.MON;
 
 public class TrainingTimeFixture {
 
-    private static final DayType DAY_TYPE = DayType.MON;
+    private static final DayType DAY_TYPE = MON;
     private static final int HOUR = 10;
     private static final int MINUTE = 30;
 
