@@ -1,18 +1,19 @@
 package com.smeem.api.controller;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.smeme.server.dto.topic.TopicResponseDTO;
-import com.smeme.server.util.ApiResponse;
+import com.smeem.api.common.ApiResponseUtil;
+import com.smeem.api.topic.controller.TopicController;
+import com.smeem.api.topic.controller.dto.response.TopicResponseDTO;
+import lombok.val;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.ResponseEntity;
 
 import java.security.Principal;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.smeme.server.util.ApiResponse.success;
+import static com.smeem.common.code.success.TopicSuccessCode.SUCCESS_GET_RANDOM_TOPIC;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -40,7 +41,7 @@ class TopicControllerTest extends BaseControllerTest {
     void success_get_random_topic_test() throws Exception {
         // given
         TopicResponseDTO response = new TopicResponseDTO(1L, "가보고 싶은 해외 여행 지가 있다면 소개해 주세요!");
-        ResponseEntity<ApiResponse> result = ResponseEntity.ok(success("랜덤 주제 조회 성공", response));
+        val result = ApiResponseUtil.success(SUCCESS_GET_RANDOM_TOPIC, response);
 
         // when
         when(topicController.getRandom()).thenReturn(result);

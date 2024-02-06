@@ -1,20 +1,17 @@
 package com.smeem.api.topic.controller;
 
-
-
-import com.smeem.api.common.ApiResponse;
+import com.smeem.api.common.ApiResponseUtil;
+import com.smeem.api.common.BaseResponse;
 import com.smeem.api.topic.controller.dto.response.TopicResponseDTO;
 import com.smeem.api.topic.service.TopicService;
-import com.smeem.common.code.ResponseMessage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
 import lombok.RequiredArgsConstructor;
 
+import static com.smeem.common.code.success.TopicSuccessCode.SUCCESS_GET_RANDOM_TOPIC;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,8 +21,8 @@ public class TopicController {
     private final TopicService topicService;
 
     @GetMapping("/random")
-    public ResponseEntity<ApiResponse> getRandom() {
+    public ResponseEntity<BaseResponse<?>> getRandom() {
         TopicResponseDTO response = topicService.getRandom();
-        return ResponseEntity.ok(ApiResponse.success(ResponseMessage.SUCCESS_GET_RANDOM_TOPIC.getMessage(), response));
+        return ApiResponseUtil.success(SUCCESS_GET_RANDOM_TOPIC, response);
     }
 }
