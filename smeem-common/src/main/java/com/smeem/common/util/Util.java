@@ -19,11 +19,11 @@ public class Util {
         return Long.valueOf(principal.getName());
     }
 
-    public static URI getURI(Long diaryId) {
+    public static URI getURI(String path, long id) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/{diaryId}")
-                .buildAndExpand(diaryId)
+                .path(path)
+                .buildAndExpand(id)
                 .toUri();
     }
 
