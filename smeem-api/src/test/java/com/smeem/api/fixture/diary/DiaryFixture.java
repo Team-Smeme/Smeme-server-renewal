@@ -1,7 +1,7 @@
-package com.smeem.fixture.diary;
+package com.smeem.api.fixture.diary;
 
-import com.smeem.fixture.member.MemberFixture;
-import com.smeem.fixture.topic.TopicFixture;
+import com.smeem.api.fixture.member.MemberFixture;
+import com.smeem.api.fixture.topic.TopicFixture;
 import com.smeme.server.model.Diary;
 import com.smeme.server.model.LangType;
 

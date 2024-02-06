@@ -1,8 +1,8 @@
-package com.smeem.controller;
+package com.smeem.api.controller;
 
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.smeem.fixture.auth.AuthFixture;
+import com.smeem.api.fixture.auth.AuthFixture;
 import lombok.val;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

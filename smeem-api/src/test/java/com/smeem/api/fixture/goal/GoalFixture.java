@@ -1,4 +1,4 @@
-package com.smeem.fixture.goal;
+package com.smeem.api.fixture.goal;
 
 import com.smeme.server.dto.goal.GoalResponseDTO;
 import com.smeme.server.model.goal.Goal;

@@ -1,4 +1,4 @@
-package com.smeem.fixture.auth;
+package com.smeem.api.fixture.auth;
 
 import com.smeme.server.dto.auth.SignInRequestDTO;
 import com.smeme.server.dto.auth.SignInResponseDTO;

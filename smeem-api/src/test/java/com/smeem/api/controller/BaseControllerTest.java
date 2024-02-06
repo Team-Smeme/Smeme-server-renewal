@@ -1,4 +1,4 @@
-package com.smeem.controller;
+package com.smeem.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smeme.server.config.jwt.CustomJwtAuthenticationEntryPoint;

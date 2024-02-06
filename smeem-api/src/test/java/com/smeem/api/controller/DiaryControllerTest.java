@@ -1,4 +1,4 @@
-package com.smeem.controller;
+package com.smeem.api.controller;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.smeme.server.dto.badge.AcquiredBadgeResponseDTO;

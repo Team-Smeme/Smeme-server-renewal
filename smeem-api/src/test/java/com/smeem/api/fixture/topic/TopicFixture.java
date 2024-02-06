@@ -1,4 +1,4 @@
-package com.smeem.fixture.topic;
+package com.smeem.api.fixture.topic;
 
 import com.smeme.server.dto.topic.TopicResponseDTO;
 import com.smeme.server.model.topic.Category;

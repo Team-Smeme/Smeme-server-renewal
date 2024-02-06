@@ -1,8 +1,8 @@
-package com.smeem.fixture.trainingtime;
+package com.smeem.api.fixture.trainingtime;
 
+import com.smeem.api.fixture.member.MemberFixture;
 import com.smeme.server.dto.training.TrainingTimeRequestDTO;
 import com.smeme.server.dto.training.TrainingTimeResponseDTO;
-import com.smeem.fixture.member.MemberFixture;
 import com.smeme.server.model.training.DayType;
 import com.smeme.server.model.training.TrainingTime;
 

@@ -1,8 +1,8 @@
-package com.smeem.fixture.member;
+package com.smeem.api.fixture.member;
 
-import com.smeem.fixture.badge.BadgeFixture;
-import com.smeem.fixture.goal.GoalFixture;
-import com.smeem.fixture.trainingtime.TrainingTimeFixture;
+import com.smeem.api.fixture.goal.GoalFixture;
+import com.smeem.api.fixture.badge.BadgeFixture;
+import com.smeem.api.fixture.trainingtime.TrainingTimeFixture;
 import com.smeme.server.model.LangType;
 import com.smeme.server.model.Member;
 import com.smeme.server.model.SocialType;

@@ -1,9 +1,4 @@
-package com.smeem.fixture.badge;
-
-import com.smeme.server.dto.badge.BadgeListResponseDTO;
-import com.smeme.server.dto.badge.BadgeListResponseDTO.BadgeTypeResponseDTO;
-import com.smeme.server.dto.badge.BadgeResponseDTO;
-import com.smeme.server.model.badge.BadgeType;
+package com.smeem.api.fixture.badge;
 
 import java.util.List;
 import java.util.stream.Stream;

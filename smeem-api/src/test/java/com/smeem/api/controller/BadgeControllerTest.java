@@ -1,7 +1,7 @@
-package com.smeem.controller;
+package com.smeem.api.controller;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.smeem.fixture.badge.BadgeFixture;
+import com.smeem.api.fixture.badge.BadgeFixture;
 import lombok.val;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
