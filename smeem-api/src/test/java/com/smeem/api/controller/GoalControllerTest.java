@@ -1,23 +1,26 @@
 package com.smeem.api.controller;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.smeme.server.dto.goal.GoalResponseDTO;
-import com.smeme.server.dto.goal.GoalsResponseDTO;
-import com.smeme.server.dto.goal.GoalsResponseDTO.GoalResponseVO;
-import com.smeme.server.model.goal.GoalType;
-import com.smeme.server.util.ApiResponse;
+import com.smeem.api.common.ApiResponseUtil;
+import com.smeem.api.goal.controller.GoalController;
+import com.smeem.api.goal.controller.dto.response.GoalResponseDTO;
+import com.smeem.api.goal.controller.dto.response.GoalsResponseDTO;
+import com.smeem.api.goal.controller.dto.response.GoalsResponseDTO.GoalResponseVO;
+import com.smeem.domain.goal.model.GoalType;
+import lombok.val;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.ResponseEntity;
 
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.smeme.server.util.ApiResponse.success;
+import static com.smeem.common.code.success.GoalSuccessCode.SUCCESS_GET_GOAL;
+import static com.smeem.common.code.success.GoalSuccessCode.SUCCESS_GET_GOALS;
+import static com.smeem.domain.goal.model.GoalType.APPLY;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -44,8 +47,8 @@ class GoalControllerTest extends BaseControllerTest {
     @DisplayName("전체 학습 목표 조회 테스트")
     void success_get_goals_test() throws Exception {
         // given
-        GoalsResponseDTO response = new GoalsResponseDTO(goals());
-        ResponseEntity<ApiResponse> result = ResponseEntity.ok(success("전체 학습 목표 조회 성공", response));
+        val response = new GoalsResponseDTO(goals());
+        val result = ApiResponseUtil.success(SUCCESS_GET_GOALS, response);
 
         // when
         when(goalController.getAll()).thenReturn(result);
@@ -79,12 +82,12 @@ class GoalControllerTest extends BaseControllerTest {
     @DisplayName("학습 목표 조회 테스트")
     void success_get_goal_test() throws Exception {
         // given
-        GoalType type = GoalType.APPLY;
-        GoalResponseDTO response = new GoalResponseDTO(
+        GoalType type = APPLY;
+        val response = new GoalResponseDTO(
                 "현지 언어 체득",
                 "주 5회 이상 오늘 하루를 돌아보는 일기 작성하기",
                 "사전 없이 일기 완성\nsmeem 연속 일기 배지 획득");
-        ResponseEntity<ApiResponse> result = ResponseEntity.ok(success("학습 목표 조회 성공", response));
+        val result = ApiResponseUtil.success(SUCCESS_GET_GOAL, response);
 
         // when
         when(goalController.getByType(type)).thenReturn(result);
@@ -120,7 +123,7 @@ class GoalControllerTest extends BaseControllerTest {
     private List<GoalResponseVO> goals() {
         List<GoalResponseVO> goals = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            goals.add(new GoalResponseVO(GoalType.APPLY.name(), "현지 언어 체득" + (i + 1)));
+            goals.add(new GoalResponseVO(APPLY.name(), "현지 언어 체득" + (i + 1)));
         }
         return goals;
     }
