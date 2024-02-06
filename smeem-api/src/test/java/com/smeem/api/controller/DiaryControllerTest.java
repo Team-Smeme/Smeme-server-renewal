@@ -1,14 +1,16 @@
 package com.smeem.api.controller;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.smeme.server.dto.badge.AcquiredBadgeResponseDTO;
-import com.smeme.server.dto.diary.CreatedDiaryResponseDTO;
-import com.smeme.server.dto.diary.DiariesResponseDTO;
-import com.smeme.server.dto.diary.DiariesResponseDTO.DiaryDTO;
-import com.smeme.server.dto.diary.DiaryRequestDTO;
-import com.smeme.server.dto.diary.DiaryResponseDTO;
-import com.smeme.server.model.badge.BadgeType;
-import com.smeme.server.util.ApiResponse;
+import com.smeem.api.badge.controller.dto.response.AcquiredBadgeResponseDTO;
+import com.smeem.api.common.ApiResponseUtil;
+import com.smeem.api.common.BaseResponse;
+import com.smeem.api.diary.controller.DiaryController;
+import com.smeem.api.diary.controller.dto.request.DiaryRequestDTO;
+import com.smeem.api.diary.controller.dto.response.CreatedDiaryResponseDTO;
+import com.smeem.api.diary.controller.dto.response.DiariesResponseDTO;
+import com.smeem.api.diary.controller.dto.response.DiariesResponseDTO.DiaryDTO;
+import com.smeem.api.diary.controller.dto.response.DiaryResponseDTO;
+import lombok.val;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -24,7 +26,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.smeme.server.util.ApiResponse.success;
+import static com.smeem.common.code.success.DiarySuccessCode.*;
+import static com.smeem.domain.badge.model.BadgeType.EVENT;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -55,9 +58,8 @@ class DiaryControllerTest extends BaseControllerTest {
         // given
         DiaryRequestDTO request = new DiaryRequestDTO("Hello SMEEM!", 1L);
         CreatedDiaryResponseDTO response = new CreatedDiaryResponseDTO(1L, acquiredBadges());
-        ResponseEntity<ApiResponse> result = ResponseEntity
-                .created(URI.create("localhost:8080/api/v2/diaries/1"))
-                .body(success("일기 작성 성공", response));
+        val uri = URI.create("localhost:8080/api/v2/diaries/1");
+        ResponseEntity<BaseResponse<?>> result = ApiResponseUtil.success(SUCCESS_CREATE_DIARY, uri, response);
 
         // when
         when(diaryController.save(principal, request)).thenReturn(result);
@@ -108,7 +110,7 @@ class DiaryControllerTest extends BaseControllerTest {
                 "I want to go Bla Bla ...",
                 "2023-08-19 14:00",
                 "스미무");
-        ResponseEntity<ApiResponse> result = ResponseEntity.ok(success("일기 조회 성공", response));
+        ResponseEntity<BaseResponse<?>> result = ApiResponseUtil.success(SUCCESS_GET_DIARY, response);
 
         // when
         when(diaryController.getDetail(anyLong())).thenReturn(result);
@@ -150,7 +152,7 @@ class DiaryControllerTest extends BaseControllerTest {
         // given
         Long diaryId = 1L;
         DiaryRequestDTO request = new DiaryRequestDTO("Hello SMEEM!!", 1L);
-        ResponseEntity<ApiResponse> result = ResponseEntity.ok(success("일기 수정 성공"));
+        ResponseEntity<BaseResponse<?>> result = ApiResponseUtil.success(SUCCESS_UPDATE_DAIRY);
 
         // when
         when(diaryController.update(diaryId, request)).thenReturn(result);
@@ -190,7 +192,7 @@ class DiaryControllerTest extends BaseControllerTest {
     void success_delete_diary() throws Exception {
         // given
         Long diaryId = 1L;
-        ResponseEntity<ApiResponse> result = ResponseEntity.ok(success("일기 삭제 성공"));
+        ResponseEntity<BaseResponse<?>> result = ApiResponseUtil.success(SUCCESS_DELETE_DIARY);
 
         // when
         when(diaryController.delete(diaryId)).thenReturn(result);
@@ -225,7 +227,7 @@ class DiaryControllerTest extends BaseControllerTest {
     void success_get_diaries() throws Exception {
         // given
         DiariesResponseDTO response = new DiariesResponseDTO(diaries(), true);
-        ResponseEntity<ApiResponse> result = ResponseEntity.ok(success("일기 리스트 조회 성공", response));
+        ResponseEntity<BaseResponse<?>> result = ApiResponseUtil.success(SUCCESS_GET_DIARIES, response);
 
         MultiValueMap<String, String> queries = new LinkedMultiValueMap<>();
         String startDate = "2023-08-18 00:00";
@@ -275,7 +277,7 @@ class DiaryControllerTest extends BaseControllerTest {
     }
 
     private AcquiredBadgeResponseDTO acquiredBadge() {
-        return new AcquiredBadgeResponseDTO("뱃지 이름", "com.smeem.badge-image-url", BadgeType.EVENT);
+        return new AcquiredBadgeResponseDTO("뱃지 이름", "com.smeem.badge-image-url", EVENT);
     }
 
     private List<DiaryDTO> diaries() {

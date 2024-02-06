@@ -3,14 +3,15 @@ package com.smeem.api.diary.controller;
 
 import java.security.Principal;
 
-import com.smeem.api.common.ApiResponse;
+import com.smeem.api.common.ApiResponseUtil;
+import com.smeem.api.common.BaseResponse;
 import com.smeem.api.diary.controller.dto.request.DiaryRequestDTO;
 import com.smeem.api.diary.controller.dto.response.CreatedDiaryResponseDTO;
 import com.smeem.api.diary.controller.dto.response.DiariesResponseDTO;
 import com.smeem.api.diary.controller.dto.response.DiaryResponseDTO;
 import com.smeem.api.diary.service.DiaryService;
-import com.smeem.common.code.ResponseMessage;
 import com.smeem.common.util.Util;
+import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
+import static com.smeem.common.code.success.DiarySuccessCode.*;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/diaries")
@@ -32,38 +35,37 @@ public class DiaryController {
     private final DiaryService diaryService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> save(Principal principal, @RequestBody DiaryRequestDTO request) {
+    public ResponseEntity<BaseResponse<?>> save(Principal principal, @RequestBody DiaryRequestDTO request) {
         CreatedDiaryResponseDTO response = diaryService.save(Util.getMemberId(principal), request);
-        return ResponseEntity
-                .created(Util.getURI(response.diaryId()))
-                .body(ApiResponse.success(ResponseMessage.SUCCESS_CREATE_DIARY.getMessage(), response));
+        val uri = Util.getURI("/{diaryId}", response.diaryId());
+        return ApiResponseUtil.success(SUCCESS_CREATE_DIARY, uri, response);
     }
 
     @GetMapping("/{diaryId}")
-    public ResponseEntity<ApiResponse> getDetail(@PathVariable Long diaryId) {
+    public ResponseEntity<BaseResponse<?>> getDetail(@PathVariable Long diaryId) {
         DiaryResponseDTO response = diaryService.getDetail(diaryId);
-        return ResponseEntity.ok(ApiResponse.success(ResponseMessage.SUCCESS_GET_DIARY.getMessage(), response));
+        return ApiResponseUtil.success(SUCCESS_GET_DIARY, response);
     }
 
     @PatchMapping("/{diaryId}")
-    public ResponseEntity<ApiResponse> update(@PathVariable Long diaryId, @RequestBody DiaryRequestDTO request) {
+    public ResponseEntity<BaseResponse<?>> update(@PathVariable Long diaryId, @RequestBody DiaryRequestDTO request) {
         diaryService.update(diaryId, request);
-        return ResponseEntity.ok(ApiResponse.success(ResponseMessage.SUCCESS_UPDATE_DAIRY.getMessage()));
+        return ApiResponseUtil.success(SUCCESS_UPDATE_DAIRY);
     }
 
     @DeleteMapping("/{diaryId}")
-    public ResponseEntity<ApiResponse> delete(@PathVariable Long diaryId) {
+    public ResponseEntity<BaseResponse<?>> delete(@PathVariable Long diaryId) {
         diaryService.delete(diaryId);
-        return ResponseEntity.ok(ApiResponse.success(ResponseMessage.SUCCESS_DELETE_DIARY.getMessage()));
+        return ApiResponseUtil.success(SUCCESS_DELETE_DIARY);
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse> getDiaries(
+    public ResponseEntity<BaseResponse<?>> getDiaries(
             Principal principal,
             @RequestParam(name = "start") String startDate,
             @RequestParam(name = "end") String endDate
     ) {
         DiariesResponseDTO response = diaryService.getDiaries(Util.getMemberId(principal), startDate, endDate);
-        return ResponseEntity.ok(ApiResponse.success(ResponseMessage.SUCCESS_GET_DIARIES.getMessage(), response));
+        return ApiResponseUtil.success(SUCCESS_GET_DIARIES, response);
     }
 }
