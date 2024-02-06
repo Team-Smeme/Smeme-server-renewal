@@ -1,13 +1,20 @@
 package com.smeem.api.fixture.badge;
 
+import com.smeem.api.badge.controller.dto.response.BadgeListResponseDTO;
+import com.smeem.api.badge.controller.dto.response.BadgeListResponseDTO.BadgeTypeResponseDTO;
+import com.smeem.api.badge.controller.dto.response.BadgeResponseDTO;
+import com.smeem.domain.badge.model.BadgeType;
+
 import java.util.List;
 import java.util.stream.Stream;
+
+import static com.smeem.domain.badge.model.BadgeType.COMBO;
 
 public class BadgeFixture {
 
     private static final String BADGE_NAME = "연속 3일 일기 뱃지";
     private static final Long BADGE_ID = 1L;
-    private static final BadgeType BADGE_TYPE = BadgeType.COMBO;
+    private static final BadgeType BADGE_TYPE = COMBO;
     private static final String BADGE_IMAGE_URL = "https://m.s3.ap-northeast-2.amazonaws.com/badge/streak.png";
 
     public static BadgeResponseDTO createBadgeResponseDTO() {

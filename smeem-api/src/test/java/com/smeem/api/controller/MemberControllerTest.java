@@ -2,6 +2,7 @@ package com.smeem.api.controller;
 
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.member.controller.MemberController;
 import com.smeem.api.fixture.member.MemberFixture;
 import lombok.val;
@@ -9,12 +10,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.ResponseEntity;
 
 import java.security.Principal;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 
+import static com.smeem.common.code.success.MemberSuccessCode.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
 import static org.mockito.Mockito.when;
@@ -66,7 +67,7 @@ public class MemberControllerTest extends BaseControllerTest {
                 )
                 .build();
 
-            val response = ResponseEntity.ok(success("유저 프로필 업데이트 성공", MemberFixture.createMemberGetResponseDTO()));
+            val response = ApiResponseUtil.success(SUCCESS_UPDATE_USERNAME, resources);
 
             when(memberController.updateProfile(principal, MemberFixture.createMemberUpdateRequestDTO()))
                     .thenReturn(response);
@@ -112,7 +113,7 @@ public class MemberControllerTest extends BaseControllerTest {
                         fieldWithPath("data.com.smeem.badge.imageUrl").type(STRING).description("뱃지 이미지")
                 )
                 .build();
-        val result = ResponseEntity.ok(success("사용자 정보 조회 성공", MemberFixture.createMemberGetResponseDTO()));
+        val result = ApiResponseUtil.success(SUCCESS_GET_USER, resources);
 
         when(memberController.getProfile(principal))
                 .thenReturn(result);
@@ -141,7 +142,7 @@ public class MemberControllerTest extends BaseControllerTest {
                         fieldWithPath("data").type(NULL).description("응답 데이터")
                 )
                 .build();
-        val result = ResponseEntity.ok(success(SUCCESS_UPDATE_USER_PLAN.getMessage()));
+        val result = ApiResponseUtil.success(SUCCESS_UPDATE_USER_PLAN);
 
         when(memberController.updateUserPlan(principal, MemberFixture.createMemberPlanUpdateRequestDTO()))
                 .thenReturn(result);
@@ -174,7 +175,7 @@ public class MemberControllerTest extends BaseControllerTest {
                 .build();
         // when
         when(memberController.checkDuplicatedName("test"))
-                .thenReturn(ResponseEntity.ok(success("닉네임 중복 체크 성공")));
+                .thenReturn(ApiResponseUtil.success(SUCCESS_CHECK_DUPLICATED_NAME, resources));
 
         // then
         mockMvc.perform(get(DEFAULT_URL + "/nickname/check")
@@ -206,7 +207,7 @@ public class MemberControllerTest extends BaseControllerTest {
                         .build();
         // when
         when(memberController.updateUserPush(principal, MemberFixture.createMemberPushUpdateRequestDTO()))
-                .thenReturn(ResponseEntity.ok(success(SUCCESS_UPDATE_USER_PUSH.getMessage())));
+                .thenReturn(ApiResponseUtil.success(SUCCESS_UPDATE_USER_PUSH));
 
 
         mockMvc.perform(patch(DEFAULT_URL + "/push")

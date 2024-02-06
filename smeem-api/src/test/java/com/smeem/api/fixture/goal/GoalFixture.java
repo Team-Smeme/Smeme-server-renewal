@@ -1,12 +1,14 @@
 package com.smeem.api.fixture.goal;
 
-import com.smeme.server.dto.goal.GoalResponseDTO;
-import com.smeme.server.model.goal.Goal;
-import com.smeme.server.model.goal.GoalType;
+import com.smeem.api.goal.controller.dto.response.GoalResponseDTO;
+import com.smeem.domain.goal.model.Goal;
+import com.smeem.domain.goal.model.GoalType;
+
+import static com.smeem.domain.goal.model.GoalType.DEVELOP;
 
 public class GoalFixture {
 
-    private static final GoalType GOAL_TYPE = GoalType.DEVELOP;
+    private static final GoalType GOAL_TYPE = DEVELOP;
 
     private static final String GOAL_WAY = "주 5회 이상 오늘 하루를 돌아보는 일기 작성하기";
     private static final String GOAL_DETAIL = "사전 없이 일기 완성\nsmeem 연속 일기 배지 획득";
