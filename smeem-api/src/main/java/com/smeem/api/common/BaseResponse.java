@@ -1,14 +1,12 @@
 package com.smeem.api.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 import static lombok.AccessLevel.PRIVATE;
 
 @Builder(access = PRIVATE)
-@AllArgsConstructor(access = PRIVATE)
 public record BaseResponse<T>(
         boolean success,
         String message,

@@ -49,4 +49,9 @@ public class ErrorHandler {
     public ResponseEntity<BaseResponse<?>> appleException(AppleException exception) {
         return ApiResponseUtil.failure(exception.getFailureCode());
     }
+
+    @ExceptionHandler(FcmException.class)
+    public ResponseEntity<BaseResponse<?>> fcmException(FcmException exception) {
+        return ApiResponseUtil.failure(exception.getFailureCode());
+    }
 }

@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,17 +99,6 @@ public class DiaryService {
                 .anyMatch(diary -> diary.isCreatedAt(now().minusDays(parseInt(valueConfig.getDURATION_REMIND()))));
 
         return DiariesResponseDTO.of(diaries, hasRemind);
-    }
-
-    @Transactional
-    public void deleteExpiredDiary() {
-        LocalDateTime expiryDate = getExpiryDate();
-        deletedDiaryRepository.deleteByUpdatedAtBefore(expiryDate);
-    }
-
-    private LocalDateTime getExpiryDate() {
-        int expiredDay = parseInt(valueConfig.getDURATION_EXPIRED()) - 1;
-        return LocalDate.now().minusDays(expiredDay).atStartOfDay();
     }
 
     @Transactional
