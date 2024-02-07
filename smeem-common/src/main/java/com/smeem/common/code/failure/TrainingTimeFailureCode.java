@@ -12,6 +12,11 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public enum TrainingTimeFailureCode implements FailureCode {
 
     /**
+     * 400 BAD REQUEST
+     */
+    INVALID_DAY_OF_WEEK(BAD_REQUEST, "유효하지 않은 요일 값입니다."),
+
+    /**
      * 404 NOT FOUND
      */
     EMPTY_TRAINING_TIME(NOT_FOUND, "존재하지 않는 학습계획 입니다."),

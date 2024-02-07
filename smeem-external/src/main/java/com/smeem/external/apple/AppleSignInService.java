@@ -4,6 +4,7 @@ import com.google.gson.*;
 import com.smeem.common.config.RestTemplateConfig;
 import com.smeem.common.config.ValueConfig;
 
+import com.smeem.common.exception.AppleException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,8 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
 import java.util.Objects;
+
+import static com.smeem.common.code.failure.AuthFailureCode.INVALID_APPLE_TOKEN;
 
 @RequiredArgsConstructor
 @Component
@@ -47,8 +50,8 @@ public class AppleSignInService {
 
             JsonObject keys = (JsonObject) JsonParser.parseString(result.toString());
             return (JsonArray) keys.get("keys");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException exception) {
+            throw new AppleException(INVALID_APPLE_TOKEN);
         }
     }
 

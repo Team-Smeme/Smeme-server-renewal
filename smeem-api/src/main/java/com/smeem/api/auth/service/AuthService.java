@@ -11,7 +11,8 @@ import com.smeem.api.auth.jwt.UserAuthentication;
 import com.smeem.api.diary.service.DiaryService;
 import com.smeem.api.member.service.MemberBadgeService;
 import com.smeem.api.member.service.TrainingTimeService;
-import com.smeem.common.code.ErrorMessage;
+import com.smeem.common.exception.MemberException;
+import com.smeem.common.exception.TokenException;
 import com.smeem.domain.member.model.LangType;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.model.SocialType;
@@ -26,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+import static com.smeem.common.code.failure.AuthFailureCode.INVALID_TOKEN;
+import static com.smeem.common.code.failure.MemberFailureCode.INVALID_MEMBER;
 import static java.util.Objects.nonNull;
 
 @Service
@@ -114,12 +117,12 @@ public class AuthService {
 
     private Member get(Long memberId) {
         return memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException(ErrorMessage.INVALID_MEMBER.getMessage()));
+                .orElseThrow(() -> new MemberException(INVALID_MEMBER));
     }
 
     private Member getMemberBySocialAndSocialId(SocialType socialType, String socialId) {
         return memberRepository.findBySocialAndSocialId(socialType, socialId)
-                .orElseThrow(() -> new RuntimeException(ErrorMessage.INVALID_MEMBER.getMessage()));
+                .orElseThrow(() -> new MemberException(INVALID_MEMBER));
     }
 
     private boolean isMemberBySocialAndSocialId(SocialType socialType, String socialId) {
@@ -133,7 +136,7 @@ public class AuthService {
             case "KAKAO" -> kakaoSignInService.getKakaoData(socialAccessToken);
 
             // TODO : Change to Custom Exception
-            default -> throw new RuntimeException(ErrorMessage.INVALID_TOKEN.getMessage());
+            default -> throw new TokenException(INVALID_TOKEN);
         };
     }
 }

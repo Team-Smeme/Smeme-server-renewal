@@ -1,15 +1,13 @@
 package com.smeem.api.badge.service;
 
-
 import com.smeem.api.badge.controller.dto.response.BadgeListResponseDTO;
-import com.smeem.common.code.ErrorMessage;
+import com.smeem.common.exception.BadgeException;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.badge.model.BadgeType;
 import com.smeem.domain.badge.repository.BadgeRepository;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.model.MemberBadge;
 import com.smeem.domain.member.repository.MemberBadgeRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -19,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.smeem.common.code.failure.BadgeFailureCode.INVALID_BADGE;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +52,6 @@ public class BadgeService {
 
     public Badge get(Long id) {
         return badgeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.INVALID_BADGE.getMessage()));
+                .orElseThrow(() -> new BadgeException(INVALID_BADGE));
     }
 }

@@ -5,16 +5,16 @@ import java.util.List;
 
 import com.smeem.api.goal.controller.dto.response.GoalResponseDTO;
 import com.smeem.api.goal.controller.dto.response.GoalsResponseDTO;
-import com.smeem.common.code.ErrorMessage;
+import com.smeem.common.exception.GoalException;
 import com.smeem.domain.goal.model.Goal;
 import com.smeem.domain.goal.model.GoalType;
 import com.smeem.domain.goal.repository.GoalRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+
+import static com.smeem.common.code.failure.GoalFailureCode.EMPTY_GOAL;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class GoalService {
 
     public GoalResponseDTO getByType(GoalType goalType) {
         Goal goal = goalRepository.findOneByType(goalType)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.EMPTY_GOAL.getMessage()));
+                .orElseThrow(() -> new GoalException(EMPTY_GOAL));
         return new GoalResponseDTO(goal.getType().getDescription(), goal.getWay(), goal.getDetail());
     }
 }

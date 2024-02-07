@@ -8,8 +8,8 @@ import com.smeem.api.diary.controller.dto.response.DiariesResponseDTO;
 import com.smeem.api.diary.controller.dto.response.DiaryResponseDTO;
 import com.smeem.api.member.service.MemberService;
 import com.smeem.api.topic.service.TopicService;
-import com.smeem.common.code.ErrorMessage;
 import com.smeem.common.config.ValueConfig;
+import com.smeem.common.exception.DiaryException;
 import com.smeem.common.util.Util;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.diary.model.DeletedDiary;
@@ -27,6 +27,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.smeem.common.code.failure.DiaryFailureCode.EXIST_TODAY_DIARY;
+import static com.smeem.common.code.failure.DiaryFailureCode.INVALID_DIARY;
 import static java.lang.Integer.parseInt;
 import static java.time.LocalDateTime.now;
 import static java.util.Objects.nonNull;
@@ -50,7 +52,7 @@ public class DiaryService {
         Member member = memberService.get(memberId);
 
         if (member.wroteDiaryToday()) {
-            throw new IllegalStateException(ErrorMessage.EXIST_TODAY_DIARY.getMessage());
+            throw new DiaryException(EXIST_TODAY_DIARY);
         }
 
         Topic topic = topicService.get(request.topicId());
@@ -123,7 +125,7 @@ public class DiaryService {
 
     public Diary get(Long id) {
         return diaryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(ErrorMessage.INVALID_DIARY.getMessage()));
+                .orElseThrow(() -> new DiaryException(INVALID_DIARY));
     }
 
     private List<Badge> obtainBadges(Member member, LocalDateTime createdAt) {

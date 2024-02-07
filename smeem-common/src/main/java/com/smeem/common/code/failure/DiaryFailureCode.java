@@ -20,7 +20,6 @@ public enum DiaryFailureCode implements FailureCode {
      * 404 NOT FOUND
      */
     INVALID_DIARY(NOT_FOUND, "유효하지 않은 일기입니다."),
-    DELETED_DIARY(NOT_FOUND, "삭제된 일기입니다."),
     ;
 
     private final HttpStatus status;
