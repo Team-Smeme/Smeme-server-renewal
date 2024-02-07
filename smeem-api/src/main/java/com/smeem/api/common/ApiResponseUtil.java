@@ -1,5 +1,6 @@
 package com.smeem.api.common;
 
+import com.smeem.common.code.failure.FailureCode;
 import com.smeem.common.code.success.SuccessCode;
 import org.springframework.http.ResponseEntity;
 
@@ -26,9 +27,9 @@ public interface ApiResponseUtil {
                 .body(BaseResponse.of(code.getMessage(), data));
     }
 
-//    static <T> ResponseEntity<BaseResponse<?>> failure(FailureCode code) {
-//        return ResponseEntity
-//                .status(code.getStatus())
-//                .body(BaseResponse.of(false, code.getMessage()));
-//    }
+    static ResponseEntity<BaseResponse<?>> failure(FailureCode code) {
+        return ResponseEntity
+                .status(code.getStatus())
+                .body(BaseResponse.of(true, code.getMessage()));
+    }
 }
