@@ -1,6 +1,6 @@
 package com.smeem.common.util;
 
-import static com.smeem.common.code.ErrorMessage.EMPTY_ACCESS_TOKEN;
+import static com.smeem.common.code.failure.AuthFailureCode.EMPTY_ACCESS_TOKEN;
 import static java.util.Objects.*;
 
 import java.net.URI;
@@ -8,22 +8,23 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.smeem.common.exception.TokenException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public class Util {
 
     public static Long getMemberId(Principal principal) {
         if (isNull(principal)) {
-            throw new SecurityException(EMPTY_ACCESS_TOKEN.getMessage());
+            throw new TokenException(EMPTY_ACCESS_TOKEN);
         }
         return Long.valueOf(principal.getName());
     }
 
-    public static URI getURI(Long diaryId) {
+    public static URI getURI(String path, long id) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/{diaryId}")
-                .buildAndExpand(diaryId)
+                .path(path)
+                .buildAndExpand(id)
                 .toUri();
     }
 

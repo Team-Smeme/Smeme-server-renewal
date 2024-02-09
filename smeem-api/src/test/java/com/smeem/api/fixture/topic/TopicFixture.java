@@ -1,8 +1,9 @@
 package com.smeem.api.fixture.topic;
 
-import com.smeme.server.dto.topic.TopicResponseDTO;
-import com.smeme.server.model.topic.Category;
-import com.smeme.server.model.topic.Topic;
+
+import com.smeem.api.topic.controller.dto.response.TopicResponseDTO;
+import com.smeem.domain.topic.model.Category;
+import com.smeem.domain.topic.model.Topic;
 
 public class TopicFixture {
 

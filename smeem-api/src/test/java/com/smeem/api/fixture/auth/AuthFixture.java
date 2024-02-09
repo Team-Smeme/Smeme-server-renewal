@@ -1,10 +1,10 @@
 package com.smeem.api.fixture.auth;
 
-import com.smeme.server.dto.auth.SignInRequestDTO;
-import com.smeme.server.dto.auth.SignInResponseDTO;
-import com.smeem.auth.controller.dto.response.token.TokenResponseDTO;
-import com.smeem.auth.controller.dto.response.token.TokenVO;
-import com.smeme.server.model.SocialType;
+import com.smeem.api.auth.controller.dto.request.SignInRequestDTO;
+import com.smeem.api.auth.controller.dto.response.SignInResponseDTO;
+import com.smeem.api.auth.controller.dto.response.token.TokenResponseDTO;
+import com.smeem.api.auth.controller.dto.response.token.TokenVO;
+import com.smeem.domain.member.model.SocialType;
 
 public class AuthFixture {
 

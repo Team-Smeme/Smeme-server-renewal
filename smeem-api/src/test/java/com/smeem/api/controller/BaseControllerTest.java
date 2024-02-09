@@ -1,8 +1,8 @@
 package com.smeem.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smeme.server.config.jwt.CustomJwtAuthenticationEntryPoint;
-import com.smeme.server.config.jwt.JwtTokenProvider;
+import com.smeem.api.auth.jwt.CustomJwtAuthenticationEntryPoint;
+import com.smeem.api.auth.jwt.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

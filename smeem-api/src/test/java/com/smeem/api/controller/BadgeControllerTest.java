@@ -1,19 +1,19 @@
 package com.smeem.api.controller;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.smeem.api.badge.controller.BadgeController;
+import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.fixture.badge.BadgeFixture;
 import lombok.val;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.ResponseEntity;
 
 import java.security.Principal;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static com.smeme.server.util.ApiResponse.success;
-import static com.smeme.server.util.message.ResponseMessage.SUCCESS_GET_BADGES;
+import static com.smeem.common.code.success.BadgeSuccessCode.SUCCESS_GET_BADGES;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -56,10 +56,9 @@ public class BadgeControllerTest extends BaseControllerTest {
                 )
                 .build();
         // when
-        val result = ResponseEntity.ok(success(SUCCESS_GET_BADGES.getMessage(), BadgeFixture.createBadgeListResponseDTO()));
+        val result = ApiResponseUtil.success(SUCCESS_GET_BADGES, BadgeFixture.createBadgeListResponseDTO());
 
-        when(badgeController.getBadgeList(principal))
-                .thenReturn(result);
+        when(badgeController.getBadgeList(principal)).thenReturn(result);
 
 
         mockMvc.perform(get(DEFAULT_URL)

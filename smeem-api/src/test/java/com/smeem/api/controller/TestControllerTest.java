@@ -1,13 +1,13 @@
 package com.smeem.api.controller;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.smeme.server.util.ApiResponse;
+import com.smeem.api.common.ApiResponseUtil;
+import com.smeem.api.test.TestController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static com.smeem.common.code.success.TestSuccessCode.SUCCESS_SERVER_CONNECT;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -34,7 +35,7 @@ class TestControllerTest extends BaseControllerTest {
 
         //given
         when(testController.test())
-                .thenReturn(ResponseEntity.ok(ApiResponse.success("server connect", null)));
+                .thenReturn(ApiResponseUtil.success(SUCCESS_SERVER_CONNECT));
 
         //then
         ResultActions resultActions = mockMvc.perform(

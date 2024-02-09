@@ -1,15 +1,15 @@
 package com.smeem.domain.training.repository;
 
+import static com.smeem.common.code.failure.TrainingTimeFailureCode.INVALID_DAY_OF_WEEK;
+import static com.smeem.domain.member.model.QMember.member;
 import static com.smeem.domain.training.model.DayType.*;
-
+import static com.smeem.domain.training.model.QTrainingTime.trainingTime;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.smeem.common.code.ErrorMessage;
-import com.smeem.domain.member.model.QMember;
+import com.smeem.common.exception.TrainingTimeException;
 import com.smeem.domain.training.model.DayType;
-import com.smeem.domain.training.model.QTrainingTime;
 import com.smeem.domain.training.model.TrainingTime;
 import org.springframework.stereotype.Repository;
 
@@ -26,14 +26,14 @@ public class TrainingTimeRepositoryImpl implements TrainingTimeCustomRepository 
     @Override
     public List<TrainingTime> getTrainingTimeForPushAlarm(LocalDateTime now) {
         return queryFactory
-                .select(QTrainingTime.trainingTime)
-                .from(QTrainingTime.trainingTime)
-                .join(QTrainingTime.trainingTime.member, QMember.member).fetchJoin()
+                .select(trainingTime)
+                .from(trainingTime)
+                .join(trainingTime.member, member).fetchJoin()
                 .where(
-                        QTrainingTime.trainingTime.day.eq(getDayType(now.getDayOfWeek().getValue())),
-                        QTrainingTime.trainingTime.hour.eq(now.getHour()),
-                        QTrainingTime.trainingTime.minute.eq(now.getMinute()),
-                        QMember.member.hasPushAlarm.eq(true)
+                        trainingTime.day.eq(getDayType(now.getDayOfWeek().getValue())),
+                        trainingTime.hour.eq(now.getHour()),
+                        trainingTime.minute.eq(now.getMinute()),
+                        member.hasPushAlarm.eq(true)
                 )
                 .fetch();
     }
@@ -47,7 +47,7 @@ public class TrainingTimeRepositoryImpl implements TrainingTimeCustomRepository 
             case 5 -> FRI;
             case 6 -> SAT;
             case 7 -> SUN;
-            default -> throw new RuntimeException(ErrorMessage.INVALID_DAY_OF_WEEK.getMessage());
+            default -> throw new TrainingTimeException(INVALID_DAY_OF_WEEK);
         };
     }
 }

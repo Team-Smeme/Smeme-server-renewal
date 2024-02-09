@@ -22,9 +22,10 @@ jobs:
       - name: Create application-secret.yml
         run: |
           pwd
-          touch src/main/resources/application-secret.yml
-          echo "${{ secrets.APPLICATION_SECRET_YML }}" >> src/main/resources/application-secret.yml
-          cat src/main/resources/application-secret.yml
+          cd ./smeem-api/src/main/resources
+          touch ./application-secret.yml
+          echo "${{ secrets.APPLICATION_SECRET_YML }}" >> ./application-secret.yml
+          cat ./application-secret.yml
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

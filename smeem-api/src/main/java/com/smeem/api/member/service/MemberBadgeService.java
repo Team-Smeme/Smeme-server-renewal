@@ -1,14 +1,15 @@
 package com.smeem.api.member.service;
 
 
-import com.smeem.common.code.ErrorMessage;
+import com.smeem.common.exception.BadgeException;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.model.MemberBadge;
 import com.smeem.domain.member.repository.MemberBadgeRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import static com.smeem.common.code.failure.BadgeFailureCode.EMPTY_BADGE;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +31,6 @@ public class MemberBadgeService {
 
     protected Badge getBadgeByMemberId(Long memberId) {
         return memberBadgeRepository.findFirstByMemberIdOrderByCreatedAtDesc(memberId).orElseThrow(
-                () -> new EntityNotFoundException(ErrorMessage.EMPTY_BADGE.getMessage())).getBadge();
+                () -> new BadgeException(EMPTY_BADGE)).getBadge();
     }
 }

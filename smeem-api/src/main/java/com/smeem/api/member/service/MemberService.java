@@ -12,15 +12,14 @@ import com.smeem.api.member.controller.dto.response.MemberGetResponseDTO;
 import com.smeem.api.member.controller.dto.response.MemberNameResponseDTO;
 import com.smeem.api.member.controller.dto.response.MemberUpdateResponseDTO;
 import com.smeem.api.member.controller.dto.response.TrainingTimeResponseDTO;
-import com.smeem.common.code.ErrorMessage;
 import com.smeem.common.config.ValueConfig;
+import com.smeem.common.exception.MemberException;
+import com.smeem.common.exception.TrainingTimeException;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.repository.MemberRepository;
 import com.smeem.domain.training.model.DayType;
 import com.smeem.domain.training.model.TrainingTime;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,9 +30,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.smeem.common.code.failure.MemberFailureCode.DUPLICATE_USERNAME;
+import static com.smeem.common.code.failure.MemberFailureCode.EMPTY_MEMBER;
+import static com.smeem.common.code.failure.TrainingTimeFailureCode.NOT_SET_TRAINING_TIME;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
-
 
 @Service
 @Transactional(readOnly = true)
@@ -115,7 +116,7 @@ public class MemberService {
 
     public Member get(Long id) {
         return memberRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(ErrorMessage.EMPTY_MEMBER.getMessage()));
+                .orElseThrow(() -> new MemberException(EMPTY_MEMBER));
     }
 
     private void updateTrainingTime(Member member, MemberPlanUpdateRequestDTO request) {
@@ -138,7 +139,7 @@ public class MemberService {
 
     private TrainingTime getOneTrainingTime(List<TrainingTime> trainingTimes) {
         return trainingTimes.stream().findFirst().orElseThrow(
-                () -> new EntityNotFoundException(ErrorMessage.NOT_SET_TRAINING_TIME.getMessage()));
+                () -> new TrainingTimeException(NOT_SET_TRAINING_TIME));
     }
 
     private String getDays(List<TrainingTime> trainingTimeList) {
@@ -150,7 +151,7 @@ public class MemberService {
 
     private void checkMemberDuplicate(String username) {
         if (memberRepository.existsByUsername(username)) {
-            throw new EntityExistsException(ErrorMessage.DUPLICATE_USERNAME.getMessage());
+            throw new MemberException(DUPLICATE_USERNAME);
         }
     }
 }
