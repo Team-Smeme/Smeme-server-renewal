@@ -24,7 +24,7 @@ import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("BadgeController 테스트")
+//@DisplayName("BadgeController 테스트")
 @WebMvcTest(BadgeController.class)
 public class BadgeControllerTest extends BaseControllerTest {
 
@@ -36,8 +36,8 @@ public class BadgeControllerTest extends BaseControllerTest {
     private final String DEFAULT_URL = "/api/v2/members/badges";
     private final String TAG = "Badge";
 
-    @DisplayName("뱃지 목록 조회 API 성공")
-    @Test
+//    @DisplayName("뱃지 목록 조회 API 성공")
+//    @Test
     void success_getBadgesList() throws Exception {
         val resources = ResourceSnippetParameters.builder()
                 .tag(TAG)

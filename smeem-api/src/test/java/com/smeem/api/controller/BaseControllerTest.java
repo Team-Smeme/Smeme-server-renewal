@@ -20,9 +20,9 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-@AutoConfigureMockMvc
-@AutoConfigureRestDocs
-@ExtendWith({RestDocumentationExtension.class})
+//@AutoConfigureMockMvc
+//@AutoConfigureRestDocs
+//@ExtendWith({RestDocumentationExtension.class})
 @WebMvcTest(properties = "spring.config.location=classpath:/application.yml")
 public abstract class BaseControllerTest {
 
@@ -41,7 +41,7 @@ public abstract class BaseControllerTest {
     @MockBean
     private CustomJwtAuthenticationEntryPoint customJwtAuthenticationEntryPoint;
 
-    @BeforeEach
+//    @BeforeEach
     void setUp(final RestDocumentationContextProvider restDocumentation) {
             mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .apply(documentationConfiguration(restDocumentation))

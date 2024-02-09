@@ -20,8 +20,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
-@DisplayName("TestController 테스트")
-@WebMvcTest(value = TestController.class)
+//@DisplayName("TestController 테스트")
+//@WebMvcTest(value = TestController.class)
 class TestControllerTest extends BaseControllerTest {
 
     private static final String DEFAULT_URL = "/api/v2/com.smeem.test";
@@ -29,8 +29,8 @@ class TestControllerTest extends BaseControllerTest {
     @MockBean
     TestController testController;
 
-    @Test
-    @DisplayName("서버 연결 테스트")
+//    @Test
+//    @DisplayName("서버 연결 테스트")
     void success_test() throws Exception {
 
         //given

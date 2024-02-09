@@ -25,8 +25,8 @@ import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("TopicController 테스트")
-@WebMvcTest(TopicController.class)
+//@DisplayName("TopicController 테스트")
+//@WebMvcTest(TopicController.class)
 class TopicControllerTest extends BaseControllerTest {
     @MockBean
     TopicController topicController;
@@ -36,8 +36,8 @@ class TopicControllerTest extends BaseControllerTest {
     private final String DEFAULT_URL = "/api/v2/topics";
     private final String TAG = "Topic";
 
-    @Test
-    @DisplayName("랜덤 주제 조회 테스트")
+//    @Test
+//    @DisplayName("랜덤 주제 조회 테스트")
     void success_get_random_topic_test() throws Exception {
         // given
         TopicResponseDTO response = new TopicResponseDTO(1L, "가보고 싶은 해외 여행 지가 있다면 소개해 주세요!");

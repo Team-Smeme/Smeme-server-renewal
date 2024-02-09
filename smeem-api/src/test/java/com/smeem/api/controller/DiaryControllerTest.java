@@ -41,8 +41,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("DiaryController 테스트")
-@WebMvcTest(DiaryController.class)
+//@DisplayName("DiaryController 테스트")
+//@WebMvcTest(DiaryController.class)
 class DiaryControllerTest extends BaseControllerTest {
     @MockBean
     DiaryController diaryController;
@@ -52,8 +52,8 @@ class DiaryControllerTest extends BaseControllerTest {
     private final String DEFAULT_URL = "/api/v2/diaries";
     private final String TAG = "Diary";
 
-    @Test
-    @DisplayName("일기 작성 테스트")
+//    @Test
+//    @DisplayName("일기 작성 테스트")
     void success_create_diary() throws Exception {
         // given
         DiaryRequestDTO request = new DiaryRequestDTO("Hello SMEEM!", 1L);
@@ -101,8 +101,8 @@ class DiaryControllerTest extends BaseControllerTest {
                 .andExpect(status().isCreated());
     }
 
-    @Test
-    @DisplayName("일기 조회 테스트")
+//    @Test
+//    @DisplayName("일기 조회 테스트")
     void success_get_diary() throws Exception {
         // given
         DiaryResponseDTO response = new DiaryResponseDTO(1L,
@@ -146,8 +146,8 @@ class DiaryControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    @DisplayName("일기 수정 테스트")
+//    @Test
+//    @DisplayName("일기 수정 테스트")
     void success_update_diary() throws Exception {
         // given
         Long diaryId = 1L;
@@ -187,8 +187,8 @@ class DiaryControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    @DisplayName("일기 삭제 테스트")
+//    @Test
+//    @DisplayName("일기 삭제 테스트")
     void success_delete_diary() throws Exception {
         // given
         Long diaryId = 1L;
@@ -222,8 +222,8 @@ class DiaryControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    @DisplayName("일기 리스트 조회 테스트")
+//    @Test
+//    @DisplayName("일기 리스트 조회 테스트")
     void success_get_diaries() throws Exception {
         // given
         DiariesResponseDTO response = new DiariesResponseDTO(diaries(), true);

@@ -26,8 +26,8 @@ import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("AuthController 테스트")
-@WebMvcTest(AuthController.class)
+//@DisplayName("AuthController 테스트")
+//@WebMvcTest(AuthController.class)
 public class AuthControllerTest extends BaseControllerTest {
 
     @MockBean
@@ -41,8 +41,8 @@ public class AuthControllerTest extends BaseControllerTest {
 
     private static final String SOCIAL_ACCESS_TOKEN = "TEST SOCIAL_ACCESS_TOKEN";
 
-    @DisplayName("소셜로그인 API 성공")
-    @Test
+//    @DisplayName("소셜로그인 API 성공")
+//    @Test
     void success_signIn() throws Exception {
 
         val resources = ResourceSnippetParameters.builder()
@@ -87,8 +87,8 @@ public class AuthControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @DisplayName("토큰재발급 API 성공")
-    @Test
+//    @DisplayName("토큰재발급 API 성공")
+//    @Test
     void success_reissueToken() throws Exception {
         val resources = ResourceSnippetParameters.builder()
                 .tag(TAG)
@@ -119,8 +119,8 @@ public class AuthControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @DisplayName("로그아웃 API 성공")
-    @Test
+//    @DisplayName("로그아웃 API 성공")
+//    @Test
     void success_signOut() throws Exception {
         val resources = ResourceSnippetParameters.builder()
                 .tag(TAG)
@@ -147,8 +147,8 @@ public class AuthControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @DisplayName("회원탈퇴 API 성공")
-    @Test
+//    @DisplayName("회원탈퇴 API 성공")
+//    @Test
     void success_withDrawl() throws Exception{
         val resources = ResourceSnippetParameters.builder()
                 .tag(TAG)

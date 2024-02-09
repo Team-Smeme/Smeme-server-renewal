@@ -22,35 +22,35 @@ dependencies {
     implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
     implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
-
     // Swagger & RestDocs
     testImplementation "com.epages:restdocs-api-spec-mockmvc:0.18.2"
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+//    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
 
 }
 
 swaggerSources {
     sample {
-        setInputFile(file("${project.buildDir}/api-spec/openapi3.yaml"))
+        setInputFile(file("build/api-spec/openapi3.yaml"))
     }
 }
 
 openapi3 {
-    server('http://localhost:8080')
-    title = 'restdocs-swagger API Documentation'
-    description = 'Spring REST Docs with SwaggerUI.'
-    version = '0.0.1'
-    format = 'yaml'
+    server = "http://localhost:8080"
+    title = "SMEEM API Documentation"
+    description = "Spring REST Docs with SwaggerUI."
+    version = "0.0.1"
+    outputFileNamePrefix = 'open-api-3.0.1'
+    format = 'json'
+    outputDirectory = 'build/resources/main/static/docs'
 }
-
-
 
 ext {
     set('snippetsDir', file("build/generated-snippets"))
 }
 
-tasks.withType(GenerateSwaggerUI) {
+tasks.withType(GenerateSwaggerUI).configureEach {
     dependsOn 'openapi3'
     copy {
         from "build/resources/main/static/docs"
@@ -59,16 +59,6 @@ tasks.withType(GenerateSwaggerUI) {
 }
 
 bootJar {
-    dependsOn(':openapi3')
-}
-// bootJar 실행 전, copySwaggerUI 를 실행하도록 설정
-openapi3 {
-    server = "http://localhost:8080"
-    title = "smeme api documentation"
-    description = "Spring REST Docs with SwaggerUI."
-    version = "0.0.1"
-    outputFileNamePrefix = 'open-api-3.0.1'
-    format = 'json'
-
-    outputDirectory = 'build/resources/main/static/docs'
+//    enabled = true
+    dependsOn('openapi3')
 }
