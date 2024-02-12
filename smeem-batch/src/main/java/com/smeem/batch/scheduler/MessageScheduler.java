@@ -1,6 +1,5 @@
 package com.smeem.batch.scheduler;
 
-
 import com.smeem.common.config.ValueConfig;
 import com.smeem.domain.training.model.TrainingTime;
 import com.smeem.domain.training.repository.TrainingTimeRepository;
@@ -27,7 +26,6 @@ public class MessageScheduler {
     @Transactional(readOnly = true)
     public void pushMessagesForTrainingTime() throws InterruptedException {
         Thread.sleep(1000);
-
         val trainingTimes = trainingTimeRepository.getTrainingTimeForPushAlarm(LocalDateTime.now());
         trainingTimes.forEach(this::pushMessageForTrainingTime);
     }

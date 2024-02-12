@@ -1,6 +1,5 @@
 package com.smeem.external.firebase;
 
-
 import java.io.IOException;
 import java.util.List;
 
@@ -9,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.smeem.common.config.ValueConfig;
 import com.smeem.common.exception.FcmException;
+import lombok.val;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
@@ -33,17 +33,17 @@ public class FcmService {
 
     public void pushMessage(String targetToken, String title, String body) {
         try {
-            String message = makeMessage(targetToken, title, body);
-            RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
+            val message = makeMessage(targetToken, title, body);
+            val requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
 
-            Request request = new Request.Builder()
+            val request = new Request.Builder()
                     .url(valueConfig.getFIREBASE_API_URI())
                     .post(requestBody)
                     .addHeader(AUTHORIZATION, "Bearer " + getAccessToken())
                     .addHeader("Accept", "application/json; UTF-8")
                     .build();
 
-            OkHttpClient client = new OkHttpClient();
+            val client = new OkHttpClient();
             client.newCall(request).execute();
         } catch (Exception exception) {
             throw new FcmException(INVALID_REQUEST_MESSAGE);
@@ -52,7 +52,7 @@ public class FcmService {
 
     private String makeMessage(String targetToken, String title, String body) {
         try {
-            MessageDTO message = MessageDTO.of(targetToken, title, body);
+            val message = MessageRequest.of(targetToken, title, body);
             return objectMapper.writeValueAsString(message);
         } catch (JsonProcessingException exception) {
             throw new FcmException(INVALID_REQUEST_PATTERN);
@@ -60,7 +60,7 @@ public class FcmService {
     }
 
     private String getAccessToken() throws IOException {
-        GoogleCredentials googleCredentials = GoogleCredentials
+        val googleCredentials = GoogleCredentials
                 .fromStream(new ClassPathResource(valueConfig.getFIREBASE_CONFIG_PATH()).getInputStream())
                 .createScoped(List.of(valueConfig.getGOOGLE_API_URI()));
         googleCredentials.refreshIfExpired();
