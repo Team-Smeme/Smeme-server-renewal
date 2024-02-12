@@ -1,6 +1,5 @@
 package com.smeem.domain.topic.repository;
 
-
 import com.smeem.domain.topic.model.Topic;
 import org.springframework.data.jpa.repository.JpaRepository;
 

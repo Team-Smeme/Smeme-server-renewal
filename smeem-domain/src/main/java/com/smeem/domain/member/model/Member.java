@@ -3,7 +3,7 @@ package com.smeem.domain.member.model;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.diary.model.Diary;
 import com.smeem.domain.goal.model.GoalType;
-import com.smeem.domain.model.BaseTimeEntity;
+import com.smeem.domain.common.BaseTimeEntity;
 import com.smeem.domain.training.model.TrainingTime;
 import jakarta.persistence.*;
 import lombok.Builder;

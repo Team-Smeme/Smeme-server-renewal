@@ -1,23 +1,15 @@
 package com.smeem.domain.diary.model;
 
-
 import static java.util.Objects.nonNull;
 
-import com.smeem.common.util.Util;
 import com.smeem.domain.member.model.LangType;
 import com.smeem.domain.member.model.Member;
-import com.smeem.domain.model.BaseTimeEntity;
+import com.smeem.domain.common.BaseTimeEntity;
 import com.smeem.domain.topic.model.Topic;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.val;
+import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-
 
 @Entity
 @NoArgsConstructor

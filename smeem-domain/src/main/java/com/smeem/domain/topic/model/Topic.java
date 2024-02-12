@@ -1,7 +1,5 @@
 package com.smeem.domain.topic.model;
 
-import static jakarta.persistence.GenerationType.*;
-
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
