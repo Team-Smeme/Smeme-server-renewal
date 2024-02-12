@@ -43,7 +43,7 @@ public class ValueConfig {
     private String DURATION_EXPIRED;
 
     @Value("${smeem.duration.remind}")
-    private String DURATION_REMIND;
+    private int DURATION_REMIND;
 
     @PostConstruct
     protected void init() {

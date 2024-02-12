@@ -5,15 +5,13 @@ import com.smeem.api.badge.controller.dto.response.AcquiredBadgeResponseDTO;
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
 import com.smeem.api.diary.controller.DiaryController;
-import com.smeem.api.diary.controller.dto.request.DiaryRequestDTO;
-import com.smeem.api.diary.controller.dto.response.CreatedDiaryResponseDTO;
-import com.smeem.api.diary.controller.dto.response.DiariesResponseDTO;
-import com.smeem.api.diary.controller.dto.response.DiariesResponseDTO.DiaryDTO;
-import com.smeem.api.diary.controller.dto.response.DiaryResponseDTO;
+import com.smeem.api.diary.controller.dto.request.DiaryCreateRequest;
+import com.smeem.api.diary.controller.dto.request.DiaryModifyRequest;
+import com.smeem.api.diary.service.dto.response.DiaryCreateServiceResponse;
+import com.smeem.api.diary.service.dto.response.DiaryListGetServiceResponse;
+import com.smeem.api.diary.service.dto.response.DiaryGetServiceResponse;
+import com.smeem.api.diary.service.dto.response.DiaryListGetServiceResponse.DiaryResponse;
 import lombok.val;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -56,13 +54,13 @@ class DiaryControllerTest extends BaseControllerTest {
 //    @DisplayName("일기 작성 테스트")
     void success_create_diary() throws Exception {
         // given
-        DiaryRequestDTO request = new DiaryRequestDTO("Hello SMEEM!", 1L);
-        CreatedDiaryResponseDTO response = new CreatedDiaryResponseDTO(1L, acquiredBadges());
+        DiaryCreateRequest request = new DiaryCreateRequest("Hello SMEEM!", 1L);
+        DiaryCreateServiceResponse response = new DiaryCreateServiceResponse(1L, acquiredBadges());
         val uri = URI.create("localhost:8080/api/v2/diaries/1");
         ResponseEntity<BaseResponse<?>> result = ApiResponseUtil.success(SUCCESS_CREATE_DIARY, uri, response);
 
         // when
-        when(diaryController.save(principal, request)).thenReturn(result);
+        when(diaryController.createDiary(principal, request)).thenReturn(result);
 
         // then
         mockMvc.perform(post(DEFAULT_URL)
@@ -105,7 +103,7 @@ class DiaryControllerTest extends BaseControllerTest {
 //    @DisplayName("일기 조회 테스트")
     void success_get_diary() throws Exception {
         // given
-        DiaryResponseDTO response = new DiaryResponseDTO(1L,
+        DiaryGetServiceResponse response = new DiaryGetServiceResponse(1L,
                 "가보고 싶은 해외 여행 지가 있다면 소개해 주세요!",
                 "I want to go Bla Bla ...",
                 "2023-08-19 14:00",
@@ -113,7 +111,7 @@ class DiaryControllerTest extends BaseControllerTest {
         ResponseEntity<BaseResponse<?>> result = ApiResponseUtil.success(SUCCESS_GET_DIARY, response);
 
         // when
-        when(diaryController.getDetail(anyLong())).thenReturn(result);
+        when(diaryController.getDiaryDetail(anyLong())).thenReturn(result);
 
         // then
         mockMvc.perform(get(DEFAULT_URL + "/{diaryId}", 1L)
@@ -151,11 +149,11 @@ class DiaryControllerTest extends BaseControllerTest {
     void success_update_diary() throws Exception {
         // given
         Long diaryId = 1L;
-        DiaryRequestDTO request = new DiaryRequestDTO("Hello SMEEM!!", 1L);
+        DiaryModifyRequest request = new DiaryModifyRequest("Hello SMEEM!!", 1L);
         ResponseEntity<BaseResponse<?>> result = ApiResponseUtil.success(SUCCESS_UPDATE_DAIRY);
 
         // when
-        when(diaryController.update(diaryId, request)).thenReturn(result);
+        when(diaryController.modifyDiary(diaryId, request)).thenReturn(result);
 
         // then
         mockMvc.perform(patch(DEFAULT_URL + "/{diaryId}", diaryId)
@@ -195,7 +193,7 @@ class DiaryControllerTest extends BaseControllerTest {
         ResponseEntity<BaseResponse<?>> result = ApiResponseUtil.success(SUCCESS_DELETE_DIARY);
 
         // when
-        when(diaryController.delete(diaryId)).thenReturn(result);
+        when(diaryController.deleteDiary(diaryId)).thenReturn(result);
 
         // then
         mockMvc.perform(delete(DEFAULT_URL + "/{diaryId}", diaryId)
@@ -226,7 +224,7 @@ class DiaryControllerTest extends BaseControllerTest {
 //    @DisplayName("일기 리스트 조회 테스트")
     void success_get_diaries() throws Exception {
         // given
-        DiariesResponseDTO response = new DiariesResponseDTO(diaries(), true);
+        DiaryListGetServiceResponse response = new DiaryListGetServiceResponse(diaries(), true);
         ResponseEntity<BaseResponse<?>> result = ApiResponseUtil.success(SUCCESS_GET_DIARIES, response);
 
         MultiValueMap<String, String> queries = new LinkedMultiValueMap<>();
@@ -280,10 +278,10 @@ class DiaryControllerTest extends BaseControllerTest {
         return new AcquiredBadgeResponseDTO("뱃지 이름", "com.smeem.badge-image-url", EVENT);
     }
 
-    private List<DiaryDTO> diaries() {
-        List<DiaryDTO> diaries = new ArrayList<>();
+    private List<DiaryResponse> diaries() {
+        List<DiaryResponse> diaries = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            diaries.add(new DiaryDTO((long) (i + 1), "Hello SMEEM" + (i + 1), "2023-08-2" + i + " 14:00"));
+            diaries.add(new DiaryResponse((long) (i + 1), "Hello SMEEM" + (i + 1), "2023-08-2" + i + " 14:00"));
         }
         return diaries;
     }

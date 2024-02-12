@@ -12,7 +12,9 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.val;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -51,7 +53,22 @@ public class Diary extends BaseTimeEntity {
         this.isPublic = true;
         this.topic = topic;
         setMember(member);
-        this.createdAt = LocalDateTime.now();
+    }
+
+    @Builder
+    public Diary(String content, Member member) {
+        this.content = content;
+        this.targetLang = member.getTargetLang();
+        this.isPublic = true;
+        setMember(member);
+    }
+
+    private void setMember(Member member) {
+        if (nonNull(this.member)) {
+            this.member.getDiaries().remove(this);
+        }
+        this.member = member;
+        member.getDiaries().add(this);
     }
 
     public void updateContent(String content) {
@@ -65,22 +82,27 @@ public class Diary extends BaseTimeEntity {
         }
     }
 
-    public boolean isCreatedAt(LocalDateTime createdAt) {
-        return Util.getStartOfDay(this.createdAt).isEqual(Util.getStartOfDay(createdAt));
+    public boolean isCreatedAt(LocalDate date) {
+        return this.createdAt.toLocalDate().equals(date);
     }
 
-    public boolean isBetween(LocalDateTime startAt, LocalDateTime endAt) {
-        LocalDateTime createdAt = Util.getStartOfDay(this.createdAt);
-        startAt = Util.getStartOfDay(startAt);
-        endAt = Util.getStartOfDay(endAt);
-        return createdAt.equals(startAt) || (createdAt.isAfter(startAt) && createdAt.isBefore(endAt)) || createdAt.equals(endAt);
+    public boolean isWrittenToday() {
+        return this.createdAt.toLocalDate().equals(LocalDate.now());
     }
 
-    private void setMember(Member member) {
-        if (nonNull(this.member)) {
-            this.member.getDiaries().remove(this);
-        }
-        this.member = member;
-        member.getDiaries().add(this);
+    public boolean isWrittenYesterday() {
+        val yesterday = LocalDate.now().minusDays(1);
+        return this.createdAt.toLocalDate().equals(yesterday);
+    }
+
+    public boolean isBetween(LocalDate startDate, LocalDate endDate) {
+        val createdDate = this.createdAt.toLocalDate();
+        return createdDate.equals(startDate)
+                || (createdDate.isAfter(startDate) && createdDate.isBefore(endDate))
+                || createdDate.equals(endDate);
+    }
+
+    public boolean isCombo() {
+        return this.member.getDiaries().stream().anyMatch(Diary::isWrittenYesterday);
     }
 }

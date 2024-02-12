@@ -2,7 +2,7 @@ package com.smeem.api.diary.controller.dto.request;
 
 import lombok.NonNull;
 
-public record DiaryRequestDTO(
+public record DiaryCreateRequest(
         @NonNull
         String content,
         Long topicId
