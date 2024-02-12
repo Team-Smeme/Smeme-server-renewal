@@ -1,7 +1,7 @@
 package com.smeem.api.fixture.topic;
 
 
-import com.smeem.api.topic.controller.dto.response.TopicResponseDTO;
+import com.smeem.api.topic.dto.response.RandomTopicGetServiceResponse;
 import com.smeem.domain.topic.model.Category;
 import com.smeem.domain.topic.model.Topic;
 
@@ -18,7 +18,7 @@ public class TopicFixture {
                 .build();
     }
 
-    public static TopicResponseDTO createTopicResponseDTO() {
-        return TopicResponseDTO.of(createTopic());
+    public static RandomTopicGetServiceResponse createTopicResponseDTO() {
+        return RandomTopicGetServiceResponse.of(createTopic());
     }
 }
