@@ -3,14 +3,11 @@ package com.smeem.api.controller;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.goal.controller.GoalController;
-import com.smeem.api.goal.controller.dto.response.GoalResponseDTO;
-import com.smeem.api.goal.controller.dto.response.GoalsResponseDTO;
-import com.smeem.api.goal.controller.dto.response.GoalsResponseDTO.GoalResponseVO;
+import com.smeem.api.goal.dto.response.GoalListGetServiceResponse.GoalResponse;
+import com.smeem.api.goal.dto.response.GoalGetServiceResponse;
+import com.smeem.api.goal.dto.response.GoalListGetServiceResponse;
 import com.smeem.domain.goal.model.GoalType;
 import lombok.val;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.security.Principal;
@@ -47,11 +44,11 @@ class GoalControllerTest extends BaseControllerTest {
 //    @DisplayName("전체 학습 목표 조회 테스트")
     void success_get_goals_test() throws Exception {
         // given
-        val response = new GoalsResponseDTO(goals());
+        val response = new GoalListGetServiceResponse(goals());
         val result = ApiResponseUtil.success(SUCCESS_GET_GOALS, response);
 
         // when
-        when(goalController.getAll()).thenReturn(result);
+        when(goalController.getAllGoals()).thenReturn(result);
 
         // then
         mockMvc.perform(get(DEFAULT_URL)
@@ -83,14 +80,14 @@ class GoalControllerTest extends BaseControllerTest {
     void success_get_goal_test() throws Exception {
         // given
         GoalType type = APPLY;
-        val response = new GoalResponseDTO(
+        val response = new GoalGetServiceResponse(
                 "현지 언어 체득",
                 "주 5회 이상 오늘 하루를 돌아보는 일기 작성하기",
                 "사전 없이 일기 완성\nsmeem 연속 일기 배지 획득");
         val result = ApiResponseUtil.success(SUCCESS_GET_GOAL, response);
 
         // when
-        when(goalController.getByType(type)).thenReturn(result);
+        when(goalController.getGoalByType(type)).thenReturn(result);
 
         // then
         mockMvc.perform(get(DEFAULT_URL + "/{type}", type)
@@ -120,10 +117,10 @@ class GoalControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
-    private List<GoalResponseVO> goals() {
-        List<GoalResponseVO> goals = new ArrayList<>();
+    private List<GoalResponse> goals() {
+        List<GoalResponse> goals = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            goals.add(new GoalResponseVO(APPLY.name(), "현지 언어 체득" + (i + 1)));
+            goals.add(new GoalResponse(APPLY.name(), "현지 언어 체득" + (i + 1)));
         }
         return goals;
     }

@@ -74,7 +74,7 @@ public class BadgeService {
         };
     }
 
-    private Badge get(Long id) {
+    public Badge get(Long id) {
         return badgeRepository.findById(id)
                 .orElseThrow(() -> new BadgeException(INVALID_BADGE));
     }

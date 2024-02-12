@@ -3,7 +3,8 @@ package com.smeem.api.member.service;
 
 import com.smeem.api.badge.controller.dto.response.BadgeResponseDTO;
 import com.smeem.api.badge.service.BadgeService;
-import com.smeem.api.goal.controller.dto.response.GoalResponseDTO;
+import com.smeem.api.goal.dto.request.GoalGetServiceRequest;
+import com.smeem.api.goal.dto.response.GoalGetServiceResponse;
 import com.smeem.api.goal.service.GoalService;
 import com.smeem.api.member.controller.dto.request.MemberPlanUpdateRequestDTO;
 import com.smeem.api.member.controller.dto.request.MemberPushUpdateRequestDTO;
@@ -71,7 +72,7 @@ public class MemberService {
 
     public MemberGetResponseDTO getProfile(Long memberId) {
         Member member = get(memberId);
-        GoalResponseDTO goal = goalService.getByType(member.getGoal());
+        GoalGetServiceResponse goal = goalService.getByType(GoalGetServiceRequest.of(member.getGoal()));
         List<TrainingTime> trainingTimes = trainingTimeService.getAllByMember(member);
 
         // 기본 시간 설정
