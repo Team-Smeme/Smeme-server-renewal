@@ -1,4 +1,4 @@
-package com.smeem.api.diary.controller.dto.request;
+package com.smeem.api.diary.dto.request;
 
 import lombok.NonNull;
 

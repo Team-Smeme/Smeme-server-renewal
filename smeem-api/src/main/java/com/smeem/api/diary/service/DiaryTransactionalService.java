@@ -1,10 +1,10 @@
 package com.smeem.api.diary.service;
 
 import com.smeem.api.badge.service.BadgeService;
-import com.smeem.api.diary.service.dto.request.DiaryDeleteServiceRequest;
-import com.smeem.api.diary.service.dto.request.DiaryModifyServiceRequest;
-import com.smeem.api.diary.service.dto.response.DiaryCreateServiceResponse;
-import com.smeem.api.diary.service.dto.request.DiaryCreateServiceRequest;
+import com.smeem.api.diary.dto.request.DiaryDeleteServiceRequest;
+import com.smeem.api.diary.dto.request.DiaryModifyServiceRequest;
+import com.smeem.api.diary.dto.response.DiaryCreateServiceResponse;
+import com.smeem.api.diary.dto.request.DiaryCreateServiceRequest;
 import com.smeem.common.exception.DiaryException;
 import com.smeem.common.exception.MemberException;
 import com.smeem.common.exception.TopicException;

@@ -1,4 +1,4 @@
-package com.smeem.api.diary.service.dto.response;
+package com.smeem.api.diary.dto.response;
 
 import com.smeem.common.config.ValueConfig;
 import com.smeem.common.util.Util;

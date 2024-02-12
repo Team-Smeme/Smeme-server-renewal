@@ -1,9 +1,9 @@
 package com.smeem.api.diary.service;
 
-import com.smeem.api.diary.service.dto.response.DiaryListGetServiceResponse;
-import com.smeem.api.diary.service.dto.response.DiaryGetServiceResponse;
-import com.smeem.api.diary.service.dto.request.DiaryGetServiceRequest;
-import com.smeem.api.diary.service.dto.request.DiaryListGetServiceRequest;
+import com.smeem.api.diary.dto.response.DiaryListGetServiceResponse;
+import com.smeem.api.diary.dto.response.DiaryGetServiceResponse;
+import com.smeem.api.diary.dto.request.DiaryGetServiceRequest;
+import com.smeem.api.diary.dto.request.DiaryListGetServiceRequest;
 import com.smeem.common.config.ValueConfig;
 import com.smeem.common.exception.DiaryException;
 import com.smeem.common.exception.MemberException;

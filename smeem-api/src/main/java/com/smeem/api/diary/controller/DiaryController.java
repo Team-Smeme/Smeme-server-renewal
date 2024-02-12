@@ -4,11 +4,9 @@ import java.security.Principal;
 
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
-import com.smeem.api.diary.controller.dto.request.DiaryCreateRequest;
-import com.smeem.api.diary.controller.dto.request.DiaryModifyRequest;
+import com.smeem.api.diary.dto.request.*;
 import com.smeem.api.diary.service.DiaryNonTransactionalService;
 import com.smeem.api.diary.service.DiaryTransactionalService;
-import com.smeem.api.diary.service.dto.request.*;
 import com.smeem.common.util.Util;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
