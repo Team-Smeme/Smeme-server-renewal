@@ -1,12 +1,11 @@
 package com.smeem.api.goal.controller;
 
-
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
-import com.smeem.api.goal.controller.dto.response.GoalResponseDTO;
-import com.smeem.api.goal.controller.dto.response.GoalsResponseDTO;
+import com.smeem.api.goal.dto.request.GoalGetServiceRequest;
 import com.smeem.api.goal.service.GoalService;
 import com.smeem.domain.goal.model.GoalType;
+import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,14 +25,15 @@ public class GoalController {
     private final GoalService goalService;
 
     @GetMapping
-    public ResponseEntity<BaseResponse<?>> getAll() {
-        GoalsResponseDTO response = goalService.getAll();
+    public ResponseEntity<BaseResponse<?>> getAllGoals() {
+        val response = goalService.getAllGoals();
         return ApiResponseUtil.success(SUCCESS_GET_GOALS, response);
     }
 
     @GetMapping("/{type}")
-    public ResponseEntity<BaseResponse<?>> getByType(@PathVariable GoalType type) {
-        GoalResponseDTO response = goalService.getByType(type);
+    public ResponseEntity<BaseResponse<?>> getGoalByType(@PathVariable GoalType type) {
+        val serviceRequest = GoalGetServiceRequest.of(type);
+        val response = goalService.getByType(serviceRequest);
         return ApiResponseUtil.success(SUCCESS_GET_GOAL, response);
     }
 }

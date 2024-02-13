@@ -8,7 +8,7 @@ import com.smeem.api.auth.jwt.JwtTokenProvider;
 
 
 import com.smeem.api.auth.jwt.UserAuthentication;
-import com.smeem.api.diary.service.DiaryService;
+import com.smeem.api.diary.service.DiaryTransactionalService;
 import com.smeem.api.member.service.MemberBadgeService;
 import com.smeem.api.member.service.TrainingTimeService;
 import com.smeem.common.exception.MemberException;
@@ -48,7 +48,7 @@ public class AuthService {
     private final AppleSignInService appleSignInService;
     private final KakaoSignInService kakaoSignInService;
     private final MemberBadgeService memberBadgeService;
-    private final DiaryService diaryService;
+    private final DiaryTransactionalService diaryService;
     private final TrainingTimeService trainingTimeService;
 
     @Transactional

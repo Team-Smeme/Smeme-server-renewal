@@ -13,11 +13,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public class Util {
 
-    public static Long getMemberId(Principal principal) {
+    public static long getMemberId(Principal principal) {
         if (isNull(principal)) {
             throw new TokenException(EMPTY_ACCESS_TOKEN);
         }
-        return Long.valueOf(principal.getName());
+        return Long.parseLong(principal.getName());
     }
 
     public static URI getURI(String path, long id) {
@@ -28,15 +28,7 @@ public class Util {
                 .toUri();
     }
 
-    public static String dateToString(LocalDateTime date) {
+    public static String transferToLocalDateTime(LocalDateTime date) {
         return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-    }
-
-    public static LocalDateTime stringToDate(String str) {
-        return LocalDateTime.parse(str + " 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-    }
-
-    public static LocalDateTime getStartOfDay(LocalDateTime dateTime) {
-        return dateTime.toLocalDate().atStartOfDay();
     }
 }

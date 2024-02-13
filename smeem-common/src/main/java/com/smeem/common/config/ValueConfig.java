@@ -40,10 +40,10 @@ public class ValueConfig {
     private String GOOGLE_API_URI;
 
     @Value("${smeem.duration.expired}")
-    private String DURATION_EXPIRED;
+    private int DURATION_EXPIRED;
 
     @Value("${smeem.duration.remind}")
-    private String DURATION_REMIND;
+    private int DURATION_REMIND;
 
     @PostConstruct
     protected void init() {

@@ -3,11 +3,8 @@ package com.smeem.api.controller;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.topic.controller.TopicController;
-import com.smeem.api.topic.controller.dto.response.TopicResponseDTO;
+import com.smeem.api.topic.dto.response.RandomTopicGetServiceResponse;
 import lombok.val;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.security.Principal;
@@ -40,11 +37,11 @@ class TopicControllerTest extends BaseControllerTest {
 //    @DisplayName("랜덤 주제 조회 테스트")
     void success_get_random_topic_test() throws Exception {
         // given
-        TopicResponseDTO response = new TopicResponseDTO(1L, "가보고 싶은 해외 여행 지가 있다면 소개해 주세요!");
+        RandomTopicGetServiceResponse response = new RandomTopicGetServiceResponse(1L, "가보고 싶은 해외 여행 지가 있다면 소개해 주세요!");
         val result = ApiResponseUtil.success(SUCCESS_GET_RANDOM_TOPIC, response);
 
         // when
-        when(topicController.getRandom()).thenReturn(result);
+        when(topicController.getTopicByRandom()).thenReturn(result);
 
         // then
         mockMvc.perform(get(DEFAULT_URL + "/random")

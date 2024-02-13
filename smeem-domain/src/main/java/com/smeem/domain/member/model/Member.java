@@ -1,21 +1,20 @@
 package com.smeem.domain.member.model;
 
-import static java.time.LocalDateTime.now;
-
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.diary.model.Diary;
 import com.smeem.domain.goal.model.GoalType;
-import com.smeem.domain.model.BaseTimeEntity;
+import com.smeem.domain.common.BaseTimeEntity;
 import com.smeem.domain.training.model.TrainingTime;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.val;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-
 
 @Entity
 @NoArgsConstructor
@@ -93,36 +92,54 @@ public class Member extends BaseTimeEntity {
         this.goal = goal;
     }
 
-    public boolean wroteDiaryToday() {
-        return this.diaries.stream()
-                .anyMatch(diary -> diary.isCreatedAt(now()));
+    public boolean hasDiaryWrittenToday() {
+        return this.diaries.stream().anyMatch(Diary::isWrittenToday);
     }
 
-    public void updateDiaryCombo(boolean isCombo) {
-        this.diaryComboCount = isCombo ? this.diaryComboCount + 1 : 1;
+    public void updateDiaryCombo(Diary diary) {
+        this.diaryComboCount = diary.isCombo() ? this.diaryComboCount + 1 : 1;
     }
 
     public void updateDiaryCombo() {
-        List<Diary> diaries = this.diaries.stream()
-                .filter(diary -> !diary.isCreatedAt(now()))
-                .sorted((a, b) -> b.createdAt.compareTo(a.createdAt)).toList();
+        this.diaryComboCount = calculateDiaryComboCount();
+    }
 
-        int count = wroteDiaryToday() ? 1 : 0;
-        LocalDateTime day = now();
+    private List<Diary> getDiariesNotWrittenTodayOrderByCreatedAtDesc() {
+        return this.diaries.stream()
+                .filter(diary -> !diary.isWrittenToday())
+                .sorted(Comparator.comparing(Diary::getCreatedAt).reversed())
+                .toList();
+    }
+
+    private int calculateDiaryComboCount() {
+        val diaries = getDiariesNotWrittenTodayOrderByCreatedAtDesc();
+        int count = hasDiaryWrittenToday() ? 1 : 0;
+        LocalDate currentDate = LocalDate.now();
 
         for (Diary diary : diaries) {
-            day = day.minusDays(1);
-            if (!diary.isCreatedAt(day)) {
+            currentDate = currentDate.minusDays(1);
+            if (!diary.isCreatedAt(currentDate)) {
                 break;
             }
             count++;
         }
 
-        this.diaryComboCount = count;
+        return count;
     }
 
     public boolean hasNotBadge(Badge badge) {
         return badges.stream().noneMatch(memberBadge -> memberBadge.getBadge().equals(badge));
+    }
+
+    public List<Diary> getDiariesBetweenDate(LocalDate startDate, LocalDate endDate) {
+        return this.diaries.stream()
+                .filter(diary -> diary.isBetween(startDate, endDate))
+                .toList();
+    }
+
+    public boolean hasDiaryWrittenAgo(int duration) {
+        val remindDate = LocalDate.now().minusDays(duration);
+        return this.diaries.stream().anyMatch(diary -> diary.isCreatedAt(remindDate));
     }
 
 }

@@ -1,8 +1,8 @@
-package com.smeem.api.diary.controller.dto.request;
+package com.smeem.api.diary.dto.request;
 
 import lombok.NonNull;
 
-public record DiaryRequestDTO(
+public record DiaryCreateRequest(
         @NonNull
         String content,
         Long topicId

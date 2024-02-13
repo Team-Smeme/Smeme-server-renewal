@@ -1,6 +1,5 @@
 package com.smeem.domain.goal.repository;
 
-
 import com.smeem.domain.goal.model.Goal;
 import com.smeem.domain.goal.model.GoalType;
 import org.springframework.data.jpa.repository.JpaRepository;

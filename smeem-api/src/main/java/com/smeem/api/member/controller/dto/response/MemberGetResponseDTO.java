@@ -2,7 +2,7 @@ package com.smeem.api.member.controller.dto.response;
 
 
 import com.smeem.api.badge.controller.dto.response.BadgeResponseDTO;
-import com.smeem.api.goal.controller.dto.response.GoalResponseDTO;
+import com.smeem.api.goal.dto.response.GoalGetServiceResponse;
 import com.smeem.domain.member.model.Member;
 
 public record MemberGetResponseDTO(
@@ -16,7 +16,7 @@ public record MemberGetResponseDTO(
         BadgeResponseDTO badge
 ) {
 
-    public static MemberGetResponseDTO of(GoalResponseDTO goal, Member member, TrainingTimeResponseDTO trainingTime, BadgeResponseDTO badge) {
+    public static MemberGetResponseDTO of(GoalGetServiceResponse goal, Member member, TrainingTimeResponseDTO trainingTime, BadgeResponseDTO badge) {
         return new MemberGetResponseDTO(
                 member.getUsername(),
                 member.getGoal().getDescription(),
