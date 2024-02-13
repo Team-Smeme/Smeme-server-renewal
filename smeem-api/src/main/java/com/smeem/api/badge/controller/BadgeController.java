@@ -1,6 +1,6 @@
 package com.smeem.api.badge.controller;
 
-import com.smeem.api.badge.controller.dto.response.BadgeListResponseDTO;
+import com.smeem.api.badge.controller.dto.response.BadgeListResponse;
 import com.smeem.api.badge.service.BadgeService;
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
@@ -23,8 +23,8 @@ public class BadgeController {
     private final BadgeService badgeService;
 
     @GetMapping
-    public ResponseEntity<BaseResponse<?>> getBadgeList(Principal principal) {
-        BadgeListResponseDTO response = badgeService.getBadgeList(Util.getMemberId(principal));
+    public ResponseEntity<BaseResponse<?>> getBadges(Principal principal) {
+        BadgeListResponse response = badgeService.getBadges(Util.getMemberId(principal));
         return ApiResponseUtil.success(SUCCESS_GET_BADGES, response);
     }
 

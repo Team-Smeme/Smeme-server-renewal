@@ -6,12 +6,13 @@ import com.smeem.domain.badge.model.Badge;
 
 import com.smeem.domain.model.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class MemberBadge extends BaseTimeEntity {
 

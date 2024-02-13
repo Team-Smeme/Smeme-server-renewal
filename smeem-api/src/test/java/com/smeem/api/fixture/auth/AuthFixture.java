@@ -1,9 +1,9 @@
 package com.smeem.api.fixture.auth;
 
-import com.smeem.api.auth.controller.dto.request.SignInRequestDTO;
-import com.smeem.api.auth.controller.dto.response.SignInResponseDTO;
-import com.smeem.api.auth.controller.dto.response.token.TokenResponseDTO;
-import com.smeem.api.auth.controller.dto.response.token.TokenVO;
+import com.smeem.api.auth.controller.dto.request.SignInRequest;
+import com.smeem.api.auth.controller.dto.response.SignInResponse;
+import com.smeem.api.auth.controller.dto.response.token.TokenResponse;
+import com.smeem.api.auth.jwt.SmeemToken;
 import com.smeem.domain.member.model.SocialType;
 
 public class AuthFixture {
@@ -13,30 +13,30 @@ public class AuthFixture {
     private static final String ACCESS_TOKEN = "testaccesstoken";
     private static final String REFRESH_TOKEN = "testrefreshtoken";
 
-    public static SignInRequestDTO createSignInRequestDTO() {
-        return new SignInRequestDTO(
+    public static SignInRequest createSignInRequestDTO() {
+        return new SignInRequest(
                 SOCIAL_TYPE,
                 FCM_TOKEN
         );
     }
 
-    public static SignInResponseDTO createSignInResponseDTO() {
-        return SignInResponseDTO.of(
+    public static SignInResponse createSignInResponseDTO() {
+        return SignInResponse.of(
                 createTokenVO(),
                 true,
                 true
         );
     }
 
-    public static TokenVO createTokenVO() {
-        return new TokenVO(
-                ACCESS_TOKEN,
-                REFRESH_TOKEN
-        );
+    public static SmeemToken createTokenVO() {
+        return SmeemToken.builder()
+                .accessToken(ACCESS_TOKEN)
+                .refreshToken(REFRESH_TOKEN)
+                .build();
     }
 
-    public static TokenResponseDTO createTokenResponseDTO() {
-        return TokenResponseDTO.of(
+    public static TokenResponse createTokenResponseDTO() {
+        return TokenResponse.of(
                 ACCESS_TOKEN,
                 REFRESH_TOKEN
         );

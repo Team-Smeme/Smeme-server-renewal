@@ -1,7 +1,7 @@
 package com.smeem.api.controller;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.smeem.api.badge.controller.dto.response.AcquiredBadgeResponseDTO;
+import com.smeem.api.badge.controller.dto.response.AcquiredBadgeResponse;
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
 import com.smeem.api.diary.controller.DiaryController;
@@ -11,9 +11,6 @@ import com.smeem.api.diary.controller.dto.response.DiariesResponseDTO;
 import com.smeem.api.diary.controller.dto.response.DiariesResponseDTO.DiaryDTO;
 import com.smeem.api.diary.controller.dto.response.DiaryResponseDTO;
 import lombok.val;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -271,13 +268,13 @@ class DiaryControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
-    private List<AcquiredBadgeResponseDTO> acquiredBadges() {
+    private List<AcquiredBadgeResponse> acquiredBadges() {
         return Stream.iterate(1, i -> i + 1).limit(5)
                 .map(i -> acquiredBadge()).toList();
     }
 
-    private AcquiredBadgeResponseDTO acquiredBadge() {
-        return new AcquiredBadgeResponseDTO("뱃지 이름", "com.smeem.badge-image-url", EVENT);
+    private AcquiredBadgeResponse acquiredBadge() {
+        return new AcquiredBadgeResponse("뱃지 이름", "com.smeem.badge-image-url", EVENT);
     }
 
     private List<DiaryDTO> diaries() {

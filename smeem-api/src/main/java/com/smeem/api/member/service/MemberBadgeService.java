@@ -8,16 +8,24 @@ import com.smeem.domain.member.model.MemberBadge;
 import com.smeem.domain.member.repository.MemberBadgeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.smeem.common.code.failure.BadgeFailureCode.EMPTY_BADGE;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberBadgeService {
 
     private final MemberBadgeRepository memberBadgeRepository;
 
-    protected void save(Member member, Badge badge) {
+    @Transactional
+    public void deleteAllByMember(Member member) {
+        memberBadgeRepository.deleteAllInBatch(member.getBadges());
+    }
+
+    @Transactional
+    public void save(Member member, Badge badge) {
         MemberBadge memberBadge = MemberBadge.builder()
                 .member(member)
                 .badge(badge)
@@ -25,11 +33,7 @@ public class MemberBadgeService {
         memberBadgeRepository.save(memberBadge);
     }
 
-    public void deleteAllByMember(Member member) {
-        memberBadgeRepository.deleteAll(member.getBadges());
-    }
-
-    protected Badge getBadgeByMemberId(Long memberId) {
+    public Badge getBadgeByMemberId(Long memberId) {
         return memberBadgeRepository.findFirstByMemberIdOrderByCreatedAtDesc(memberId).orElseThrow(
                 () -> new BadgeException(EMPTY_BADGE)).getBadge();
     }

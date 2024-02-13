@@ -1,8 +1,8 @@
 package com.smeem.api.fixture.trainingtime;
 
 import com.smeem.api.fixture.member.MemberFixture;
-import com.smeem.api.member.controller.dto.request.TrainingTimeRequestDTO;
-import com.smeem.api.member.controller.dto.response.TrainingTimeResponseDTO;
+import com.smeem.api.member.controller.dto.request.TrainingTimeRequest;
+import com.smeem.api.member.controller.dto.response.TrainingTimeResponse;
 import com.smeem.domain.training.model.DayType;
 import com.smeem.domain.training.model.TrainingTime;
 
@@ -14,8 +14,8 @@ public class TrainingTimeFixture {
     private static final int HOUR = 10;
     private static final int MINUTE = 30;
 
-    public static TrainingTimeRequestDTO createTrainingTimeRequestDTO() {
-        return new TrainingTimeRequestDTO(DAY_TYPE.name(), HOUR, MINUTE);
+    public static TrainingTimeRequest createTrainingTimeRequestDTO() {
+        return new TrainingTimeRequest(DAY_TYPE.name(), HOUR, MINUTE);
     }
 
     public static TrainingTime createTrainingTime() {
@@ -27,8 +27,8 @@ public class TrainingTimeFixture {
                 .build();
     }
 
-    public static TrainingTimeResponseDTO createTrainingTimeResponseDTO() {
-        return TrainingTimeResponseDTO.of(DAY_TYPE.name(), HOUR, MINUTE);
+    public static TrainingTimeResponse createTrainingTimeResponseDTO() {
+        return TrainingTimeResponse.of(DAY_TYPE.name(), HOUR, MINUTE);
     }
 
 }

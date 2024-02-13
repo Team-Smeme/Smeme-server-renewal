@@ -2,16 +2,11 @@ package com.smeem.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smeem.api.auth.jwt.CustomJwtAuthenticationEntryPoint;
-import com.smeem.api.auth.jwt.JwtTokenProvider;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
+import com.smeem.api.auth.jwt.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationContextProvider;
-import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -36,7 +31,7 @@ public abstract class BaseControllerTest {
     protected MockMvc mockMvc;
 
     @MockBean
-    private JwtTokenProvider jwtTokenProvider;
+    private TokenProvider jwtTokenProvider;
 
     @MockBean
     private CustomJwtAuthenticationEntryPoint customJwtAuthenticationEntryPoint;

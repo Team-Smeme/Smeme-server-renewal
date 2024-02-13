@@ -1,9 +1,11 @@
 package com.smeem.api.auth.controller;
 
-import com.smeem.api.auth.controller.dto.request.SignInRequestDTO;
-import com.smeem.api.auth.controller.dto.response.SignInResponseDTO;
-import com.smeem.api.auth.controller.dto.response.token.TokenResponseDTO;
+import com.smeem.api.auth.controller.dto.request.SignInRequest;
+import com.smeem.api.auth.controller.dto.response.SignInResponse;
+import com.smeem.api.auth.controller.dto.response.token.TokenResponse;
 import com.smeem.api.auth.service.AuthService;
+import com.smeem.api.auth.service.TokenService;
+import com.smeem.api.auth.service.dto.request.SignInServiceRequest;
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
 import com.smeem.common.util.Util;
@@ -24,17 +26,18 @@ import static com.smeem.common.code.success.TokenSuccessCode.SUCCESS_ISSUE_TOKEN
 public class AuthController {
 
     private final AuthService authService;
+    private final TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity<BaseResponse<?>> signIn(@RequestHeader("Authorization") String socialAccessToken, @RequestBody SignInRequestDTO request
-    ) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        SignInResponseDTO response = authService.signIn(socialAccessToken, request);
+    public ResponseEntity<BaseResponse<?>> signIn(@RequestHeader("Authorization") String socialAccessToken,
+                                                  @RequestBody SignInRequest request) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        SignInResponse response = SignInResponse.of(authService.signIn(socialAccessToken, SignInServiceRequest.of(request)));
         return ApiResponseUtil.success(SUCCESS_SIGNIN, response);
     }
 
     @PostMapping("/token")
     public ResponseEntity<BaseResponse<?>> reissueToken(Principal principal) {
-        TokenResponseDTO response = authService.issueToken(Util.getMemberId(principal));
+        TokenResponse response = TokenResponse.of(tokenService.issueToken(Util.getMemberId(principal)));
         return ApiResponseUtil.success(SUCCESS_ISSUE_TOKEN, response);
     }
 

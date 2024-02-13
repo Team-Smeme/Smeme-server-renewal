@@ -3,8 +3,8 @@ package com.smeem.api.goal.controller;
 
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
-import com.smeem.api.goal.controller.dto.response.GoalResponseDTO;
-import com.smeem.api.goal.controller.dto.response.GoalsResponseDTO;
+import com.smeem.api.goal.controller.dto.response.GoalResponse;
+import com.smeem.api.goal.controller.dto.response.GoalListResponse;
 import com.smeem.api.goal.service.GoalService;
 import com.smeem.domain.goal.model.GoalType;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +27,13 @@ public class GoalController {
 
     @GetMapping
     public ResponseEntity<BaseResponse<?>> getAll() {
-        GoalsResponseDTO response = goalService.getAll();
+        GoalListResponse response = goalService.getAll();
         return ApiResponseUtil.success(SUCCESS_GET_GOALS, response);
     }
 
     @GetMapping("/{type}")
     public ResponseEntity<BaseResponse<?>> getByType(@PathVariable GoalType type) {
-        GoalResponseDTO response = goalService.getByType(type);
+        GoalResponse response = goalService.getByType(type);
         return ApiResponseUtil.success(SUCCESS_GET_GOAL, response);
     }
 }

@@ -3,14 +3,11 @@ package com.smeem.api.controller;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.goal.controller.GoalController;
-import com.smeem.api.goal.controller.dto.response.GoalResponseDTO;
-import com.smeem.api.goal.controller.dto.response.GoalsResponseDTO;
-import com.smeem.api.goal.controller.dto.response.GoalsResponseDTO.GoalResponseVO;
+import com.smeem.api.goal.controller.dto.response.GoalResponse;
+import com.smeem.api.goal.controller.dto.response.GoalListResponse;
+import com.smeem.api.goal.controller.dto.response.GoalListResponse.GoalResponseVO;
 import com.smeem.domain.goal.model.GoalType;
 import lombok.val;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.security.Principal;
@@ -47,7 +44,7 @@ class GoalControllerTest extends BaseControllerTest {
 //    @DisplayName("전체 학습 목표 조회 테스트")
     void success_get_goals_test() throws Exception {
         // given
-        val response = new GoalsResponseDTO(goals());
+        val response = new GoalListResponse(goals());
         val result = ApiResponseUtil.success(SUCCESS_GET_GOALS, response);
 
         // when
@@ -83,7 +80,7 @@ class GoalControllerTest extends BaseControllerTest {
     void success_get_goal_test() throws Exception {
         // given
         GoalType type = APPLY;
-        val response = new GoalResponseDTO(
+        val response = new GoalResponse(
                 "현지 언어 체득",
                 "주 5회 이상 오늘 하루를 돌아보는 일기 작성하기",
                 "사전 없이 일기 완성\nsmeem 연속 일기 배지 획득");

@@ -3,11 +3,10 @@ package com.smeem.api.fixture.member;
 import com.smeem.api.fixture.goal.GoalFixture;
 import com.smeem.api.fixture.badge.BadgeFixture;
 import com.smeem.api.fixture.trainingtime.TrainingTimeFixture;
-import com.smeem.api.member.controller.dto.request.MemberPlanUpdateRequestDTO;
-import com.smeem.api.member.controller.dto.request.MemberPushUpdateRequestDTO;
-import com.smeem.api.member.controller.dto.request.MemberUpdateRequestDTO;
-import com.smeem.api.member.controller.dto.response.MemberGetResponseDTO;
-import com.smeem.domain.goal.model.GoalType;
+import com.smeem.api.member.controller.dto.request.MemberPlanUpdateRequest;
+import com.smeem.api.member.controller.dto.request.MemberPushUpdateRequest;
+import com.smeem.api.member.controller.dto.request.MemberUpdateRequest;
+import com.smeem.api.member.controller.dto.response.MemberGetResponse;
 import com.smeem.domain.member.model.LangType;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.model.SocialType;
@@ -38,8 +37,8 @@ public class MemberFixture {
         return member;
     }
 
-    public static MemberGetResponseDTO createMemberGetResponseDTO() {
-        return MemberGetResponseDTO.of(
+    public static MemberGetResponse createMemberGetResponseDTO() {
+        return MemberGetResponse.of(
                 GoalFixture.createGoalResponseDTO(),
                 createMember(),
                 TrainingTimeFixture.createTrainingTimeResponseDTO(),
@@ -47,19 +46,19 @@ public class MemberFixture {
         );
     }
 
-    public static MemberUpdateRequestDTO createMemberUpdateRequestDTO() {
-        return new MemberUpdateRequestDTO(MEMBER_USERNAME, HAS_ALARM);
+    public static MemberUpdateRequest createMemberUpdateRequestDTO() {
+        return new MemberUpdateRequest(MEMBER_USERNAME, HAS_ALARM);
     }
 
-    public static MemberPlanUpdateRequestDTO createMemberPlanUpdateRequestDTO() {
-        return new MemberPlanUpdateRequestDTO(
+    public static MemberPlanUpdateRequest createMemberPlanUpdateRequestDTO() {
+        return new MemberPlanUpdateRequest(
                 DEVELOP,
                 TrainingTimeFixture.createTrainingTimeRequestDTO(),
                 HAS_ALARM
         );
     }
 
-    public static MemberPushUpdateRequestDTO createMemberPushUpdateRequestDTO() {
-        return new MemberPushUpdateRequestDTO(HAS_ALARM);
+    public static MemberPushUpdateRequest createMemberPushUpdateRequestDTO() {
+        return new MemberPushUpdateRequest(HAS_ALARM);
     }
 }

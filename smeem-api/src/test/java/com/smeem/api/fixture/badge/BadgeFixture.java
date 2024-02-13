@@ -1,8 +1,8 @@
 package com.smeem.api.fixture.badge;
 
-import com.smeem.api.badge.controller.dto.response.BadgeListResponseDTO;
-import com.smeem.api.badge.controller.dto.response.BadgeListResponseDTO.BadgeTypeResponseDTO;
-import com.smeem.api.badge.controller.dto.response.BadgeResponseDTO;
+import com.smeem.api.badge.controller.dto.response.BadgeListResponse;
+import com.smeem.api.badge.controller.dto.response.BadgeListResponse.BadgeTypeResponseDTO;
+import com.smeem.api.badge.controller.dto.response.BadgeResponse;
 import com.smeem.domain.badge.model.BadgeType;
 
 import java.util.List;
@@ -17,8 +17,8 @@ public class BadgeFixture {
     private static final BadgeType BADGE_TYPE = COMBO;
     private static final String BADGE_IMAGE_URL = "https://m.s3.ap-northeast-2.amazonaws.com/badge/streak.png";
 
-    public static BadgeResponseDTO createBadgeResponseDTO() {
-        return BadgeResponseDTO.builder()
+    public static BadgeResponse createBadgeResponseDTO() {
+        return BadgeResponse.builder()
                 .id(BADGE_ID)
                 .name(BADGE_NAME)
                 .type(BADGE_TYPE.toString())
@@ -26,8 +26,8 @@ public class BadgeFixture {
                 .build();
     }
 
-    public static BadgeListResponseDTO createBadgeListResponseDTO() {
-        return new BadgeListResponseDTO(createBadgeTypesResponse());
+    public static BadgeListResponse createBadgeListResponseDTO() {
+        return new BadgeListResponse(createBadgeTypesResponse());
     }
 
     private static List<BadgeTypeResponseDTO> createBadgeTypesResponse() {
@@ -40,14 +40,14 @@ public class BadgeFixture {
         return new BadgeTypeResponseDTO(BADGE_TYPE, BADGE_NAME, createBadgeResponses());
     }
 
-    private static List<BadgeListResponseDTO.BadgeResponseDTO> createBadgeResponses() {
+    private static List<BadgeListResponse.BadgeResponseDTO> createBadgeResponses() {
         return Stream.iterate(1, i -> i + 1).limit(5)
                 .map(BadgeFixture::createBadgeResponse)
                 .toList();
     }
 
-    private static BadgeListResponseDTO.BadgeResponseDTO createBadgeResponse(int i) {
-        return BadgeListResponseDTO.BadgeResponseDTO.builder()
+    private static BadgeListResponse.BadgeResponseDTO createBadgeResponse(int i) {
+        return BadgeListResponse.BadgeResponseDTO.builder()
                 .name(BADGE_NAME + i)
                 .type(BADGE_TYPE)
                 .imageUrl("https://...")
