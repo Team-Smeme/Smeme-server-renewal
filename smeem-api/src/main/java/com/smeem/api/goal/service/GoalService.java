@@ -1,7 +1,6 @@
 package com.smeem.api.goal.service;
 
 import java.util.List;
-
 import com.smeem.api.goal.dto.request.GoalGetServiceRequest;
 import com.smeem.api.goal.dto.response.GoalGetServiceResponse;
 import com.smeem.api.goal.dto.response.GoalListGetServiceResponse;

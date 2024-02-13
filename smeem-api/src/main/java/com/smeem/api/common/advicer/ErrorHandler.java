@@ -54,4 +54,9 @@ public class ErrorHandler {
     public ResponseEntity<BaseResponse<?>> fcmException(FcmException exception) {
         return ApiResponseUtil.failure(exception.getFailureCode());
     }
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<BaseResponse<?>> authException(AuthException exception) {
+        return ApiResponseUtil.failure(exception.getFailureCode());
+    }
 }

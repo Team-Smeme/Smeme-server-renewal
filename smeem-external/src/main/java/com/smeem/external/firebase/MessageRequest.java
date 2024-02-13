@@ -7,23 +7,23 @@ import static lombok.AccessLevel.PRIVATE;
 @Builder(access = PRIVATE)
 public record MessageRequest(
         boolean validateOnly,
-        MessageRequest message
+        Message message
 ) {
-    public static com.smeem.external.firebase.MessageRequest of(String targetToken, String title, String body) {
-        return com.smeem.external.firebase.MessageRequest.builder()
+    public static MessageRequest of(String targetToken, String title, String body) {
+        return MessageRequest.builder()
                 .validateOnly(false)
-                .message(com.smeem.external.firebase.MessageRequest.MessageRequest.of(title, body, targetToken))
+                .message(Message.of(title, body, targetToken))
                 .build();
     }
 
     @Builder(access = PRIVATE)
-    record MessageRequest(
+    record Message(
             NotificationRequest notification,
             String token
     ) {
 
-        private static MessageRequest of(String title, String body, String token) {
-            return com.smeem.external.firebase.MessageRequest.MessageRequest.builder()
+        private static Message of(String title, String body, String token) {
+            return Message.builder()
                     .notification(NotificationRequest.of(title, body))
                     .token(token)
                     .build();

@@ -1,6 +1,6 @@
 package com.smeem.api.badge.service;
 
-import com.smeem.api.badge.controller.dto.response.BadgeListResponseDTO;
+import com.smeem.api.badge.controller.dto.response.BadgeListResponse;
 import com.smeem.common.exception.BadgeException;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.badge.model.BadgeType;
@@ -28,30 +28,23 @@ public class BadgeService {
     private final MemberBadgeRepository memberBadgeRepository;
     private final BadgeRepository badgeRepository;
 
-    public BadgeListResponseDTO getBadgeList(Long memberId) {
+    @Transactional
+    public void saveMemberBadge(Member member, Badge badge) {
+        memberBadgeRepository.save(MemberBadge.builder()
+                .member(member)
+                .badge(badge)
+                .build());
+    }
+    public BadgeListResponse getBadges(final long memberId) {
         val badges = badgeRepository.findAllOrderById();
         val badgeMap = classifiedByType(badges);
         val memberBadges = memberBadgeRepository.findAllByMemberId(memberId);
-        return BadgeListResponseDTO.of(badgeMap, memberBadges);
+        return BadgeListResponse.of(badgeMap, memberBadges);
     }
 
-    private Map<BadgeType, List<Badge>> classifiedByType(List<Badge> badges) {
-        val badgeMap = new HashMap<BadgeType, List<Badge>>();
-        badges.forEach(badge -> putBadgeMap(badgeMap, badge));
-        return badgeMap;
-    }
-
-    private void putBadgeMap(Map<BadgeType, List<Badge>> badgeMap, Badge badge) {
-        badgeMap.computeIfAbsent(badge.getType(), k -> new ArrayList<>()).add(badge);
-    }
-
-    @Transactional
-    public void saveMemberBadge(Member member, Badge badge) {
-        val memberBadge = MemberBadge.builder()
-                .member(member)
-                .badge(badge)
-                .build();
-        memberBadgeRepository.save(memberBadge);
+    public Badge get(Long id) {
+        return badgeRepository.findById(id)
+                .orElseThrow(() -> new BadgeException(INVALID_BADGE));
     }
 
     public Badge getBadgeByCountOfDiary(int diaryCount) {
@@ -74,8 +67,14 @@ public class BadgeService {
         };
     }
 
-    public Badge get(Long id) {
-        return badgeRepository.findById(id)
-                .orElseThrow(() -> new BadgeException(INVALID_BADGE));
+    private Map<BadgeType, List<Badge>> classifiedByType(List<Badge> badges) {
+        val badgeMap = new HashMap<BadgeType, List<Badge>>();
+        badges.forEach(badge -> putBadgeMap(badgeMap, badge));
+        return badgeMap;
     }
+
+    private void putBadgeMap(Map<BadgeType, List<Badge>> badgeMap, Badge badge) {
+        badgeMap.computeIfAbsent(badge.getType(), k -> new ArrayList<>()).add(badge);
+    }
+
 }

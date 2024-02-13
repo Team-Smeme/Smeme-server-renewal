@@ -6,6 +6,7 @@ import com.smeem.domain.goal.model.GoalType;
 import com.smeem.domain.common.BaseTimeEntity;
 import com.smeem.domain.training.model.TrainingTime;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Member extends BaseTimeEntity {
 
@@ -125,6 +126,15 @@ public class Member extends BaseTimeEntity {
         }
 
         return count;
+    }
+
+    public static Member createInitialMember(SocialType socialType, String socialId, String fcmToken) {
+        return Member.builder()
+                .social(socialType)
+                .socialId(socialId)
+                .targetLang(LangType.defaultLangType())
+                .fcmToken(fcmToken)
+                .build();
     }
 
     public boolean hasNotBadge(Badge badge) {

@@ -40,7 +40,7 @@ class GoalControllerTest extends BaseControllerTest {
     private final String DEFAULT_URL = "/api/v2/goals";
     private final String TAG = "Goal";
 
-//    @Test
+    //    @Test
 //    @DisplayName("전체 학습 목표 조회 테스트")
     void success_get_goals_test() throws Exception {
         // given
@@ -75,7 +75,7 @@ class GoalControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
-//    @Test
+    //    @Test
 //    @DisplayName("학습 목표 조회 테스트")
     void success_get_goal_test() throws Exception {
         // given
