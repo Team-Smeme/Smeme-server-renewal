@@ -1,10 +1,9 @@
 package com.smeem.api.auth.service;
 
-import com.smeem.api.auth.controller.dto.response.SignInResponse;
 import com.smeem.api.auth.jwt.UserAuthentication;
 import com.smeem.api.auth.service.dto.request.SignInServiceRequest;
 import com.smeem.api.auth.service.dto.response.SignInServiceResponse;
-import com.smeem.api.diary.service.DiaryService;
+import com.smeem.api.diary.service.DiaryCommandService;
 import com.smeem.api.member.service.MemberBadgeService;
 import com.smeem.api.member.service.TrainingTimeService;
 import com.smeem.common.exception.MemberException;
@@ -37,7 +36,7 @@ public class AuthService {
     private final AppleSignInService appleSignInService;
     private final KakaoSignInService kakaoSignInService;
     private final MemberBadgeService memberBadgeService;
-    private final DiaryService diaryService;
+    private final DiaryCommandService diaryService;
     private final TrainingTimeService trainingTimeService;
 
     @Transactional

@@ -4,7 +4,7 @@ import static java.util.Objects.*;
 
 import com.smeem.domain.badge.model.Badge;
 
-import com.smeem.domain.model.BaseTimeEntity;
+import com.smeem.domain.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

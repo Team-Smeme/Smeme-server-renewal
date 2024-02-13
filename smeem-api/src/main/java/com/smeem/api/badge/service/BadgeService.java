@@ -31,9 +31,9 @@ public class BadgeService {
     @Transactional
     public void saveMemberBadge(Member member, Badge badge) {
         memberBadgeRepository.save(MemberBadge.builder()
-                        .member(member)
-                        .badge(badge)
-                        .build());
+                .member(member)
+                .badge(badge)
+                .build());
     }
     public BadgeListResponse getBadges(final long memberId) {
         val badges = badgeRepository.findAllOrderById();
@@ -45,6 +45,26 @@ public class BadgeService {
     public Badge get(Long id) {
         return badgeRepository.findById(id)
                 .orElseThrow(() -> new BadgeException(INVALID_BADGE));
+    }
+
+    public Badge getBadgeByCountOfDiary(int diaryCount) {
+        return switch (diaryCount) {
+            case 50 -> get(5L);
+            case 30 -> get(4L);
+            case 10 -> get(3L);
+            case 1 -> get(2L);
+            default -> null;
+        };
+    }
+
+    public Badge getBadgeByComboCountOfDiary(int diaryComboCount) {
+        return switch (diaryComboCount) {
+            case 30 -> get(9L);
+            case 15 -> get(8L);
+            case 7 -> get(7L);
+            case 3 -> get(6L);
+            default -> null;
+        };
     }
 
     private Map<BadgeType, List<Badge>> classifiedByType(List<Badge> badges) {

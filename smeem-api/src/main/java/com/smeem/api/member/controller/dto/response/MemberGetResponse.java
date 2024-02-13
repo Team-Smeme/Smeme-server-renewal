@@ -6,7 +6,6 @@ import com.smeem.api.member.service.dto.response.MemberGetServiceResponse;
 import lombok.AccessLevel;
 import lombok.Builder;
 
-
 @Builder(access = AccessLevel.PRIVATE)
 public record MemberGetResponse(
         String username,

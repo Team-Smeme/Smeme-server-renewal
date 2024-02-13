@@ -5,9 +5,9 @@ import com.smeem.api.common.BaseResponse;
 import com.smeem.api.member.controller.dto.request.MemberPlanUpdateRequest;
 import com.smeem.api.member.controller.dto.request.MemberPushUpdateRequest;
 import com.smeem.api.member.controller.dto.request.MemberUpdateRequest;
-import com.smeem.api.member.controller.dto.response.MemberGetResponse;
 import com.smeem.api.member.controller.dto.response.MemberNameResponse;
 import com.smeem.api.member.service.MemberService;
+import com.smeem.api.member.service.dto.request.MemberPushUpdateServiceRequest;
 import com.smeem.api.member.service.dto.request.MemberUpdatePlanServiceRequest;
 import com.smeem.api.member.service.dto.request.MemberServiceUpdateUserProfileRequest;
 import com.smeem.common.util.Util;
@@ -39,7 +39,7 @@ public class MemberController {
 
     @GetMapping("/me")
     public ResponseEntity<BaseResponse<?>> getProfile(Principal principal) {
-        MemberGetResponse response = memberService.getMemberProfile(Util.getMemberId(principal));
+        val response = memberService.getMemberProfile(Util.getMemberId(principal));
         return ApiResponseUtil.success(SUCCESS_GET_USER, response);
     }
 
@@ -57,7 +57,7 @@ public class MemberController {
 
     @PatchMapping("/push")
     public ResponseEntity<BaseResponse<?>> updateUserPush(Principal principal, @RequestBody MemberPushUpdateRequest request) {
-        memberService.updateHasAlarm(Util.getMemberId(principal), request);
+        memberService.updateHasAlarm(Util.getMemberId(principal), MemberPushUpdateServiceRequest.of(request));
         return ApiResponseUtil.success(SUCCESS_UPDATE_USER_PUSH);
     }
 

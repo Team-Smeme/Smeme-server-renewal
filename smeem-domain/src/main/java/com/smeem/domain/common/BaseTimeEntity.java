@@ -1,4 +1,4 @@
-package com.smeem.domain.model;
+package com.smeem.domain.common;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

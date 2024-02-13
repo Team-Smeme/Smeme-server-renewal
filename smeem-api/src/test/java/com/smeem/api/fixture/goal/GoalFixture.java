@@ -1,6 +1,7 @@
 package com.smeem.api.fixture.goal;
 
-import com.smeem.api.goal.controller.dto.response.GoalResponse;
+
+import com.smeem.api.goal.dto.response.GoalGetServiceResponse;
 import com.smeem.domain.goal.model.Goal;
 import com.smeem.domain.goal.model.GoalType;
 
@@ -20,7 +21,7 @@ public class GoalFixture {
                 .build();
     }
 
-    public static GoalResponse createGoalResponseDTO() {
-        return GoalResponse.of(createGoal());
+    public static GoalGetServiceResponse createGoalResponseDTO() {
+        return GoalGetServiceResponse.of(createGoal());
     }
 }

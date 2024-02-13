@@ -1,5 +1,4 @@
-package com.smeem.api.diary.controller.dto.response;
-
+package com.smeem.api.diary.service.dto.response;
 
 import static java.util.Objects.*;
 
@@ -10,19 +9,19 @@ import lombok.AccessLevel;
 import lombok.Builder;
 
 @Builder(access = AccessLevel.PRIVATE)
-public record DiaryResponseDTO(
-        Long diaryId,
+public record DiaryGetServiceResponse(
+        long diaryId,
         String topic,
         String content,
         String createdAt,
         String username
 ) {
-    public static DiaryResponseDTO of(Diary diary) {
-        return DiaryResponseDTO.builder()
+    public static DiaryGetServiceResponse of(Diary diary) {
+        return DiaryGetServiceResponse.builder()
                 .diaryId(diary.getId())
                 .topic(nonNull(diary.getTopic()) ? diary.getTopic().getContent() : "")
                 .content(diary.getContent())
-                .createdAt(Util.dateToString(diary.getCreatedAt()))
+                .createdAt(Util.transferToLocalDateTime(diary.getCreatedAt()))
                 .username(diary.getMember().getUsername())
                 .build();
     }

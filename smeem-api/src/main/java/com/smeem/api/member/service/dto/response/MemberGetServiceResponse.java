@@ -1,12 +1,12 @@
 package com.smeem.api.member.service.dto.response;
 
 import com.smeem.api.badge.service.dto.response.BadgeServiceResponse;
-import com.smeem.api.goal.controller.dto.response.GoalResponse;
+import com.smeem.api.goal.dto.response.GoalGetServiceResponse;
 import com.smeem.domain.member.model.LangType;
 import com.smeem.domain.member.model.Member;
 import lombok.Builder;
 
-import static lombok.AccessLevel.*;
+import static lombok.AccessLevel.PRIVATE;
 
 
 @Builder(access = PRIVATE)
@@ -22,7 +22,7 @@ public record MemberGetServiceResponse(
 ) {
 
     public static MemberGetServiceResponse of(
-            GoalResponse goal,
+            GoalGetServiceResponse goal,
             Member member,
             TrainingTimeServiceResponse trainingTime,
             BadgeServiceResponse badge

@@ -1,17 +1,18 @@
-package com.smeem.api.test;
+package com.smeem.api.test.controller;
 
 import java.security.Principal;
 
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
-import com.smeem.common.config.ValueConfig;
+import com.smeem.api.test.dto.request.TestPushAlarmRequest;
+import com.smeem.api.test.service.TestService;
+import com.smeem.common.util.Util;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 
 import static com.smeem.common.code.success.TestSuccessCode.SUCCESS_SEND_PUSH_ALARM;
@@ -23,7 +24,6 @@ import static com.smeem.common.code.success.TestSuccessCode.SUCCESS_SERVER_CONNE
 public class TestController {
 
     private final TestService testService;
-    private final ValueConfig valueConfig;
 
     @GetMapping
     public ResponseEntity<BaseResponse<?>> test() {
@@ -31,10 +31,10 @@ public class TestController {
     }
 
     @GetMapping("/alarm")
-    public ResponseEntity<BaseResponse<?>> alarmTest(@Parameter(hidden = true) Principal principal) {
-        val title = valueConfig.getMESSAGE_TITLE();
-        val body = valueConfig.getMESSAGE_BODY();
-         testService.pushTest(title, body, Long.valueOf(principal.getName()));
+    public ResponseEntity<BaseResponse<?>> alarmTest(Principal principal) {
+        val memberId = Util.getMemberId(principal);
+        val serviceRequest = TestPushAlarmRequest.of(memberId);
+        testService.pushTest(serviceRequest);
         return ApiResponseUtil.success(SUCCESS_SEND_PUSH_ALARM);
     }
 }

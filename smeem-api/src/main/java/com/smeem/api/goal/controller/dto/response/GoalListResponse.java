@@ -5,7 +5,6 @@ import com.smeem.domain.goal.model.GoalType;
 import java.util.List;
 
 
-
 public record GoalListResponse(
         List<GoalResponseVO> goals
 ) {

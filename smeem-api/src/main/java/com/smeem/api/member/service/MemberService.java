@@ -3,9 +3,11 @@ package com.smeem.api.member.service;
 
 import com.smeem.api.badge.service.BadgeService;
 import com.smeem.api.badge.service.dto.response.BadgeServiceResponse;
+import com.smeem.api.goal.dto.request.GoalGetServiceRequest;
 import com.smeem.api.goal.service.GoalService;
-import com.smeem.api.member.service.dto.request.MemberUpdatePlanServiceRequest;
+import com.smeem.api.member.service.dto.request.MemberPushUpdateServiceRequest;
 import com.smeem.api.member.service.dto.request.MemberServiceUpdateUserProfileRequest;
+import com.smeem.api.member.service.dto.request.MemberUpdatePlanServiceRequest;
 import com.smeem.api.member.service.dto.request.TrainingTimeServiceRequest;
 import com.smeem.api.member.service.dto.response.MemberGetServiceResponse;
 import com.smeem.api.member.service.dto.response.MemberNameServiceResponse;
@@ -64,7 +66,6 @@ public class MemberService {
         return MemberUpdateServiceResponse.of(badges);
     }
 
-
     private void updateTermAccepted(final Member member, final MemberServiceUpdateUserProfileRequest request) {
         if (nonNull(request.termAccepted())) {
             member.updateTermAccepted(request.termAccepted());
@@ -73,7 +74,7 @@ public class MemberService {
 
     public MemberGetServiceResponse getMemberProfile(final long memberId) {
         val member = get(memberId);
-        val goal = goalService.getByType(member.getGoal());
+        val goal = goalService.getByType(GoalGetServiceRequest.of(member.getGoal()));
         val trainingTimes = trainingTimeService.getAllByMember(member);
 
         // 기본 시간 설정

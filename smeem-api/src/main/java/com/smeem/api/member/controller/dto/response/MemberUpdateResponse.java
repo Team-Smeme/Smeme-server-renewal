@@ -14,12 +14,11 @@ public record MemberUpdateResponse(
         List<AcquiredBadgeResponse> badges
 ) {
     public static MemberUpdateResponse of(
-            List<MemberUpdateServiceResponse> response) {
-
+            MemberUpdateServiceResponse response
+    ) {
         return MemberUpdateResponse
                 .builder()
-                .badges(response)
+                .badges(response.badges().stream().map(AcquiredBadgeResponse::of).toList())
                 .build();
-        return new MemberUpdateResponse(badges.stream().map(AcquiredBadgeResponse::of).toList());
     }
 }

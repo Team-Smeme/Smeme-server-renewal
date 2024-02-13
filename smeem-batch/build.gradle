@@ -1,3 +1,7 @@
+jar { enabled = true }
+
+bootJar { enabled = false }
+
 dependencies {
     implementation project(":smeem-common")
     implementation project(":smeem-domain")
