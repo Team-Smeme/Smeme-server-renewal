@@ -1,11 +1,11 @@
 package com.smeem.api.badge.controller;
 
-import com.smeem.api.badge.controller.dto.response.BadgeListResponse;
 import com.smeem.api.badge.service.BadgeService;
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
 import com.smeem.common.util.Util;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +24,7 @@ public class BadgeController {
 
     @GetMapping
     public ResponseEntity<BaseResponse<?>> getBadges(Principal principal) {
-        BadgeListResponse response = badgeService.getBadges(Util.getMemberId(principal));
+        val response = badgeService.getBadges(Util.getMemberId(principal));
         return ApiResponseUtil.success(SUCCESS_GET_BADGES, response);
     }
 
