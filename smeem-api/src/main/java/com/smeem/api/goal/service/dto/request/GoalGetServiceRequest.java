@@ -1,4 +1,4 @@
-package com.smeem.api.goal.dto.request;
+package com.smeem.api.goal.service.dto.request;
 
 import com.smeem.domain.goal.model.GoalType;
 import lombok.Builder;

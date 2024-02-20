@@ -3,7 +3,7 @@ package com.smeem.api.controller;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.topic.controller.TopicController;
-import com.smeem.api.topic.dto.response.RandomTopicGetServiceResponse;
+import com.smeem.api.topic.service.dto.response.RandomTopicGetServiceResponse;
 import lombok.val;
 import org.springframework.boot.test.mock.mockito.MockBean;
 

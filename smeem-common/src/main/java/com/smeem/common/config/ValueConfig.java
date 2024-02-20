@@ -45,6 +45,8 @@ public class ValueConfig {
     @Value("${smeem.duration.remind}")
     private int DURATION_REMIND;
 
+    public static final boolean DEFAULT_IS_PUBLIC_VALUE = true;
+
     @PostConstruct
     protected void init() {
         JWT_SECRET = Base64.getEncoder().encodeToString(JWT_SECRET.getBytes(StandardCharsets.UTF_8));

@@ -5,7 +5,6 @@ plugins {
     id 'com.epages.restdocs-api-spec' version "0.18.2"
     // swagger generator
     id 'org.hidetake.swagger.generator' version '2.18.2'
-    id 'org.jetbrains.kotlin.jvm'
 }
 
 dependencies {
@@ -66,7 +65,4 @@ bootJar {
 }
 repositories {
     mavenCentral()
-}
-kotlin {
-    jvmToolchain(17)
 }

@@ -1,9 +1,9 @@
 package com.smeem.api.goal.service;
 
 import java.util.List;
-import com.smeem.api.goal.dto.request.GoalGetServiceRequest;
-import com.smeem.api.goal.dto.response.GoalGetServiceResponse;
-import com.smeem.api.goal.dto.response.GoalListGetServiceResponse;
+import com.smeem.api.goal.service.dto.request.GoalGetServiceRequest;
+import com.smeem.api.goal.service.dto.response.GoalGetServiceResponse;
+import com.smeem.api.goal.service.dto.response.GoalListGetServiceResponse;
 import com.smeem.common.exception.GoalException;
 import com.smeem.domain.goal.model.Goal;
 import com.smeem.domain.goal.model.GoalType;
@@ -28,7 +28,7 @@ public class GoalService {
         return GoalListGetServiceResponse.of(goalTypes);
     }
 
-    public GoalGetServiceResponse getByType(GoalGetServiceRequest request) {
+    public GoalGetServiceResponse getByType(final GoalGetServiceRequest request) {
         val goal = findGoal(request.goalType());
         return GoalGetServiceResponse.of(goal);
     }

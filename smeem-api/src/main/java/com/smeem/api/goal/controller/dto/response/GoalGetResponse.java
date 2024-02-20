@@ -1,7 +1,6 @@
 package com.smeem.api.goal.controller.dto.response;
 
-
-import com.smeem.api.goal.dto.response.GoalGetServiceResponse;
+import com.smeem.api.goal.service.dto.response.GoalGetServiceResponse;
 import lombok.Builder;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -13,9 +12,9 @@ public record GoalGetResponse(
         String detail
 ) {
 
-    public static GoalGetResponse of(GoalGetServiceResponse response) {
+    public static GoalGetResponse from(GoalGetServiceResponse response) {
         return GoalGetResponse.builder()
-                .name(response.name())
+                .name(response.goalType())
                 .way(response.way())
                 .detail(response.detail())
                 .build();

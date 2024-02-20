@@ -1,7 +1,7 @@
 package com.smeem.api.fixture.goal;
 
 
-import com.smeem.api.goal.dto.response.GoalGetServiceResponse;
+import com.smeem.api.goal.service.dto.response.GoalGetServiceResponse;
 import com.smeem.domain.goal.model.Goal;
 import com.smeem.domain.goal.model.GoalType;
 

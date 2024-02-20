@@ -1,8 +1,11 @@
 package com.smeem.domain.training.model;
 
+import static com.smeem.common.code.failure.TrainingTimeFailureCode.INVALID_HOUR;
+import static com.smeem.common.code.failure.TrainingTimeFailureCode.INVALID_MINUTE;
 import static java.util.Objects.*;
+import static lombok.AccessLevel.PROTECTED;
 
-
+import com.smeem.common.exception.TrainingTimeException;
 import com.smeem.domain.member.model.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -10,7 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 @Getter
 public class TrainingTime {
 
@@ -21,14 +24,8 @@ public class TrainingTime {
     @Enumerated(value = EnumType.STRING)
     private DayType day;
 
-    // TODO : validation -> 생성자에 validation method 직접 구현
-    // @Min(value = 1, message = "시(hour)는 1 이상이어야 합니다.")
-    // @Max(value = 24, message = "시(hour)는 24 이하여야 합니다.")
     private int hour;
 
-    // TODO : validation -> 생성자에 validation method 직접 구현
-    // @Min(value = 0, message = "분(minute)은 0 이상이어야 합니다.")
-    // @Max(value = 59, message = "분(minute)은 59 이하이어야 합니다.")
     private int minute;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,8 +35,8 @@ public class TrainingTime {
     @Builder
     public TrainingTime(DayType day, int hour, int minute, Member member) {
         this.day = day;
-        this.hour = hour;
-        this.minute = minute;
+        setHour(hour);
+        setMinute(minute);
         setMember(member);
     }
 
@@ -49,5 +46,19 @@ public class TrainingTime {
         }
         this.member = member;
         member.getTrainingTimes().add(this);
+    }
+
+    private void setHour(int hour) {
+        if (hour < 1 || hour > 24) {
+            throw new TrainingTimeException(INVALID_HOUR);
+        }
+        this.hour = hour;
+    }
+
+    private void setMinute(int minute) {
+        if (minute != 0 && minute != 30) {
+            throw new TrainingTimeException(INVALID_MINUTE);
+        }
+        this.minute = minute;
     }
 }

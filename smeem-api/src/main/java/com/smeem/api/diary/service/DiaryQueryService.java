@@ -29,20 +29,20 @@ public class DiaryQueryService {
 
     private final ValueConfig valueConfig;
 
-    public DiaryGetServiceResponse getDiaryDetail(DiaryGetServiceRequest request) {
+    public DiaryGetServiceResponse getDiaryDetail(final DiaryGetServiceRequest request) {
         val diary = findDiary(request.diaryId());
         return DiaryGetServiceResponse.of(diary);
+    }
+
+    public DiaryListGetServiceResponse getDiaries(final DiaryListGetServiceRequest request) {
+        val member = findMember(request.memberId());
+        val diaries = member.getDiariesBetweenDate(request.startDate(), request.endDate());
+        return DiaryListGetServiceResponse.of(diaries, member, valueConfig);
     }
 
     private Diary findDiary(long id) {
         return diaryRepository.findById(id)
                 .orElseThrow(() -> new DiaryException(INVALID_DIARY));
-    }
-
-    public DiaryListGetServiceResponse getDiaries(DiaryListGetServiceRequest request) {
-        val member = findMember(request.memberId());
-        val diaries = member.getDiariesBetweenDate(request.startDate(), request.endDate());
-        return DiaryListGetServiceResponse.of(diaries, member, valueConfig);
     }
 
     private Member findMember(long id) {

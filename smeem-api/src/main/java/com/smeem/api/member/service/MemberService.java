@@ -3,7 +3,7 @@ package com.smeem.api.member.service;
 
 import com.smeem.api.badge.service.BadgeService;
 import com.smeem.api.badge.service.dto.response.BadgeServiceResponse;
-import com.smeem.api.goal.dto.request.GoalGetServiceRequest;
+import com.smeem.api.goal.service.dto.request.GoalGetServiceRequest;
 import com.smeem.api.goal.service.GoalService;
 import com.smeem.api.member.service.dto.request.MemberPushUpdateServiceRequest;
 import com.smeem.api.member.service.dto.request.MemberServiceUpdateUserProfileRequest;

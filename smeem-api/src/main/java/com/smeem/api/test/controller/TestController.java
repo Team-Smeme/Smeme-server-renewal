@@ -4,8 +4,8 @@ import java.security.Principal;
 
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
-import com.smeem.api.test.dto.request.TestPushAlarmRequest;
 import com.smeem.api.test.service.TestService;
+import com.smeem.api.test.service.dto.request.TestPushAlarmServiceRequest;
 import com.smeem.common.util.Util;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +33,7 @@ public class TestController {
     @GetMapping("/alarm")
     public ResponseEntity<BaseResponse<?>> alarmTest(Principal principal) {
         val memberId = Util.getMemberId(principal);
-        val serviceRequest = TestPushAlarmRequest.of(memberId);
-        testService.pushTest(serviceRequest);
+        testService.pushTest(TestPushAlarmServiceRequest.of(memberId));
         return ApiResponseUtil.success(SUCCESS_SEND_PUSH_ALARM);
     }
 }

@@ -4,7 +4,8 @@ import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
 
 import com.smeem.api.goal.controller.dto.response.GoalGetResponse;
-import com.smeem.api.goal.dto.request.GoalGetServiceRequest;
+import com.smeem.api.goal.controller.dto.response.GoalListGetResponse;
+import com.smeem.api.goal.service.dto.request.GoalGetServiceRequest;
 import com.smeem.api.goal.service.GoalService;
 import com.smeem.domain.goal.model.GoalType;
 import lombok.val;
@@ -28,13 +29,13 @@ public class GoalController {
 
     @GetMapping
     public ResponseEntity<BaseResponse<?>> getAllGoals() {
-        val response = goalService.getAllGoals();
+        val response = GoalListGetResponse.from(goalService.getAllGoals());
         return ApiResponseUtil.success(SUCCESS_GET_GOALS, response);
     }
 
     @GetMapping("/{type}")
     public ResponseEntity<BaseResponse<?>> getGoalByType(@PathVariable GoalType type) {
-        val response = GoalGetResponse.of(goalService.getByType(GoalGetServiceRequest.of(type)));
+        val response = GoalGetResponse.from(goalService.getByType(GoalGetServiceRequest.of(type)));
         return ApiResponseUtil.success(SUCCESS_GET_GOAL, response);
     }
 }

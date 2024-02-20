@@ -15,6 +15,8 @@ public enum TrainingTimeFailureCode implements FailureCode {
      * 400 BAD REQUEST
      */
     INVALID_DAY_OF_WEEK(BAD_REQUEST, "유효하지 않은 요일 값입니다."),
+    INVALID_HOUR(BAD_REQUEST, "시(hour)는 1 이상 24 이하이어야 합니다."),
+    INVALID_MINUTE(BAD_REQUEST, "분(minute)은 30분 단위이어야 합니다. (0 또는 30)"),
 
     /**
      * 404 NOT FOUND

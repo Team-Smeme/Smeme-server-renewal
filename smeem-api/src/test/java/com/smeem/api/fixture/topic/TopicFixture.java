@@ -1,7 +1,7 @@
 package com.smeem.api.fixture.topic;
 
 
-import com.smeem.api.topic.dto.response.RandomTopicGetServiceResponse;
+import com.smeem.api.topic.service.dto.response.RandomTopicGetServiceResponse;
 import com.smeem.domain.topic.model.Category;
 import com.smeem.domain.topic.model.Topic;
 
