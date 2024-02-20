@@ -10,6 +10,7 @@ import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
 import com.smeem.common.util.Util;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,13 +32,13 @@ public class AuthController {
     @PostMapping
     public ResponseEntity<BaseResponse<?>> signIn(@RequestHeader("Authorization") String socialAccessToken,
                                                   @RequestBody SignInRequest request) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        SignInResponse response = SignInResponse.of(authService.signIn(socialAccessToken, SignInServiceRequest.of(request)));
+        val response = SignInResponse.of(authService.signIn(socialAccessToken, SignInServiceRequest.of(request)));
         return ApiResponseUtil.success(SUCCESS_SIGNIN, response);
     }
 
     @PostMapping("/token")
     public ResponseEntity<BaseResponse<?>> reissueToken(Principal principal) {
-        TokenResponse response = TokenResponse.of(tokenService.issueToken(Util.getMemberId(principal)));
+        val response = TokenResponse.of(tokenService.issueToken(Util.getMemberId(principal)));
         return ApiResponseUtil.success(SUCCESS_ISSUE_TOKEN, response);
     }
 

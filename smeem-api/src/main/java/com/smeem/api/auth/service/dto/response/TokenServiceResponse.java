@@ -13,9 +13,9 @@ public record TokenServiceResponse(
 ) {
 
     public static TokenServiceResponse of(SmeemToken token) {
-        return new TokenServiceResponse(
-                token.getAccessToken(),
-                token.getRefreshToken()
-        );
+        return TokenServiceResponse.builder()
+                .accessToken(token.getAccessToken())
+                .refreshToken(token.getRefreshToken())
+                .build();
     }
 }
