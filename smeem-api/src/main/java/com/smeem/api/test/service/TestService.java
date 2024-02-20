@@ -1,7 +1,6 @@
 package com.smeem.api.test.service;
 
-
-import com.smeem.api.test.dto.request.TestPushAlarmRequest;
+import com.smeem.api.test.service.dto.request.TestPushAlarmServiceRequest;
 import com.smeem.common.config.ValueConfig;
 import com.smeem.common.exception.MemberException;
 import com.smeem.domain.member.model.Member;
@@ -24,7 +23,7 @@ public class TestService {
     private final FcmService fcmService;
     private final ValueConfig valueConfig;
 
-    public void pushTest(TestPushAlarmRequest request) {
+    public void pushTest(final TestPushAlarmServiceRequest request) {
         val member = findMember(request.memberId());
         val title = valueConfig.getMESSAGE_TITLE();
         val body = valueConfig.getMESSAGE_BODY();

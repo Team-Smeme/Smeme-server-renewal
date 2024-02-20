@@ -1,4 +1,4 @@
-package com.smeem.api.goal.dto.response;
+package com.smeem.api.goal.service.dto.response;
 
 import com.smeem.domain.goal.model.GoalType;
 import lombok.Builder;
@@ -9,25 +9,25 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Builder(access = PRIVATE)
 public record GoalListGetServiceResponse(
-        List<GoalResponse> goals
+        List<GoalServiceResponse> goals
 ) {
 
     public static GoalListGetServiceResponse of(List<GoalType> goalTypes) {
         return GoalListGetServiceResponse.builder()
-                .goals(goalTypes.stream().map(GoalResponse::of).toList())
+                .goals(goalTypes.stream().map(GoalServiceResponse::of).toList())
                 .build();
     }
 
     @Builder(access = PRIVATE)
-    public record GoalResponse(
+    public record GoalServiceResponse(
             String goalType,
-            String name
+            String goalDescription
     ) {
 
-        public static GoalResponse of(GoalType goalType) {
-            return GoalResponse.builder()
+        public static GoalServiceResponse of(GoalType goalType) {
+            return GoalServiceResponse.builder()
                     .goalType(goalType.name())
-                    .name(goalType.getDescription())
+                    .goalDescription(goalType.getDescription())
                     .build();
         }
     }

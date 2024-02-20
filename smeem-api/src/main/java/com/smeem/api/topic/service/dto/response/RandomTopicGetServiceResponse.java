@@ -1,4 +1,4 @@
-package com.smeem.api.topic.dto.response;
+package com.smeem.api.topic.service.dto.response;
 
 import com.smeem.domain.topic.model.Topic;
 import lombok.Builder;

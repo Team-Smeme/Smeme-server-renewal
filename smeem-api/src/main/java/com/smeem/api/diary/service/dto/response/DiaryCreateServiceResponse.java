@@ -14,6 +14,7 @@ public record DiaryCreateServiceResponse(
         long diaryId,
         List<AcquiredBadgeServiceResponse> badges
 ) {
+
     public static DiaryCreateServiceResponse of(Diary diary, List<Badge> badges) {
         return DiaryCreateServiceResponse.builder()
                 .diaryId(diary.getId())

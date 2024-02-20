@@ -6,6 +6,9 @@ import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
 import com.smeem.api.diary.controller.dto.request.DiaryCreateRequest;
 import com.smeem.api.diary.controller.dto.request.DiaryModifyRequest;
+import com.smeem.api.diary.controller.dto.response.DiaryCreateResponse;
+import com.smeem.api.diary.controller.dto.response.DiaryGetResponse;
+import com.smeem.api.diary.controller.dto.response.DiaryListGetResponse;
 import com.smeem.api.diary.service.DiaryQueryService;
 import com.smeem.api.diary.service.DiaryCommandService;
 import com.smeem.api.diary.service.dto.request.*;
@@ -38,32 +41,28 @@ public class DiaryController {
     @PostMapping
     public ResponseEntity<BaseResponse<?>> createDiary(Principal principal, @RequestBody DiaryCreateRequest request) {
         val memberId = Util.getMemberId(principal);
-        val serviceRequest = DiaryCreateServiceRequest.of(memberId, request);
-
-        val response = diaryCommandService.createDiary(serviceRequest);
+        val response = DiaryCreateResponse.from(
+                diaryCommandService.createDiary(DiaryCreateServiceRequest.of(memberId, request)));
         val uri = Util.getURI("/{diaryId}", response.diaryId());
-
         return ApiResponseUtil.success(SUCCESS_CREATE_DIARY, uri, response);
     }
 
     @GetMapping("/{diaryId}")
     public ResponseEntity<BaseResponse<?>> getDiaryDetail(@PathVariable long diaryId) {
-        val serviceRequest = DiaryGetServiceRequest.of(diaryId);
-        val response = diaryQueryService.getDiaryDetail(serviceRequest);
+        val response = DiaryGetResponse.from(
+                diaryQueryService.getDiaryDetail(DiaryGetServiceRequest.of(diaryId)));
         return ApiResponseUtil.success(SUCCESS_GET_DIARY, response);
     }
 
     @PatchMapping("/{diaryId}")
     public ResponseEntity<BaseResponse<?>> modifyDiary(@PathVariable long diaryId, @RequestBody DiaryModifyRequest request) {
-        val serviceRequest = DiaryModifyServiceRequest.of(diaryId, request);
-        diaryCommandService.modifyDiary(serviceRequest);
+        diaryCommandService.modifyDiary(DiaryModifyServiceRequest.of(diaryId, request));
         return ApiResponseUtil.success(SUCCESS_UPDATE_DAIRY);
     }
 
     @DeleteMapping("/{diaryId}")
     public ResponseEntity<BaseResponse<?>> deleteDiary(@PathVariable long diaryId) {
-        val serviceRequest = DiaryDeleteServiceRequest.of(diaryId);
-        diaryCommandService.deleteDiary(serviceRequest);
+        diaryCommandService.deleteDiary(DiaryDeleteServiceRequest.of(diaryId));
         return ApiResponseUtil.success(SUCCESS_DELETE_DIARY);
     }
 
@@ -74,8 +73,8 @@ public class DiaryController {
             @RequestParam String end
     ) {
         val memberId = Util.getMemberId(principal);
-        val serviceRequest = DiaryListGetServiceRequest.of(memberId, start, end);
-        val response = diaryQueryService.getDiaries(serviceRequest);
+        val response = DiaryListGetResponse.from(
+                diaryQueryService.getDiaries(DiaryListGetServiceRequest.of(memberId, start, end)));
         return ApiResponseUtil.success(SUCCESS_GET_DIARIES, response);
     }
 }
