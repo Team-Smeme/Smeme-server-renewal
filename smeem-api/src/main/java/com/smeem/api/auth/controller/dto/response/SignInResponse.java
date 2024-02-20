@@ -1,12 +1,13 @@
 package com.smeem.api.auth.controller.dto.response;
 
 
-import com.smeem.api.auth.jwt.SmeemToken;
 import com.smeem.api.auth.service.dto.response.SignInServiceResponse;
 import lombok.Builder;
 
+import static lombok.AccessLevel.PRIVATE;
 
-@Builder
+
+@Builder(access = PRIVATE)
 public record SignInResponse(
         String accessToken,
         String refreshToken,
@@ -15,11 +16,11 @@ public record SignInResponse(
 ) {
 
         public static SignInResponse of(SignInServiceResponse response) {
-                return new SignInResponse(
-                        response.accessToken(),
-                        response.refreshToken(),
-                        response.isRegistered(),
-                        response.hasPlan());
+                return SignInResponse.builder()
+                        .accessToken(response.accessToken())
+                        .refreshToken(response.refreshToken())
+                        .isRegistered(response.isRegistered())
+                        .hasPlan(response.hasPlan())
+                        .build();
         }
-
 }
