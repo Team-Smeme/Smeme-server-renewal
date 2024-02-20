@@ -1,6 +1,8 @@
 package com.smeem.domain.diary.model;
 
+import static com.smeem.common.config.ValueConfig.DEFAULT_IS_PUBLIC_VALUE;
 import static java.util.Objects.nonNull;
+import static lombok.AccessLevel.PROTECTED;
 
 import com.smeem.domain.member.model.LangType;
 import com.smeem.domain.member.model.Member;
@@ -12,7 +14,7 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 @Getter
 public class Diary extends BaseTimeEntity {
 
@@ -42,7 +44,7 @@ public class Diary extends BaseTimeEntity {
     public Diary(String content, Topic topic, Member member) {
         this.content = content;
         this.targetLang = member.getTargetLang();
-        this.isPublic = true;
+        this.isPublic = DEFAULT_IS_PUBLIC_VALUE;
         this.topic = topic;
         setMember(member);
     }
@@ -51,16 +53,8 @@ public class Diary extends BaseTimeEntity {
     public Diary(String content, Member member) {
         this.content = content;
         this.targetLang = member.getTargetLang();
-        this.isPublic = true;
+        this.isPublic = DEFAULT_IS_PUBLIC_VALUE;
         setMember(member);
-    }
-
-    private void setMember(Member member) {
-        if (nonNull(this.member)) {
-            this.member.getDiaries().remove(this);
-        }
-        this.member = member;
-        member.getDiaries().add(this);
     }
 
     public void updateContent(String content) {
@@ -96,5 +90,13 @@ public class Diary extends BaseTimeEntity {
 
     public boolean isCombo() {
         return this.member.getDiaries().stream().anyMatch(Diary::isWrittenYesterday);
+    }
+
+    private void setMember(Member member) {
+        if (nonNull(this.member)) {
+            this.member.getDiaries().remove(this);
+        }
+        this.member = member;
+        member.getDiaries().add(this);
     }
 }

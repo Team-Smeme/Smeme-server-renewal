@@ -3,8 +3,10 @@ package com.smeem.domain.topic.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import static lombok.AccessLevel.PROTECTED;
+
 @Getter
-@AllArgsConstructor
+@AllArgsConstructor(access = PROTECTED)
 public enum Category {
     TRIP("여행"),
     TASTE("취향"),

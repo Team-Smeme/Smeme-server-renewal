@@ -3,7 +3,9 @@ package com.smeem.domain.goal.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
+import static lombok.AccessLevel.PROTECTED;
+
+@AllArgsConstructor(access = PROTECTED)
 @Getter
 public enum GoalType {
     DEVELOP("자기계발"),

@@ -1,6 +1,5 @@
 package com.smeem.domain.diary.repository;
 
-
 import com.smeem.domain.diary.model.DeletedDiary;
 import com.smeem.domain.member.model.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
