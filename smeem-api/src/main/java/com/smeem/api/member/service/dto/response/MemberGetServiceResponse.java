@@ -29,7 +29,7 @@ public record MemberGetServiceResponse(
     )  {
         return MemberGetServiceResponse.builder()
                 .username(member.getUsername())
-                .target(goal.name())
+                .target(goal.goalType())
                 .way(goal.way())
                 .detail(goal.detail())
                 .targetLangType(member.getTargetLang())
