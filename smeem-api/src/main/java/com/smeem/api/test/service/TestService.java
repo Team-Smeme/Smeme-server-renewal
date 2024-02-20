@@ -6,6 +6,7 @@ import com.smeem.common.exception.MemberException;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.repository.MemberRepository;
 import com.smeem.external.firebase.FcmService;
+import com.smeem.external.firebase.dto.request.MessagePushServiceRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class TestService {
         val member = findMember(request.memberId());
         val title = valueConfig.getMESSAGE_TITLE();
         val body = valueConfig.getMESSAGE_BODY();
-        fcmService.pushMessage(member.getFcmToken(), title, body);
+        fcmService.pushMessage(MessagePushServiceRequest.of(member.getFcmToken(), title, body));
     }
 
     private Member findMember(long id) {

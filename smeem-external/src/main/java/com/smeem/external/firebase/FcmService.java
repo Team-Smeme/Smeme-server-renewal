@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.smeem.common.config.ValueConfig;
 import com.smeem.common.exception.FcmException;
+import com.smeem.external.firebase.dto.request.MessagePushRequest;
+import com.smeem.external.firebase.dto.request.MessagePushServiceRequest;
 import lombok.val;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -31,28 +33,24 @@ public class FcmService {
     private final ObjectMapper objectMapper;
     private final ValueConfig valueConfig;
 
-    public void pushMessage(String targetToken, String title, String body) {
+    public void pushMessage(final MessagePushServiceRequest request) {
         try {
-            val message = makeMessage(targetToken, title, body);
-            val requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
-
-            val request = new Request.Builder()
+            val fcmRequest = new Request.Builder()
                     .url(valueConfig.getFIREBASE_API_URI())
-                    .post(requestBody)
+                    .post(RequestBody.create(makeMessage(request), MediaType.get("application/json; charset=utf-8")))
                     .addHeader(AUTHORIZATION, "Bearer " + getAccessToken())
                     .addHeader("Accept", "application/json; UTF-8")
                     .build();
-
             val client = new OkHttpClient();
-            client.newCall(request).execute();
+            client.newCall(fcmRequest).execute();
         } catch (Exception exception) {
             throw new FcmException(INVALID_REQUEST_MESSAGE);
         }
     }
 
-    private String makeMessage(String targetToken, String title, String body) {
+    private String makeMessage(MessagePushServiceRequest request) {
         try {
-            val message = MessageRequest.of(targetToken, title, body);
+            val message = MessagePushRequest.of(request);
             return objectMapper.writeValueAsString(message);
         } catch (JsonProcessingException exception) {
             throw new FcmException(INVALID_REQUEST_PATTERN);

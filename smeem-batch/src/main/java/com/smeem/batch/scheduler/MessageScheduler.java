@@ -4,6 +4,7 @@ import com.smeem.common.config.ValueConfig;
 import com.smeem.domain.training.model.TrainingTime;
 import com.smeem.domain.training.repository.TrainingTimeRepository;
 import com.smeem.external.firebase.FcmService;
+import com.smeem.external.firebase.dto.request.MessagePushServiceRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -34,6 +35,6 @@ public class MessageScheduler {
         val fcmToken = trainingTime.getMember().getFcmToken();
         val messageTitle = valueConfig.getMESSAGE_TITLE();
         val messageBody = valueConfig.getMESSAGE_BODY();
-        fcmService.pushMessage(fcmToken, messageTitle, messageBody);
+        fcmService.pushMessage(MessagePushServiceRequest.of(fcmToken, messageTitle, messageBody));
     }
 }
