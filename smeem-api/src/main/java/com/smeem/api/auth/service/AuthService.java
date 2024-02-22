@@ -76,7 +76,7 @@ public class AuthService {
                 .orElseThrow(() -> new MemberException(INVALID_MEMBER));
     }
 
-    private Member getMemberBySocialAndSocialId(SocialType socialType, String socialId) {
+    private Member getMemberBySocialAndSocialId(final SocialType socialType, final String socialId) {
         return memberRepository.findBySocialAndSocialId(socialType, socialId)
                 .orElseThrow(() -> new MemberException(INVALID_MEMBER));
     }

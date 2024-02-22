@@ -1,8 +1,6 @@
 package com.smeem.api.badge.service.dto.response;
 
 
-import com.smeem.api.badge.controller.dto.response.BadgeListResponse;
-import com.smeem.api.badge.controller.dto.response.BadgeTypeResponse;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.badge.model.BadgeType;
 import com.smeem.domain.member.model.MemberBadge;
@@ -12,7 +10,7 @@ import lombok.val;
 import java.util.List;
 import java.util.Map;
 
-import static lombok.AccessLevel.*;
+import static lombok.AccessLevel.PRIVATE;
 
 @Builder(access = PRIVATE)
 public record BadgeListServiceResponse(

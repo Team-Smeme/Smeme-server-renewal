@@ -1,6 +1,5 @@
 package com.smeem.api.badge.service.dto.response;
 
-import com.smeem.api.badge.controller.dto.response.BadgeBaseResponse;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.badge.model.BadgeType;
 import com.smeem.domain.member.model.MemberBadge;

@@ -21,7 +21,7 @@ public class MemberBadgeService {
     private final MemberBadgeRepository memberBadgeRepository;
 
     @Transactional
-    public void deleteAllByMember(Member member) {
+    public void deleteAllByMember(final Member member) {
         memberBadgeRepository.deleteAllInBatch(member.getBadges());
     }
 
@@ -34,7 +34,7 @@ public class MemberBadgeService {
         memberBadgeRepository.save(memberBadge);
     }
 
-    public Badge getBadgeByMemberId(Long memberId) {
+    public Badge getBadgeByMemberId(final long memberId) {
         return memberBadgeRepository.findFirstByMemberIdOrderByCreatedAtDesc(memberId).orElseThrow(
                 () -> new BadgeException(EMPTY_BADGE)).getBadge();
     }
