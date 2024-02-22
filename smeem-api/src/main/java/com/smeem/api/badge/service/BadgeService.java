@@ -1,6 +1,7 @@
 package com.smeem.api.badge.service;
 
 import com.smeem.api.badge.controller.dto.response.BadgeListResponse;
+import com.smeem.api.badge.service.dto.response.BadgeListServiceResponse;
 import com.smeem.common.exception.BadgeException;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.badge.model.BadgeType;
@@ -29,25 +30,25 @@ public class BadgeService {
     private final BadgeRepository badgeRepository;
 
     @Transactional
-    public void saveMemberBadge(Member member, Badge badge) {
+    public void saveMemberBadge(final Member member, final Badge badge) {
         memberBadgeRepository.save(MemberBadge.builder()
                 .member(member)
                 .badge(badge)
                 .build());
     }
-    public BadgeListResponse getBadges(final long memberId) {
+    public BadgeListServiceResponse getBadges(final long memberId) {
         val badges = badgeRepository.findAllOrderById();
         val badgeMap = classifiedByType(badges);
         val memberBadges = memberBadgeRepository.findAllByMemberId(memberId);
-        return BadgeListResponse.of(badgeMap, memberBadges);
+        return BadgeListServiceResponse.of(badgeMap, memberBadges);
     }
 
-    public Badge get(Long id) {
+    public Badge get(final long id) {
         return badgeRepository.findById(id)
                 .orElseThrow(() -> new BadgeException(INVALID_BADGE));
     }
 
-    public Badge getBadgeByCountOfDiary(int diaryCount) {
+    public Badge getBadgeByCountOfDiary(final int diaryCount) {
         return switch (diaryCount) {
             case 50 -> get(5L);
             case 30 -> get(4L);
@@ -57,7 +58,7 @@ public class BadgeService {
         };
     }
 
-    public Badge getBadgeByComboCountOfDiary(int diaryComboCount) {
+    public Badge getBadgeByComboCountOfDiary(final int diaryComboCount) {
         return switch (diaryComboCount) {
             case 30 -> get(9L);
             case 15 -> get(8L);

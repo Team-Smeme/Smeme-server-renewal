@@ -1,18 +1,19 @@
 package com.smeem.api.badge.controller.dto.response;
 
-import com.smeem.api.badge.service.dto.response.AcquiredBadgeServiceResponse;
+import com.smeem.api.badge.service.dto.response.BadgeBaseServiceResponse;
 import com.smeem.domain.badge.model.BadgeType;
 import lombok.AccessLevel;
 import lombok.Builder;
 
 @Builder(access = AccessLevel.PRIVATE)
-public record AcquiredBadgeResponse(
+public record BadgeBaseResponse(
         String name,
-        String imageUrl,
-        BadgeType type
+        BadgeType type,
+        String imageUrl
 ) {
-    public static AcquiredBadgeResponse from(AcquiredBadgeServiceResponse response) {
-        return AcquiredBadgeResponse.builder()
+
+    public static BadgeBaseResponse from(BadgeBaseServiceResponse response) {
+        return BadgeBaseResponse.builder()
                 .name(response.name())
                 .imageUrl(response.imageUrl())
                 .type(response.type())

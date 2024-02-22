@@ -51,7 +51,7 @@ public class MemberController {
 
     @GetMapping("/nickname/check")
     public ResponseEntity<BaseResponse<?>> checkDuplicatedName(@Parameter(description = "유저 닉네임") @RequestParam String name) {
-        val response = MemberNameResponse.of(memberService.checkDuplicatedName(name));
+        val response = MemberNameResponse.from(memberService.checkDuplicatedName(name));
         return ApiResponseUtil.success(SUCCESS_CHECK_DUPLICATED_NAME, response);
     }
 

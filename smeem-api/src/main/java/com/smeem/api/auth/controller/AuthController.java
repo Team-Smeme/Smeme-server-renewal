@@ -30,15 +30,15 @@ public class AuthController {
     private final TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity<BaseResponse<?>> signIn(@RequestHeader("Authorization") String socialAccessToken,
+    public ResponseEntity<BaseResponse<?>> signIn(@RequestHeader("Authorization") final String socialAccessToken,
                                                   @RequestBody SignInRequest request) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        val response = SignInResponse.of(authService.signIn(socialAccessToken, SignInServiceRequest.of(request)));
+        val response = SignInResponse.from(authService.signIn(socialAccessToken, SignInServiceRequest.of(request)));
         return ApiResponseUtil.success(SUCCESS_SIGNIN, response);
     }
 
     @PostMapping("/token")
     public ResponseEntity<BaseResponse<?>> reissueToken(Principal principal) {
-        val response = TokenResponse.of(tokenService.issueToken(Util.getMemberId(principal)));
+        val response = TokenResponse.from(tokenService.issueToken(Util.getMemberId(principal)));
         return ApiResponseUtil.success(SUCCESS_ISSUE_TOKEN, response);
     }
 

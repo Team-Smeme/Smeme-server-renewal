@@ -13,12 +13,12 @@ import static lombok.AccessLevel.PRIVATE;
 public record MemberUpdateResponse(
         List<AcquiredBadgeResponse> badges
 ) {
-    public static MemberUpdateResponse of(
+    public static MemberUpdateResponse from(
             MemberUpdateServiceResponse response
     ) {
         return MemberUpdateResponse
                 .builder()
-                .badges(response.badges().stream().map(AcquiredBadgeResponse::of).toList())
+                .badges(response.badges().stream().map(AcquiredBadgeResponse::from).toList())
                 .build();
     }
 }

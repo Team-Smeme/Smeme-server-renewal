@@ -17,7 +17,7 @@ public record DiaryCreateResponse(
     public static DiaryCreateResponse from(DiaryCreateServiceResponse response) {
         return DiaryCreateResponse.builder()
                 .diaryId(response.diaryId())
-                .badges(response.badges().stream().map(AcquiredBadgeResponse::of).toList())
+                .badges(response.badges().stream().map(AcquiredBadgeResponse::from).toList())
                 .build();
     }
 }

@@ -58,13 +58,13 @@ public class AuthService {
 
     @Transactional
     public void signOut(final long memberId) {
-        Member member = get(memberId);
+        val member = get(memberId);
         member.updateRefreshToken(null);
     }
 
     @Transactional
     public void withdraw(final long memberId) {
-        Member member = get(memberId);
+        val member = get(memberId);
         diaryService.deleteAllByMember(member);
         trainingTimeService.deleteAllByMember(member);
         memberBadgeService.deleteAllByMember(member);

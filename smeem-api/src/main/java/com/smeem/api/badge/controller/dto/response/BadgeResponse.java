@@ -12,7 +12,7 @@ public record BadgeResponse(
         String imageUrl
 ) {
 
-    public static BadgeResponse of(BadgeServiceResponse response) {
+    public static BadgeResponse from(BadgeServiceResponse response) {
         return new BadgeResponse(
                 response.id(),
                 response.name(),

@@ -106,7 +106,7 @@ public class MemberService {
     }
 
     public MemberNameServiceResponse checkDuplicatedName(final String name) {
-        boolean isExist = memberRepository.existsByUsername(name);
+        val isExist = memberRepository.existsByUsername(name);
         return MemberNameServiceResponse.of(isExist);
     }
 

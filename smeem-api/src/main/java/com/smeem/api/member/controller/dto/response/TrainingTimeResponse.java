@@ -11,7 +11,7 @@ public record TrainingTimeResponse(
         int hour,
         int minute
 ) {
-    public static TrainingTimeResponse of(TrainingTimeServiceResponse response) {
+    public static TrainingTimeResponse from(TrainingTimeServiceResponse response) {
         return TrainingTimeResponse.builder()
                 .day(response.day())
                 .hour(response.hour())

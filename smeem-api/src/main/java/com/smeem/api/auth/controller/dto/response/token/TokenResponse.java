@@ -10,7 +10,7 @@ public record TokenResponse(
         String refreshToken
 ) {
 
-    public static TokenResponse of(TokenServiceResponse response) {
+    public static TokenResponse from(TokenServiceResponse response) {
         return TokenResponse.builder()
                 .accessToken(response.accessToken())
                 .refreshToken(response.refreshToken())

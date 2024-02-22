@@ -7,6 +7,7 @@ import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.model.MemberBadge;
 import com.smeem.domain.member.repository.MemberBadgeRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class MemberBadgeService {
 
     @Transactional
     public void save(Member member, Badge badge) {
-        MemberBadge memberBadge = MemberBadge.builder()
+        val memberBadge = MemberBadge.builder()
                 .member(member)
                 .badge(badge)
                 .build();
