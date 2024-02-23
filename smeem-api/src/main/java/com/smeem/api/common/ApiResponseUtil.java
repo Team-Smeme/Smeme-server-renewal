@@ -30,6 +30,6 @@ public interface ApiResponseUtil {
     static ResponseEntity<BaseResponse<?>> failure(FailureCode code) {
         return ResponseEntity
                 .status(code.getStatus())
-                .body(BaseResponse.of(true, code.getMessage()));
+                .body(BaseResponse.of(false, code.getMessage()));
     }
 }

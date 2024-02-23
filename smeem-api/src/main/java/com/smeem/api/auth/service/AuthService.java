@@ -11,8 +11,8 @@ import com.smeem.common.exception.TokenException;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.model.SocialType;
 import com.smeem.domain.member.repository.MemberRepository;
-import com.smeem.external.oauth.apple.AppleSignInService;
-import com.smeem.external.oauth.kakao.KakaoSignInService;
+import com.smeem.external.oauth.apple.AppleService;
+import com.smeem.external.oauth.kakao.KakaoService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -33,8 +33,8 @@ public class AuthService {
     private final MemberRepository memberRepository;
 
     private final TokenService tokenService;
-    private final AppleSignInService appleSignInService;
-    private final KakaoSignInService kakaoSignInService;
+    private final AppleService appleService;
+    private final KakaoService kakaoService;
     private final MemberBadgeService memberBadgeService;
     private final DiaryCommandService diaryService;
     private final TrainingTimeService trainingTimeService;
@@ -44,6 +44,7 @@ public class AuthService {
         val socialType = request.socialType();
         val socialId = socialLogin(socialType, socialAccessToken);
         val existMember = isMemberBySocialAndSocialId(socialType, socialId);
+
         if (!existMember) {
             val initialMember = Member.createInitialMember(socialType, socialId, request.fcmToken());
             memberRepository.save(initialMember);
@@ -85,10 +86,10 @@ public class AuthService {
         return memberRepository.existsBySocialAndSocialId(socialType, socialId);
     }
 
-    private String socialLogin(SocialType socialType, String socialAccessToken) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    private String socialLogin(SocialType socialType, String socialAccessToken) {
         return switch (socialType.toString()) {
-            case "APPLE" -> appleSignInService.getAppleData(socialAccessToken);
-            case "KAKAO" -> kakaoSignInService.getKakaoData(socialAccessToken);
+            case "APPLE" -> appleService.getAppleData(socialAccessToken);
+            case "KAKAO" -> kakaoService.getKakaoData(socialAccessToken);
             default -> throw new TokenException(INVALID_TOKEN);
         };
     }
