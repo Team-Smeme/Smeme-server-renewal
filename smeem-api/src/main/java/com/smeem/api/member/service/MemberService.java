@@ -130,7 +130,7 @@ public class MemberService {
         }
     }
 
-    private String[] parseDay(String day) {
+    private String[] parseDay(final String day) {
         return day.split(",");
     }
 
@@ -164,7 +164,7 @@ public class MemberService {
         }
     }
 
-    private void updatePushAlarmConsent(Member member, Boolean hasAlarm) {
+    private void updatePushAlarmConsent(Member member, final Boolean hasAlarm) {
         if (nonNull(hasAlarm)) {
             member.updateHasAlarm(hasAlarm);
         }

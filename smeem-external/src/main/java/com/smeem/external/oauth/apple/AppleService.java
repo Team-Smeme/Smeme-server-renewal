@@ -62,7 +62,7 @@ public class AppleService {
         }
     }
 
-    private AppleKey matchDecodedKeyWithApplePublicKeys(DecodedAppleKey decodedAppleKey, AppleKeyListResponse appleKeyList) {
+    private AppleKey matchDecodedKeyWithApplePublicKeys(final DecodedAppleKey decodedAppleKey, AppleKeyListResponse appleKeyList) {
         return appleKeyList.keys().stream()
                 .filter(appleKey ->
                         Objects.equals(decodedAppleKey.alg(), appleKey.alg()) &&
@@ -72,7 +72,7 @@ public class AppleService {
                 .orElseThrow(() -> new AuthException(FAIL_APPLE_REQUEST));
     }
 
-    private DecodedAppleKey decodeAppleAccessToken(String accessToken) {
+    private DecodedAppleKey decodeAppleAccessToken(final String accessToken) {
         try {
             val encoded = accessToken.split("\\.");
             val decoded = new String(Base64.getDecoder().decode(encoded[0].substring(7)));
@@ -85,7 +85,7 @@ public class AppleService {
         }
     }
 
-    private PublicKey generatePublicKey(AppleKey key) {
+    private PublicKey generatePublicKey(final AppleKey key) {
         try {
             val eBytes = Base64.getUrlDecoder().decode(key.e());
             val nBytes = Base64.getUrlDecoder().decode(key.n());

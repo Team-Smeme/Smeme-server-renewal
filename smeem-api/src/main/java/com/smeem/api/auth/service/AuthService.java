@@ -44,7 +44,6 @@ public class AuthService {
         val socialType = request.socialType();
         val socialId = socialLogin(socialType, socialAccessToken);
         val existMember = isMemberBySocialAndSocialId(socialType, socialId);
-
         if (!existMember) {
             val initialMember = Member.createInitialMember(socialType, socialId, request.fcmToken());
             memberRepository.save(initialMember);
@@ -86,7 +85,7 @@ public class AuthService {
         return memberRepository.existsBySocialAndSocialId(socialType, socialId);
     }
 
-    private String socialLogin(SocialType socialType, String socialAccessToken) {
+    private String socialLogin(SocialType socialType, final String socialAccessToken) {
         return switch (socialType.toString()) {
             case "APPLE" -> appleService.getAppleData(socialAccessToken);
             case "KAKAO" -> kakaoService.getKakaoData(socialAccessToken);
