@@ -64,12 +64,14 @@ public class AppleService {
 
     private AppleKey matchDecodedKeyWithApplePublicKeys(final DecodedAppleKey decodedAppleKey, AppleKeyListResponse appleKeyList) {
         return appleKeyList.keys().stream()
-                .filter(appleKey ->
-                        Objects.equals(decodedAppleKey.alg(), appleKey.alg()) &&
-                        Objects.equals(decodedAppleKey.kid(), appleKey.kid())
-                )
+                .filter(appleKey -> checkEqualAppleKey(decodedAppleKey, appleKey))
                 .findFirst()
                 .orElseThrow(() -> new AuthException(FAIL_APPLE_REQUEST));
+    }
+
+    private boolean checkEqualAppleKey(final DecodedAppleKey decodedAppleKey, final AppleKey appleKey) {
+        return Objects.equals(decodedAppleKey.alg(), appleKey.alg()) &&
+                Objects.equals(decodedAppleKey.kid(), appleKey.kid());
     }
 
     private DecodedAppleKey decodeAppleAccessToken(final String accessToken) {

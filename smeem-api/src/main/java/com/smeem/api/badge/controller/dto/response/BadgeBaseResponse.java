@@ -5,7 +5,9 @@ import com.smeem.domain.badge.model.BadgeType;
 import lombok.AccessLevel;
 import lombok.Builder;
 
-@Builder(access = AccessLevel.PRIVATE)
+import static lombok.AccessLevel.PRIVATE;
+
+@Builder(access = PRIVATE)
 public record BadgeBaseResponse(
         String name,
         BadgeType type,

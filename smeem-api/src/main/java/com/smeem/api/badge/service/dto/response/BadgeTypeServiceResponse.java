@@ -30,8 +30,7 @@ public record BadgeTypeServiceResponse(
             List<MemberBadge> memberBadges
     ) {
         return badges.stream()
-                .map(badge -> BadgeBaseServiceResponse.of(badge, memberBadges))
-                .toList();
+                .map(badge -> BadgeBaseServiceResponse.of(badge, memberBadges)).toList();
     }
 
 }

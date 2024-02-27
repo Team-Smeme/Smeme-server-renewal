@@ -22,7 +22,7 @@ public class TokenValidator {
         }
     }
 
-    public Long getUserFromJwt(String token) {
+    public long getUserFromJwt(String token) {
         Claims claims = getBody(token);
         return Long.parseLong(claims.get("memberId").toString());
     }

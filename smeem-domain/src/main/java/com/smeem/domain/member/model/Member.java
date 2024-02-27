@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -63,6 +64,10 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member")
     private final List<MemberBadge> badges = new ArrayList<>();
 
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
     @Builder
     public Member(SocialType social, String socialId, LangType targetLang, String fcmToken) {
         this.social = social;
@@ -73,11 +78,8 @@ public class Member extends BaseTimeEntity {
         this.diaryComboCount = 0;
     }
 
-    public void updateRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
-
     public void updateUsername(String username) {
+
         this.username = username;
     }
 
@@ -85,12 +87,16 @@ public class Member extends BaseTimeEntity {
         this.termAccepted = termAccepted;
     }
 
-    public void updateHasAlarm(boolean hasAlarm) {
-        this.hasPushAlarm = hasAlarm;
+    public void updateHasAlarm(Boolean hasAlarm) {
+        if (Objects.nonNull(hasAlarm)) {
+            this.hasPushAlarm = hasAlarm;
+        }
     }
 
     public void updateGoal(GoalType goal) {
-        this.goal = goal;
+        if (Objects.nonNull(goal)) {
+            this.goal = goal;
+        }
     }
 
     public boolean hasDiaryWrittenToday() {

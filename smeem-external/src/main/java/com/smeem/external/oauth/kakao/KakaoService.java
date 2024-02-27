@@ -19,7 +19,7 @@ public class KakaoService {
 
     public String getKakaoData(final String accessToken) {
         try {
-            RestClient restClient = RestClient.create();
+            val restClient = RestClient.create();
             val response = restClient.get()
                     .uri(valueConfig.getKAKAO_URL())
                     .header(AUTHORIZATION, "Bearer " + accessToken)
