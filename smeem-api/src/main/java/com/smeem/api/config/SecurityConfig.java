@@ -8,9 +8,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 @Configuration
@@ -21,62 +23,45 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomJwtAuthenticationEntryPoint customJwtAuthenticationEntryPoint;
 
-    private static final String[] AUTH_WHITELIST = {
-            "/api/v2/auth",
-            "/api/v2/test",
-            "/api/beta/token",
-            "/error",
-            "/favicon.ico",
-            "/api/v2/members/nickname/check",
-            "/api/v2/goals",
-            "/api/v2/goals/{type}"
-    };
-
-    private static final String[] AUTH_WHITELIST_SWAGGER = {
-            "/v3/api-docs/**",
-            "/swagger-ui/**",
-            "/swagger-ui.html",
-            "/docs/**"
-    };
-
     @Bean
     @Profile({"dev", "local"})
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf().disable()
-                .formLogin().disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(customJwtAuthenticationEntryPoint)
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers(AUTH_WHITELIST).permitAll()
-                .requestMatchers(AUTH_WHITELIST_SWAGGER).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+    public SecurityFilterChain filterChainDev(HttpSecurity http) throws Exception {
+        permitSwaggerUri(http);
+        setHttp(http);
+        return http.build();
     }
 
     @Bean
     @Profile("prod")
     public SecurityFilterChain filterChainProd(HttpSecurity http) throws Exception {
-        return http
-                .csrf().disable()
-                .formLogin().disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(customJwtAuthenticationEntryPoint)
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers(AUTH_WHITELIST).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+        setHttp(http);
+        return http.build();
+    }
+
+    private void setHttp(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .sessionManagement(sessionManagement ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling.authenticationEntryPoint(customJwtAuthenticationEntryPoint))
+                .authorizeHttpRequests(authorizeHttpRequests ->
+                        authorizeHttpRequests
+                                .requestMatchers(new AntPathRequestMatcher("/api/v2/auth", "POST")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/api/v2/test")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/api/v2/goals/{type}")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/api/v2/goals")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/api/v2/members/nickname/check")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/favicon.ico")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
+                                .anyRequest().authenticated())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    private void permitSwaggerUri(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/docs/**")).permitAll());
     }
 }
