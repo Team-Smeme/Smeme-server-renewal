@@ -18,7 +18,7 @@ public record MemberGetResponse(
         BadgeResponse badge
 ) {
 
-    public static MemberGetResponse of(MemberGetServiceResponse response) {
+    public static MemberGetResponse from(MemberGetServiceResponse response) {
         return MemberGetResponse.builder()
                 .username(response.username())
                 .target(response.target())
@@ -26,8 +26,8 @@ public record MemberGetResponse(
                 .detail(response.detail())
                 .targetLang(response.targetLangType().toString())
                 .hasPushAlarm(response.hasPushAlarm())
-                .trainingTime(TrainingTimeResponse.of(response.trainingTime()))
-                .badge(BadgeResponse.of(response.badge()))
+                .trainingTime(TrainingTimeResponse.from(response.trainingTime()))
+                .badge(BadgeResponse.from(response.badge()))
                 .build();
     }
 }

@@ -15,7 +15,7 @@ public record SignInResponse(
         boolean hasPlan
 ) {
 
-        public static SignInResponse of(SignInServiceResponse response) {
+        public static SignInResponse from(SignInServiceResponse response) {
                 return SignInResponse.builder()
                         .accessToken(response.accessToken())
                         .refreshToken(response.refreshToken())

@@ -11,7 +11,7 @@ public record AcquiredBadgeResponse(
         String imageUrl,
         BadgeType type
 ) {
-    public static AcquiredBadgeResponse of(AcquiredBadgeServiceResponse response) {
+    public static AcquiredBadgeResponse from(AcquiredBadgeServiceResponse response) {
         return AcquiredBadgeResponse.builder()
                 .name(response.name())
                 .imageUrl(response.imageUrl())

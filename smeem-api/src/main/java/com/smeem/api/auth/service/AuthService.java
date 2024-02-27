@@ -11,8 +11,8 @@ import com.smeem.common.exception.TokenException;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.model.SocialType;
 import com.smeem.domain.member.repository.MemberRepository;
-import com.smeem.external.oauth.apple.AppleSignInService;
-import com.smeem.external.oauth.kakao.KakaoSignInService;
+import com.smeem.external.oauth.apple.AppleService;
+import com.smeem.external.oauth.kakao.KakaoService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -33,8 +33,8 @@ public class AuthService {
     private final MemberRepository memberRepository;
 
     private final TokenService tokenService;
-    private final AppleSignInService appleSignInService;
-    private final KakaoSignInService kakaoSignInService;
+    private final AppleService appleService;
+    private final KakaoService kakaoService;
     private final MemberBadgeService memberBadgeService;
     private final DiaryCommandService diaryService;
     private final TrainingTimeService trainingTimeService;
@@ -58,13 +58,13 @@ public class AuthService {
 
     @Transactional
     public void signOut(final long memberId) {
-        Member member = get(memberId);
+        val member = get(memberId);
         member.updateRefreshToken(null);
     }
 
     @Transactional
     public void withdraw(final long memberId) {
-        Member member = get(memberId);
+        val member = get(memberId);
         diaryService.deleteAllByMember(member);
         trainingTimeService.deleteAllByMember(member);
         memberBadgeService.deleteAllByMember(member);
@@ -76,7 +76,7 @@ public class AuthService {
                 .orElseThrow(() -> new MemberException(INVALID_MEMBER));
     }
 
-    private Member getMemberBySocialAndSocialId(SocialType socialType, String socialId) {
+    private Member getMemberBySocialAndSocialId(final SocialType socialType, final String socialId) {
         return memberRepository.findBySocialAndSocialId(socialType, socialId)
                 .orElseThrow(() -> new MemberException(INVALID_MEMBER));
     }
@@ -85,10 +85,10 @@ public class AuthService {
         return memberRepository.existsBySocialAndSocialId(socialType, socialId);
     }
 
-    private String socialLogin(SocialType socialType, String socialAccessToken) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    private String socialLogin(SocialType socialType, final String socialAccessToken) {
         return switch (socialType.toString()) {
-            case "APPLE" -> appleSignInService.getAppleData(socialAccessToken);
-            case "KAKAO" -> kakaoSignInService.getKakaoData(socialAccessToken);
+            case "APPLE" -> appleService.getAppleData(socialAccessToken);
+            case "KAKAO" -> kakaoService.getKakaoData(socialAccessToken);
             default -> throw new TokenException(INVALID_TOKEN);
         };
     }

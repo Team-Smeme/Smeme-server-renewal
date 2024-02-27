@@ -15,7 +15,8 @@ public enum AuthFailureCode implements FailureCode {
      */
     EMPTY_ACCESS_TOKEN(UNAUTHORIZED, "액세스 토큰이 없습니다."),
     INVALID_TOKEN(UNAUTHORIZED, "유효하지 않은 토큰입니다"),
-    INVALID_APPLE_TOKEN(UNAUTHORIZED, "유효하지 않은 애플 토큰입니다.")
+    FAIL_APPLE_REQUEST(UNAUTHORIZED, "애플 로그인에 실패했습니다."),
+    FAIL_KAKAO_REQUEST(UNAUTHORIZED, "카카오 로그인에 실패했습니다."),
     ;
 
     private final HttpStatus status;

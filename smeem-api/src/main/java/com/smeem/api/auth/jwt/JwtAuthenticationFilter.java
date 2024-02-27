@@ -9,6 +9,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import lombok.val;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,6 @@ import java.io.IOException;
 import static com.smeem.api.auth.jwt.JwtValidationType.VALID_JWT;
 
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -29,19 +29,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws IOException, ServletException {
-        try {
-            final String token = getJwtFromRequest(request);
-
-            if (StringUtils.hasText(token) && tokenValidator.validateToken(token) == VALID_JWT) {
-                Long userId = tokenValidator.getUserFromJwt(token);
-                UserAuthentication authentication = new UserAuthentication(userId, null, null);
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-        } catch (AuthException exception) {
-            log.error("error : ", exception);
+        final String token = getJwtFromRequest(request);
+        if (isValidToken(token)) {
+            val userId = tokenValidator.getUserFromJwt(token);
+            UserAuthentication authentication = new UserAuthentication(userId, null, null);
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
+    }
+
+    private boolean isValidToken(String token) {
+        return StringUtils.hasText(token) && tokenValidator.validateToken(token) == VALID_JWT;
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {

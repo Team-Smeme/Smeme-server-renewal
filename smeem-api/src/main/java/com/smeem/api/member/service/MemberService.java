@@ -3,8 +3,8 @@ package com.smeem.api.member.service;
 
 import com.smeem.api.badge.service.BadgeService;
 import com.smeem.api.badge.service.dto.response.BadgeServiceResponse;
-import com.smeem.api.goal.service.dto.request.GoalGetServiceRequest;
 import com.smeem.api.goal.service.GoalService;
+import com.smeem.api.goal.service.dto.request.GoalGetServiceRequest;
 import com.smeem.api.member.service.dto.request.MemberPushUpdateServiceRequest;
 import com.smeem.api.member.service.dto.request.MemberServiceUpdateUserProfileRequest;
 import com.smeem.api.member.service.dto.request.MemberUpdatePlanServiceRequest;
@@ -17,7 +17,6 @@ import com.smeem.common.config.ValueConfig;
 import com.smeem.common.exception.MemberException;
 import com.smeem.common.exception.TrainingTimeException;
 import com.smeem.domain.badge.model.Badge;
-import com.smeem.domain.goal.model.GoalType;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.repository.MemberRepository;
 import com.smeem.domain.training.model.DayType;
@@ -94,8 +93,9 @@ public class MemberService {
     @Transactional
     public void updateLearningPlan(final long memberId, final MemberUpdatePlanServiceRequest request) {
         val member = get(memberId);
-        updateGoalType(member, request.goalType());
-        updatePushAlarmConsent(member, request.hasAlarm());
+        member.updateGoal(request.goalType());
+        member.updateGoal(request.goalType());
+        member.updateHasAlarm(request.hasAlarm());
         updateTrainingTime(member, request.trainingTime());
     }
 
@@ -106,7 +106,7 @@ public class MemberService {
     }
 
     public MemberNameServiceResponse checkDuplicatedName(final String name) {
-        boolean isExist = memberRepository.existsByUsername(name);
+        val isExist = memberRepository.existsByUsername(name);
         return MemberNameServiceResponse.of(isExist);
     }
 
@@ -130,7 +130,7 @@ public class MemberService {
         }
     }
 
-    private String[] parseDay(String day) {
+    private String[] parseDay(final String day) {
         return day.split(",");
     }
 
@@ -156,18 +156,6 @@ public class MemberService {
         Badge welcomeBadge = badgeService.get(valueConfig.getWELCOME_BADGE_ID());
         memberBadgeService.save(member, welcomeBadge);
         badges.add(welcomeBadge);
-    }
-
-    private void updateGoalType(Member member, GoalType goalType) {
-        if (nonNull(goalType)) {
-            member.updateGoal(goalType);
-        }
-    }
-
-    private void updatePushAlarmConsent(Member member, Boolean hasAlarm) {
-        if (nonNull(hasAlarm)) {
-            member.updateHasAlarm(hasAlarm);
-        }
     }
 
     private TrainingTimeServiceResponse generateTrainingTimeResponse(List<TrainingTime> trainingTimes) {

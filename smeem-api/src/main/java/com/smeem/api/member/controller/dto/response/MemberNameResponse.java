@@ -11,7 +11,7 @@ public record MemberNameResponse(
         boolean isExist
 ) {
 
-    public static MemberNameResponse of(MemberNameServiceResponse response) {
+    public static MemberNameResponse from(MemberNameServiceResponse response) {
         return MemberNameResponse.builder()
                 .isExist(response.isExist())
                 .build();
