@@ -1,0 +1,68 @@
+import org.hidetake.gradle.swagger.generator.GenerateSwaggerUI
+
+plugins {
+    // restdocs-api-spec
+    id 'com.epages.restdocs-api-spec' version "0.18.2"
+    // swagger generator
+    id 'org.hidetake.swagger.generator' version '2.18.2'
+}
+
+dependencies {
+    implementation project(':smeem-common')
+    implementation project(':smeem-domain')
+    implementation project(':smeem-external')
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // JWT
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+    // Swagger & RestDocs
+    testImplementation "com.epages:restdocs-api-spec-mockmvc:0.18.2"
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+//    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+
+}
+
+swaggerSources {
+    sample {
+        setInputFile(file("build/api-spec/openapi3.yaml"))
+    }
+}
+
+openapi3 {
+    server = "http://localhost:8080"
+    title = "SMEEM API Documentation"
+    description = "Spring REST Docs with SwaggerUI."
+    version = "0.0.1"
+    outputFileNamePrefix = 'open-api-3.0.1'
+    format = 'json'
+    outputDirectory = 'build/resources/main/static/docs'
+}
+
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
+tasks.withType(GenerateSwaggerUI).configureEach {
+    dependsOn 'openapi3'
+    copy {
+        from "build/resources/main/static/docs"
+        into "src/main/resources/static/docs/"
+    }
+}
+
+bootJar {
+//    enabled = true
+    dependsOn('openapi3')
+}
+repositories {
+    mavenCentral()
+}
