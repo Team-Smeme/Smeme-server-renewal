@@ -8,7 +8,9 @@ import lombok.Builder;
 
 import java.util.List;
 
-@Builder(access = AccessLevel.PRIVATE)
+import static lombok.AccessLevel.PRIVATE;
+
+@Builder(access = PRIVATE)
 public record BadgeTypeServiceResponse(
         BadgeType badgeType,
         String badgeTypeName,

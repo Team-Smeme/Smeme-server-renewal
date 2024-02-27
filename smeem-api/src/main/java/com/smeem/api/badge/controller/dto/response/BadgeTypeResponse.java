@@ -23,8 +23,7 @@ public record BadgeTypeResponse(
                 .badgeTypeName(response.badgeTypeName())
                 .badges(response.badges()
                         .stream()
-                        .map(BadgeBaseResponse::from)
-                        .toList())
+                        .map(BadgeBaseResponse::from).toList())
                 .build();
     }
 }

@@ -25,7 +25,6 @@ public record BadgeListServiceResponse(
 
     private static List<BadgeTypeServiceResponse> getBadgesType(Map<BadgeType, List<Badge>> badgeMap, List<MemberBadge> memberBadges) {
         return badgeMap.keySet().stream()
-                .map(type -> BadgeTypeServiceResponse.of(type, badgeMap.get(type), memberBadges))
-                .toList();
+                .map(type -> BadgeTypeServiceResponse.of(type, badgeMap.get(type), memberBadges)).toList();
     }
 }
