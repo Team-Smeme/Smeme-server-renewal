@@ -22,7 +22,7 @@ public class KakaoService {
             val restClient = RestClient.create();
             val response = restClient.get()
                     .uri(valueConfig.getKAKAO_URL())
-                    .header(AUTHORIZATION, "Bearer " + accessToken)
+                    .header(AUTHORIZATION, accessToken)
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError,
                             (kakaoRequest, kakaoResponse) -> {
