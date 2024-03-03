@@ -1,5 +1,6 @@
 package com.smeem.api.badge.controller.dto.response;
 
+import com.smeem.api.badge.service.dto.response.BadgeListServiceResponse;
 import lombok.*;
 
 import java.util.List;
@@ -11,10 +12,11 @@ public record BadgeListResponse(
         List<BadgeTypeResponse> badgeTypes
 ) {
     public static BadgeListResponse from(
-            List<BadgeTypeResponse> response
+            BadgeListServiceResponse response
     ) {
         return BadgeListResponse.builder()
-                .badgeTypes(response)
+                .badgeTypes(response.badgeTypes().stream()
+                        .map(BadgeTypeResponse::from).toList())
                 .build();
     }
 }
