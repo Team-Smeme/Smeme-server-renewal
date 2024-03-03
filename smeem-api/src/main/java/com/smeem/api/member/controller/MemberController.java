@@ -5,7 +5,9 @@ import com.smeem.api.common.BaseResponse;
 import com.smeem.api.member.controller.dto.request.MemberPlanUpdateRequest;
 import com.smeem.api.member.controller.dto.request.MemberPushUpdateRequest;
 import com.smeem.api.member.controller.dto.request.MemberUpdateRequest;
+import com.smeem.api.member.controller.dto.response.MemberGetResponse;
 import com.smeem.api.member.controller.dto.response.MemberNameResponse;
+import com.smeem.api.member.controller.dto.response.MemberUpdateResponse;
 import com.smeem.api.member.service.MemberService;
 import com.smeem.api.member.service.dto.request.MemberPushUpdateServiceRequest;
 import com.smeem.api.member.service.dto.request.MemberUpdatePlanServiceRequest;
@@ -31,15 +33,15 @@ public class MemberController {
 
     @PatchMapping
     public ResponseEntity<BaseResponse<?>> updateProfile(Principal principal, @RequestBody MemberUpdateRequest request) {
-        val response = memberService.updateUserProfile(
+        val response = MemberUpdateResponse.from(memberService.updateUserProfile(
                 Util.getMemberId(principal),
-                MemberServiceUpdateUserProfileRequest.of(request));
+                MemberServiceUpdateUserProfileRequest.of(request)));
         return ApiResponseUtil.success(SUCCESS_UPDATE_USERNAME, response);
     }
 
     @GetMapping("/me")
     public ResponseEntity<BaseResponse<?>> getProfile(Principal principal) {
-        val response = memberService.getMemberProfile(Util.getMemberId(principal));
+        val response = MemberGetResponse.from(memberService.getMemberProfile(Util.getMemberId(principal)));
         return ApiResponseUtil.success(SUCCESS_GET_USER, response);
     }
 
