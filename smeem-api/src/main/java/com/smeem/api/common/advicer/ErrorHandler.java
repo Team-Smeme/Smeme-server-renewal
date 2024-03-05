@@ -2,13 +2,22 @@ package com.smeem.api.common.advicer;
 
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
+import com.smeem.common.code.failure.FailureCode;
+import com.smeem.common.code.failure.InternalServerFailureCode;
 import com.smeem.common.exception.*;
+import com.smeem.external.discord.DiscordAlarmSender;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import static com.smeem.external.discord.DiscordAlarmCase.ERROR;
+
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class ErrorHandler {
+
+    private final DiscordAlarmSender discordAlarmSender;
 
     @ExceptionHandler(TrainingTimeException.class)
     public ResponseEntity<BaseResponse<?>> trainingTimeException(TrainingTimeException exception) {
@@ -58,5 +67,15 @@ public class ErrorHandler {
     @ExceptionHandler(AuthException.class)
     public ResponseEntity<BaseResponse<?>> authException(AuthException exception) {
         return ApiResponseUtil.failure(exception.getFailureCode());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<BaseResponse<?>> baseException(RuntimeException exception) {
+        sendDiscordAlarm(exception);
+        return ApiResponseUtil.failure(InternalServerFailureCode.SERVER_ERROR);
+    }
+
+    private void sendDiscordAlarm(RuntimeException exception) {
+            discordAlarmSender.send(exception.getMessage(), ERROR);
     }
 }
