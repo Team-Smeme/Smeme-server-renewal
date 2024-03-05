@@ -49,3 +49,8 @@ smeem:
   duration:
     expired: ${SMEEM.DURATION.EXPIRED}
     remind: ${SMEEM.DURATION.REMIND}
+
+discord:
+    webhook:
+      error-url: ${DISCORD.WEBHOOK_ERROR_URL}
+      info-url: ${DISCORD.WEBHOOK_INFO_URL}
