@@ -6,6 +6,7 @@ import com.smeem.common.config.ValueConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -18,6 +19,7 @@ public class DiscordAlarmSender {
 
     private final ObjectMapper objectMapper;
     private final ValueConfig valueConfig;
+    private final Environment environment;
 
     public void send(final String content, final DiscordAlarmCase alarmCase) {
         try {
@@ -35,8 +37,15 @@ public class DiscordAlarmSender {
     }
 
     private String makeRequestBody(String content) throws JsonProcessingException {
-        val request = DiscordRequest.of(content);
+        val request = DiscordRequest.of("[" + getCurrentProfile() + "] : " + content);
         return objectMapper.writeValueAsString(request);
+    }
+
+    private String getCurrentProfile() {
+        if (environment.getActiveProfiles().length == 0) {
+            return "default";
+        }
+        return environment.getActiveProfiles()[0];
     }
 
     private String webHookUri(DiscordAlarmCase alarmCase) {
