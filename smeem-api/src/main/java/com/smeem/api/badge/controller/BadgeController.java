@@ -1,5 +1,6 @@
 package com.smeem.api.badge.controller;
 
+import com.smeem.api.badge.controller.dto.response.BadgeListResponse;
 import com.smeem.api.badge.service.BadgeService;
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
@@ -24,7 +25,7 @@ public class BadgeController {
 
     @GetMapping
     public ResponseEntity<BaseResponse<?>> getBadges(Principal principal) {
-        val response = badgeService.getBadges(Util.getMemberId(principal));
+        val response = BadgeListResponse.from(badgeService.getBadges(Util.getMemberId(principal)));
         return ApiResponseUtil.success(SUCCESS_GET_BADGES, response);
     }
 
