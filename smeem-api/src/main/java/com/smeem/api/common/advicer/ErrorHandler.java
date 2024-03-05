@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import static com.smeem.common.code.failure.InternalServerFailureCode.SERVER_ERROR;
 import static com.smeem.external.discord.DiscordAlarmCase.ERROR;
 
 @RestControllerAdvice
@@ -72,7 +73,7 @@ public class ErrorHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<BaseResponse<?>> baseException(RuntimeException exception) {
         sendDiscordAlarm(exception);
-        return ApiResponseUtil.failure(InternalServerFailureCode.SERVER_ERROR);
+        return ApiResponseUtil.failure(SERVER_ERROR);
     }
 
     private void sendDiscordAlarm(RuntimeException exception) {
