@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import lombok.val;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,16 +17,16 @@ import org.springframework.context.annotation.Configuration;
         in = SecuritySchemeIn.HEADER,
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
-        scheme = "bearer",
+        scheme = "Bearer",
         description = "Authorization: Bearer ~"
 )
 public class SwaggerConfig {
 
     @Bean
     public OpenAPI openAPI() {
-        Info info = new Info()
-                .title("Smeme Server API V2 Spec")
-                .description("Smeme API V2 Document")
+        val info = new Info()
+                .title("Smeem Server API Spec")
+                .description("Smeme API Document")
                 .version("1.0.0");
 
         return new OpenAPI()
