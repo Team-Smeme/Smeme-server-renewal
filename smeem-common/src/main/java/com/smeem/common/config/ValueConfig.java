@@ -45,6 +45,14 @@ public class ValueConfig {
     @Value("${smeem.duration.remind}")
     private int DURATION_REMIND;
 
+    @Value("${discord.webhook.error-url}")
+    private String DISCORD_WEBHOOK_ERROR_URL;
+
+    @Value("${discord.webhook.info-url}")
+    private String DISCORD_WEBHOOK_INFO_URL;
+
+    public static final String SIGN_IN_MESSAGE = "새로운 유저가 가입했습니다! ✍️ : ";
+
     public static final boolean DEFAULT_IS_PUBLIC_VALUE = true;
 
     @PostConstruct

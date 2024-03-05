@@ -21,6 +21,7 @@ import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.repository.MemberRepository;
 import com.smeem.domain.training.model.DayType;
 import com.smeem.domain.training.model.TrainingTime;
+import com.smeem.external.discord.DiscordAlarmSender;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,8 @@ import java.util.stream.Collectors;
 import static com.smeem.common.code.failure.MemberFailureCode.DUPLICATE_USERNAME;
 import static com.smeem.common.code.failure.MemberFailureCode.EMPTY_MEMBER;
 import static com.smeem.common.code.failure.TrainingTimeFailureCode.NOT_SET_TRAINING_TIME;
+import static com.smeem.common.config.ValueConfig.SIGN_IN_MESSAGE;
+import static com.smeem.external.discord.DiscordAlarmCase.INFO;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -48,6 +51,7 @@ public class MemberService {
     private final GoalService goalService;
     private final BadgeService badgeService;
     private final MemberBadgeService memberBadgeService;
+    private final DiscordAlarmSender discordAlarmSender;
 
     private final ValueConfig valueConfig;
 
@@ -58,17 +62,12 @@ public class MemberService {
         updateTermAccepted(member, request);
 
         ArrayList<Badge> badges = new ArrayList<>();
-        if (isNull(member.getUsername())) {
+        if (isNewMember(member)) {
             addWelcomeBadge(member, badges);
+            discordAlarmSender.send(SIGN_IN_MESSAGE + member.getId(), INFO);
         }
         member.updateUsername(request.username());
         return MemberUpdateServiceResponse.of(badges);
-    }
-
-    private void updateTermAccepted(final Member member, final MemberServiceUpdateUserProfileRequest request) {
-        if (nonNull(request.termAccepted())) {
-            member.updateTermAccepted(request.termAccepted());
-        }
     }
 
     public MemberGetServiceResponse getMemberProfile(final long memberId) {
@@ -164,5 +163,15 @@ public class MemberService {
                 getDays(trainingTimes),
                 trainingTime.getHour(),
                 trainingTime.getMinute());
+    }
+
+    private boolean isNewMember(Member member) {
+        return isNull(member.getUsername());
+    }
+
+    private void updateTermAccepted(final Member member, final MemberServiceUpdateUserProfileRequest request) {
+        if (nonNull(request.termAccepted())) {
+            member.updateTermAccepted(request.termAccepted());
+        }
     }
 }
