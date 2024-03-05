@@ -38,13 +38,6 @@ jwt:
 badge:
   welcome-badge-id: ${WELCOME_BADGE_ID}
 
-springdoc:
-  default-consumes-media-type: application/json;charset=UTF-8
-  default-produces-media-type: application/json;charset=UTF-8
-  swagger-ui:
-    url: /docs/open-api-3.0.1.json
-    path: /swagger
-
 smeem:
   duration:
     expired: ${SMEEM.DURATION.EXPIRED}

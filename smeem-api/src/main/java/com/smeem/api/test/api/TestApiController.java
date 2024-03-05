@@ -1,4 +1,4 @@
-package com.smeem.api.test.controller;
+package com.smeem.api.test.api;
 
 import java.security.Principal;
 
@@ -21,7 +21,7 @@ import static com.smeem.common.code.success.TestSuccessCode.SUCCESS_SERVER_CONNE
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/test")
-public class TestController {
+public class TestApiController implements TestApi {
 
     private final TestService testService;
 
