@@ -2,6 +2,7 @@ package com.smeem.api.member.service.dto.response;
 
 import com.smeem.api.badge.service.dto.response.BadgeServiceResponse;
 import com.smeem.api.goal.service.dto.response.GoalGetServiceResponse;
+import com.smeem.domain.goal.model.GoalType;
 import com.smeem.domain.member.model.LangType;
 import com.smeem.domain.member.model.Member;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Builder(access = PRIVATE)
 public record MemberGetServiceResponse(
         String username,
-        String target,
+        GoalType goalType,
         String way,
         String detail,
         LangType targetLangType,
@@ -29,7 +30,7 @@ public record MemberGetServiceResponse(
     )  {
         return MemberGetServiceResponse.builder()
                 .username(member.getUsername())
-                .target(goal.goalType())
+                .goalType(goal.goalType())
                 .way(goal.way())
                 .detail(goal.detail())
                 .targetLangType(member.getTargetLang())
