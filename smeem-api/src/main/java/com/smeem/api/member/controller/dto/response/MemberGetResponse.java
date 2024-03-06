@@ -10,6 +10,7 @@ import lombok.Builder;
 public record MemberGetResponse(
         String username,
         String target,
+        String title,
         String way,
         String detail,
         String targetLang,
@@ -21,7 +22,8 @@ public record MemberGetResponse(
     public static MemberGetResponse from(MemberGetServiceResponse response) {
         return MemberGetResponse.builder()
                 .username(response.username())
-                .target(response.target())
+                .target(response.goalType().name())
+                .title(response.goalType().getDescription())
                 .way(response.way())
                 .detail(response.detail())
                 .targetLang(response.targetLangType().toString())
