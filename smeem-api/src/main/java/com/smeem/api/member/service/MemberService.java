@@ -93,7 +93,6 @@ public class MemberService {
     public void updateLearningPlan(final long memberId, final MemberUpdatePlanServiceRequest request) {
         val member = get(memberId);
         member.updateGoal(request.goalType());
-        member.updateGoal(request.goalType());
         member.updateHasAlarm(request.hasAlarm());
         updateTrainingTime(member, request.trainingTime());
     }
