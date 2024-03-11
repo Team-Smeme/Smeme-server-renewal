@@ -2,8 +2,6 @@ package com.smeem.api.common.advicer;
 
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
-import com.smeem.common.code.failure.FailureCode;
-import com.smeem.common.code.failure.InternalServerFailureCode;
 import com.smeem.common.exception.*;
 import com.smeem.external.discord.DiscordAlarmSender;
 import lombok.RequiredArgsConstructor;
