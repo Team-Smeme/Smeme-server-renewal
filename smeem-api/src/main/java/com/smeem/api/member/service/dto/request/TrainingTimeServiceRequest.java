@@ -9,10 +9,13 @@ import static lombok.AccessLevel.PRIVATE;
 @Builder(access = PRIVATE)
 public record TrainingTimeServiceRequest(
         String day,
-        int hour,
-        int minute
+        Integer hour,
+        Integer minute
 ) {
     public static TrainingTimeServiceRequest of(TrainingTimeRequest request) {
+        if (request == null) {
+            return null;
+        }
         return TrainingTimeServiceRequest.builder()
                 .day(request.day())
                 .hour(request.hour())
