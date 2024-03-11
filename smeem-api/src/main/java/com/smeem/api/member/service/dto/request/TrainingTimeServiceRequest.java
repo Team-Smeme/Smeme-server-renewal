@@ -4,6 +4,8 @@ package com.smeem.api.member.service.dto.request;
 import com.smeem.api.member.controller.dto.request.TrainingTimeRequest;
 import lombok.Builder;
 
+import java.util.Objects;
+
 import static lombok.AccessLevel.PRIVATE;
 
 @Builder(access = PRIVATE)
@@ -13,7 +15,7 @@ public record TrainingTimeServiceRequest(
         Integer minute
 ) {
     public static TrainingTimeServiceRequest of(TrainingTimeRequest request) {
-        if (request == null) {
+        if (Objects.isNull(request)) {
             return null;
         }
         return TrainingTimeServiceRequest.builder()
