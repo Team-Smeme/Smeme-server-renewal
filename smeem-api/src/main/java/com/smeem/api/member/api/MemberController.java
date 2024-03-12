@@ -56,7 +56,7 @@ public class MemberController implements MemberApi {
 
     @Override
     @GetMapping("/nickname/check")
-    public ResponseEntity<BaseResponse<?>> checkDuplicatedName(@Parameter(description = "유저 닉네임") @RequestParam String name) {
+    public ResponseEntity<BaseResponse<?>> checkDuplicatedName(@Parameter(description = "유저 닉네임", required = true) @RequestParam String name) {
         val response = MemberNameResponse.from(memberService.checkDuplicatedName(name));
         return ApiResponseUtil.success(SUCCESS_CHECK_DUPLICATED_NAME, response);
     }
