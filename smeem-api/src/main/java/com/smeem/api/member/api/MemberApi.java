@@ -26,7 +26,7 @@ public interface MemberApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원 정보 조회 성공"),
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
-            @ApiResponse(responseCode = "400", description = "유효하지 않은 요청"),
+            @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     ResponseEntity<BaseResponse<?>> updateProfile(Principal principal, @RequestBody MemberUpdateRequest request);
@@ -45,7 +45,7 @@ public interface MemberApi {
     @Parameter(name = "Authorization", description = "Smeme Access Token", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원 학습 계획 업데이트 성공"),
-            @ApiResponse(responseCode = "400", description = "유효하지 않은 요청"),
+            @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })

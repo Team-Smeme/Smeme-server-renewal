@@ -21,7 +21,7 @@ public interface BadgeApi {
     @Parameter(name = "Authorization", description = "Bearer {access_token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "뱃지 리스트 조회 성공"),
-            @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
+            @ApiResponse(responseCode = "4011", description = "유효하지 않은 토큰입니다"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
     ResponseEntity<BaseResponse<?>> getBadges(Principal principal);

@@ -24,7 +24,7 @@ public interface AuthApi {
     @Parameter(name = "Authorization", description = "Social Platform Access Token", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "소셜로그인 성공"),
-            @ApiResponse(responseCode = "400", description = "유효하지 않은 요청"),
+            @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
