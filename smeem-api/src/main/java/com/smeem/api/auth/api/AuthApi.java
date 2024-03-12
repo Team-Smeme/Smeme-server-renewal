@@ -19,7 +19,7 @@ import static io.swagger.v3.oas.annotations.enums.ParameterIn.HEADER;
 public interface AuthApi {
 
     @Operation(summary = "소셜 로그인 API")
-    @Parameter(name = "Authorization", description = "Social Platform Access Token", in = HEADER, required = true)
+    @Parameter(name = "Authorization", description = "Bearer ${Social Platform Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "소셜로그인 성공"),
             @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
@@ -29,7 +29,7 @@ public interface AuthApi {
     ResponseEntity<BaseResponse<?>> signIn(@RequestHeader("Authorization") final String socialAccessToken, @RequestBody SignInRequest request);
 
     @Operation(summary = "토큰 재발급 API")
-    @Parameter(name = "Authorization", description = "Smeem Refresh Token", in = HEADER, required = true)
+    @Parameter(name = "Authorization", description = "Bearer ${Smeme Refresh Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "토큰 재발급 성공"),
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
@@ -39,7 +39,7 @@ public interface AuthApi {
 
 
     @Operation(summary = "사용자 로그아웃 API")
-    @Parameter(name = "Authorization", description = "Smeme Access Token", in = HEADER, required = true)
+    @Parameter(name = "Authorization", description = "Bearer ${Smeme Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "로그아웃 성공"),
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
@@ -49,7 +49,7 @@ public interface AuthApi {
 
 
     @Operation(summary = "회원 탈퇴 API")
-    @Parameter(name = "Authorization", description = "Smeme Access Token", in = HEADER, required = true)
+    @Parameter(name = "Authorization", description = "Bearer ${Smeme Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원 탈퇴 성공"),
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),

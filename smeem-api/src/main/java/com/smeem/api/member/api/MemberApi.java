@@ -22,7 +22,7 @@ import static io.swagger.v3.oas.annotations.enums.ParameterIn.HEADER;
 @Tag(name = "[Member] 사용자 관련 API (V2)")
 public interface MemberApi {
     @Operation(summary = "사용자 프로필 업데이트 API")
-    @Parameter(name = "Authorization", description = "Smeme Access Token", in = HEADER, required = true)
+    @Parameter(name = "Authorization", description = "Bearer ${Smeme Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원 정보 조회 성공"),
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
@@ -33,7 +33,7 @@ public interface MemberApi {
 
 
     @Operation(summary = "사용자 프로필 조회 API")
-    @Parameter(name = "Authorization", description = "Smeme Access Token", in = HEADER, required = true)
+    @Parameter(name = "Authorization", description = "Bearer ${Smeme Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원 정보 조회 성공"),
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
@@ -42,7 +42,7 @@ public interface MemberApi {
     ResponseEntity<BaseResponse<?>> getProfile(Principal principal);
 
     @Operation(summary = "사용자 학습 계획 수정 API")
-    @Parameter(name = "Authorization", description = "Smeme Access Token", in = HEADER, required = true)
+    @Parameter(name = "Authorization", description = "Bearer ${Smeme Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원 학습 계획 업데이트 성공"),
             @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
@@ -52,7 +52,7 @@ public interface MemberApi {
     ResponseEntity<BaseResponse<?>> updateUserPlan(Principal principal, @Valid @RequestBody MemberPlanUpdateRequest request);
 
     @Operation(summary = "사용자 닉네임 중복체크 수정 API")
-    @Parameter(name = "Authorization", description = "Smeme Access Token", in = HEADER, required = true)
+    @Parameter(name = "Authorization", description = "Bearer ${Smeme Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "닉네임 중복 검사 성공"),
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
@@ -61,7 +61,7 @@ public interface MemberApi {
     ResponseEntity<BaseResponse<?>> checkDuplicatedName(@Parameter(description = "유저 닉네임") @RequestParam String name);
 
     @Operation(summary = "사용자 학습 계획 수정 API")
-    @Parameter(name = "Authorization", description = "Smeme Access Token", in = HEADER, required = true)
+    @Parameter(name = "Authorization", description = "Bearer ${Smeme Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원 푸시알람 동의여부 업데이트 성공"),
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
