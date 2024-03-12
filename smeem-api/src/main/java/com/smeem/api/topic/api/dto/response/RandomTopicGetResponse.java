@@ -1,4 +1,4 @@
-package com.smeem.api.topic.controller.dto.response;
+package com.smeem.api.topic.api.dto.response;
 
 import com.smeem.api.topic.service.dto.response.RandomTopicGetServiceResponse;
 import lombok.Builder;

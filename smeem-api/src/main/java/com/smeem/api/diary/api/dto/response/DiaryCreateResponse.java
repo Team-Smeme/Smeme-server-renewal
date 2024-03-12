@@ -1,4 +1,4 @@
-package com.smeem.api.diary.controller.dto.response;
+package com.smeem.api.diary.api.dto.response;
 
 import com.smeem.api.badge.controller.dto.response.AcquiredBadgeResponse;
 import com.smeem.api.diary.service.dto.response.DiaryCreateServiceResponse;

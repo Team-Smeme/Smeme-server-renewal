@@ -1,10 +1,10 @@
-package com.smeem.api.goal.controller;
+package com.smeem.api.goal.api;
 
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
 
-import com.smeem.api.goal.controller.dto.response.GoalGetResponse;
-import com.smeem.api.goal.controller.dto.response.GoalListGetResponse;
+import com.smeem.api.goal.api.dto.response.GoalGetResponse;
+import com.smeem.api.goal.api.dto.response.GoalListGetResponse;
 import com.smeem.api.goal.service.dto.request.GoalGetServiceRequest;
 import com.smeem.api.goal.service.GoalService;
 import com.smeem.domain.goal.model.GoalType;
@@ -23,7 +23,7 @@ import static com.smeem.common.code.success.GoalSuccessCode.SUCCESS_GET_GOALS;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/goals")
-public class GoalController {
+public class GoalApiController implements GoalApi {
 
     private final GoalService goalService;
 
