@@ -1,6 +1,6 @@
 package com.smeem.api.diary.service.dto.request;
 
-import com.smeem.api.diary.controller.dto.request.DiaryModifyRequest;
+import com.smeem.api.diary.api.dto.request.DiaryModifyRequest;
 import lombok.Builder;
 
 import static lombok.AccessLevel.PRIVATE;

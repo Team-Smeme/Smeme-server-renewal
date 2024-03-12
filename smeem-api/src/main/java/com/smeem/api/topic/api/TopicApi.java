@@ -1,4 +1,4 @@
-package com.smeem.api.test.api;
+package com.smeem.api.topic.api;
 
 import com.smeem.api.common.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,22 +8,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
-import java.security.Principal;
-
 import static io.swagger.v3.oas.annotations.enums.ParameterIn.HEADER;
 
-@Tag(name = "[Test] 테스트 관련 API (V2)")
-public interface TestApi {
+@Tag(name = "[Topic] 주제 관련 API (V2)")
+public interface TopicApi {
 
-    @Operation(summary = "서버 연결 테스트 API")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
-            @ApiResponse(responseCode = "500", description = "서버 내부 오류")
-    })
-    ResponseEntity<BaseResponse<?>> test();
-
-    @Operation(summary = "푸시알림 테스트 API")
+    @Operation(summary = "랜덤 주제 조회 API")
     @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
@@ -31,5 +21,5 @@ public interface TestApi {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<BaseResponse<?>> alarmTest(Principal principal);
+    ResponseEntity<BaseResponse<?>> getTopicByRandom();
 }
