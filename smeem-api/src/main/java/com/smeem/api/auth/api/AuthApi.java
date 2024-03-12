@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
+import java.security.spec.InvalidKeySpecException;
 
 import static io.swagger.v3.oas.annotations.enums.ParameterIn.HEADER;
 
@@ -26,7 +28,7 @@ public interface AuthApi {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<BaseResponse<?>> signIn(@RequestHeader("Authorization") final String socialAccessToken, @RequestBody SignInRequest request);
+    ResponseEntity<BaseResponse<?>> signIn(@RequestHeader("Authorization") final String socialAccessToken, @RequestBody SignInRequest request) throws NoSuchAlgorithmException, InvalidKeySpecException;
 
     @Operation(summary = "토큰 재발급 API")
     @Parameter(name = "Authorization", description = "Bearer ${Smeme Refresh Token}", in = HEADER, required = true)
