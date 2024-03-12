@@ -24,11 +24,12 @@ import static com.smeem.common.code.success.TokenSuccessCode.SUCCESS_ISSUE_TOKEN
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v2/auth")
-public class AuthController {
+public class AuthController implements AuthApi {
 
     private final AuthService authService;
     private final TokenService tokenService;
 
+    @Override
     @PostMapping
     public ResponseEntity<BaseResponse<?>> signIn(@RequestHeader("Authorization") final String socialAccessToken,
                                                   @RequestBody SignInRequest request) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -36,18 +37,21 @@ public class AuthController {
         return ApiResponseUtil.success(SUCCESS_SIGNIN, response);
     }
 
+    @Override
     @PostMapping("/token")
     public ResponseEntity<BaseResponse<?>> reissueToken(Principal principal) {
         val response = TokenResponse.from(tokenService.issueToken(Util.getMemberId(principal)));
         return ApiResponseUtil.success(SUCCESS_ISSUE_TOKEN, response);
     }
 
+    @Override
     @PostMapping("/sign-out")
     public ResponseEntity<BaseResponse<?>> signOut(Principal principal) {
         authService.signOut(Util.getMemberId(principal));
         return ApiResponseUtil.success(SUCCESS_SIGNOUT);
     }
 
+    @Override
     @DeleteMapping
     public ResponseEntity<BaseResponse<?>> withDrawl(Principal principal) {
         authService.withdraw(Util.getMemberId(principal));
