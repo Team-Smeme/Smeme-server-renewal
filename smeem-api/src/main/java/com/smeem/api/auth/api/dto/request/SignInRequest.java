@@ -1,4 +1,4 @@
-package com.smeem.api.auth.controller.dto.request;
+package com.smeem.api.auth.api.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.smeem.domain.member.model.SocialType;

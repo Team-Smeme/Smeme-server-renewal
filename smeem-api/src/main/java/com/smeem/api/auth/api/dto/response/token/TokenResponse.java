@@ -1,4 +1,4 @@
-package com.smeem.api.auth.controller.dto.response.token;
+package com.smeem.api.auth.api.dto.response.token;
 
 import com.smeem.api.auth.service.dto.response.TokenServiceResponse;
 import lombok.AccessLevel;

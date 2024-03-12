@@ -1,6 +1,6 @@
 package com.smeem.api.diary.controller.dto.response;
 
-import com.smeem.api.badge.controller.dto.response.AcquiredBadgeResponse;
+import com.smeem.api.badge.api.dto.response.AcquiredBadgeResponse;
 import com.smeem.api.diary.service.dto.response.DiaryCreateServiceResponse;
 import lombok.Builder;
 

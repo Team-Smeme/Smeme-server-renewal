@@ -1,4 +1,4 @@
-package com.smeem.api.auth.controller.dto.response;
+package com.smeem.api.auth.api.dto.response;
 
 
 import com.smeem.api.auth.service.dto.response.SignInServiceResponse;

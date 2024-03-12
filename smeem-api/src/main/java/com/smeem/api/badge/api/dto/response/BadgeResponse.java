@@ -1,4 +1,4 @@
-package com.smeem.api.badge.controller.dto.response;
+package com.smeem.api.badge.api.dto.response;
 
 import com.smeem.api.badge.service.dto.response.BadgeServiceResponse;
 import lombok.AccessLevel;

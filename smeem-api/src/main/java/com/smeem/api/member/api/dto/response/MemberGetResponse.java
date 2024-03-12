@@ -1,7 +1,7 @@
 package com.smeem.api.member.api.dto.response;
 
 
-import com.smeem.api.badge.controller.dto.response.BadgeResponse;
+import com.smeem.api.badge.api.dto.response.BadgeResponse;
 import com.smeem.api.member.service.dto.response.MemberGetServiceResponse;
 import lombok.AccessLevel;
 import lombok.Builder;

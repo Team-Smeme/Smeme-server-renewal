@@ -1,10 +1,7 @@
-package com.smeem.api.badge.controller.dto.response;
+package com.smeem.api.badge.api.dto.response;
 
-import com.smeem.api.badge.service.dto.response.BadgeBaseServiceResponse;
 import com.smeem.api.badge.service.dto.response.BadgeTypeServiceResponse;
-import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.badge.model.BadgeType;
-import com.smeem.domain.member.model.MemberBadge;
 import lombok.Builder;
 
 import java.util.List;

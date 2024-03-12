@@ -1,8 +1,8 @@
-package com.smeem.api.auth.controller;
+package com.smeem.api.auth.api;
 
-import com.smeem.api.auth.controller.dto.request.SignInRequest;
-import com.smeem.api.auth.controller.dto.response.SignInResponse;
-import com.smeem.api.auth.controller.dto.response.token.TokenResponse;
+import com.smeem.api.auth.api.dto.request.SignInRequest;
+import com.smeem.api.auth.api.dto.response.SignInResponse;
+import com.smeem.api.auth.api.dto.response.token.TokenResponse;
 import com.smeem.api.auth.service.AuthService;
 import com.smeem.api.auth.service.TokenService;
 import com.smeem.api.auth.service.dto.request.SignInServiceRequest;

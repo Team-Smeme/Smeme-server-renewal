@@ -1,6 +1,6 @@
-package com.smeem.api.badge.controller;
+package com.smeem.api.badge.api;
 
-import com.smeem.api.badge.controller.dto.response.BadgeListResponse;
+import com.smeem.api.badge.api.dto.response.BadgeListResponse;
 import com.smeem.api.badge.service.BadgeService;
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
