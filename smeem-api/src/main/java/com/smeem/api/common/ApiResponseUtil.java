@@ -20,6 +20,12 @@ public interface ApiResponseUtil {
                 .body(BaseResponse.of(code.getMessage(), data));
     }
 
+    static <T> ResponseEntity<BaseResponse<T>> successTest(SuccessCode code, T data) {
+        return ResponseEntity
+                .status(code.getStatus())
+                .body(BaseResponse.of(code.getMessage(), data));
+    }
+
     static <T> ResponseEntity<BaseResponse<?>> success(SuccessCode code, URI uri, T data) {
         return ResponseEntity
                 .status(code.getStatus())

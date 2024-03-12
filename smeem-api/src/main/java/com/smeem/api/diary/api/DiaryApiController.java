@@ -48,10 +48,10 @@ public class DiaryApiController implements DiaryApi {
     }
 
     @GetMapping("/{diaryId}")
-    public ResponseEntity<BaseResponse<?>> getDiaryDetail(@PathVariable long diaryId) {
+    public ResponseEntity<BaseResponse<DiaryGetResponse>> getDiaryDetail(@PathVariable long diaryId) {
         val response = DiaryGetResponse.from(
                 diaryQueryService.getDiaryDetail(DiaryGetServiceRequest.of(diaryId)));
-        return ApiResponseUtil.success(SUCCESS_GET_DIARY, response);
+        return ApiResponseUtil.successTest(SUCCESS_GET_DIARY, response);
     }
 
     @PatchMapping("/{diaryId}")

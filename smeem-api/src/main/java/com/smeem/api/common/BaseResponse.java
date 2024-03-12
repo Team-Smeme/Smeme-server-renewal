@@ -14,12 +14,8 @@ public record BaseResponse<T>(
         T data
 ) {
 
-    public static <T> BaseResponse<?> of(String message, T data) {
-        return BaseResponse.builder()
-                .success(true)
-                .message(message)
-                .data(data)
-                .build();
+    public static <T> BaseResponse<T> of(String message, T data) {
+        return new BaseResponse<>(true, message, data);
     }
 
     public static BaseResponse<?> of(boolean isSuccess, String message) {
