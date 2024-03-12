@@ -1,7 +1,7 @@
 package com.smeem.api.member.service.dto.request;
 
 
-import com.smeem.api.member.controller.dto.request.TrainingTimeRequest;
+import com.smeem.api.member.api.dto.request.TrainingTimeRequest;
 import lombok.Builder;
 
 import java.util.Objects;

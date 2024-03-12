@@ -1,6 +1,6 @@
 package com.smeem.api.auth.service.dto.request;
 
-import com.smeem.api.auth.controller.dto.request.SignInRequest;
+import com.smeem.api.auth.api.dto.request.SignInRequest;
 import com.smeem.domain.member.model.SocialType;
 import lombok.Builder;
 

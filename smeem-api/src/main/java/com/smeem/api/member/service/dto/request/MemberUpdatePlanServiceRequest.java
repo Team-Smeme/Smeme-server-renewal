@@ -1,6 +1,6 @@
 package com.smeem.api.member.service.dto.request;
 
-import com.smeem.api.member.controller.dto.request.MemberPlanUpdateRequest;
+import com.smeem.api.member.api.dto.request.MemberPlanUpdateRequest;
 import com.smeem.domain.goal.model.GoalType;
 import lombok.Builder;
 

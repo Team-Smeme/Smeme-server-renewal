@@ -1,7 +1,8 @@
-package com.smeem.api.diary.api.dto.response;
+package com.smeem.api.member.api.dto.response;
+
 
 import com.smeem.api.badge.api.dto.response.AcquiredBadgeResponse;
-import com.smeem.api.diary.service.dto.response.DiaryCreateServiceResponse;
+import com.smeem.api.member.service.dto.response.MemberUpdateServiceResponse;
 import lombok.Builder;
 
 import java.util.List;
@@ -9,14 +10,14 @@ import java.util.List;
 import static lombok.AccessLevel.PRIVATE;
 
 @Builder(access = PRIVATE)
-public record DiaryCreateResponse(
-        long diaryId,
+public record MemberUpdateResponse(
         List<AcquiredBadgeResponse> badges
 ) {
-
-    public static DiaryCreateResponse from(DiaryCreateServiceResponse response) {
-        return DiaryCreateResponse.builder()
-                .diaryId(response.diaryId())
+    public static MemberUpdateResponse from(
+            MemberUpdateServiceResponse response
+    ) {
+        return MemberUpdateResponse
+                .builder()
                 .badges(response.badges().stream().map(AcquiredBadgeResponse::from).toList())
                 .build();
     }
