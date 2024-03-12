@@ -1,4 +1,4 @@
-package com.smeem.api.member.controller.dto;
+package com.smeem.api.member.api.dto;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

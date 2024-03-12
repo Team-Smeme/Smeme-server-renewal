@@ -1,6 +1,6 @@
 package com.smeem.api.member.service.dto.request;
 
-import com.smeem.api.member.controller.dto.request.MemberPushUpdateRequest;
+import com.smeem.api.member.api.dto.request.MemberPushUpdateRequest;
 import lombok.Builder;
 
 import static lombok.AccessLevel.*;

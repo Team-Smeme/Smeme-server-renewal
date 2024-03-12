@@ -19,10 +19,11 @@ import static com.smeem.common.code.success.BadgeSuccessCode.SUCCESS_GET_BADGES;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/members/badges")
-public class BadgeController {
+public class BadgeController implements BadgeApi {
 
     private final BadgeService badgeService;
 
+    @Override
     @GetMapping
     public ResponseEntity<BaseResponse<?>> getBadges(Principal principal) {
         val response = BadgeListResponse.from(badgeService.getBadges(Util.getMemberId(principal)));

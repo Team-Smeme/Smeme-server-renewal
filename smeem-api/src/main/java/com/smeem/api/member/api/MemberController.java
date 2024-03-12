@@ -1,13 +1,13 @@
-package com.smeem.api.member.controller;
+package com.smeem.api.member.api;
 
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
-import com.smeem.api.member.controller.dto.request.MemberPlanUpdateRequest;
-import com.smeem.api.member.controller.dto.request.MemberPushUpdateRequest;
-import com.smeem.api.member.controller.dto.request.MemberUpdateRequest;
-import com.smeem.api.member.controller.dto.response.MemberGetResponse;
-import com.smeem.api.member.controller.dto.response.MemberNameResponse;
-import com.smeem.api.member.controller.dto.response.MemberUpdateResponse;
+import com.smeem.api.member.api.dto.request.MemberPlanUpdateRequest;
+import com.smeem.api.member.api.dto.request.MemberPushUpdateRequest;
+import com.smeem.api.member.api.dto.request.MemberUpdateRequest;
+import com.smeem.api.member.api.dto.response.MemberGetResponse;
+import com.smeem.api.member.api.dto.response.MemberNameResponse;
+import com.smeem.api.member.api.dto.response.MemberUpdateResponse;
 import com.smeem.api.member.service.MemberService;
 import com.smeem.api.member.service.dto.request.MemberPushUpdateServiceRequest;
 import com.smeem.api.member.service.dto.request.MemberUpdatePlanServiceRequest;
@@ -27,10 +27,11 @@ import static com.smeem.common.code.success.MemberSuccessCode.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/members")
-public class MemberController {
+public class MemberController implements MemberApi {
 
     private final MemberService memberService;
 
+    @Override
     @PatchMapping
     public ResponseEntity<BaseResponse<?>> updateProfile(Principal principal, @RequestBody MemberUpdateRequest request) {
         val response = MemberUpdateResponse.from(memberService.updateUserProfile(
@@ -39,24 +40,28 @@ public class MemberController {
         return ApiResponseUtil.success(SUCCESS_UPDATE_USERNAME, response);
     }
 
+    @Override
     @GetMapping("/me")
     public ResponseEntity<BaseResponse<?>> getProfile(Principal principal) {
         val response = MemberGetResponse.from(memberService.getMemberProfile(Util.getMemberId(principal)));
         return ApiResponseUtil.success(SUCCESS_GET_USER, response);
     }
 
+    @Override
     @PatchMapping("/plan")
     public ResponseEntity<BaseResponse<?>> updateUserPlan(Principal principal, @Valid @RequestBody MemberPlanUpdateRequest request) {
         memberService.updateLearningPlan(Util.getMemberId(principal), MemberUpdatePlanServiceRequest.of(request));
         return ApiResponseUtil.success(SUCCESS_UPDATE_USER_PLAN);
     }
 
+    @Override
     @GetMapping("/nickname/check")
     public ResponseEntity<BaseResponse<?>> checkDuplicatedName(@Parameter(description = "유저 닉네임") @RequestParam String name) {
         val response = MemberNameResponse.from(memberService.checkDuplicatedName(name));
         return ApiResponseUtil.success(SUCCESS_CHECK_DUPLICATED_NAME, response);
     }
 
+    @Override
     @PatchMapping("/push")
     public ResponseEntity<BaseResponse<?>> updateUserPush(Principal principal, @RequestBody MemberPushUpdateRequest request) {
         memberService.updateHasAlarm(Util.getMemberId(principal), MemberPushUpdateServiceRequest.of(request));

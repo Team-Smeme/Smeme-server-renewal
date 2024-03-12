@@ -1,7 +1,7 @@
-package com.smeem.api.member.controller.dto.request;
+package com.smeem.api.member.api.dto.request;
 
 
-import com.smeem.api.member.controller.dto.ValidUsername;
+import com.smeem.api.member.api.dto.ValidUsername;
 
 public record MemberUpdateRequest(
         @ValidUsername
