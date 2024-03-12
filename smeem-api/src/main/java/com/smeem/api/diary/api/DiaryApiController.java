@@ -1,14 +1,14 @@
-package com.smeem.api.diary.controller;
+package com.smeem.api.diary.api;
 
 import java.security.Principal;
 
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
-import com.smeem.api.diary.controller.dto.request.DiaryCreateRequest;
-import com.smeem.api.diary.controller.dto.request.DiaryModifyRequest;
-import com.smeem.api.diary.controller.dto.response.DiaryCreateResponse;
-import com.smeem.api.diary.controller.dto.response.DiaryGetResponse;
-import com.smeem.api.diary.controller.dto.response.DiaryListGetResponse;
+import com.smeem.api.diary.api.dto.request.DiaryCreateRequest;
+import com.smeem.api.diary.api.dto.request.DiaryModifyRequest;
+import com.smeem.api.diary.api.dto.response.DiaryCreateResponse;
+import com.smeem.api.diary.api.dto.response.DiaryGetResponse;
+import com.smeem.api.diary.api.dto.response.DiaryListGetResponse;
 import com.smeem.api.diary.service.DiaryQueryService;
 import com.smeem.api.diary.service.DiaryCommandService;
 import com.smeem.api.diary.service.dto.request.*;
@@ -33,7 +33,7 @@ import static com.smeem.common.code.success.DiarySuccessCode.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/diaries")
-public class DiaryController {
+public class DiaryApiController implements DiaryApi {
 
     private final DiaryCommandService diaryCommandService;
     private final DiaryQueryService diaryQueryService;

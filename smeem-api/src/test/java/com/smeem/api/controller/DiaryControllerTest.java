@@ -5,8 +5,8 @@
 //import com.smeem.api.common.ApiResponseUtil;
 //import com.smeem.api.common.BaseResponse;
 //import com.smeem.api.diary.controller.DiaryController;
-//import com.smeem.api.diary.controller.dto.request.DiaryCreateRequest;
-//import com.smeem.api.diary.controller.dto.request.DiaryModifyRequest;
+//import com.smeem.api.diary.api.dto.request.DiaryCreateRequest;
+//import com.smeem.api.diary.api.dto.request.DiaryModifyRequest;
 //import com.smeem.api.diary.service.dto.response.DiaryCreateServiceResponse;
 //import com.smeem.api.diary.service.dto.response.DiaryListGetServiceResponse;
 //import com.smeem.api.diary.service.dto.response.DiaryGetServiceResponse;

@@ -1,4 +1,4 @@
-package com.smeem.api.goal.controller.dto.response;
+package com.smeem.api.goal.api.dto.response;
 
 import com.smeem.api.goal.service.dto.response.GoalGetServiceResponse;
 import lombok.Builder;

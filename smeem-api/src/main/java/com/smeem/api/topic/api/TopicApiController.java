@@ -1,8 +1,8 @@
-package com.smeem.api.topic.controller;
+package com.smeem.api.topic.api;
 
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.BaseResponse;
-import com.smeem.api.topic.controller.dto.response.RandomTopicGetResponse;
+import com.smeem.api.topic.api.dto.response.RandomTopicGetResponse;
 import com.smeem.api.topic.service.TopicService;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import static com.smeem.common.code.success.TopicSuccessCode.SUCCESS_GET_RANDOM_
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/topics")
-public class TopicController {
+public class TopicApiController implements TopicApi {
 
     private final TopicService topicService;
 
