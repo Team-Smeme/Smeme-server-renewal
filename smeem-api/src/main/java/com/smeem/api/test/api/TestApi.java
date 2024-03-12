@@ -24,7 +24,7 @@ public interface TestApi {
     ResponseEntity<BaseResponse<?>> test();
 
     @Operation(summary = "푸시알림 테스트 API")
-    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = HEADER, required = true)
+    @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),

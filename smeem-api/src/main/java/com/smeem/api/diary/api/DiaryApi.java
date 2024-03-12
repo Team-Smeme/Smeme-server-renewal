@@ -21,7 +21,7 @@ import static io.swagger.v3.oas.annotations.enums.ParameterIn.HEADER;
 public interface DiaryApi {
 
     @Operation(summary = "일기 생성 API")
-    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = HEADER, required = true)
+    @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공"),
             @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
@@ -31,7 +31,7 @@ public interface DiaryApi {
     ResponseEntity<BaseResponse<?>> createDiary(Principal principal, @RequestBody DiaryCreateRequest request);
 
     @Operation(summary = "일기 상세 조회 API")
-    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = HEADER, required = true)
+    @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
@@ -41,7 +41,7 @@ public interface DiaryApi {
     ResponseEntity<BaseResponse<?>> getDiaryDetail(@PathVariable long diaryId);
 
     @Operation(summary = "일기 수정 API")
-    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = HEADER, required = true)
+    @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
@@ -51,7 +51,7 @@ public interface DiaryApi {
     ResponseEntity<BaseResponse<?>> modifyDiary(@PathVariable long diaryId, @RequestBody DiaryModifyRequest request);
 
     @Operation(summary = "일기 삭제 API")
-    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = HEADER, required = true)
+    @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
@@ -61,7 +61,7 @@ public interface DiaryApi {
     ResponseEntity<BaseResponse<?>> deleteDiary(@PathVariable long diaryId);
 
     @Operation(summary = "기간 내 일기 목록 조회 API")
-    @Parameter(name = "Authorization", description = "Bearer {access_token}", in = HEADER, required = true)
+    @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
