@@ -15,7 +15,11 @@ public record BaseResponse<T>(
 ) {
 
     public static <T> BaseResponse<T> of(String message, T data) {
-        return new BaseResponse<>(true, message, data);
+        return BaseResponse.<T>builder()
+                .success(true)
+                .message(message)
+                .data(data)
+                .build();
     }
 
     public static BaseResponse<?> of(boolean isSuccess, String message) {

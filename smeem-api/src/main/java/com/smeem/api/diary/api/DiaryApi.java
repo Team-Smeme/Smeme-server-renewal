@@ -1,15 +1,12 @@
 package com.smeem.api.diary.api;
 
 import com.smeem.api.common.BaseResponse;
-import com.smeem.api.common.ErrorResponse;
 import com.smeem.api.diary.api.dto.request.DiaryCreateRequest;
 import com.smeem.api.diary.api.dto.request.DiaryModifyRequest;
-import com.smeem.api.diary.api.dto.response.DiaryCreateResponse;
 import com.smeem.api.diary.api.dto.response.DiaryGetResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,25 +35,10 @@ public interface DiaryApi {
     @Operation(summary = "일기 상세 조회 API")
     @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "201",
-                    description = "성공"
-            ),
-            @ApiResponse(
-                    responseCode = "4xx",
-                    description = "유효하지 않은 요청",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "유효하지 않은 토큰",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "서버 내부 오류",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
-            )
+            @ApiResponse(responseCode = "201", description = "성공"),
+            @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청", content = @Content),
+            @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰", content = @Content),
+            @ApiResponse(responseCode = "500", description = "서버 내부 오류", content = @Content)
     })
     ResponseEntity<BaseResponse<DiaryGetResponse>> getDiaryDetail(@PathVariable long diaryId);
 
