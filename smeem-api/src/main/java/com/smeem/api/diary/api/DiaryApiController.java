@@ -39,7 +39,7 @@ public class DiaryApiController implements DiaryApi {
     private final DiaryQueryService diaryQueryService;
 
     @PostMapping
-    public ResponseEntity<SuccessResponse<?>> createDiary(Principal principal, @RequestBody DiaryCreateRequest request) {
+    public ResponseEntity<SuccessResponse<DiaryCreateResponse>> createDiary(Principal principal, @RequestBody DiaryCreateRequest request) {
         val memberId = Util.getMemberId(principal);
         val response = DiaryCreateResponse.from(
                 diaryCommandService.createDiary(DiaryCreateServiceRequest.of(memberId, request)));
@@ -51,7 +51,7 @@ public class DiaryApiController implements DiaryApi {
     public ResponseEntity<SuccessResponse<DiaryGetResponse>> getDiaryDetail(@PathVariable long diaryId) {
         val response = DiaryGetResponse.from(
                 diaryQueryService.getDiaryDetail(DiaryGetServiceRequest.of(diaryId)));
-        return ApiResponseUtil.successTest(SUCCESS_GET_DIARY, response);
+        return ApiResponseUtil.success(SUCCESS_GET_DIARY, response);
     }
 
     @PatchMapping("/{diaryId}")
@@ -67,7 +67,7 @@ public class DiaryApiController implements DiaryApi {
     }
 
     @GetMapping
-    public ResponseEntity<SuccessResponse<?>> getDiaries(
+    public ResponseEntity<SuccessResponse<DiaryListGetResponse>> getDiaries(
             Principal principal,
             @RequestParam String start,
             @RequestParam String end

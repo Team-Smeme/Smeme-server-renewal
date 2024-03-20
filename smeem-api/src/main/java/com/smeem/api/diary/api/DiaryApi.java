@@ -1,12 +1,16 @@
 package com.smeem.api.diary.api;
 
+import com.smeem.api.common.dto.FailureResponse;
 import com.smeem.api.common.dto.SuccessResponse;
 import com.smeem.api.diary.api.dto.request.DiaryCreateRequest;
 import com.smeem.api.diary.api.dto.request.DiaryModifyRequest;
+import com.smeem.api.diary.api.dto.response.DiaryCreateResponse;
 import com.smeem.api.diary.api.dto.response.DiaryGetResponse;
+import com.smeem.api.diary.api.dto.response.DiaryListGetResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,19 +30,46 @@ public interface DiaryApi {
     @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공"),
-            @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
-            @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰"),
-            @ApiResponse(responseCode = "500", description = "서버 내부 오류")
+            @ApiResponse(
+                    responseCode = "4xx",
+                    description = "유효하지 않은 요청",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "유효하지 않은 토큰",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "서버 내부 오류",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            )
     })
-    ResponseEntity<SuccessResponse<?>> createDiary(Principal principal, @RequestBody DiaryCreateRequest request);
+    ResponseEntity<SuccessResponse<DiaryCreateResponse>> createDiary(
+            Principal principal,
+            @RequestBody DiaryCreateRequest request
+    );
 
     @Operation(summary = "일기 상세 조회 API")
     @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공"),
-            @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청", content = @Content),
-            @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰", content = @Content),
-            @ApiResponse(responseCode = "500", description = "서버 내부 오류", content = @Content)
+            @ApiResponse(
+                    responseCode = "4xx",
+                    description = "유효하지 않은 요청",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "유효하지 않은 토큰",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "서버 내부 오류",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            )
     })
     ResponseEntity<SuccessResponse<DiaryGetResponse>> getDiaryDetail(@PathVariable long diaryId);
 
@@ -46,9 +77,21 @@ public interface DiaryApi {
     @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
-            @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰"),
-            @ApiResponse(responseCode = "500", description = "서버 내부 오류")
+            @ApiResponse(
+                    responseCode = "4xx",
+                    description = "유효하지 않은 요청",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "유효하지 않은 토큰",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "서버 내부 오류",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            )
     })
     ResponseEntity<SuccessResponse<?>> modifyDiary(@PathVariable long diaryId, @RequestBody DiaryModifyRequest request);
 
@@ -56,9 +99,21 @@ public interface DiaryApi {
     @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
-            @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰"),
-            @ApiResponse(responseCode = "500", description = "서버 내부 오류")
+            @ApiResponse(
+                    responseCode = "4xx",
+                    description = "유효하지 않은 요청",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "유효하지 않은 토큰",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "서버 내부 오류",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            )
     })
     ResponseEntity<SuccessResponse<?>> deleteDiary(@PathVariable long diaryId);
 
@@ -66,11 +121,23 @@ public interface DiaryApi {
     @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
-            @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰"),
-            @ApiResponse(responseCode = "500", description = "서버 내부 오류")
+            @ApiResponse(
+                    responseCode = "4xx",
+                    description = "유효하지 않은 요청",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "유효하지 않은 토큰",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "서버 내부 오류",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            )
     })
-    ResponseEntity<SuccessResponse<?>> getDiaries(
+    ResponseEntity<SuccessResponse<DiaryListGetResponse>> getDiaries(
             Principal principal,
             @RequestParam String start,
             @RequestParam String end

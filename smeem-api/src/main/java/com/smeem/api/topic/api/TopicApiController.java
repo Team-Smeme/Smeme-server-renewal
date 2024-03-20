@@ -22,7 +22,7 @@ public class TopicApiController implements TopicApi {
     private final TopicService topicService;
 
     @GetMapping("/random")
-    public ResponseEntity<SuccessResponse<?>> getTopicByRandom() {
+    public ResponseEntity<SuccessResponse<RandomTopicGetResponse>> getTopicByRandom() {
         val response = RandomTopicGetResponse.from(topicService.getTopicByRandom());
         return ApiResponseUtil.success(SUCCESS_GET_RANDOM_TOPIC, response);
     }

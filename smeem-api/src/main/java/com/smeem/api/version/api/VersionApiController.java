@@ -21,7 +21,7 @@ public class VersionApiController implements VersionApi {
     private final VersionService versionService;
 
     @GetMapping("/client/app")
-    public ResponseEntity<SuccessResponse<?>> getClientVersion() {
+    public ResponseEntity<SuccessResponse<ClientVersionGetResponse>> getClientVersion() {
         val response = ClientVersionGetResponse.of(versionService.getClientVersion());
         return ApiResponseUtil.success(SUCCESS_GET_APP_VERSION, response);
     }

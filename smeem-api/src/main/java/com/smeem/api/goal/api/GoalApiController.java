@@ -28,13 +28,13 @@ public class GoalApiController implements GoalApi {
     private final GoalService goalService;
 
     @GetMapping
-    public ResponseEntity<SuccessResponse<?>> getAllGoals() {
+    public ResponseEntity<SuccessResponse<GoalListGetResponse>> getAllGoals() {
         val response = GoalListGetResponse.from(goalService.getAllGoals());
         return ApiResponseUtil.success(SUCCESS_GET_GOALS, response);
     }
 
     @GetMapping("/{type}")
-    public ResponseEntity<SuccessResponse<?>> getGoalByType(@PathVariable GoalType type) {
+    public ResponseEntity<SuccessResponse<GoalGetResponse>> getGoalByType(@PathVariable GoalType type) {
         val response = GoalGetResponse.from(goalService.getByType(GoalGetServiceRequest.of(type)));
         return ApiResponseUtil.success(SUCCESS_GET_GOAL, response);
     }
