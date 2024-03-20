@@ -50,6 +50,7 @@ public class SecurityConfig {
                         authorizeHttpRequests
                                 .requestMatchers(new AntPathRequestMatcher("/api/v2/auth", "POST")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/api/v2/test")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/api/v2/versions/client/app")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/api/v2/goals/{type}")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/api/v2/goals")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/api/v2/members/nickname/check")).permitAll()
