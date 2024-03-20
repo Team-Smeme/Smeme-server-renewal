@@ -1,7 +1,7 @@
 package com.smeem.api.member.api;
 
 import com.smeem.api.common.ApiResponseUtil;
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.SuccessResponse;
 import com.smeem.api.member.api.dto.request.MemberPlanUpdateRequest;
 import com.smeem.api.member.api.dto.request.MemberPushUpdateRequest;
 import com.smeem.api.member.api.dto.request.MemberUpdateRequest;
@@ -33,7 +33,7 @@ public class MemberController implements MemberApi {
 
     @Override
     @PatchMapping
-    public ResponseEntity<BaseResponse<?>> updateProfile(Principal principal, @RequestBody MemberUpdateRequest request) {
+    public ResponseEntity<SuccessResponse<MemberUpdateResponse>> updateProfile(Principal principal, @RequestBody MemberUpdateRequest request) {
         val response = MemberUpdateResponse.from(memberService.updateUserProfile(
                 Util.getMemberId(principal),
                 MemberServiceUpdateUserProfileRequest.of(request)));
@@ -42,28 +42,28 @@ public class MemberController implements MemberApi {
 
     @Override
     @GetMapping("/me")
-    public ResponseEntity<BaseResponse<?>> getProfile(Principal principal) {
+    public ResponseEntity<SuccessResponse<MemberGetResponse>> getProfile(Principal principal) {
         val response = MemberGetResponse.from(memberService.getMemberProfile(Util.getMemberId(principal)));
         return ApiResponseUtil.success(SUCCESS_GET_USER, response);
     }
 
     @Override
     @PatchMapping("/plan")
-    public ResponseEntity<BaseResponse<?>> updateUserPlan(Principal principal, @Valid @RequestBody MemberPlanUpdateRequest request) {
+    public ResponseEntity<SuccessResponse<?>> updateUserPlan(Principal principal, @Valid @RequestBody MemberPlanUpdateRequest request) {
         memberService.updateLearningPlan(Util.getMemberId(principal), MemberUpdatePlanServiceRequest.of(request));
         return ApiResponseUtil.success(SUCCESS_UPDATE_USER_PLAN);
     }
 
     @Override
     @GetMapping("/nickname/check")
-    public ResponseEntity<BaseResponse<?>> checkDuplicatedName(@Parameter(description = "유저 닉네임", required = true) @RequestParam String name) {
+    public ResponseEntity<SuccessResponse<MemberNameResponse>> checkDuplicatedName(@Parameter(description = "유저 닉네임", required = true) @RequestParam String name) {
         val response = MemberNameResponse.from(memberService.checkDuplicatedName(name));
         return ApiResponseUtil.success(SUCCESS_CHECK_DUPLICATED_NAME, response);
     }
 
     @Override
     @PatchMapping("/push")
-    public ResponseEntity<BaseResponse<?>> updateUserPush(Principal principal, @RequestBody MemberPushUpdateRequest request) {
+    public ResponseEntity<SuccessResponse<?>> updateUserPush(Principal principal, @RequestBody MemberPushUpdateRequest request) {
         memberService.updateHasAlarm(Util.getMemberId(principal), MemberPushUpdateServiceRequest.of(request));
         return ApiResponseUtil.success(SUCCESS_UPDATE_USER_PUSH);
     }

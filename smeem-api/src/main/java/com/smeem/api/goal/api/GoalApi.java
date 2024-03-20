@@ -1,8 +1,13 @@
 package com.smeem.api.goal.api;
 
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.FailureResponse;
+import com.smeem.api.common.dto.SuccessResponse;
+import com.smeem.api.goal.api.dto.response.GoalGetResponse;
+import com.smeem.api.goal.api.dto.response.GoalListGetResponse;
 import com.smeem.domain.goal.model.GoalType;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,16 +20,32 @@ public interface GoalApi {
     @Operation(summary = "목표 전체 목록 조회 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
-            @ApiResponse(responseCode = "500", description = "서버 내부 오류")
+            @ApiResponse(
+                    responseCode = "4xx",
+                    description = "유효하지 않은 요청",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "서버 내부 오류",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            )
     })
-    ResponseEntity<BaseResponse<?>> getAllGoals();
+    ResponseEntity<SuccessResponse<GoalListGetResponse>> getAllGoals();
 
     @Operation(summary = "목표 상세 조회 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
-            @ApiResponse(responseCode = "500", description = "서버 내부 오류")
+            @ApiResponse(
+                    responseCode = "4xx",
+                    description = "유효하지 않은 요청",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "서버 내부 오류",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            )
     })
-    ResponseEntity<BaseResponse<?>> getGoalByType(@PathVariable GoalType type);
+    ResponseEntity<SuccessResponse<GoalGetResponse>> getGoalByType(@PathVariable GoalType type);
 }
