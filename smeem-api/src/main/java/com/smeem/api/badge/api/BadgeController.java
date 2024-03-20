@@ -25,7 +25,7 @@ public class BadgeController implements BadgeApi {
 
     @Override
     @GetMapping
-    public ResponseEntity<SuccessResponse<?>> getBadges(Principal principal) {
+    public ResponseEntity<SuccessResponse<BadgeListResponse>> getBadges(Principal principal) {
         val response = BadgeListResponse.from(badgeService.getBadges(Util.getMemberId(principal)));
         return ApiResponseUtil.success(SUCCESS_GET_BADGES, response);
     }
