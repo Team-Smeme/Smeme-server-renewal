@@ -31,15 +31,15 @@ public class AuthController implements AuthApi {
 
     @Override
     @PostMapping
-    public ResponseEntity<SuccessResponse<?>> signIn(@RequestHeader("Authorization") final String socialAccessToken,
-                                                     @RequestBody SignInRequest request) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public ResponseEntity<SuccessResponse<SignInResponse>> signIn(@RequestHeader("Authorization") final String socialAccessToken,
+                                                                  @RequestBody SignInRequest request) throws NoSuchAlgorithmException, InvalidKeySpecException {
         val response = SignInResponse.from(authService.signIn(socialAccessToken, SignInServiceRequest.of(request)));
         return ApiResponseUtil.success(SUCCESS_SIGNIN, response);
     }
 
     @Override
     @PostMapping("/token")
-    public ResponseEntity<SuccessResponse<?>> reissueToken(Principal principal) {
+    public ResponseEntity<SuccessResponse<TokenResponse>> reissueToken(Principal principal) {
         val response = TokenResponse.from(tokenService.issueToken(Util.getMemberId(principal)));
         return ApiResponseUtil.success(SUCCESS_ISSUE_TOKEN, response);
     }

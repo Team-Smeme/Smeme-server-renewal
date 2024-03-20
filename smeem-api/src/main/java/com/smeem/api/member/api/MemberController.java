@@ -33,7 +33,7 @@ public class MemberController implements MemberApi {
 
     @Override
     @PatchMapping
-    public ResponseEntity<SuccessResponse<?>> updateProfile(Principal principal, @RequestBody MemberUpdateRequest request) {
+    public ResponseEntity<SuccessResponse<MemberUpdateResponse>> updateProfile(Principal principal, @RequestBody MemberUpdateRequest request) {
         val response = MemberUpdateResponse.from(memberService.updateUserProfile(
                 Util.getMemberId(principal),
                 MemberServiceUpdateUserProfileRequest.of(request)));
@@ -42,7 +42,7 @@ public class MemberController implements MemberApi {
 
     @Override
     @GetMapping("/me")
-    public ResponseEntity<SuccessResponse<?>> getProfile(Principal principal) {
+    public ResponseEntity<SuccessResponse<MemberGetResponse>> getProfile(Principal principal) {
         val response = MemberGetResponse.from(memberService.getMemberProfile(Util.getMemberId(principal)));
         return ApiResponseUtil.success(SUCCESS_GET_USER, response);
     }
@@ -56,7 +56,7 @@ public class MemberController implements MemberApi {
 
     @Override
     @GetMapping("/nickname/check")
-    public ResponseEntity<SuccessResponse<?>> checkDuplicatedName(@Parameter(description = "유저 닉네임", required = true) @RequestParam String name) {
+    public ResponseEntity<SuccessResponse<MemberNameResponse>> checkDuplicatedName(@Parameter(description = "유저 닉네임", required = true) @RequestParam String name) {
         val response = MemberNameResponse.from(memberService.checkDuplicatedName(name));
         return ApiResponseUtil.success(SUCCESS_CHECK_DUPLICATED_NAME, response);
     }
