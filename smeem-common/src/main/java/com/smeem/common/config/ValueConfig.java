@@ -51,6 +51,18 @@ public class ValueConfig {
     @Value("${discord.webhook.info-url}")
     private String DISCORD_WEBHOOK_INFO_URL;
 
+    @Value("${smeem.client.version.title}")
+    private String CLIENT_VERSION_UPDATE_TITLE;
+
+    @Value("${smeem.client.version.content}")
+    private String CLIENT_VERSION_UPDATE_CONTENT;
+
+    @Value("${smeem.client.version.ios.app}")
+    private String CLIENT_VERSION_IOS_VERSION;
+
+    @Value("${smeem.client.version.ios.force}")
+    private String CLIENT_VERSION_IOS_FORCE_VERSION;
+
     public static final String SIGN_IN_MESSAGE = "새로운 유저가 가입했습니다! ✍️ : ";
 
     public static final boolean DEFAULT_IS_PUBLIC_VALUE = true;
