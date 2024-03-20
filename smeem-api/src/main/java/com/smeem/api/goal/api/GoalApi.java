@@ -1,6 +1,6 @@
 package com.smeem.api.goal.api;
 
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.SuccessResponse;
 import com.smeem.domain.goal.model.GoalType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,7 +18,7 @@ public interface GoalApi {
             @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<BaseResponse<?>> getAllGoals();
+    ResponseEntity<SuccessResponse<?>> getAllGoals();
 
     @Operation(summary = "목표 상세 조회 API")
     @ApiResponses(value = {
@@ -26,5 +26,5 @@ public interface GoalApi {
             @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<BaseResponse<?>> getGoalByType(@PathVariable GoalType type);
+    ResponseEntity<SuccessResponse<?>> getGoalByType(@PathVariable GoalType type);
 }

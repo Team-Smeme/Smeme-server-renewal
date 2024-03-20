@@ -2,7 +2,7 @@ package com.smeem.api.auth.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smeem.api.common.ApiResponseUtil;
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.SuccessResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
@@ -32,7 +32,7 @@ public class CustomJwtAuthenticationEntryPoint implements AuthenticationEntryPoi
         response.getWriter().println(objectMapper.writeValueAsString(getFailureResponse()));
     }
 
-    private ResponseEntity<BaseResponse<?>> getFailureResponse() {
+    private ResponseEntity<SuccessResponse<?>> getFailureResponse() {
         return ApiResponseUtil.failure(INVALID_TOKEN);
     }
 }

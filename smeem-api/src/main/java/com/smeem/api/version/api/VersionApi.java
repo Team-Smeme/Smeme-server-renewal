@@ -1,6 +1,6 @@
 package com.smeem.api.version.api;
 
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -15,5 +15,5 @@ public interface VersionApi {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<BaseResponse<?>> getClientVersion();
+    ResponseEntity<SuccessResponse<?>> getClientVersion();
 }

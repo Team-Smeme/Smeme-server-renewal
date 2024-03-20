@@ -1,6 +1,6 @@
 package com.smeem.api.badge.api;
 
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,6 +23,6 @@ public interface BadgeApi {
             @ApiResponse(responseCode = "4011", description = "유효하지 않은 토큰입니다"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<BaseResponse<?>> getBadges(Principal principal);
+    ResponseEntity<SuccessResponse<?>> getBadges(Principal principal);
 
 }

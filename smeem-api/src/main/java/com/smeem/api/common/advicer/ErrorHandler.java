@@ -1,7 +1,7 @@
 package com.smeem.api.common.advicer;
 
 import com.smeem.api.common.ApiResponseUtil;
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.SuccessResponse;
 import com.smeem.common.exception.*;
 import com.smeem.external.discord.DiscordAlarmSender;
 import lombok.RequiredArgsConstructor;
@@ -19,57 +19,57 @@ public class ErrorHandler {
     private final DiscordAlarmSender discordAlarmSender;
 
     @ExceptionHandler(TrainingTimeException.class)
-    public ResponseEntity<BaseResponse<?>> trainingTimeException(TrainingTimeException exception) {
+    public ResponseEntity<SuccessResponse<?>> trainingTimeException(TrainingTimeException exception) {
         return ApiResponseUtil.failure(exception.getFailureCode());
     }
 
     @ExceptionHandler(TokenException.class)
-    public ResponseEntity<BaseResponse<?>> tokenException(TokenException exception) {
+    public ResponseEntity<SuccessResponse<?>> tokenException(TokenException exception) {
         return ApiResponseUtil.failure(exception.getFailureCode());
     }
 
     @ExceptionHandler(BadgeException.class)
-    public ResponseEntity<BaseResponse<?>> badgeException(BadgeException exception) {
+    public ResponseEntity<SuccessResponse<?>> badgeException(BadgeException exception) {
         return ApiResponseUtil.failure(exception.getFailureCode());
     }
 
     @ExceptionHandler(DiaryException.class)
-    public ResponseEntity<BaseResponse<?>> diaryException(DiaryException exception) {
+    public ResponseEntity<SuccessResponse<?>> diaryException(DiaryException exception) {
         return ApiResponseUtil.failure(exception.getFailureCode());
     }
 
     @ExceptionHandler(MemberException.class)
-    public ResponseEntity<BaseResponse<?>> memberException(MemberException exception) {
+    public ResponseEntity<SuccessResponse<?>> memberException(MemberException exception) {
         return ApiResponseUtil.failure(exception.getFailureCode());
     }
 
     @ExceptionHandler(GoalException.class)
-    public ResponseEntity<BaseResponse<?>> goalException(GoalException exception) {
+    public ResponseEntity<SuccessResponse<?>> goalException(GoalException exception) {
         return ApiResponseUtil.failure(exception.getFailureCode());
     }
 
     @ExceptionHandler(TopicException.class)
-    public ResponseEntity<BaseResponse<?>> topicException(TopicException exception) {
+    public ResponseEntity<SuccessResponse<?>> topicException(TopicException exception) {
         return ApiResponseUtil.failure(exception.getFailureCode());
     }
 
     @ExceptionHandler(AppleException.class)
-    public ResponseEntity<BaseResponse<?>> appleException(AppleException exception) {
+    public ResponseEntity<SuccessResponse<?>> appleException(AppleException exception) {
         return ApiResponseUtil.failure(exception.getFailureCode());
     }
 
     @ExceptionHandler(FcmException.class)
-    public ResponseEntity<BaseResponse<?>> fcmException(FcmException exception) {
+    public ResponseEntity<SuccessResponse<?>> fcmException(FcmException exception) {
         return ApiResponseUtil.failure(exception.getFailureCode());
     }
 
     @ExceptionHandler(AuthException.class)
-    public ResponseEntity<BaseResponse<?>> authException(AuthException exception) {
+    public ResponseEntity<SuccessResponse<?>> authException(AuthException exception) {
         return ApiResponseUtil.failure(exception.getFailureCode());
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<BaseResponse<?>> baseException(RuntimeException exception) {
+    public ResponseEntity<SuccessResponse<?>> baseException(RuntimeException exception) {
         sendDiscordAlarm(exception);
         return ApiResponseUtil.failure(SERVER_ERROR);
     }

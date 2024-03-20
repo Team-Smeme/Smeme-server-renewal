@@ -3,7 +3,7 @@ package com.smeem.api.diary.api;
 import java.security.Principal;
 
 import com.smeem.api.common.ApiResponseUtil;
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.SuccessResponse;
 import com.smeem.api.diary.api.dto.request.DiaryCreateRequest;
 import com.smeem.api.diary.api.dto.request.DiaryModifyRequest;
 import com.smeem.api.diary.api.dto.response.DiaryCreateResponse;
@@ -39,7 +39,7 @@ public class DiaryApiController implements DiaryApi {
     private final DiaryQueryService diaryQueryService;
 
     @PostMapping
-    public ResponseEntity<BaseResponse<?>> createDiary(Principal principal, @RequestBody DiaryCreateRequest request) {
+    public ResponseEntity<SuccessResponse<?>> createDiary(Principal principal, @RequestBody DiaryCreateRequest request) {
         val memberId = Util.getMemberId(principal);
         val response = DiaryCreateResponse.from(
                 diaryCommandService.createDiary(DiaryCreateServiceRequest.of(memberId, request)));
@@ -48,26 +48,26 @@ public class DiaryApiController implements DiaryApi {
     }
 
     @GetMapping("/{diaryId}")
-    public ResponseEntity<BaseResponse<DiaryGetResponse>> getDiaryDetail(@PathVariable long diaryId) {
+    public ResponseEntity<SuccessResponse<DiaryGetResponse>> getDiaryDetail(@PathVariable long diaryId) {
         val response = DiaryGetResponse.from(
                 diaryQueryService.getDiaryDetail(DiaryGetServiceRequest.of(diaryId)));
         return ApiResponseUtil.successTest(SUCCESS_GET_DIARY, response);
     }
 
     @PatchMapping("/{diaryId}")
-    public ResponseEntity<BaseResponse<?>> modifyDiary(@PathVariable long diaryId, @RequestBody DiaryModifyRequest request) {
+    public ResponseEntity<SuccessResponse<?>> modifyDiary(@PathVariable long diaryId, @RequestBody DiaryModifyRequest request) {
         diaryCommandService.modifyDiary(DiaryModifyServiceRequest.of(diaryId, request));
         return ApiResponseUtil.success(SUCCESS_UPDATE_DAIRY);
     }
 
     @DeleteMapping("/{diaryId}")
-    public ResponseEntity<BaseResponse<?>> deleteDiary(@PathVariable long diaryId) {
+    public ResponseEntity<SuccessResponse<?>> deleteDiary(@PathVariable long diaryId) {
         diaryCommandService.deleteDiary(DiaryDeleteServiceRequest.of(diaryId));
         return ApiResponseUtil.success(SUCCESS_DELETE_DIARY);
     }
 
     @GetMapping
-    public ResponseEntity<BaseResponse<?>> getDiaries(
+    public ResponseEntity<SuccessResponse<?>> getDiaries(
             Principal principal,
             @RequestParam String start,
             @RequestParam String end

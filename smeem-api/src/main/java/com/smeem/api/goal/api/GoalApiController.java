@@ -1,7 +1,7 @@
 package com.smeem.api.goal.api;
 
 import com.smeem.api.common.ApiResponseUtil;
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.SuccessResponse;
 
 import com.smeem.api.goal.api.dto.response.GoalGetResponse;
 import com.smeem.api.goal.api.dto.response.GoalListGetResponse;
@@ -28,13 +28,13 @@ public class GoalApiController implements GoalApi {
     private final GoalService goalService;
 
     @GetMapping
-    public ResponseEntity<BaseResponse<?>> getAllGoals() {
+    public ResponseEntity<SuccessResponse<?>> getAllGoals() {
         val response = GoalListGetResponse.from(goalService.getAllGoals());
         return ApiResponseUtil.success(SUCCESS_GET_GOALS, response);
     }
 
     @GetMapping("/{type}")
-    public ResponseEntity<BaseResponse<?>> getGoalByType(@PathVariable GoalType type) {
+    public ResponseEntity<SuccessResponse<?>> getGoalByType(@PathVariable GoalType type) {
         val response = GoalGetResponse.from(goalService.getByType(GoalGetServiceRequest.of(type)));
         return ApiResponseUtil.success(SUCCESS_GET_GOAL, response);
     }

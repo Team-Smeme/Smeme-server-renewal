@@ -3,7 +3,7 @@ package com.smeem.api.badge.api;
 import com.smeem.api.badge.api.dto.response.BadgeListResponse;
 import com.smeem.api.badge.service.BadgeService;
 import com.smeem.api.common.ApiResponseUtil;
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.SuccessResponse;
 import com.smeem.common.util.Util;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -25,7 +25,7 @@ public class BadgeController implements BadgeApi {
 
     @Override
     @GetMapping
-    public ResponseEntity<BaseResponse<?>> getBadges(Principal principal) {
+    public ResponseEntity<SuccessResponse<?>> getBadges(Principal principal) {
         val response = BadgeListResponse.from(badgeService.getBadges(Util.getMemberId(principal)));
         return ApiResponseUtil.success(SUCCESS_GET_BADGES, response);
     }

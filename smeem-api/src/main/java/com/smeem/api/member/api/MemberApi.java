@@ -1,12 +1,11 @@
 package com.smeem.api.member.api;
 
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.SuccessResponse;
 import com.smeem.api.member.api.dto.request.MemberPlanUpdateRequest;
 import com.smeem.api.member.api.dto.request.MemberPushUpdateRequest;
 import com.smeem.api.member.api.dto.request.MemberUpdateRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +28,7 @@ public interface MemberApi {
             @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    ResponseEntity<BaseResponse<?>> updateProfile(Principal principal, @RequestBody MemberUpdateRequest request);
+    ResponseEntity<SuccessResponse<?>> updateProfile(Principal principal, @RequestBody MemberUpdateRequest request);
 
 
     @Operation(summary = "사용자 프로필 조회 API")
@@ -39,7 +38,7 @@ public interface MemberApi {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<BaseResponse<?>> getProfile(Principal principal);
+    ResponseEntity<SuccessResponse<?>> getProfile(Principal principal);
 
     @Operation(summary = "사용자 학습 계획 수정 API")
     @Parameter(name = "Authorization", description = "Bearer ${Smeme Access Token}", in = HEADER, required = true)
@@ -49,7 +48,7 @@ public interface MemberApi {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<BaseResponse<?>> updateUserPlan(Principal principal, @Valid @RequestBody MemberPlanUpdateRequest request);
+    ResponseEntity<SuccessResponse<?>> updateUserPlan(Principal principal, @Valid @RequestBody MemberPlanUpdateRequest request);
 
     @Operation(summary = "사용자 닉네임 중복체크 수정 API")
     @Parameter(name = "Authorization", description = "Bearer ${Smeme Access Token}", in = HEADER, required = true)
@@ -58,7 +57,7 @@ public interface MemberApi {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<BaseResponse<?>> checkDuplicatedName(@Parameter(description = "유저 닉네임") @RequestParam String name);
+    ResponseEntity<SuccessResponse<?>> checkDuplicatedName(@Parameter(description = "유저 닉네임") @RequestParam String name);
 
     @Operation(summary = "사용자 학습 계획 수정 API")
     @Parameter(name = "Authorization", description = "Bearer ${Smeme Access Token}", in = HEADER, required = true)
@@ -67,5 +66,5 @@ public interface MemberApi {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<BaseResponse<?>> updateUserPush(Principal principal, @RequestBody MemberPushUpdateRequest request);
+    ResponseEntity<SuccessResponse<?>> updateUserPush(Principal principal, @RequestBody MemberPushUpdateRequest request);
 }

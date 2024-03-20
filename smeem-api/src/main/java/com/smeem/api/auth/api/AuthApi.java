@@ -1,7 +1,7 @@
 package com.smeem.api.auth.api;
 
 import com.smeem.api.auth.api.dto.request.SignInRequest;
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,7 +28,7 @@ public interface AuthApi {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<BaseResponse<?>> signIn(@RequestHeader("Authorization") final String socialAccessToken, @RequestBody SignInRequest request) throws NoSuchAlgorithmException, InvalidKeySpecException;
+    ResponseEntity<SuccessResponse<?>> signIn(@RequestHeader("Authorization") final String socialAccessToken, @RequestBody SignInRequest request) throws NoSuchAlgorithmException, InvalidKeySpecException;
 
     @Operation(summary = "토큰 재발급 API")
     @Parameter(name = "Authorization", description = "Bearer ${Smeme Refresh Token}", in = HEADER, required = true)
@@ -37,7 +37,7 @@ public interface AuthApi {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<BaseResponse<?>> reissueToken(Principal principal);
+    ResponseEntity<SuccessResponse<?>> reissueToken(Principal principal);
 
 
     @Operation(summary = "사용자 로그아웃 API")
@@ -47,7 +47,7 @@ public interface AuthApi {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<BaseResponse<?>> signOut(Principal principal);
+    ResponseEntity<SuccessResponse<?>> signOut(Principal principal);
 
 
     @Operation(summary = "회원 탈퇴 API")
@@ -57,6 +57,6 @@ public interface AuthApi {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<BaseResponse<?>> withDrawl(Principal principal);
+    ResponseEntity<SuccessResponse<?>> withDrawl(Principal principal);
 
 }
