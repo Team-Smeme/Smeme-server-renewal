@@ -1,6 +1,8 @@
 package com.smeem.api.auth.api;
 
 import com.smeem.api.auth.api.dto.request.SignInRequest;
+import com.smeem.api.auth.api.dto.response.SignInResponse;
+import com.smeem.api.auth.api.dto.response.token.TokenResponse;
 import com.smeem.api.common.dto.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,7 +30,7 @@ public interface AuthApi {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<SuccessResponse<?>> signIn(@RequestHeader("Authorization") final String socialAccessToken, @RequestBody SignInRequest request) throws NoSuchAlgorithmException, InvalidKeySpecException;
+    ResponseEntity<SuccessResponse<SignInResponse>> signIn(@RequestHeader("Authorization") final String socialAccessToken, @RequestBody SignInRequest request) throws NoSuchAlgorithmException, InvalidKeySpecException;
 
     @Operation(summary = "토큰 재발급 API")
     @Parameter(name = "Authorization", description = "Bearer ${Smeme Refresh Token}", in = HEADER, required = true)
@@ -37,7 +39,7 @@ public interface AuthApi {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<SuccessResponse<?>> reissueToken(Principal principal);
+    ResponseEntity<SuccessResponse<TokenResponse>> reissueToken(Principal principal);
 
 
     @Operation(summary = "사용자 로그아웃 API")
