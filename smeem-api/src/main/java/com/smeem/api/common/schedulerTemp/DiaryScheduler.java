@@ -1,4 +1,4 @@
-package com.smeem.batch.scheduler;
+package com.smeem.api.common.schedulerTemp;
 
 import com.smeem.common.config.ValueConfig;
 import com.smeem.domain.diary.repository.DeletedDiaryRepository;
