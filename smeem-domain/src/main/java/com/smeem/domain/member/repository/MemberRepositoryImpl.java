@@ -1,34 +1,31 @@
-package com.smeem.domain.training.repository;
+package com.smeem.domain.member.repository;
+
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.smeem.common.exception.TrainingTimeException;
+import com.smeem.domain.member.model.Member;
+import com.smeem.domain.training.model.DayType;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.smeem.common.code.failure.TrainingTimeFailureCode.INVALID_DAY_OF_WEEK;
 import static com.smeem.domain.member.model.QMember.member;
 import static com.smeem.domain.training.model.DayType.*;
 import static com.smeem.domain.training.model.QTrainingTime.trainingTime;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import com.smeem.common.exception.TrainingTimeException;
-import com.smeem.domain.training.model.DayType;
-import com.smeem.domain.training.model.TrainingTime;
-import org.springframework.stereotype.Repository;
-
-import com.querydsl.jpa.impl.JPAQueryFactory;
-
-import lombok.RequiredArgsConstructor;
-
 @Repository
 @RequiredArgsConstructor
-public class TrainingTimeRepositoryImpl implements TrainingTimeCustomRepository {
+public class MemberRepositoryImpl implements MemberCustomRepository {
 
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<TrainingTime> getTrainingTimeForPushAlarm(LocalDateTime now) {
+    public List<Member> findAllByTrainingTimeForSendingMessage(LocalDateTime now) {
         return queryFactory
-                .select(trainingTime)
-                .from(trainingTime)
-                .join(trainingTime.member, member).fetchJoin()
+                .selectFrom(member)
+                .join(member.trainingTimes, trainingTime).fetchJoin().distinct()
                 .where(
                         trainingTime.day.eq(getDayType(now.getDayOfWeek().getValue())),
                         trainingTime.hour.eq(now.getHour()),
