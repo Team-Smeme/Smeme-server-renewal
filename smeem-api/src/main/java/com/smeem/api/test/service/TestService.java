@@ -24,7 +24,7 @@ public class TestService {
     private final NotificationService notificationService;
     private final ValueConfig valueConfig;
 
-    public void pushTest(final TestPushAlarmServiceRequest request) {
+    public void sendMessage(final TestPushAlarmServiceRequest request) {
         val member = findMember(request.memberId());
         val title = valueConfig.getNOTIFICATION_TITLE();
         val body = valueConfig.getNOTIFICATION_BODY();
