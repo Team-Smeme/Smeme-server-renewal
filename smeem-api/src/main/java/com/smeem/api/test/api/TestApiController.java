@@ -3,7 +3,7 @@ package com.smeem.api.test.api;
 import java.security.Principal;
 
 import com.smeem.api.common.ApiResponseUtil;
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.SuccessResponse;
 import com.smeem.api.test.service.TestService;
 import com.smeem.api.test.service.dto.request.TestPushAlarmServiceRequest;
 import com.smeem.common.util.Util;
@@ -26,14 +26,14 @@ public class TestApiController implements TestApi {
     private final TestService testService;
 
     @GetMapping
-    public ResponseEntity<BaseResponse<?>> test() {
+    public ResponseEntity<SuccessResponse<?>> connect() {
         return ApiResponseUtil.success(SUCCESS_SERVER_CONNECT);
     }
 
     @GetMapping("/alarm")
-    public ResponseEntity<BaseResponse<?>> alarmTest(Principal principal) {
+    public ResponseEntity<SuccessResponse<?>> sendMessage(Principal principal) {
         val memberId = Util.getMemberId(principal);
-        testService.pushTest(TestPushAlarmServiceRequest.of(memberId));
+        testService.sendMessage(TestPushAlarmServiceRequest.of(memberId));
         return ApiResponseUtil.success(SUCCESS_SEND_PUSH_ALARM);
     }
 }

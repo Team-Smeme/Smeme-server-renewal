@@ -7,7 +7,7 @@ import com.smeem.api.auth.service.AuthService;
 import com.smeem.api.auth.service.TokenService;
 import com.smeem.api.auth.service.dto.request.SignInServiceRequest;
 import com.smeem.api.common.ApiResponseUtil;
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.SuccessResponse;
 import com.smeem.common.util.Util;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -31,29 +31,29 @@ public class AuthController implements AuthApi {
 
     @Override
     @PostMapping
-    public ResponseEntity<BaseResponse<?>> signIn(@RequestHeader("Authorization") final String socialAccessToken,
-                                                  @RequestBody SignInRequest request) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public ResponseEntity<SuccessResponse<SignInResponse>> signIn(@RequestHeader("Authorization") final String socialAccessToken,
+                                                                  @RequestBody SignInRequest request) throws NoSuchAlgorithmException, InvalidKeySpecException {
         val response = SignInResponse.from(authService.signIn(socialAccessToken, SignInServiceRequest.of(request)));
         return ApiResponseUtil.success(SUCCESS_SIGNIN, response);
     }
 
     @Override
     @PostMapping("/token")
-    public ResponseEntity<BaseResponse<?>> reissueToken(Principal principal) {
+    public ResponseEntity<SuccessResponse<TokenResponse>> reissueToken(Principal principal) {
         val response = TokenResponse.from(tokenService.issueToken(Util.getMemberId(principal)));
         return ApiResponseUtil.success(SUCCESS_ISSUE_TOKEN, response);
     }
 
     @Override
     @PostMapping("/sign-out")
-    public ResponseEntity<BaseResponse<?>> signOut(Principal principal) {
+    public ResponseEntity<SuccessResponse<?>> signOut(Principal principal) {
         authService.signOut(Util.getMemberId(principal));
         return ApiResponseUtil.success(SUCCESS_SIGNOUT);
     }
 
     @Override
     @DeleteMapping
-    public ResponseEntity<BaseResponse<?>> withDrawl(Principal principal) {
+    public ResponseEntity<SuccessResponse<?>> withDrawl(Principal principal) {
         authService.withdraw(Util.getMemberId(principal));
         return ApiResponseUtil.success(SUCCESS_WITHDRAW);
     }

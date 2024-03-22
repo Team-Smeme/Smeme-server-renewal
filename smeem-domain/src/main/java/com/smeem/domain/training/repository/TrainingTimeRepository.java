@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface TrainingTimeRepository extends JpaRepository<TrainingTime, Long>, TrainingTimeCustomRepository {
+public interface TrainingTimeRepository extends JpaRepository<TrainingTime, Long> {
 
     List<TrainingTime> findAllByMember(Member member);
 

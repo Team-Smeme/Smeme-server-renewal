@@ -1,7 +1,7 @@
 package com.smeem.api.topic.api;
 
 import com.smeem.api.common.ApiResponseUtil;
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.SuccessResponse;
 import com.smeem.api.topic.api.dto.response.RandomTopicGetResponse;
 import com.smeem.api.topic.service.TopicService;
 import lombok.val;
@@ -22,7 +22,7 @@ public class TopicApiController implements TopicApi {
     private final TopicService topicService;
 
     @GetMapping("/random")
-    public ResponseEntity<BaseResponse<?>> getTopicByRandom() {
+    public ResponseEntity<SuccessResponse<RandomTopicGetResponse>> getTopicByRandom() {
         val response = RandomTopicGetResponse.from(topicService.getTopicByRandom());
         return ApiResponseUtil.success(SUCCESS_GET_RANDOM_TOPIC, response);
     }

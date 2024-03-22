@@ -1,8 +1,12 @@
 package com.smeem.api.topic.api;
 
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.FailureResponse;
+import com.smeem.api.common.dto.SuccessResponse;
+import com.smeem.api.topic.api.dto.response.RandomTopicGetResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,9 +21,21 @@ public interface TopicApi {
     @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
-            @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰"),
-            @ApiResponse(responseCode = "500", description = "서버 내부 오류")
+            @ApiResponse(
+                    responseCode = "4xx",
+                    description = "유효하지 않은 요청",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "유효하지 않은 토큰",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "서버 내부 오류",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            )
     })
-    ResponseEntity<BaseResponse<?>> getTopicByRandom();
+    ResponseEntity<SuccessResponse<RandomTopicGetResponse>> getTopicByRandom();
 }
