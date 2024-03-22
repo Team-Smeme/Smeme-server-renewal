@@ -5,7 +5,7 @@ import com.smeem.common.config.ValueConfig;
 import com.smeem.common.exception.MemberException;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.repository.MemberRepository;
-import com.smeem.external.firebase.NotificationService;
+import com.smeem.external.firebase.FCMService;
 import com.smeem.external.firebase.dto.request.NotificationSingleRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -21,14 +21,14 @@ public class TestService {
 
     private final MemberRepository memberRepository;
 
-    private final NotificationService notificationService;
+    private final FCMService fcmService;
     private final ValueConfig valueConfig;
 
     public void pushTest(final TestPushAlarmServiceRequest request) {
         val member = findMember(request.memberId());
         val title = valueConfig.getMESSAGE_TITLE();
         val body = valueConfig.getMESSAGE_BODY();
-        notificationService.sendMessage(NotificationSingleRequest.of(member.getFcmToken(), title, body));
+        fcmService.sendMessage(NotificationSingleRequest.of(member.getFcmToken(), title, body));
     }
 
     private Member findMember(long id) {

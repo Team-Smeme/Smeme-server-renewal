@@ -3,7 +3,7 @@ package com.smeem.batch.scheduler;
 import com.smeem.common.config.ValueConfig;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.repository.MemberRepository;
-import com.smeem.external.firebase.NotificationService;
+import com.smeem.external.firebase.FCMService;
 import com.smeem.external.firebase.dto.request.NotificationMulticastRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -17,11 +17,11 @@ import java.time.LocalDateTime;
 @Component
 @EnableScheduling
 @RequiredArgsConstructor
-public class NotificationScheduler {
+public class FCMScheduler {
 
     private final MemberRepository memberRepository;
 
-    private final NotificationService notificationService;
+    private final FCMService fcmService;
     private final ValueConfig valueConfig;
 
     @Scheduled(cron = "${fcm.cron_expression}")
@@ -35,7 +35,7 @@ public class NotificationScheduler {
             val tokens = members.stream().map(Member::getFcmToken).toList();
             val messageTitle = valueConfig.getMESSAGE_TITLE();
             val messageBody = valueConfig.getMESSAGE_BODY();
-            notificationService.sendMessages(NotificationMulticastRequest.of(tokens, messageTitle, messageBody));
+            fcmService.sendMessages(NotificationMulticastRequest.of(tokens, messageTitle, messageBody));
         }
     }
 }
