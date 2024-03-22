@@ -3,7 +3,7 @@ package com.smeem.batch.scheduler;
 import com.smeem.common.config.ValueConfig;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.repository.MemberRepository;
-import com.smeem.external.firebase.FcmService;
+import com.smeem.external.firebase.NotificationService;
 import com.smeem.external.firebase.dto.request.NotificationMulticastRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -17,14 +17,14 @@ import java.time.LocalDateTime;
 @Component
 @EnableScheduling
 @RequiredArgsConstructor
-public class FcmScheduler {
+public class NotificationScheduler {
 
     private final MemberRepository memberRepository;
 
-    private final FcmService fcmService;
+    private final NotificationService notificationService;
     private final ValueConfig valueConfig;
 
-    @Scheduled(cron = "${fcm.cron_expression}")
+    @Scheduled(cron = "${smeem.notification.cron_expression}")
     @Transactional(readOnly = true)
     public void sendMessagesForTrainingTime() throws InterruptedException {
         Thread.sleep(1000);
@@ -33,9 +33,9 @@ public class FcmScheduler {
 
         if (!members.isEmpty()) {
             val tokens = members.stream().map(Member::getFcmToken).toList();
-            val messageTitle = valueConfig.getMESSAGE_TITLE();
-            val messageBody = valueConfig.getMESSAGE_BODY();
-            fcmService.sendMessages(NotificationMulticastRequest.of(tokens, messageTitle, messageBody));
+            val title = valueConfig.getNOTIFICATION_TITLE();
+            val body = valueConfig.getNOTIFICATION_BODY();
+            notificationService.sendMessages(NotificationMulticastRequest.of(tokens, title, body));
         }
     }
 }
