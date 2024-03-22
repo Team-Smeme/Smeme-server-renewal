@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Component
 @EnableScheduling
 @RequiredArgsConstructor
-public class FCMScheduler {
+public class FcmScheduler {
 
     private final MemberRepository memberRepository;
 
