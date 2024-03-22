@@ -1,7 +1,7 @@
 package com.smeem.api.version.api;
 
 import com.smeem.api.common.ApiResponseUtil;
-import com.smeem.api.common.BaseResponse;
+import com.smeem.api.common.dto.SuccessResponse;
 import com.smeem.api.version.api.dto.response.ClientVersionGetResponse;
 import com.smeem.api.version.service.VersionService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class VersionApiController implements VersionApi {
     private final VersionService versionService;
 
     @GetMapping("/client/app")
-    public ResponseEntity<BaseResponse<?>> getClientVersion() {
+    public ResponseEntity<SuccessResponse<ClientVersionGetResponse>> getClientVersion() {
         val response = ClientVersionGetResponse.of(versionService.getClientVersion());
         return ApiResponseUtil.success(SUCCESS_GET_APP_VERSION, response);
     }
