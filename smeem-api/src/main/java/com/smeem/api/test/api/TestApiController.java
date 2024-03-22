@@ -26,14 +26,14 @@ public class TestApiController implements TestApi {
     private final TestService testService;
 
     @GetMapping
-    public ResponseEntity<SuccessResponse<?>> test() {
+    public ResponseEntity<SuccessResponse<?>> connect() {
         return ApiResponseUtil.success(SUCCESS_SERVER_CONNECT);
     }
 
     @GetMapping("/alarm")
-    public ResponseEntity<SuccessResponse<?>> alarmTest(Principal principal) {
+    public ResponseEntity<SuccessResponse<?>> sendMessage(Principal principal) {
         val memberId = Util.getMemberId(principal);
-        testService.pushTest(TestPushAlarmServiceRequest.of(memberId));
+        testService.sendMessage(TestPushAlarmServiceRequest.of(memberId));
         return ApiResponseUtil.success(SUCCESS_SEND_PUSH_ALARM);
     }
 }

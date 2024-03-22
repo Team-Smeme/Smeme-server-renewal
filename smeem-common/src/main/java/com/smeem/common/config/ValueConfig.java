@@ -15,11 +15,11 @@ public class ValueConfig {
     @Value("${jwt.secret}")
     private String JWT_SECRET;
 
-    @Value("${fcm.smeem_title}")
-    private String MESSAGE_TITLE;
+    @Value("${smeem.notification.title}")
+    private String NOTIFICATION_TITLE;
 
-    @Value("${fcm.smeem_body}")
-    private String MESSAGE_BODY;
+    @Value("${smeem.notification.body}")
+    private String NOTIFICATION_BODY;
 
     @Value("${jwt.APPLE_URL}")
     private String APPLE_URL;
