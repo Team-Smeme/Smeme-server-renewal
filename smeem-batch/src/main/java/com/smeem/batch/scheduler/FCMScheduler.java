@@ -3,7 +3,7 @@ package com.smeem.batch.scheduler;
 import com.smeem.common.config.ValueConfig;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.repository.MemberRepository;
-import com.smeem.external.firebase.FCMService;
+import com.smeem.external.firebase.FcmService;
 import com.smeem.external.firebase.dto.request.NotificationMulticastRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -21,7 +21,7 @@ public class FCMScheduler {
 
     private final MemberRepository memberRepository;
 
-    private final FCMService fcmService;
+    private final FcmService fcmService;
     private final ValueConfig valueConfig;
 
     @Scheduled(cron = "${fcm.cron_expression}")

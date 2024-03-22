@@ -5,7 +5,7 @@ import com.smeem.common.config.ValueConfig;
 import com.smeem.common.exception.MemberException;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.repository.MemberRepository;
-import com.smeem.external.firebase.FCMService;
+import com.smeem.external.firebase.FcmService;
 import com.smeem.external.firebase.dto.request.NotificationSingleRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -21,7 +21,7 @@ public class TestService {
 
     private final MemberRepository memberRepository;
 
-    private final FCMService fcmService;
+    private final FcmService fcmService;
     private final ValueConfig valueConfig;
 
     public void pushTest(final TestPushAlarmServiceRequest request) {

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class FCMServiceImpl implements FCMService {
+public class FcmServiceImpl implements FcmService {
 
     private final FirebaseMessaging firebaseMessaging;
 
