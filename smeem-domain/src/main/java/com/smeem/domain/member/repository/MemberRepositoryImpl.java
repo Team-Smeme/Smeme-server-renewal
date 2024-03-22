@@ -22,7 +22,7 @@ public class MemberRepositoryImpl implements MemberCustomRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<Member> findAllByTrainingTimeForSendingMessage(LocalDateTime now) {
+    public List<Member> findAllByTrainingTime(LocalDateTime now) {
         return queryFactory
                 .selectFrom(member)
                 .join(member.trainingTimes, trainingTime).fetchJoin().distinct()

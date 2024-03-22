@@ -6,5 +6,5 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MemberCustomRepository {
-    List<Member> findAllByTrainingTimeForSendingMessage(LocalDateTime now);
+    List<Member> findAllByTrainingTime(LocalDateTime now);
 }

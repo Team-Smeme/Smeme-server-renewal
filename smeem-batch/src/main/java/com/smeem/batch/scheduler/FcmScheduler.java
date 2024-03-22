@@ -29,7 +29,7 @@ public class FcmScheduler {
     public void sendMessagesForTrainingTime() throws InterruptedException {
         Thread.sleep(1000);
 
-        val members = memberRepository.findAllByTrainingTimeForSendingMessage(LocalDateTime.now());
+        val members = memberRepository.findAllByTrainingTime(LocalDateTime.now());
 
         if (!members.isEmpty()) {
             val tokens = members.stream().map(Member::getFcmToken).toList();
