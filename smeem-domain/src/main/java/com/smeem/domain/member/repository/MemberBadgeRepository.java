@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface MemberBadgeRepository extends JpaRepository<MemberBadge, Long> {
 
-    List<MemberBadge> findAllByMemberId(Long memberId);
-    Optional<MemberBadge> findFirstByMemberIdOrderByCreatedAtDesc(Long memberId);
+    List<MemberBadge> findAllByMemberId(final long memberId);
+    Optional<MemberBadge> findFirstByMemberIdOrderByCreatedAtDesc(final long memberId);
 }

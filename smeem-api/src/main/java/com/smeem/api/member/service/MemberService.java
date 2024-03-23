@@ -1,7 +1,6 @@
 package com.smeem.api.member.service;
 
 
-import com.smeem.api.badge.service.BadgeService;
 import com.smeem.api.badge.service.dto.response.BadgeServiceResponse;
 import com.smeem.api.goal.service.GoalService;
 import com.smeem.api.goal.service.dto.request.GoalGetServiceRequest;
@@ -16,9 +15,11 @@ import com.smeem.api.member.service.dto.response.TrainingTimeServiceResponse;
 import com.smeem.common.config.ValueConfig;
 import com.smeem.common.exception.MemberException;
 import com.smeem.common.exception.TrainingTimeException;
+import com.smeem.domain.badge.adapter.BadgeFinder;
 import com.smeem.domain.badge.model.Badge;
+import com.smeem.domain.member.adapter.member.MemberFinder;
+import com.smeem.domain.member.adapter.member.MemberUpdater;
 import com.smeem.domain.member.model.Member;
-import com.smeem.domain.member.repository.MemberRepository;
 import com.smeem.domain.training.model.DayType;
 import com.smeem.domain.training.model.TrainingTime;
 import com.smeem.external.discord.DiscordAlarmSender;
@@ -33,7 +34,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.smeem.common.code.failure.MemberFailureCode.DUPLICATE_USERNAME;
-import static com.smeem.common.code.failure.MemberFailureCode.EMPTY_MEMBER;
 import static com.smeem.common.code.failure.TrainingTimeFailureCode.NOT_SET_TRAINING_TIME;
 import static com.smeem.common.config.ValueConfig.SIGN_IN_MESSAGE;
 import static com.smeem.external.discord.DiscordAlarmCase.INFO;
@@ -45,20 +45,21 @@ import static java.util.Objects.nonNull;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final MemberRepository memberRepository;
-
     private final TrainingTimeService trainingTimeService;
     private final GoalService goalService;
-    private final BadgeService badgeService;
     private final MemberBadgeService memberBadgeService;
     private final DiscordAlarmSender discordAlarmSender;
+
+    private final BadgeFinder badgeFinder;
+    private final MemberFinder memberFinder;
+    private final MemberUpdater memberUpdater;
 
     private final ValueConfig valueConfig;
 
     @Transactional
     public MemberUpdateServiceResponse updateUserProfile(final long memberId, final MemberServiceUpdateUserProfileRequest request) {
         checkMemberDuplicate(request.username());
-        val member = get(memberId);
+        val member = memberFinder.findById(memberId);
         updateTermAccepted(member, request);
 
         ArrayList<Badge> badges = new ArrayList<>();
@@ -71,7 +72,7 @@ public class MemberService {
     }
 
     public MemberGetServiceResponse getMemberProfile(final long memberId) {
-        val member = get(memberId);
+        val member = memberFinder.findById(memberId);
         val goal = goalService.getByType(GoalGetServiceRequest.of(member.getGoal()));
         val trainingTimes = trainingTimeService.getAllByMember(member);
 
@@ -91,7 +92,7 @@ public class MemberService {
 
     @Transactional
     public void updateLearningPlan(final long memberId, final MemberUpdatePlanServiceRequest request) {
-        val member = get(memberId);
+        val member = memberFinder.findById(memberId);
         member.updateGoal(request.goalType());
         member.updateHasAlarm(request.hasAlarm());
         updateTrainingTime(member, request.trainingTime());
@@ -99,18 +100,13 @@ public class MemberService {
 
     @Transactional
     public void updateHasAlarm(final long memberId, final MemberPushUpdateServiceRequest request) {
-        val member = get(memberId);
+        val member = memberFinder.findById(memberId);
         member.updateHasAlarm(request.hasAlarm());
     }
 
     public MemberNameServiceResponse checkDuplicatedName(final String name) {
-        val isExist = memberRepository.existsByUsername(name);
+        val isExist = memberFinder.existsByUsername(name);
         return MemberNameServiceResponse.of(isExist);
-    }
-
-    public Member get(final long id) {
-        return memberRepository.findById(id)
-                .orElseThrow(() -> new MemberException(EMPTY_MEMBER));
     }
 
     private void updateTrainingTime(Member member, TrainingTimeServiceRequest request) {
@@ -145,13 +141,13 @@ public class MemberService {
     }
 
     private void checkMemberDuplicate(final String username) {
-        if (memberRepository.existsByUsername(username)) {
+        if (memberFinder.existsByUsername(username)) {
             throw new MemberException(DUPLICATE_USERNAME);
         }
     }
 
     private void addWelcomeBadge(final Member member, List<Badge> badges) {
-        Badge welcomeBadge = badgeService.get(valueConfig.getWELCOME_BADGE_ID());
+        Badge welcomeBadge = badgeFinder.findById(valueConfig.getWELCOME_BADGE_ID());
         memberBadgeService.save(member, welcomeBadge);
         badges.add(welcomeBadge);
     }
@@ -170,7 +166,7 @@ public class MemberService {
 
     private void updateTermAccepted(final Member member, final MemberServiceUpdateUserProfileRequest request) {
         if (nonNull(request.termAccepted())) {
-            member.updateTermAccepted(request.termAccepted());
+            memberUpdater.updateTermAccepted(member, request.termAccepted());
         }
     }
 }
