@@ -57,3 +57,9 @@ discord:
   webhook:
     error-url: ${DISCORD.WEBHOOK_ERROR_URL}
     info-url: ${DISCORD.WEBHOOK_INFO_URL}
+
+sentry:
+  dsn: ${SENTRY.DSN}
+  environment: prod
+  enable-tracing: true
+  exception-resolver-order: -2147483647
