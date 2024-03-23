@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 @Component
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class DiscordAlarmSender {
             val restClient = RestClient.create();
             restClient.post()
                     .uri(webHookUri(alarmCase))
+                    .header(CONTENT_TYPE, "application/json; UTF-8")
                     .header(ACCEPT, "application/json; UTF-8")
                     .body(makeRequestBody(content))
                     .retrieve();
