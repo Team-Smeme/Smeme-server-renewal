@@ -1,20 +1,17 @@
-package com.smeem.domain.member.adapter;
+package com.smeem.domain.member.adapter.memberbadge;
 
 import com.smeem.domain.member.model.MemberBadge;
 import com.smeem.domain.member.repository.MemberBadgeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
-public class MemberBadgeFinder {
+public class MemberBadgeSaver {
 
     private final MemberBadgeRepository memberBadgeRepository;
 
-    public List<MemberBadge> findAllByMemberId(final long id) {
-        return memberBadgeRepository.findAllByMemberId(id);
+    public void save(MemberBadge memberBadge) {
+        memberBadgeRepository.save(memberBadge);
     }
-
 }
