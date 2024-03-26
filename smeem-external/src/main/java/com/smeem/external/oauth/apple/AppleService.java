@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smeem.common.config.ValueConfig;
 import com.smeem.common.exception.AuthException;
+import com.smeem.external.oauth.apple.dto.response.AppleKey;
+import com.smeem.external.oauth.apple.dto.response.AppleKeyListResponse;
+import com.smeem.external.oauth.apple.dto.response.DecodedAppleKey;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -25,7 +28,7 @@ import static com.smeem.common.code.failure.AuthFailureCode.FAIL_APPLE_REQUEST;
 
 @RequiredArgsConstructor
 @Component
-public class AppleService {
+public class  AppleService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final ValueConfig valueConfig;

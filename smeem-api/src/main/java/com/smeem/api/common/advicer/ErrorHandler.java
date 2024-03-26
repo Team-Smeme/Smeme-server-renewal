@@ -11,6 +11,7 @@ import com.smeem.domain.topic.exception.TopicException;
 import com.smeem.domain.training.exception.TrainingTimeException;
 import com.smeem.external.discord.DiscordAlarmSender;
 import com.smeem.external.firebase.exception.FcmException;
+import com.smeem.external.oauth.apple.exception.AppleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
