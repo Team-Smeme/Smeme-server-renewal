@@ -28,7 +28,7 @@ import static com.smeem.common.code.failure.AuthFailureCode.FAIL_APPLE_REQUEST;
 
 @RequiredArgsConstructor
 @Component
-public class  AppleService {
+public class AppleService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final ValueConfig valueConfig;
