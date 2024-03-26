@@ -13,7 +13,6 @@ import com.smeem.api.member.service.dto.request.MemberPushUpdateServiceRequest;
 import com.smeem.api.member.service.dto.request.MemberUpdatePlanServiceRequest;
 import com.smeem.api.member.service.dto.request.MemberServiceUpdateUserProfileRequest;
 import com.smeem.api.support.PrincipalConverter;
-import com.smeem.api.support.Util;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
