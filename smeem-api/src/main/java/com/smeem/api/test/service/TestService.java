@@ -2,7 +2,7 @@ package com.smeem.api.test.service;
 
 import com.smeem.api.test.service.dto.request.TestPushAlarmServiceRequest;
 import com.smeem.common.config.ValueConfig;
-import com.smeem.common.exception.MemberException;
+import com.smeem.domain.member.exception.MemberException;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.repository.MemberRepository;
 import com.smeem.external.firebase.NotificationService;

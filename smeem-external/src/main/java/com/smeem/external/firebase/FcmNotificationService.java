@@ -4,10 +4,13 @@ import com.google.firebase.messaging.*;
 import com.smeem.external.firebase.dto.request.NotificationRequest;
 import com.smeem.external.firebase.dto.request.NotificationSingleRequest;
 import com.smeem.external.firebase.dto.request.NotificationMulticastRequest;
+import com.smeem.external.firebase.exception.FcmException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
+
+import static com.smeem.common.code.failure.FcmFailureCode.FCM_SERVICE_UNAVAILABLE;
 
 @Service
 @RequiredArgsConstructor
@@ -17,13 +20,21 @@ public class FcmNotificationService implements NotificationService {
     private final FirebaseMessaging firebaseMessaging;
 
     public void sendMessage(final NotificationSingleRequest request) {
-        val message = request.buildMessage().setApnsConfig(getApnsConfig(request)).build();
-        firebaseMessaging.sendAsync(message);
+        try {
+            val message = request.buildMessage().setApnsConfig(getApnsConfig(request)).build();
+            firebaseMessaging.sendAsync(message);
+        } catch (RuntimeException exception) {
+            throw new FcmException(FCM_SERVICE_UNAVAILABLE, exception.getMessage());
+        }
     }
 
     public void sendMessages(final NotificationMulticastRequest request) {
-        val messages = request.buildSendMessage().setApnsConfig(getApnsConfig(request)).build();
-        firebaseMessaging.sendMulticastAsync(messages);
+        try {
+            val messages = request.buildSendMessage().setApnsConfig(getApnsConfig(request)).build();
+            firebaseMessaging.sendMulticastAsync(messages);
+        } catch (RuntimeException exception) {
+            throw new FcmException(FCM_SERVICE_UNAVAILABLE, exception.getMessage());
+        }
     }
 
     private ApnsConfig getApnsConfig(NotificationRequest request) {

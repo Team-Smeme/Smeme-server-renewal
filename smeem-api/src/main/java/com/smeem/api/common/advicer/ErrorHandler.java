@@ -3,7 +3,14 @@ package com.smeem.api.common.advicer;
 import com.smeem.api.common.ApiResponseUtil;
 import com.smeem.api.common.dto.FailureResponse;
 import com.smeem.common.exception.*;
+import com.smeem.domain.badge.exception.BadgeException;
+import com.smeem.domain.diary.exception.DiaryException;
+import com.smeem.domain.goal.exception.GoalException;
+import com.smeem.domain.member.exception.MemberException;
+import com.smeem.domain.topic.exception.TopicException;
+import com.smeem.domain.training.exception.TrainingTimeException;
 import com.smeem.external.discord.DiscordAlarmSender;
+import com.smeem.external.firebase.exception.FcmException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -59,8 +66,8 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler(FcmException.class)
-    public ResponseEntity<FailureResponse> fcmException(FcmException exception) {
-        return ApiResponseUtil.failure(exception.getFailureCode());
+    public ResponseEntity<FailureResponse> fcmException(FcmException exception, String message) {
+        return ApiResponseUtil.failure(exception.getFailureCode(), message);
     }
 
     @ExceptionHandler(AuthException.class)

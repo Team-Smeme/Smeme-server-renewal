@@ -34,4 +34,10 @@ public interface ApiResponseUtil {
                 .status(code.getStatus())
                 .body(FailureResponse.of(code.getMessage()));
     }
+
+    static ResponseEntity<FailureResponse> failure(FailureCode code, String message) {
+        return ResponseEntity
+                .status(code.getStatus())
+                .body(FailureResponse.of(message));
+    }
 }

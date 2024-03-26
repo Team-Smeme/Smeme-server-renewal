@@ -5,7 +5,7 @@ import static com.smeem.common.code.failure.TrainingTimeFailureCode.INVALID_MINU
 import static java.util.Objects.*;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.smeem.common.exception.TrainingTimeException;
+import com.smeem.domain.training.exception.TrainingTimeException;
 import com.smeem.domain.member.model.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
