@@ -2,7 +2,7 @@ package com.smeem.api.diary.api.dto.response;
 
 import com.smeem.api.diary.service.dto.response.DiaryListGetServiceResponse;
 import com.smeem.api.diary.service.dto.response.DiaryListGetServiceResponse.DiaryServiceResponse;
-import com.smeem.common.util.Util;
+import com.smeem.api.support.Util;
 import lombok.Builder;
 
 import java.time.LocalDateTime;

@@ -2,7 +2,7 @@
 //
 //
 //import com.epages.restdocs.apispec.ResourceSnippetParameters;
-//import com.smeem.api.common.ApiResponseUtil;
+//import com.smeem.api.support.ApiResponseUtil;
 //import com.smeem.api.member.controller.MemberController;
 //import com.smeem.api.fixture.member.MemberFixture;
 //import lombok.val;

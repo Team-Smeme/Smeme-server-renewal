@@ -1,6 +1,6 @@
 package com.smeem.api.test.api;
 
-import com.smeem.api.common.dto.SuccessResponse;
+import com.smeem.api.common.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

@@ -1,4 +1,4 @@
-package com.smeem.common.util;
+package com.smeem.api.support;
 
 import static com.smeem.common.code.failure.AuthFailureCode.EMPTY_ACCESS_TOKEN;
 import static java.util.Objects.*;
@@ -8,18 +8,12 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import com.smeem.common.exception.TokenException;
+import com.smeem.external.oauth.exception.TokenException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public class Util {
 
-    public static long getMemberId(Principal principal) {
-        if (isNull(principal)) {
-            throw new TokenException(EMPTY_ACCESS_TOKEN);
-        }
-        return Long.parseLong(principal.getName());
-    }
-
+    //TODO: UriConverter
     public static URI getURI(String path, long id) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -28,6 +22,7 @@ public class Util {
                 .toUri();
     }
 
+    //TODO: TimeConverter
     public static String transferToLocalDateTime(LocalDateTime date) {
         return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }

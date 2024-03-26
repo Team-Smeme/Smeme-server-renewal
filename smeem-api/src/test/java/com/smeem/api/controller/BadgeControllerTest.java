@@ -2,7 +2,7 @@
 //
 //import com.epages.restdocs.apispec.ResourceSnippetParameters;
 //import com.smeem.api.badge.controller.BadgeController;
-//import com.smeem.api.common.ApiResponseUtil;
+//import com.smeem.api.support.ApiResponseUtil;
 //import com.smeem.api.fixture.badge.BadgeFixture;
 //import lombok.val;
 //import org.junit.jupiter.api.DisplayName;

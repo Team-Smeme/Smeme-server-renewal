@@ -7,7 +7,7 @@ import com.smeem.api.diary.service.DiaryCommandService;
 import com.smeem.api.member.service.MemberBadgeService;
 import com.smeem.api.member.service.TrainingTimeService;
 import com.smeem.domain.member.exception.MemberException;
-import com.smeem.common.exception.TokenException;
+import com.smeem.external.oauth.exception.TokenException;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.model.SocialType;
 import com.smeem.domain.member.repository.MemberRepository;

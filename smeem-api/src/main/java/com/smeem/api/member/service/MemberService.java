@@ -56,9 +56,9 @@ public class MemberService {
     private final ValueConfig valueConfig;
 
     @Transactional
-    public MemberUpdateServiceResponse updateUserProfile(final long memberId, final MemberServiceUpdateUserProfileRequest request) {
+    public MemberUpdateServiceResponse updateUserProfile(final MemberServiceUpdateUserProfileRequest request) {
         checkMemberDuplicate(request.username());
-        val member = get(memberId);
+        val member = get(request.memberId());
         updateTermAccepted(member, request);
 
         ArrayList<Badge> badges = new ArrayList<>();
@@ -90,16 +90,16 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateLearningPlan(final long memberId, final MemberUpdatePlanServiceRequest request) {
-        val member = get(memberId);
+    public void updateLearningPlan(final MemberUpdatePlanServiceRequest request) {
+        val member = get(request.memberId());
         member.updateGoal(request.goalType());
         member.updateHasAlarm(request.hasAlarm());
         updateTrainingTime(member, request.trainingTime());
     }
 
     @Transactional
-    public void updateHasAlarm(final long memberId, final MemberPushUpdateServiceRequest request) {
-        val member = get(memberId);
+    public void updateHasAlarm(final MemberPushUpdateServiceRequest request) {
+        val member = get(request.memberId());
         member.updateHasAlarm(request.hasAlarm());
     }
 
