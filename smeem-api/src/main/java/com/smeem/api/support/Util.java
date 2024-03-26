@@ -13,15 +13,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public class Util {
 
-    //TODO: UriConverter
-    public static URI getURI(String path, long id) {
-        return ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path(path)
-                .buildAndExpand(id)
-                .toUri();
-    }
-
     //TODO: TimeConverter
     public static String transferToLocalDateTime(LocalDateTime date) {
         return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));

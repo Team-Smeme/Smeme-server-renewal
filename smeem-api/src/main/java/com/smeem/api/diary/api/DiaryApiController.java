@@ -13,7 +13,7 @@ import com.smeem.api.diary.service.DiaryQueryService;
 import com.smeem.api.diary.service.DiaryCommandService;
 import com.smeem.api.diary.service.dto.request.*;
 import com.smeem.api.support.PrincipalConverter;
-import com.smeem.api.support.Util;
+import com.smeem.api.support.UriConverter;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,7 +44,7 @@ public class DiaryApiController implements DiaryApi {
         val memberId = PrincipalConverter.getMemberId(principal);
         val response = DiaryCreateResponse.from(
                 diaryCommandService.createDiary(DiaryCreateServiceRequest.of(memberId, request)));
-        val uri = Util.getURI("/{diaryId}", response.diaryId());
+        val uri = UriConverter.getURI("/{diaryId}", response.diaryId());
         return ApiResponseGenerator.success(SUCCESS_CREATE_DIARY, uri, response);
     }
 
