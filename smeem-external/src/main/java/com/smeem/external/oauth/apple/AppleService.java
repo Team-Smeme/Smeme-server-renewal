@@ -3,7 +3,7 @@ package com.smeem.external.oauth.apple;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smeem.common.config.ValueConfig;
-import com.smeem.common.exception.AuthException;
+import com.smeem.external.oauth.exception.AuthException;
 import com.smeem.external.oauth.apple.dto.response.AppleKey;
 import com.smeem.external.oauth.apple.dto.response.AppleKeyListResponse;
 import com.smeem.external.oauth.apple.dto.response.DecodedAppleKey;

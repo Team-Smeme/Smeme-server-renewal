@@ -1,4 +1,4 @@
-package com.smeem.common.exception;
+package com.smeem.external.oauth.exception;
 
 import com.smeem.common.code.failure.FailureCode;
 import lombok.Getter;
