@@ -1,4 +1,4 @@
-package com.smeem.common.exception;
+package com.smeem.domain.diary.exception;
 
 
 import com.smeem.common.code.failure.DiaryFailureCode;

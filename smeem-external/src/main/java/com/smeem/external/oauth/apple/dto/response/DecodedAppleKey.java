@@ -1,4 +1,4 @@
-package com.smeem.external.oauth.apple;
+package com.smeem.external.oauth.apple.dto.response;
 
 import lombok.Builder;
 

@@ -1,4 +1,4 @@
-package com.smeem.common.exception;
+package com.smeem.domain.training.exception;
 
 import com.smeem.common.code.failure.FailureCode;
 import com.smeem.common.code.failure.TrainingTimeFailureCode;

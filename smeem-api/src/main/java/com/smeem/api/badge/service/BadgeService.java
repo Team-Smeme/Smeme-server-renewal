@@ -1,7 +1,7 @@
 package com.smeem.api.badge.service;
 
 import com.smeem.api.badge.service.dto.response.BadgeListServiceResponse;
-import com.smeem.common.exception.BadgeException;
+import com.smeem.domain.badge.exception.BadgeException;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.badge.model.BadgeType;
 import com.smeem.domain.badge.repository.BadgeRepository;

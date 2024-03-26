@@ -1,7 +1,7 @@
 package com.smeem.api.member.service;
 
 
-import com.smeem.common.exception.BadgeException;
+import com.smeem.domain.badge.exception.BadgeException;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.model.MemberBadge;

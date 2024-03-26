@@ -1,7 +1,7 @@
 package com.smeem.api.version.api;
 
-import com.smeem.api.common.dto.FailureResponse;
-import com.smeem.api.common.dto.SuccessResponse;
+import com.smeem.api.common.FailureResponse;
+import com.smeem.api.common.SuccessResponse;
 import com.smeem.api.version.api.dto.response.ClientVersionGetResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

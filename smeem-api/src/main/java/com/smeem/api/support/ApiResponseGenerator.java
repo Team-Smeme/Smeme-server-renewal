@@ -1,14 +1,14 @@
-package com.smeem.api.common;
+package com.smeem.api.support;
 
-import com.smeem.api.common.dto.FailureResponse;
-import com.smeem.api.common.dto.SuccessResponse;
+import com.smeem.api.common.FailureResponse;
+import com.smeem.api.common.SuccessResponse;
 import com.smeem.common.code.failure.FailureCode;
 import com.smeem.common.code.success.SuccessCode;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URI;
 
-public interface ApiResponseUtil {
+public interface ApiResponseGenerator {
 
     static ResponseEntity<SuccessResponse<?>> success(SuccessCode code) {
         return ResponseEntity
@@ -33,5 +33,11 @@ public interface ApiResponseUtil {
         return ResponseEntity
                 .status(code.getStatus())
                 .body(FailureResponse.of(code.getMessage()));
+    }
+
+    static ResponseEntity<FailureResponse> failure(FailureCode code, String message) {
+        return ResponseEntity
+                .status(code.getStatus())
+                .body(FailureResponse.of(message));
     }
 }

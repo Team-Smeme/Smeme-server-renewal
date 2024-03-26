@@ -1,7 +1,7 @@
 package com.smeem.external.oauth.kakao;
 
 import com.smeem.common.config.ValueConfig;
-import com.smeem.common.exception.AuthException;
+import com.smeem.external.oauth.exception.AuthException;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatusCode;
