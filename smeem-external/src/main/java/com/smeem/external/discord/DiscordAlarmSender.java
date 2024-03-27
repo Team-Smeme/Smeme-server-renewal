@@ -11,11 +11,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class DiscordAlarmSender {
+
+    private static final String APPLICATION_JSON_UTF_8 = "application/json; UTF-8";
 
     private final ObjectMapper objectMapper;
     private final ValueConfig valueConfig;
@@ -26,7 +29,8 @@ public class DiscordAlarmSender {
             val restClient = RestClient.create();
             restClient.post()
                     .uri(webHookUri(alarmCase))
-                    .header(ACCEPT, "application/json; UTF-8")
+                    .header(CONTENT_TYPE, APPLICATION_JSON_UTF_8)
+                    .header(ACCEPT, APPLICATION_JSON_UTF_8)
                     .body(makeRequestBody(content))
                     .retrieve();
         } catch (RuntimeException | JsonProcessingException e) {

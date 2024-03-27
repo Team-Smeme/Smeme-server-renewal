@@ -67,8 +67,8 @@ public class ExceptionInterceptor {
     }
 
     @ExceptionHandler(FcmException.class)
-    public ResponseEntity<FailureResponse> fcmException(FcmException exception, String message) {
-        return ApiResponseGenerator.failure(exception.getFailureCode(), message);
+    public ResponseEntity<FailureResponse> fcmException(FcmException exception) {
+        return ApiResponseGenerator.failure(exception.getFailureCode());
     }
 
     @ExceptionHandler(AuthException.class)
