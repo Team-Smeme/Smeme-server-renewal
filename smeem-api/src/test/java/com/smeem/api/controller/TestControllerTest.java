@@ -1,7 +1,7 @@
 //package com.smeem.api.controller;
 //
 //import com.epages.restdocs.apispec.ResourceSnippetParameters;
-//import com.smeem.api.common.ApiResponseUtil;
+//import com.smeem.api.support.ApiResponseUtil;
 //import com.smeem.api.test.api.TestApiController;
 //import org.springframework.boot.test.mock.mockito.MockBean;
 //import org.springframework.http.MediaType;

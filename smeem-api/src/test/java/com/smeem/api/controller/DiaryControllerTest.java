@@ -2,7 +2,7 @@
 //
 //import com.epages.restdocs.apispec.ResourceSnippetParameters;
 //import com.smeem.api.badge.controller.dto.response.AcquiredBadgeResponse;
-//import com.smeem.api.common.ApiResponseUtil;
+//import com.smeem.api.support.ApiResponseUtil;
 //import com.smeem.api.common.dto.BaseResponse;
 //import com.smeem.api.diary.controller.DiaryController;
 //import com.smeem.api.diary.api.dto.request.DiaryCreateRequest;

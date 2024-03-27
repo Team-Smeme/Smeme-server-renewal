@@ -1,7 +1,7 @@
 //package com.smeem.api.controller;
 //
 //import com.epages.restdocs.apispec.ResourceSnippetParameters;
-//import com.smeem.api.common.ApiResponseUtil;
+//import com.smeem.api.support.ApiResponseUtil;
 //import com.smeem.api.goal.controller.GoalController;
 //import com.smeem.api.goal.service.dto.response.GoalListGetServiceResponse.GoalResponse;
 //import com.smeem.api.goal.service.dto.response.GoalGetServiceResponse;

@@ -1,4 +1,4 @@
-package com.smeem.api.common.dto;
+package com.smeem.api.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

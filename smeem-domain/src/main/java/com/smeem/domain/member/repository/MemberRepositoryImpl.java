@@ -1,7 +1,7 @@
 package com.smeem.domain.member.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.smeem.common.exception.TrainingTimeException;
+import com.smeem.domain.training.exception.TrainingTimeException;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.training.model.DayType;
 import lombok.RequiredArgsConstructor;

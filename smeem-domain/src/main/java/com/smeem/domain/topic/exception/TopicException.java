@@ -1,4 +1,4 @@
-package com.smeem.common.exception;
+package com.smeem.domain.topic.exception;
 
 import com.smeem.common.code.failure.FailureCode;
 import com.smeem.common.code.failure.TopicFailureCode;
