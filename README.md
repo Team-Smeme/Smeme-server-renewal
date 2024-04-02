@@ -1,7 +1,19 @@
 # Smeem (스밈)
-- 일기로 시작하는 외국어 훈련, 외국어 학습 서비스 Smeem입니다.
-- 외국어 일기 작성을 통해 일상 속 외국어 출력 훈련을 돕는 학습 서비스입니다. 
-- 언제 어디서든 손쉬운 외국어 훈련을 큰 비용 없이 시작할 수 있습니다.
+
+> 일기로 시작하는 외국어 훈련, smeem
+
+<img width="786" alt="image" src="https://github.com/Team-Smeme/Smeme-server-renewal/assets/55437339/40136a81-3eba-4f64-bfc2-16e69b214097">
+
+일기로 시작하는 외국어 훈련, 외국어 학습 서비스 Smeem입니다.<br/>
+외국어 일기 작성을 통해 일상 속 외국어 출력 훈련을 돕는 학습 서비스입니다.<br/>
+언제 어디서든 손쉬운 외국어 훈련을 큰 비용 없이 시작할 수 있습니다.<br/>
+
+<br/>
+
+<img width="778" alt="image" src="https://github.com/Team-Smeme/Smeme-server-renewal/assets/55437339/19cf25ab-c750-4842-b790-7cc3b89dd664">
+
+- 📮 서비스 소개 | [서비스 소개 바로가기](https://linktr.ee/smeem)
+- 📱 iOS 다운로드 | [App Stroe 바로가기](https://apps.apple.com/kr/app/smeem-%EC%8A%A4%EB%B0%88-%EC%98%81%EC%9E%91-%EC%98%81%EC%96%B4%EC%9D%BC%EA%B8%B0-%EC%98%81%EC%96%B4%EB%85%B8%ED%8A%B8/id6450711685)
 
 <br/>
 
