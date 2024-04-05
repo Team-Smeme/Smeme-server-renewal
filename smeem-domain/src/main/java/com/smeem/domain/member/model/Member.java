@@ -84,7 +84,6 @@ public class Member extends BaseTimeEntity {
     }
 
     public void updateUsername(String username) {
-
         this.username = username;
     }
 
