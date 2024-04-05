@@ -4,6 +4,7 @@ import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.diary.model.Diary;
 import com.smeem.domain.goal.model.GoalType;
 import com.smeem.domain.common.BaseTimeEntity;
+import com.smeem.domain.training.model.TrainingPlan;
 import com.smeem.domain.training.model.TrainingTime;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -57,7 +58,7 @@ public class Member extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "training_plan_id")
-    private MemberTrainingPlan trainingPlan;
+    private TrainingPlan trainingPlan;
 
     @OneToMany(mappedBy = "member")
     private final List<TrainingTime> trainingTimes = new ArrayList<>();
