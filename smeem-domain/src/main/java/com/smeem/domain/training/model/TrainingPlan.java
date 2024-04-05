@@ -18,5 +18,7 @@ public class TrainingPlan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int weeklyDiaryCount;
+    private String content;
+
+    private int clearCount;
 }

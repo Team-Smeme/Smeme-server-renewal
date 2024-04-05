@@ -16,7 +16,7 @@ public class MemberTrainingPlan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int clearCount;
+    private int clearedCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "training_plan_id")
