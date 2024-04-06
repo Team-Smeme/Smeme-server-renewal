@@ -91,16 +91,16 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateLearningPlan(final long memberId, final MemberUpdatePlanServiceRequest request) {
-        val member = memberFinder.findById(memberId);
+    public void updateLearningPlan(final MemberUpdatePlanServiceRequest request) {
+        val member = memberFinder.findById(request.memberId());
         member.updateGoal(request.goalType());
         member.updateHasAlarm(request.hasAlarm());
         updateTrainingTime(member, request.trainingTime());
     }
 
     @Transactional
-    public void updateHasAlarm(final long memberId, final MemberPushUpdateServiceRequest request) {
-        val member = memberFinder.findById(memberId);
+    public void updateHasAlarm(final MemberPushUpdateServiceRequest request) {
+        val member = memberFinder.findById(request.memberId());
         member.updateHasAlarm(request.hasAlarm());
     }
 
