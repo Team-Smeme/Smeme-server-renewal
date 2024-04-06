@@ -2,9 +2,9 @@ package com.smeem.api.badge.api;
 
 import com.smeem.api.badge.api.dto.response.BadgeListResponse;
 import com.smeem.api.badge.service.BadgeService;
-import com.smeem.api.common.ApiResponseUtil;
-import com.smeem.api.common.dto.SuccessResponse;
-import com.smeem.common.util.Util;
+import com.smeem.api.support.ApiResponseGenerator;
+import com.smeem.api.common.SuccessResponse;
+import com.smeem.api.support.PrincipalConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +26,9 @@ public class BadgeController implements BadgeApi {
     @Override
     @GetMapping
     public ResponseEntity<SuccessResponse<BadgeListResponse>> getBadges(Principal principal) {
-        val response = BadgeListResponse.from(badgeService.getBadges(Util.getMemberId(principal)));
-        return ApiResponseUtil.success(SUCCESS_GET_BADGES, response);
+        val memberId = PrincipalConverter.getMemberId(principal);
+        val response = BadgeListResponse.from(badgeService.getBadges(memberId));
+        return ApiResponseGenerator.success(SUCCESS_GET_BADGES, response);
     }
 
 }

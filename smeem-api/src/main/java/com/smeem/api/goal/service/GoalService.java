@@ -4,7 +4,7 @@ import java.util.List;
 import com.smeem.api.goal.service.dto.request.GoalGetServiceRequest;
 import com.smeem.api.goal.service.dto.response.GoalGetServiceResponse;
 import com.smeem.api.goal.service.dto.response.GoalListGetServiceResponse;
-import com.smeem.common.exception.GoalException;
+import com.smeem.domain.goal.exception.GoalException;
 import com.smeem.domain.goal.model.Goal;
 import com.smeem.domain.goal.model.GoalType;
 import com.smeem.domain.goal.repository.GoalRepository;

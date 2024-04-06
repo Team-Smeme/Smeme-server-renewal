@@ -1,7 +1,7 @@
 package com.smeem.api.diary.api;
 
-import com.smeem.api.common.dto.FailureResponse;
-import com.smeem.api.common.dto.SuccessResponse;
+import com.smeem.api.common.FailureResponse;
+import com.smeem.api.common.SuccessResponse;
 import com.smeem.api.diary.api.dto.request.DiaryCreateRequest;
 import com.smeem.api.diary.api.dto.request.DiaryModifyRequest;
 import com.smeem.api.diary.api.dto.response.DiaryCreateResponse;

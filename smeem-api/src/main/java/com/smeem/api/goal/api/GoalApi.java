@@ -1,7 +1,7 @@
 package com.smeem.api.goal.api;
 
-import com.smeem.api.common.dto.FailureResponse;
-import com.smeem.api.common.dto.SuccessResponse;
+import com.smeem.api.common.FailureResponse;
+import com.smeem.api.common.SuccessResponse;
 import com.smeem.api.goal.api.dto.response.GoalGetResponse;
 import com.smeem.api.goal.api.dto.response.GoalListGetResponse;
 import com.smeem.domain.goal.model.GoalType;

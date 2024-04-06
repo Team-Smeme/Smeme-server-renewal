@@ -13,9 +13,9 @@ import com.smeem.api.member.service.dto.response.MemberNameServiceResponse;
 import com.smeem.api.member.service.dto.response.MemberUpdateServiceResponse;
 import com.smeem.api.member.service.dto.response.TrainingTimeServiceResponse;
 import com.smeem.common.config.ValueConfig;
-import com.smeem.common.exception.MemberException;
-import com.smeem.common.exception.TrainingTimeException;
 import com.smeem.domain.badge.adapter.BadgeFinder;
+import com.smeem.domain.member.exception.MemberException;
+import com.smeem.domain.training.exception.TrainingTimeException;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.member.adapter.member.MemberFinder;
 import com.smeem.domain.member.adapter.member.MemberUpdater;
@@ -57,9 +57,9 @@ public class MemberService {
     private final ValueConfig valueConfig;
 
     @Transactional
-    public MemberUpdateServiceResponse updateUserProfile(final long memberId, final MemberServiceUpdateUserProfileRequest request) {
+    public MemberUpdateServiceResponse updateUserProfile(final MemberServiceUpdateUserProfileRequest request) {
         checkMemberDuplicate(request.username());
-        val member = memberFinder.findById(memberId);
+        val member = memberFinder.findById(request.memberId());
         updateTermAccepted(member, request);
 
         ArrayList<Badge> badges = new ArrayList<>();

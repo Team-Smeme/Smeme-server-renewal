@@ -2,8 +2,8 @@ package com.smeem.api.diary.api;
 
 import java.security.Principal;
 
-import com.smeem.api.common.ApiResponseUtil;
-import com.smeem.api.common.dto.SuccessResponse;
+import com.smeem.api.support.ApiResponseGenerator;
+import com.smeem.api.common.SuccessResponse;
 import com.smeem.api.diary.api.dto.request.DiaryCreateRequest;
 import com.smeem.api.diary.api.dto.request.DiaryModifyRequest;
 import com.smeem.api.diary.api.dto.response.DiaryCreateResponse;
@@ -12,7 +12,8 @@ import com.smeem.api.diary.api.dto.response.DiaryListGetResponse;
 import com.smeem.api.diary.service.DiaryQueryService;
 import com.smeem.api.diary.service.DiaryCommandService;
 import com.smeem.api.diary.service.dto.request.*;
-import com.smeem.common.util.Util;
+import com.smeem.api.support.PrincipalConverter;
+import com.smeem.api.support.UriConverter;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,30 +41,30 @@ public class DiaryApiController implements DiaryApi {
 
     @PostMapping
     public ResponseEntity<SuccessResponse<DiaryCreateResponse>> createDiary(Principal principal, @RequestBody DiaryCreateRequest request) {
-        val memberId = Util.getMemberId(principal);
+        val memberId = PrincipalConverter.getMemberId(principal);
         val response = DiaryCreateResponse.from(
                 diaryCommandService.createDiary(DiaryCreateServiceRequest.of(memberId, request)));
-        val uri = Util.getURI("/{diaryId}", response.diaryId());
-        return ApiResponseUtil.success(SUCCESS_CREATE_DIARY, uri, response);
+        val uri = UriConverter.getURI("/{diaryId}", response.diaryId());
+        return ApiResponseGenerator.success(SUCCESS_CREATE_DIARY, uri, response);
     }
 
     @GetMapping("/{diaryId}")
     public ResponseEntity<SuccessResponse<DiaryGetResponse>> getDiaryDetail(@PathVariable long diaryId) {
         val response = DiaryGetResponse.from(
                 diaryQueryService.getDiaryDetail(DiaryGetServiceRequest.of(diaryId)));
-        return ApiResponseUtil.success(SUCCESS_GET_DIARY, response);
+        return ApiResponseGenerator.success(SUCCESS_GET_DIARY, response);
     }
 
     @PatchMapping("/{diaryId}")
     public ResponseEntity<SuccessResponse<?>> modifyDiary(@PathVariable long diaryId, @RequestBody DiaryModifyRequest request) {
         diaryCommandService.modifyDiary(DiaryModifyServiceRequest.of(diaryId, request));
-        return ApiResponseUtil.success(SUCCESS_UPDATE_DAIRY);
+        return ApiResponseGenerator.success(SUCCESS_UPDATE_DAIRY);
     }
 
     @DeleteMapping("/{diaryId}")
     public ResponseEntity<SuccessResponse<?>> deleteDiary(@PathVariable long diaryId) {
         diaryCommandService.deleteDiary(DiaryDeleteServiceRequest.of(diaryId));
-        return ApiResponseUtil.success(SUCCESS_DELETE_DIARY);
+        return ApiResponseGenerator.success(SUCCESS_DELETE_DIARY);
     }
 
     @GetMapping
@@ -72,9 +73,9 @@ public class DiaryApiController implements DiaryApi {
             @RequestParam String start,
             @RequestParam String end
     ) {
-        val memberId = Util.getMemberId(principal);
+        val memberId = PrincipalConverter.getMemberId(principal);
         val response = DiaryListGetResponse.from(
                 diaryQueryService.getDiaries(DiaryListGetServiceRequest.of(memberId, start, end)));
-        return ApiResponseUtil.success(SUCCESS_GET_DIARIES, response);
+        return ApiResponseGenerator.success(SUCCESS_GET_DIARIES, response);
     }
 }

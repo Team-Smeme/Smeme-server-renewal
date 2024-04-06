@@ -2,11 +2,11 @@ package com.smeem.api.test.api;
 
 import java.security.Principal;
 
-import com.smeem.api.common.ApiResponseUtil;
-import com.smeem.api.common.dto.SuccessResponse;
+import com.smeem.api.support.ApiResponseGenerator;
+import com.smeem.api.common.SuccessResponse;
+import com.smeem.api.support.PrincipalConverter;
 import com.smeem.api.test.service.TestService;
 import com.smeem.api.test.service.dto.request.TestPushAlarmServiceRequest;
-import com.smeem.common.util.Util;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,14 +26,14 @@ public class TestApiController implements TestApi {
     private final TestService testService;
 
     @GetMapping
-    public ResponseEntity<SuccessResponse<?>> test() {
-        return ApiResponseUtil.success(SUCCESS_SERVER_CONNECT);
+    public ResponseEntity<SuccessResponse<?>> connect() {
+        return ApiResponseGenerator.success(SUCCESS_SERVER_CONNECT);
     }
 
     @GetMapping("/alarm")
-    public ResponseEntity<SuccessResponse<?>> alarmTest(Principal principal) {
-        val memberId = Util.getMemberId(principal);
-        testService.pushTest(TestPushAlarmServiceRequest.of(memberId));
-        return ApiResponseUtil.success(SUCCESS_SEND_PUSH_ALARM);
+    public ResponseEntity<SuccessResponse<?>> sendMessage(Principal principal) {
+        val memberId = PrincipalConverter.getMemberId(principal);
+        testService.sendMessage(TestPushAlarmServiceRequest.of(memberId));
+        return ApiResponseGenerator.success(SUCCESS_SEND_PUSH_ALARM);
     }
 }

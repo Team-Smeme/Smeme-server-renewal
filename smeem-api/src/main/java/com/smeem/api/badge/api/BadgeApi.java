@@ -1,8 +1,8 @@
 package com.smeem.api.badge.api;
 
 import com.smeem.api.badge.api.dto.response.BadgeListResponse;
-import com.smeem.api.common.dto.FailureResponse;
-import com.smeem.api.common.dto.SuccessResponse;
+import com.smeem.api.common.FailureResponse;
+import com.smeem.api.common.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

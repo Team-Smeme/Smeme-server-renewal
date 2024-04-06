@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 @Component
 @RequiredArgsConstructor
@@ -29,6 +30,7 @@ public class DiscordAlarmSender {
             restClient.post()
                     .uri(webHookUri(alarmCase))
                     .header(ACCEPT, APPLICATION_JSON_UTF8_VALUE)
+                    .header(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE)
                     .body(makeRequestBody(content))
                     .retrieve();
         } catch (RuntimeException | JsonProcessingException e) {

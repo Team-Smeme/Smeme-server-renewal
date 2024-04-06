@@ -8,12 +8,14 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Builder(access = PRIVATE)
 public record MemberUpdatePlanServiceRequest(
+        long memberId,
         GoalType goalType,
         TrainingTimeServiceRequest trainingTime,
         Boolean hasAlarm
 ) {
-    public static MemberUpdatePlanServiceRequest of(MemberPlanUpdateRequest request) {
+    public static MemberUpdatePlanServiceRequest of(long memberId, MemberPlanUpdateRequest request) {
         return MemberUpdatePlanServiceRequest.builder()
+                .memberId(memberId)
                 .goalType(request.target())
                 .trainingTime(TrainingTimeServiceRequest.of(request.trainingTime()))
                 .hasAlarm(request.hasAlarm())
