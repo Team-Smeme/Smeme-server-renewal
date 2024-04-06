@@ -1,28 +1,29 @@
 package com.smeem.api.member.service;
 
 
-import com.smeem.domain.badge.exception.BadgeException;
 import com.smeem.domain.badge.model.Badge;
+import com.smeem.domain.member.adapter.memberbadge.MemberBadgeDeleter;
+import com.smeem.domain.member.adapter.memberbadge.MemberBadgeFinder;
+import com.smeem.domain.member.adapter.memberbadge.MemberBadgeSaver;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.model.MemberBadge;
-import com.smeem.domain.member.repository.MemberBadgeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.smeem.common.code.failure.BadgeFailureCode.EMPTY_BADGE;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MemberBadgeService {
 
-    private final MemberBadgeRepository memberBadgeRepository;
+    private final MemberBadgeFinder memberBadgeFinder;
+    private final MemberBadgeSaver memberBadgeSaver;
+    private final MemberBadgeDeleter memberBadgeDeleter;
 
     @Transactional
     public void deleteAllByMember(final Member member) {
-        memberBadgeRepository.deleteAllInBatch(member.getBadges());
+        memberBadgeDeleter.deleteAllInBatch(member.getBadges());
     }
 
     @Transactional
@@ -31,11 +32,10 @@ public class MemberBadgeService {
                 .member(member)
                 .badge(badge)
                 .build();
-        memberBadgeRepository.save(memberBadge);
+        memberBadgeSaver.save(memberBadge);
     }
 
     public Badge getBadgeByMemberId(final long memberId) {
-        return memberBadgeRepository.findFirstByMemberIdOrderByCreatedAtDesc(memberId).orElseThrow(
-                () -> new BadgeException(EMPTY_BADGE)).getBadge();
+        return memberBadgeFinder.findFirstByMemberIdOrderByCreatedAtDesc(memberId).getBadge();
     }
 }
