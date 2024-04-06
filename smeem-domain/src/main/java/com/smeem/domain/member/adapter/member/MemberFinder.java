@@ -1,6 +1,6 @@
 package com.smeem.domain.member.adapter.member;
 
-import com.smeem.common.exception.MemberException;
+import com.smeem.domain.member.exception.MemberException;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.model.SocialType;
 import com.smeem.domain.member.repository.MemberRepository;

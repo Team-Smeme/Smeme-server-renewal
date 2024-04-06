@@ -1,7 +1,8 @@
 package com.smeem.domain.badge.adapter;
 
 
-import com.smeem.common.exception.BadgeException;
+
+import com.smeem.domain.badge.exception.BadgeException;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.badge.repository.BadgeRepository;
 import lombok.RequiredArgsConstructor;
