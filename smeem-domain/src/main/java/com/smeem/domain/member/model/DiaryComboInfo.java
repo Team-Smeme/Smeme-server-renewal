@@ -7,6 +7,7 @@ import lombok.val;
 
 import java.time.LocalDate;
 
+import static java.util.Objects.isNull;
 import static lombok.AccessLevel.PACKAGE;
 
 @Embeddable
@@ -16,7 +17,7 @@ public class DiaryComboInfo {
 
     private int diaryComboCount;
 
-    private LocalDate lastComboAt; //TODO: ??, (어제 일기 썼는지..) DB 마이그레이션 필요? (하겠지 ㅋㅋ ㅠㅠ)
+    private LocalDate lastComboAt;
 
     public DiaryComboInfo() {
         this.diaryComboCount = 0;
@@ -24,10 +25,12 @@ public class DiaryComboInfo {
 
     public void update() {
         val today = LocalDate.now();
-        if (!lastComboAt.equals(today)) { //TODO: null exception 안 나는 지 확인 필요
+        if (isNull(lastComboAt)) {
+            this.diaryComboCount = 1;
+        } else if (!lastComboAt.equals(today)) {
             val yesterday = today.minusDays(1);
             this.diaryComboCount = lastComboAt.equals(yesterday) ? this.diaryComboCount + 1 : 1;
-            this.lastComboAt = today;
         }
+        this.lastComboAt = today;
     }
 }
