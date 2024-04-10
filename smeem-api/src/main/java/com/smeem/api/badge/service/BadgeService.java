@@ -36,7 +36,7 @@ public class BadgeService {
     }
 
     public Optional<Badge> createComboMemberBadge(final Member member) {
-        val comboBadge = badgeFinder.findBadgeByDiaryComboCount(member.getDiaryComboInfo().getComboCount());
+        val comboBadge = badgeFinder.findBadgeByDiaryComboCount(member.getDiaryComboInfo().getDiaryComboCount());
         return createMemberBadge(member, comboBadge);
     }
 
