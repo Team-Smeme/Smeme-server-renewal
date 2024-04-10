@@ -7,16 +7,12 @@ import com.smeem.domain.badge.model.BadgeType;
 import com.smeem.domain.member.adapter.memberbadge.MemberBadgeFinder;
 import com.smeem.domain.member.adapter.memberbadge.MemberBadgeSaver;
 import com.smeem.domain.member.model.Member;
-import com.smeem.domain.member.model.MemberBadge;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -27,14 +23,6 @@ public class BadgeService {
     private final MemberBadgeSaver memberBadgeSaver;
     private final MemberBadgeFinder memberBadgeFinder;
 
-    @Transactional
-    public void saveMemberBadge(final Member member, final Badge badge) {
-        val memberBadge = MemberBadge.builder()
-                .member(member)
-                .badge(badge)
-                .build();
-        memberBadgeSaver.save(memberBadge);
-    }
     public BadgeListServiceResponse getBadges(final long memberId) {
         val badges = badgeFinder.findAllOrderById();
         val badgeMap = classifiedByType(badges);
@@ -42,24 +30,22 @@ public class BadgeService {
         return BadgeListServiceResponse.of(badgeMap, memberBadges);
     }
 
-    public Badge getBadgeByCountOfDiary(final int diaryCount) {
-        return switch (diaryCount) {
-            case 50 -> badgeFinder.findById(5L);
-            case 30 -> badgeFinder.findById(4L);
-            case 10 -> badgeFinder.findById(3L);
-            case 1 -> badgeFinder.findById(2L);
-            default -> null;
-        };
+    public Optional<Badge> createCountingMemberBadge(final Member member) {
+        val countingBadge = badgeFinder.findBadgeByDiaryCount(member.getDiaries().size());
+        return createMemberBadge(member, countingBadge);
     }
 
-    public Badge getBadgeByComboCountOfDiary(final int diaryComboCount) {
-        return switch (diaryComboCount) {
-            case 30 -> badgeFinder.findById(9L);
-            case 15 -> badgeFinder.findById(8L);
-            case 7 -> badgeFinder.findById(7L);
-            case 3 -> badgeFinder.findById(6L);
-            default -> null;
-        };
+    public Optional<Badge> createComboMemberBadge(final Member member) {
+        val comboBadge = badgeFinder.findBadgeByDiaryComboCount(member.getDiaryComboInfo().getComboCount());
+        return createMemberBadge(member, comboBadge);
+    }
+
+    private Optional<Badge> createMemberBadge(final Member member, final Optional<Badge> badge) {
+        if (badge.isPresent() && member.hasNotBadge(badge.get())) {
+            memberBadgeSaver.saveByMemberAndBadge(member, badge.get());
+            return badge;
+        }
+        return Optional.empty();
     }
 
     private Map<BadgeType, List<Badge>> classifiedByType(List<Badge> badges) {

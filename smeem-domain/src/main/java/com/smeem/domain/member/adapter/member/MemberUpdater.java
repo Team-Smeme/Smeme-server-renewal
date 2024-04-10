@@ -1,10 +1,10 @@
 package com.smeem.domain.member.adapter.member;
 
 import com.smeem.domain.member.model.Member;
+import com.smeem.domain.support.RepositoryAdapter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Component
+@RepositoryAdapter
 @RequiredArgsConstructor
 public class MemberUpdater {
 

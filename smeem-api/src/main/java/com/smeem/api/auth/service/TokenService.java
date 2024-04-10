@@ -1,11 +1,9 @@
 package com.smeem.api.auth.service;
 
-
 import com.smeem.api.auth.jwt.TokenProvider;
 import com.smeem.api.auth.jwt.UserAuthentication;
 import com.smeem.api.auth.jwt.SmeemToken;
 import com.smeem.api.auth.service.dto.response.TokenServiceResponse;
-import com.smeem.api.member.service.MemberService;
 import com.smeem.domain.member.adapter.member.MemberFinder;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -13,15 +11,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.smeem.common.config.ValueConfig.ACCESS_TOKEN_EXPIRATION_TIME;
+import static com.smeem.common.config.ValueConfig.REFRESH_TOKEN_EXPIRATION_TIME;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TokenService {
 
-    private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 2 * 12 * 1000000L; // 2시간
-    private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 24 * 14L; // 2주
-
     private final MemberFinder memberFinder;
+
     private final TokenProvider tokenProvider;
 
     @Transactional

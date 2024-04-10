@@ -45,15 +45,14 @@ import static java.util.Objects.nonNull;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final TrainingTimeService trainingTimeService;
-    private final GoalService goalService;
-    private final MemberBadgeService memberBadgeService;
-    private final DiscordAlarmSender discordAlarmSender;
-
     private final BadgeFinder badgeFinder;
     private final MemberFinder memberFinder;
     private final MemberUpdater memberUpdater;
 
+    private final TrainingTimeService trainingTimeService;
+    private final GoalService goalService;
+    private final MemberBadgeService memberBadgeService;
+    private final DiscordAlarmSender discordAlarmSender;
     private final ValueConfig valueConfig;
 
     @Transactional

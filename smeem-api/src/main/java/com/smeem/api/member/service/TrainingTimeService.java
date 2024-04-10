@@ -1,9 +1,9 @@
 package com.smeem.api.member.service;
 
 
-import com.smeem.domain.member.adapter.trainingtime.TrainingTimeDeleter;
-import com.smeem.domain.member.adapter.trainingtime.TrainingTimeFinder;
-import com.smeem.domain.member.adapter.trainingtime.TrainingTimeSaver;
+import com.smeem.domain.training.adapter.TrainingTimeDeleter;
+import com.smeem.domain.training.adapter.TrainingTimeFinder;
+import com.smeem.domain.training.adapter.TrainingTimeSaver;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.training.model.TrainingTime;
 import lombok.RequiredArgsConstructor;
