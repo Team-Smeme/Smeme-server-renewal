@@ -6,6 +6,7 @@ import com.smeem.domain.member.model.SocialType;
 import com.smeem.domain.member.repository.MemberRepository;
 import com.smeem.domain.support.RepositoryAdapter;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 
 import static com.smeem.common.code.failure.MemberFailureCode.CANNOT_WRITE_DIARY;
 import static com.smeem.common.code.failure.MemberFailureCode.EMPTY_MEMBER;
@@ -35,8 +36,11 @@ public class MemberFinder {
     }
 
     public Member findMemberCanWriteDiaryById(final long id) {
-        return memberRepository.findMemberCanWriteDiaryById(id)
-                .orElseThrow(() -> new MemberException(CANNOT_WRITE_DIARY));
+        val member = findById(id);
+        if (member.hasWriteDiaryToday()) {
+            throw new MemberException(CANNOT_WRITE_DIARY);
+        }
+        return member;
     }
 }
 
