@@ -29,7 +29,6 @@ public class MemberBadge extends BaseTimeEntity {
     @JoinColumn(name = "badge_id")
     private Badge badge;
 
-
     @Builder
     public MemberBadge(Member member, Badge badge) {
         setMember(member);
