@@ -64,7 +64,6 @@ public class Diary extends BaseTimeEntity {
     public void deleteFromMember() {
         if (nonNull(this.member)) {
             this.member.getDiaries().remove(this);
-            this.member.updateDiaryCombo();
         }
     }
 
@@ -72,24 +71,11 @@ public class Diary extends BaseTimeEntity {
         return this.createdAt.toLocalDate().equals(date);
     }
 
-    public boolean isWrittenToday() {
-        return this.createdAt.toLocalDate().equals(LocalDate.now());
-    }
-
-    public boolean isWrittenYesterday() {
-        val yesterday = LocalDate.now().minusDays(1);
-        return this.createdAt.toLocalDate().equals(yesterday);
-    }
-
     public boolean isBetween(LocalDate startDate, LocalDate endDate) {
         val createdDate = this.createdAt.toLocalDate();
         return createdDate.equals(startDate)
                 || (createdDate.isAfter(startDate) && createdDate.isBefore(endDate))
                 || createdDate.equals(endDate);
-    }
-
-    public boolean isCombo() {
-        return this.member.getDiaries().stream().anyMatch(Diary::isWrittenYesterday);
     }
 
     private void setMember(Member member) {
