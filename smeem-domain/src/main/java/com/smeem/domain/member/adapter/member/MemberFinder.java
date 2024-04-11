@@ -4,12 +4,14 @@ import com.smeem.domain.member.exception.MemberException;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.model.SocialType;
 import com.smeem.domain.member.repository.MemberRepository;
+import com.smeem.domain.support.RepositoryAdapter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import lombok.val;
 
+import static com.smeem.common.code.failure.MemberFailureCode.CANNOT_WRITE_DIARY;
 import static com.smeem.common.code.failure.MemberFailureCode.EMPTY_MEMBER;
 
-@Component
+@RepositoryAdapter
 @RequiredArgsConstructor
 public class MemberFinder {
 
@@ -33,7 +35,13 @@ public class MemberFinder {
                 .orElseThrow(() -> new MemberException(EMPTY_MEMBER));
     }
 
-
+    public Member findMemberCanWriteDiaryById(final long id) {
+        val member = findById(id);
+        if (member.hasWriteDiaryToday()) {
+            throw new MemberException(CANNOT_WRITE_DIARY);
+        }
+        return member;
+    }
 }
 
 

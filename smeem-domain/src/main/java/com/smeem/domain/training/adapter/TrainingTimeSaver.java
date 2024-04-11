@@ -1,11 +1,11 @@
-package com.smeem.domain.member.adapter.trainingtime;
+package com.smeem.domain.training.adapter;
 
+import com.smeem.domain.support.RepositoryAdapter;
 import com.smeem.domain.training.model.TrainingTime;
 import com.smeem.domain.training.repository.TrainingTimeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Component
+@RepositoryAdapter
 @RequiredArgsConstructor
 public class TrainingTimeSaver {
     private final TrainingTimeRepository trainingTimeRepository;

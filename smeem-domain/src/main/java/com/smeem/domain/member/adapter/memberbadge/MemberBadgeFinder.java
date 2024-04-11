@@ -4,12 +4,12 @@ import com.smeem.common.code.failure.MemberFailureCode;
 import com.smeem.domain.member.exception.MemberException;
 import com.smeem.domain.member.model.MemberBadge;
 import com.smeem.domain.member.repository.MemberBadgeRepository;
+import com.smeem.domain.support.RepositoryAdapter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
+@RepositoryAdapter
 @RequiredArgsConstructor
 public class MemberBadgeFinder {
 

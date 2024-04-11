@@ -23,7 +23,7 @@ import static com.smeem.common.code.success.TokenSuccessCode.SUCCESS_ISSUE_TOKEN
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v2/auth")
+@RequestMapping("/api/v2/auth")
 public class AuthController implements AuthApi {
 
     private final AuthService authService;

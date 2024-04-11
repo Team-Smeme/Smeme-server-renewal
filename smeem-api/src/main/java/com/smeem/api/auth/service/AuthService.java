@@ -3,9 +3,9 @@ package com.smeem.api.auth.service;
 import com.smeem.api.auth.jwt.UserAuthentication;
 import com.smeem.api.auth.service.dto.request.SignInServiceRequest;
 import com.smeem.api.auth.service.dto.response.SignInServiceResponse;
-import com.smeem.api.diary.service.DiaryCommandService;
 import com.smeem.api.member.service.MemberBadgeService;
 import com.smeem.api.member.service.TrainingTimeService;
+import com.smeem.domain.diary.adapter.DiaryDeleter;
 import com.smeem.domain.member.adapter.member.MemberDeleter;
 import com.smeem.domain.member.adapter.member.MemberFinder;
 import com.smeem.domain.member.adapter.member.MemberSaver;
@@ -33,11 +33,12 @@ public class AuthService {
     private final MemberFinder memberFinder;
     private final MemberSaver memberSaver;
     private final MemberDeleter memberDeleter;
+    private final DiaryDeleter diaryDeleter;
+
     private final TokenService tokenService;
     private final AppleService appleService;
     private final KakaoService kakaoService;
     private final MemberBadgeService memberBadgeService;
-    private final DiaryCommandService diaryService;
     private final TrainingTimeService trainingTimeService;
 
     @Transactional
@@ -66,7 +67,7 @@ public class AuthService {
     @Transactional
     public void withdraw(final long memberId) {
         val member = memberFinder.findById(memberId);
-        diaryService.deleteAllByMember(member);
+        diaryDeleter.deleteAllByMember(member);
         trainingTimeService.deleteAllByMember(member);
         memberBadgeService.deleteAllByMember(member);
         memberDeleter.deleteById(memberId);

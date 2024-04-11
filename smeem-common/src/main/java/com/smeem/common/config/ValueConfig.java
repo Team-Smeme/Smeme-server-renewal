@@ -67,6 +67,10 @@ public class ValueConfig {
 
     public static final boolean DEFAULT_IS_PUBLIC_VALUE = true;
 
+    public static final Long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 2 * 12 * 1000000L; // 2시간
+
+    public static final Long REFRESH_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 24 * 14L; // 2주
+
     @PostConstruct
     protected void init() {
         JWT_SECRET = Base64.getEncoder().encodeToString(JWT_SECRET.getBytes(StandardCharsets.UTF_8));
