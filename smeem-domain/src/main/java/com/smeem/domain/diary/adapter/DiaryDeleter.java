@@ -28,7 +28,7 @@ public class DiaryDeleter {
         diaryRepository.deleteById(diary.getId());
     }
 
-    public void deleteByUpdatedAtBefore(LocalDateTime dateTime) {
+    public void deleteByUpdatedAtBefore(final LocalDateTime dateTime) {
         deletedDiaryRepository.deleteByUpdatedAtBefore(dateTime);
     }
 }
