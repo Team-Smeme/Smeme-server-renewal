@@ -11,7 +11,7 @@ public class DiarySaver {
 
     private final DiaryRepository diaryRepository;
 
-    public Diary save(Diary diary) {
+    public Diary save(final Diary diary) {
         return diaryRepository.save(diary);
     }
 }
