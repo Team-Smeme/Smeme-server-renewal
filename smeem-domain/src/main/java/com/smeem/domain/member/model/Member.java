@@ -56,7 +56,8 @@ public class Member extends BaseTimeEntity {
     @Embedded
     private DiaryComboInfo diaryComboInfo;
 
-    private Integer visitCount;
+    @Embedded
+    private MemberVisitInfo visitInfo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "training_plan_id")
@@ -82,7 +83,7 @@ public class Member extends BaseTimeEntity {
         this.targetLang = targetLang;
         this.fcmToken = fcmToken;
         this.diaryComboInfo = new DiaryComboInfo();
-        this.visitCount = 0;
+        this.visitInfo = new MemberVisitInfo();
     }
 
     public void updateUsername(String username) {
@@ -139,6 +140,7 @@ public class Member extends BaseTimeEntity {
     }
 
     public int getVisitCount() {
-        return Objects.nonNull(this.visitCount) ? this.visitCount : 1;
+        val visitCount = Objects.nonNull(this.visitInfo) ? this.visitInfo.getVisitCount() : null;
+        return Objects.nonNull(visitCount) ? visitCount : 1;
     }
 }
