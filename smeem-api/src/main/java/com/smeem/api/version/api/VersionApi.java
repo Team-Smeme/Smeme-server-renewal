@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
-@Tag(name = "[Version] 버 관련 API (V2)")
+@Tag(name = "[Version] 버전 관련 API (V2)")
 public interface VersionApi {
 
     @Operation(summary = "클라이언트 앱 버전 조회 API")
