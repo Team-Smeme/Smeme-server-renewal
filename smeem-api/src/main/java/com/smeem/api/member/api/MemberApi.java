@@ -7,6 +7,7 @@ import com.smeem.api.member.api.dto.request.MemberPushUpdateRequest;
 import com.smeem.api.member.api.dto.request.MemberUpdateRequest;
 import com.smeem.api.member.api.dto.response.MemberGetResponse;
 import com.smeem.api.member.api.dto.response.MemberNameResponse;
+import com.smeem.api.member.api.dto.response.MemberPerformanceGetResponse;
 import com.smeem.api.member.api.dto.response.MemberUpdateResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -73,4 +74,23 @@ public interface MemberApi {
             @ApiResponse(responseCode = "500", description = "서버 내부 오류", content = @Content(schema = @Schema(implementation = FailureResponse.class)))
     })
     ResponseEntity<SuccessResponse<?>> updateUserPush(Principal principal, @RequestBody MemberPushUpdateRequest request);
+
+    @Operation(summary = "사용자 성과 요약 조회 API")
+    @Parameter(name = "Authorization", description = "Bearer ${Smeme Access Token}", in = HEADER, required = true)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "요청 성공"),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "유효하지 않은 토큰",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "서버 내부 오류",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            )
+    })
+    ResponseEntity<SuccessResponse<MemberPerformanceGetResponse>> getPerformanceSummary(
+            @Parameter(hidden = true) Principal principal
+    );
 }
