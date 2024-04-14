@@ -1,25 +1,22 @@
 package com.smeem.domain.member.model;
 
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.val;
 
 import java.time.LocalDate;
 
 import static java.util.Objects.isNull;
-import static lombok.AccessLevel.PACKAGE;
 
 @Embeddable
 @Getter
-@AllArgsConstructor(access = PACKAGE)
 public class DiaryComboInfo {
 
     private int diaryComboCount;
 
     private LocalDate lastComboAt;
 
-    public DiaryComboInfo() {
+    protected DiaryComboInfo() {
         this.diaryComboCount = 0;
     }
 
