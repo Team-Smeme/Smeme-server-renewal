@@ -28,7 +28,7 @@ public interface AuthApi {
     @Operation(summary = "소셜 로그인 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "소셜로그인 성공"),
-            @ApiResponse(responseCode = "4xx",description = "유효하지 않은 요청", content = @Content(schema = @Schema(implementation = FailureResponse.class))),
+            @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청", content = @Content(schema = @Schema(implementation = FailureResponse.class))),
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다", content = @Content(schema = @Schema(implementation = FailureResponse.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류", content = @Content(schema = @Schema(implementation = FailureResponse.class)))
     })
