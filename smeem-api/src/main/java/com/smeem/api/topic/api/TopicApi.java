@@ -18,7 +18,6 @@ import static io.swagger.v3.oas.annotations.enums.ParameterIn.HEADER;
 public interface TopicApi {
 
     @Operation(summary = "랜덤 주제 조회 API")
-    @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(
