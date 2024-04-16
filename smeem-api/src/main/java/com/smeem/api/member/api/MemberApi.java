@@ -91,7 +91,6 @@ public interface MemberApi {
     );
 
     @Operation(summary = "사용자 플랜 조회 API")
-    @Parameter(name = "Authorization", description = "Bearer ${Smeme Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "요청 성공"),
             @ApiResponse(
