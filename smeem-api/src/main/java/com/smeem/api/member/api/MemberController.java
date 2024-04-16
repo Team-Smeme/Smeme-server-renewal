@@ -77,7 +77,7 @@ public class MemberController implements MemberApi {
 
     @Override
     @GetMapping("/plan")
-    public ResponseEntity<?> getMemberPlan(Principal principal) {
+    public ResponseEntity<SuccessResponse<MemberPlanGetResponse>> getMemberPlan(Principal principal) {
         val memberId = PrincipalConverter.getMemberId(principal);
         val response = memberService.getMemberPlan(MemberPlanGetServiceRequest.of(memberId))
                 .map(MemberPlanGetResponse::of)

@@ -5,10 +5,7 @@ import com.smeem.api.common.SuccessResponse;
 import com.smeem.api.member.api.dto.request.MemberPlanUpdateRequest;
 import com.smeem.api.member.api.dto.request.MemberPushUpdateRequest;
 import com.smeem.api.member.api.dto.request.MemberUpdateRequest;
-import com.smeem.api.member.api.dto.response.MemberGetResponse;
-import com.smeem.api.member.api.dto.response.MemberNameResponse;
-import com.smeem.api.member.api.dto.response.MemberPerformanceGetResponse;
-import com.smeem.api.member.api.dto.response.MemberUpdateResponse;
+import com.smeem.api.member.api.dto.response.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -109,5 +106,5 @@ public interface MemberApi {
                     content = @Content(schema = @Schema(implementation = FailureResponse.class))
             )
     })
-    ResponseEntity<?> getMemberPlan(@Parameter(hidden = true) Principal principal);
+    ResponseEntity<SuccessResponse<MemberPlanGetResponse>> getMemberPlan(@Parameter(hidden = true) Principal principal);
 }
