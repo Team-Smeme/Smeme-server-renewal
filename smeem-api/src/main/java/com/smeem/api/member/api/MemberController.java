@@ -1,5 +1,6 @@
 package com.smeem.api.member.api;
 
+import com.smeem.api.member.api.dto.response.MemberPerformanceGetResponse;
 import com.smeem.api.member.api.dto.response.*;
 import com.smeem.api.member.service.dto.request.*;
 import com.smeem.api.support.ApiResponseGenerator;
@@ -73,6 +74,14 @@ public class MemberController implements MemberApi {
         val response = MemberPerformanceGetResponse.of(
                 memberService.getPerformanceSummary(MemberPerformanceGetServiceRequest.of(memberId)));
         return ApiResponseGenerator.success(SUCCESS_GET_PERFORMANCE_SUMMARY, response);
+    }
+
+    @Override
+    @PatchMapping("/visit")
+    public ResponseEntity<SuccessResponse<?>> updateMemberVisit(Principal principal) {
+        val memberId = PrincipalConverter.getMemberId(principal);
+        memberService.updateMemberVisit(MemberVisitUpdateRequest.of(memberId));
+        return ApiResponseGenerator.success(SUCCESS_UPDATE_VISIT_TODAY);
     }
 
     @Override

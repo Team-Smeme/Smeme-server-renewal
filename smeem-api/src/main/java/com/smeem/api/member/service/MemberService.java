@@ -109,6 +109,12 @@ public class MemberService {
         return MemberPerformanceGetServiceResponse.of(member);
     }
 
+    @Transactional
+    public void updateMemberVisit(final MemberVisitUpdateRequest request) {
+        val member = memberFinder.findById(request.memberId());
+        member.updateVisitInfoToday();
+    }
+
     public Optional<MemberPlanGetServiceResponse> getMemberPlan(final MemberPlanGetServiceRequest request) {
         val member = memberFinder.findById(request.memberId());
         return Objects.nonNull(member.getPlan())

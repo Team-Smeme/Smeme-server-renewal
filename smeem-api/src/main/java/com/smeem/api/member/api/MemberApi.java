@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 
-import static io.swagger.v3.oas.annotations.enums.ParameterIn.HEADER;
-
 @Tag(name = "[Member] 사용자 관련 API (V2)")
 public interface MemberApi {
     @Operation(summary = "사용자 프로필 업데이트 API")
@@ -94,8 +92,25 @@ public interface MemberApi {
             @Parameter(hidden = true) Principal principal
     );
 
+    @Operation(summary = "사용자 방문 체크 API")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "요청 성공"),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "유효하지 않은 토큰",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "서버 내부 오류",
+                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
+            )
+    })
+    ResponseEntity<SuccessResponse<?>> updateMemberVisit(
+            @Parameter(hidden = true) Principal principal
+    );
+
     @Operation(summary = "사용자 플랜 조회 API")
-    @Parameter(name = "Authorization", description = "Bearer ${Smeme Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "요청 성공"),
             @ApiResponse(
