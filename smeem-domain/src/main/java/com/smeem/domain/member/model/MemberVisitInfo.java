@@ -22,7 +22,6 @@ public class MemberVisitInfo {
     }
 
     protected void updateToday() {
-        System.out.println("test");
         val today = LocalDate.now();
         if (isNull(lastVisitAt)) {
             this.visitCount = 1;
