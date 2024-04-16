@@ -1,7 +1,7 @@
 package com.smeem.api.member.api;
 
 import com.smeem.api.member.api.dto.response.MemberPerformanceGetResponse;
-import com.smeem.api.member.service.dto.request.MemberPerformanceGetServiceRequest;
+import com.smeem.api.member.service.dto.request.*;
 import com.smeem.api.support.ApiResponseGenerator;
 import com.smeem.api.common.SuccessResponse;
 import com.smeem.api.member.api.dto.request.MemberPlanUpdateRequest;
@@ -11,9 +11,6 @@ import com.smeem.api.member.api.dto.response.MemberGetResponse;
 import com.smeem.api.member.api.dto.response.MemberNameResponse;
 import com.smeem.api.member.api.dto.response.MemberUpdateResponse;
 import com.smeem.api.member.service.MemberService;
-import com.smeem.api.member.service.dto.request.MemberPushUpdateServiceRequest;
-import com.smeem.api.member.service.dto.request.MemberUpdatePlanServiceRequest;
-import com.smeem.api.member.service.dto.request.MemberServiceUpdateUserProfileRequest;
 import com.smeem.api.support.PrincipalConverter;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
@@ -79,6 +76,13 @@ public class MemberController implements MemberApi {
         val response = MemberPerformanceGetResponse.of(
                 memberService.getPerformanceSummary(MemberPerformanceGetServiceRequest.of(memberId)));
         return ApiResponseGenerator.success(SUCCESS_GET_PERFORMANCE_SUMMARY, response);
+    }
+
+    @PatchMapping("/visit")
+    public ResponseEntity<SuccessResponse<?>> updateMemberVisit(Principal principal) {
+        val memberId = PrincipalConverter.getMemberId(principal);
+        memberService.updateMemberVisit(MemberVisitUpdateRequest.of(memberId));
+        return ApiResponseGenerator.success(SUCCESS_UPDATE_VISIT_TODAY);
     }
 
 }

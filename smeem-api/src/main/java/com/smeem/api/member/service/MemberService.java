@@ -4,11 +4,7 @@ package com.smeem.api.member.service;
 import com.smeem.api.badge.service.dto.response.BadgeServiceResponse;
 import com.smeem.api.goal.service.GoalService;
 import com.smeem.api.goal.service.dto.request.GoalGetServiceRequest;
-import com.smeem.api.member.service.dto.request.MemberPerformanceGetServiceRequest;
-import com.smeem.api.member.service.dto.request.MemberPushUpdateServiceRequest;
-import com.smeem.api.member.service.dto.request.MemberServiceUpdateUserProfileRequest;
-import com.smeem.api.member.service.dto.request.MemberUpdatePlanServiceRequest;
-import com.smeem.api.member.service.dto.request.TrainingTimeServiceRequest;
+import com.smeem.api.member.service.dto.request.*;
 import com.smeem.api.member.service.dto.response.*;
 import com.smeem.common.config.ValueConfig;
 import com.smeem.domain.badge.adapter.BadgeFinder;
@@ -109,6 +105,12 @@ public class MemberService {
     public MemberPerformanceGetServiceResponse getPerformanceSummary(final MemberPerformanceGetServiceRequest request) {
         val member = memberFinder.findById(request.memberId());
         return MemberPerformanceGetServiceResponse.of(member);
+    }
+
+    @Transactional
+    public void updateMemberVisit(final MemberVisitUpdateRequest request) {
+        val member = memberFinder.findById(request.memberId());
+        member.updateVisitInfoToday();
     }
 
     private void updateTrainingTime(Member member, TrainingTimeServiceRequest request) {
