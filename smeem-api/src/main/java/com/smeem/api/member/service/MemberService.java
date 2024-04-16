@@ -4,11 +4,7 @@ package com.smeem.api.member.service;
 import com.smeem.api.badge.service.dto.response.BadgeServiceResponse;
 import com.smeem.api.goal.service.GoalService;
 import com.smeem.api.goal.service.dto.request.GoalGetServiceRequest;
-import com.smeem.api.member.service.dto.request.MemberPerformanceGetServiceRequest;
-import com.smeem.api.member.service.dto.request.MemberPushUpdateServiceRequest;
-import com.smeem.api.member.service.dto.request.MemberServiceUpdateUserProfileRequest;
-import com.smeem.api.member.service.dto.request.MemberUpdatePlanServiceRequest;
-import com.smeem.api.member.service.dto.request.TrainingTimeServiceRequest;
+import com.smeem.api.member.service.dto.request.*;
 import com.smeem.api.member.service.dto.response.*;
 import com.smeem.common.config.ValueConfig;
 import com.smeem.domain.badge.adapter.BadgeFinder;
@@ -30,6 +26,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.smeem.common.code.failure.MemberFailureCode.DUPLICATE_USERNAME;
@@ -112,6 +110,13 @@ public class MemberService {
     public MemberPerformanceGetServiceResponse getPerformanceSummary(final MemberPerformanceGetServiceRequest request) {
         val member = memberFinder.findById(request.memberId());
         return MemberPerformanceGetServiceResponse.of(member);
+    }
+
+    public Optional<MemberPlanGetServiceResponse> getMemberPlan(final MemberPlanGetServiceRequest request) {
+        val member = memberFinder.findById(request.memberId());
+        return Objects.nonNull(member.getPlan())
+                ? Optional.of(MemberPlanGetServiceResponse.of(member))
+                : Optional.empty();
     }
 
     private void updateTrainingTime(Member member, TrainingTimeServiceRequest request) {
