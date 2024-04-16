@@ -51,7 +51,10 @@ public class MemberController implements MemberApi {
 
     @Override
     @PatchMapping("/plan")
-    public ResponseEntity<SuccessResponse<?>> updateUserPlan(Principal principal, @Valid @RequestBody MemberPlanUpdateRequest request) {
+    public ResponseEntity<SuccessResponse<?>> updateMemberPlan(
+            Principal principal,
+            @Valid @RequestBody MemberPlanUpdateRequest request
+    ) {
         val memberId = PrincipalConverter.getMemberId(principal);
         memberService.updateLearningPlan(MemberUpdatePlanServiceRequest.of(memberId, request));
         return ApiResponseGenerator.success(SUCCESS_UPDATE_USER_PLAN);

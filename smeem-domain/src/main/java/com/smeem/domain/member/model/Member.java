@@ -143,4 +143,8 @@ public class Member extends BaseTimeEntity {
         val visitCount = Objects.nonNull(this.visitInfo) ? this.visitInfo.getVisitCount() : null;
         return Objects.nonNull(visitCount) ? visitCount : 1;
     }
+
+    public void updatePlan(Plan plan) {
+        this.plan = plan;
+    }
 }

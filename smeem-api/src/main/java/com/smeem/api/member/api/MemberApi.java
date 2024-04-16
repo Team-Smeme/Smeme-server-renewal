@@ -35,8 +35,10 @@ public interface MemberApi {
             @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청", content = @Content(schema = @Schema(implementation = FailureResponse.class))),
             @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content(schema = @Schema(implementation = FailureResponse.class)))
     })
-    ResponseEntity<SuccessResponse<MemberUpdateResponse>> updateProfile(Principal principal, @RequestBody MemberUpdateRequest request);
-
+    ResponseEntity<SuccessResponse<MemberUpdateResponse>> updateProfile(
+            @Parameter(hidden = true) Principal principal,
+            @RequestBody MemberUpdateRequest request
+    );
 
     @Operation(summary = "사용자 프로필 조회 API")
     @Parameter(name = "Authorization", description = "Bearer ${Smeme Access Token}", in = HEADER, required = true)
@@ -55,7 +57,7 @@ public interface MemberApi {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다", content = @Content(schema = @Schema(implementation = FailureResponse.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류", content = @Content(schema = @Schema(implementation = FailureResponse.class)))
     })
-    ResponseEntity<SuccessResponse<?>> updateUserPlan(Principal principal, @Valid @RequestBody MemberPlanUpdateRequest request);
+    ResponseEntity<SuccessResponse<?>> updateMemberPlan(Principal principal, @Valid @RequestBody MemberPlanUpdateRequest request);
 
     @Operation(summary = "사용자 닉네임 중복체크 수정 API")
     @Parameter(name = "Authorization", description = "Bearer ${Smeme Access Token}", in = HEADER, required = true)
