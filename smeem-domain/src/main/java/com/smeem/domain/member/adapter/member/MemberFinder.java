@@ -42,6 +42,10 @@ public class MemberFinder {
         }
         return member;
     }
+
+    public long count() {
+        return memberRepository.count();
+    }
 }
 
 

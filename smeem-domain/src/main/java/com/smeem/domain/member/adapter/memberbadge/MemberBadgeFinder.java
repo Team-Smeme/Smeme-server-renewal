@@ -18,9 +18,18 @@ public class MemberBadgeFinder {
     public List<MemberBadge> findAllByMemberId(final long id) {
         return memberBadgeRepository.findAllByMemberId(id);
     }
+    public MemberBadge findByBadgeIdAndMemberId(final long badgeId, final long memberId) {
+        return memberBadgeRepository.findByBadgeIdAndMemberId(badgeId, memberId)
+                .orElseThrow(() -> new MemberException(MemberFailureCode.EMPTY_MEMBER));
+    }
 
     public MemberBadge findFirstByMemberIdOrderByCreatedAtDesc(final long id) {
         return memberBadgeRepository.findFirstByMemberIdOrderByCreatedAtDesc(id)
                 .orElseThrow(() -> new MemberException(MemberFailureCode.EMPTY_MEMBER));
     }
+
+    public long countByBadgeId(final long badgeId) {
+        return memberBadgeRepository.countByBadgeId(badgeId);
+    }
+
 }

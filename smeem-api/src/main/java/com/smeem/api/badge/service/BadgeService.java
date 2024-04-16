@@ -1,12 +1,15 @@
 package com.smeem.api.badge.service;
 
+import com.smeem.api.badge.service.dto.response.BadgeGetServiceResponse;
 import com.smeem.api.badge.service.dto.response.BadgeListServiceResponse;
 import com.smeem.domain.badge.adapter.BadgeFinder;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.badge.model.BadgeType;
+import com.smeem.domain.member.adapter.member.MemberFinder;
 import com.smeem.domain.member.adapter.memberbadge.MemberBadgeFinder;
 import com.smeem.domain.member.adapter.memberbadge.MemberBadgeSaver;
 import com.smeem.domain.member.model.Member;
+import com.smeem.domain.member.model.MemberBadge;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,16 @@ public class BadgeService {
     private final BadgeFinder badgeFinder;
     private final MemberBadgeSaver memberBadgeSaver;
     private final MemberBadgeFinder memberBadgeFinder;
+    private final MemberFinder memberFinder;
+
+    public BadgeGetServiceResponse getBadge(final long badgeId, final long memberId) {
+        val memberBadge = memberBadgeFinder.findByBadgeIdAndMemberId(badgeId, memberId);
+        val badge = memberBadge.getBadge();
+        val memberCount =  memberFinder.count();
+        val badgeAcquiredMemberCount = memberBadgeFinder.countByBadgeId(memberId);
+        val badgeAcquiredPercent = String.format("%.2f", (float) badgeAcquiredMemberCount / memberCount * 100);
+        return BadgeGetServiceResponse.of(badge, badgeAcquiredPercent);
+    }
 
     public BadgeListServiceResponse getBadges(final long memberId) {
         val badges = badgeFinder.findAllOrderById();
