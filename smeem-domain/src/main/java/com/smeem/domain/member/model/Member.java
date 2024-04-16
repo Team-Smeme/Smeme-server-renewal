@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static java.util.Objects.isNull;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -145,6 +147,10 @@ public class Member extends BaseTimeEntity {
     }
 
     public void updateVisitInfoToday() {
-        this.visitInfo.updateToday();
+        if (isNull(this.visitInfo)) {
+            this.visitInfo = new MemberVisitInfo();
+        } else {
+            this.visitInfo.updateToday();
+        }
     }
 }

@@ -6,6 +6,8 @@ import lombok.val;
 
 import java.time.LocalDate;
 
+import static java.util.Objects.isNull;
+
 @Embeddable
 @Getter
 public class MemberVisitInfo {
@@ -20,10 +22,13 @@ public class MemberVisitInfo {
     }
 
     protected void updateToday() {
+        System.out.println("test");
         val today = LocalDate.now();
-        if (!lastVisitAt.equals(today)) {
-            visitCount++;
-            lastVisitAt = today;
+        if (isNull(lastVisitAt)) {
+            this.visitCount = 1;
+        } else if (!lastVisitAt.equals(today)) {
+            this.visitCount++;
         }
+        this.lastVisitAt = today;
     }
 }
