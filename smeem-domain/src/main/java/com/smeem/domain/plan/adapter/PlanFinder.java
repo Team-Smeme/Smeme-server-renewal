@@ -6,6 +6,8 @@ import com.smeem.domain.plan.repository.PlanRepository;
 import com.smeem.domain.support.RepositoryAdapter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 import static com.smeem.common.code.failure.PlanFailureCode.INVALID_PLAN;
 
 @RepositoryAdapter
@@ -17,6 +19,10 @@ public class PlanFinder {
     public Plan findById(final long id) {
         return planRepository.findById(id)
                 .orElseThrow(() -> new PlanException(INVALID_PLAN));
+    }
+
+    public List<Plan> findAll() {
+        return planRepository.findAll();
     }
 }
 
