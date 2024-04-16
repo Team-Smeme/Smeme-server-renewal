@@ -25,6 +25,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.smeem.common.code.failure.MemberFailureCode.DUPLICATE_USERNAME;
@@ -111,6 +113,13 @@ public class MemberService {
     public void updateMemberVisit(final MemberVisitUpdateRequest request) {
         val member = memberFinder.findById(request.memberId());
         member.updateVisitInfoToday();
+    }
+
+    public Optional<MemberPlanGetServiceResponse> getMemberPlan(final MemberPlanGetServiceRequest request) {
+        val member = memberFinder.findById(request.memberId());
+        return Objects.nonNull(member.getPlan())
+                ? Optional.of(MemberPlanGetServiceResponse.of(member))
+                : Optional.empty();
     }
 
     private void updateTrainingTime(Member member, TrainingTimeServiceRequest request) {

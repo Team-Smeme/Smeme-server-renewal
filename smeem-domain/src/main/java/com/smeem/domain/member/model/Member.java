@@ -153,4 +153,19 @@ public class Member extends BaseTimeEntity {
             this.visitInfo.updateToday();
         }
     }
+
+    public int getDiaryCountInWeek() {
+        return this.diaries.stream()
+                .filter(diary -> isBetweenThisWeek(diary.getCreatedAt().toLocalDate()))
+                .toList()
+                .size();
+    }
+
+    private boolean isBetweenThisWeek(LocalDate date) {
+        val today = LocalDate.now();
+        val dayNum = today.getDayOfWeek().getValue();
+        val monday = today.minusDays(dayNum - 1);
+        val sunday = today.plusDays(7 - dayNum);
+        return date.isAfter(monday.minusDays(1)) && date.isBefore(sunday.plusDays(1));
+    }
 }

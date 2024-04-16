@@ -1,15 +1,13 @@
 package com.smeem.api.member.api;
 
 import com.smeem.api.member.api.dto.response.MemberPerformanceGetResponse;
+import com.smeem.api.member.api.dto.response.*;
 import com.smeem.api.member.service.dto.request.*;
 import com.smeem.api.support.ApiResponseGenerator;
 import com.smeem.api.common.SuccessResponse;
 import com.smeem.api.member.api.dto.request.MemberPlanUpdateRequest;
 import com.smeem.api.member.api.dto.request.MemberPushUpdateRequest;
 import com.smeem.api.member.api.dto.request.MemberUpdateRequest;
-import com.smeem.api.member.api.dto.response.MemberGetResponse;
-import com.smeem.api.member.api.dto.response.MemberNameResponse;
-import com.smeem.api.member.api.dto.response.MemberUpdateResponse;
 import com.smeem.api.member.service.MemberService;
 import com.smeem.api.support.PrincipalConverter;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -78,11 +76,22 @@ public class MemberController implements MemberApi {
         return ApiResponseGenerator.success(SUCCESS_GET_PERFORMANCE_SUMMARY, response);
     }
 
+    @Override
     @PatchMapping("/visit")
     public ResponseEntity<SuccessResponse<?>> updateMemberVisit(Principal principal) {
         val memberId = PrincipalConverter.getMemberId(principal);
         memberService.updateMemberVisit(MemberVisitUpdateRequest.of(memberId));
         return ApiResponseGenerator.success(SUCCESS_UPDATE_VISIT_TODAY);
+    }
+
+    @Override
+    @GetMapping("/plan")
+    public ResponseEntity<SuccessResponse<MemberPlanGetResponse>> getMemberPlan(Principal principal) {
+        val memberId = PrincipalConverter.getMemberId(principal);
+        val response = memberService.getMemberPlan(MemberPlanGetServiceRequest.of(memberId))
+                .map(MemberPlanGetResponse::of)
+                .orElse(null);
+        return ApiResponseGenerator.success(SUCCESS_GET_PLAN, response);
     }
 
 }
