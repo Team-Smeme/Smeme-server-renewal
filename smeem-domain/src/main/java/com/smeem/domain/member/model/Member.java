@@ -146,6 +146,10 @@ public class Member extends BaseTimeEntity {
         return Objects.nonNull(visitCount) ? visitCount : 1;
     }
 
+    public void updatePlan(Plan plan) {
+        this.plan = plan;
+    }
+
     public void updateVisitInfoToday() {
         if (isNull(this.visitInfo)) {
             this.visitInfo = new MemberVisitInfo();

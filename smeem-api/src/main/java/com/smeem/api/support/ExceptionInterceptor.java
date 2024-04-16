@@ -5,6 +5,7 @@ import com.smeem.domain.badge.exception.BadgeException;
 import com.smeem.domain.diary.exception.DiaryException;
 import com.smeem.domain.goal.exception.GoalException;
 import com.smeem.domain.member.exception.MemberException;
+import com.smeem.domain.plan.exception.PlanException;
 import com.smeem.domain.topic.exception.TopicException;
 import com.smeem.domain.training.exception.TrainingTimeException;
 import com.smeem.external.discord.DiscordAlarmSender;
@@ -73,6 +74,11 @@ public class ExceptionInterceptor {
 
     @ExceptionHandler(AuthException.class)
     public ResponseEntity<FailureResponse> authException(AuthException exception) {
+        return ApiResponseGenerator.failure(exception.getFailureCode());
+    }
+
+    @ExceptionHandler(PlanException.class)
+    public ResponseEntity<FailureResponse> authException(PlanException exception) {
         return ApiResponseGenerator.failure(exception.getFailureCode());
     }
 

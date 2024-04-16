@@ -22,6 +22,7 @@ import java.security.Principal;
 
 @Tag(name = "[Member] 사용자 관련 API (V2)")
 public interface MemberApi {
+
     @Operation(summary = "사용자 프로필 업데이트 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원 정보 조회 성공"),
@@ -33,7 +34,6 @@ public interface MemberApi {
             @Parameter(hidden = true) Principal principal,
             @RequestBody MemberUpdateRequest request
     );
-
 
     @Operation(summary = "사용자 프로필 조회 API")
     @ApiResponses(value = {
@@ -50,10 +50,8 @@ public interface MemberApi {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰입니다", content = @Content(schema = @Schema(implementation = FailureResponse.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류", content = @Content(schema = @Schema(implementation = FailureResponse.class)))
     })
-    ResponseEntity<SuccessResponse<?>> updateUserPlan(
-            @Parameter(hidden = true) Principal principal,
-            @Valid @RequestBody MemberPlanUpdateRequest request
-    );
+
+    ResponseEntity<SuccessResponse<?>> updateMemberPlan(Principal principal, @Valid @RequestBody MemberPlanUpdateRequest request);
 
     @Operation(summary = "사용자 닉네임 중복체크 수정 API")
     @ApiResponses(value = {

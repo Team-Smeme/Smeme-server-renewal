@@ -9,6 +9,7 @@ import com.smeem.api.member.service.dto.response.*;
 import com.smeem.common.config.ValueConfig;
 import com.smeem.domain.badge.adapter.BadgeFinder;
 import com.smeem.domain.member.exception.MemberException;
+import com.smeem.domain.plan.adapter.PlanFinder;
 import com.smeem.domain.training.exception.TrainingTimeException;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.member.adapter.member.MemberFinder;
@@ -44,6 +45,7 @@ public class MemberService {
     private final BadgeFinder badgeFinder;
     private final MemberFinder memberFinder;
     private final MemberUpdater memberUpdater;
+    private final PlanFinder planFinder;
 
     private final TrainingTimeService trainingTimeService;
     private final GoalService goalService;
@@ -91,6 +93,7 @@ public class MemberService {
         member.updateGoal(request.goalType());
         member.updateHasAlarm(request.hasAlarm());
         updateTrainingTime(member, request.trainingTime());
+        updatePlan(member, request.planId());
     }
 
     @Transactional
@@ -134,6 +137,13 @@ public class MemberService {
                         .build();
                 trainingTimeService.save(trainingTime);
             }
+        }
+    }
+
+    private void updatePlan(final Member member, final Long planId) {
+        if (nonNull(planId)) {
+            val plan = planFinder.findById(planId);
+            member.updatePlan(plan);
         }
     }
 
