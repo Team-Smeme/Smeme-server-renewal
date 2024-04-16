@@ -20,6 +20,9 @@ public class Badge {
 
     private String name;
 
+    private String content;
+
     @Embedded
     private BadgeImage badgeImage;
+
 }
