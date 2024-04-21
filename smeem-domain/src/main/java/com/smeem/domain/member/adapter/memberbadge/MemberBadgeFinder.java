@@ -23,4 +23,5 @@ public class MemberBadgeFinder {
         return memberBadgeRepository.findFirstByMemberIdOrderByCreatedAtDesc(id)
                 .orElseThrow(() -> new MemberException(MemberFailureCode.EMPTY_MEMBER));
     }
+
 }
