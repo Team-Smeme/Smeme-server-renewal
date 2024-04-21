@@ -1,19 +1,17 @@
 package com.smeem.batch.scheduler;
 
+import com.smeem.batch.scheduler.support.Scheduler;
 import com.smeem.common.config.ValueConfig;
 import com.smeem.domain.diary.adapter.DiaryDeleter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Component
-@EnableScheduling
+@Scheduler
 @RequiredArgsConstructor
 public class DiaryScheduler {
 
