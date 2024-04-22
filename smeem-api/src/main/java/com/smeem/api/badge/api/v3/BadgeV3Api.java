@@ -1,5 +1,6 @@
 package com.smeem.api.badge.api.v3;
 
+import com.smeem.api.badge.api.dto.response.BadgeListResponseV3;
 import com.smeem.api.badge.service.dto.response.v3.BadgeListServiceResponseV3;
 import com.smeem.api.common.FailureResponse;
 import com.smeem.api.common.SuccessResponse;
@@ -25,6 +26,6 @@ public interface BadgeV3Api {
             @ApiResponse(responseCode = "500", description = "서버 내부 오류", content = @Content(schema = @Schema(implementation = FailureResponse.class)))
     })
     @GetMapping
-    ResponseEntity<SuccessResponse<BadgeListServiceResponseV3>> getBadges(@Parameter(hidden = true) Principal principal);
+    ResponseEntity<SuccessResponse<BadgeListResponseV3>> getBadges(@Parameter(hidden = true) Principal principal);
 
 }
