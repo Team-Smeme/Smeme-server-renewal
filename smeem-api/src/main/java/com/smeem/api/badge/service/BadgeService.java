@@ -1,9 +1,13 @@
 package com.smeem.api.badge.service;
 
+import com.smeem.api.badge.service.dto.request.BadgeListServiceRequestV3;
 import com.smeem.api.badge.service.dto.response.BadgeListServiceResponse;
+import com.smeem.api.badge.service.dto.response.v3.BadgeGetServiceResponseV3;
+import com.smeem.api.badge.service.dto.response.v3.BadgeListServiceResponseV3;
 import com.smeem.domain.badge.adapter.BadgeFinder;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.badge.model.BadgeType;
+import com.smeem.domain.member.adapter.memberbadge.MemberBadgeCounter;
 import com.smeem.domain.member.adapter.memberbadge.MemberBadgeFinder;
 import com.smeem.domain.member.adapter.memberbadge.MemberBadgeSaver;
 import com.smeem.domain.member.model.Member;
@@ -22,6 +26,15 @@ public class BadgeService {
     private final BadgeFinder badgeFinder;
     private final MemberBadgeSaver memberBadgeSaver;
     private final MemberBadgeFinder memberBadgeFinder;
+    private final MemberBadgeCounter memberBadgeCounter;
+
+    public BadgeListServiceResponseV3 getBadgesV3(BadgeListServiceRequestV3 request) {
+        val response = badgeFinder.findAllOrderById()
+                .stream()
+                .map(badge -> convertToBadgeGetServiceResponseV3(badge, request.memberId()))
+                .toList();
+        return BadgeListServiceResponseV3.of(response);
+    }
 
     public BadgeListServiceResponse getBadges(final long memberId) {
         val badges = badgeFinder.findAllOrderById();
@@ -58,4 +71,20 @@ public class BadgeService {
         badgeMap.computeIfAbsent(badge.getType(), k -> new ArrayList<>()).add(badge);
     }
 
+    private Integer calculateRemainingNumber(Long badgeId, Long count) {
+        return switch (badgeId.intValue()) {
+            case 2 -> 1 - count.intValue() > 0 ? 1 - count.intValue() : null;
+            case 3 -> 10 - count.intValue() > 0 ? 10 - count.intValue() : null;
+            case 4 -> 30 - count.intValue() > 0 ? 30 - count.intValue() : null;
+            case 5 -> 50 - count.intValue() > 0 ? 50 - count.intValue() : null;
+            default -> null;
+        };
+    }
+
+    private BadgeGetServiceResponseV3 convertToBadgeGetServiceResponseV3(Badge badge, final long memberId) {
+        val count = memberBadgeCounter.countByBadgeIdAndMemberId(badge.getId(), memberId);
+        val hasBadge = count > 0;
+        val remainingNumber = calculateRemainingNumber(badge.getId(), count);
+        return BadgeGetServiceResponseV3.of(badge, hasBadge, remainingNumber);
+    }
 }

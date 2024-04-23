@@ -1,4 +1,4 @@
-package com.smeem.api.badge.api;
+package com.smeem.api.badge.api.v2;
 
 import com.smeem.api.badge.api.dto.response.BadgeListResponse;
 import com.smeem.api.badge.service.BadgeService;
@@ -19,7 +19,7 @@ import static com.smeem.common.code.success.BadgeSuccessCode.SUCCESS_GET_BADGES;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/members/badges")
-public class BadgeController implements BadgeApi {
+public class BadgeV2Controller implements BadgeV2Api {
 
     private final BadgeService badgeService;
 

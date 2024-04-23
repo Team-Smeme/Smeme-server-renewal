@@ -22,4 +22,13 @@ public class Badge {
 
     @Embedded
     private BadgeImage badgeImage;
+
+    private String messageForNonBadgeOwner;
+    private String messageForBadgeOwner;
+    private float badgeAcquisitionRatio;
+
+    public void updateBadgeAcquisitionRatio(float badgeAcquisitionRatio) {
+        this.badgeAcquisitionRatio = badgeAcquisitionRatio;
+    }
+
 }

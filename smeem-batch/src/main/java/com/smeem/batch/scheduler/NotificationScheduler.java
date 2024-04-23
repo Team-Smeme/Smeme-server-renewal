@@ -1,5 +1,6 @@
 package com.smeem.batch.scheduler;
 
+import com.smeem.batch.scheduler.support.Scheduler;
 import com.smeem.common.config.ValueConfig;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.repository.MemberRepository;
@@ -7,15 +8,12 @@ import com.smeem.external.firebase.NotificationService;
 import com.smeem.external.firebase.dto.request.NotificationMulticastRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
-@Component
-@EnableScheduling
+@Scheduler
 @RequiredArgsConstructor
 public class NotificationScheduler {
 

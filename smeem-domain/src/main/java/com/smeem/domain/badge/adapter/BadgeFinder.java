@@ -5,7 +5,6 @@ import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.badge.repository.BadgeRepository;
 import com.smeem.domain.support.RepositoryAdapter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,5 +44,9 @@ public class BadgeFinder {
             case 3 -> badgeRepository.findById(6L);
             default -> Optional.empty();
         };
+    }
+
+    public List<Badge> findAll() {
+        return badgeRepository.findAll();
     }
 }
