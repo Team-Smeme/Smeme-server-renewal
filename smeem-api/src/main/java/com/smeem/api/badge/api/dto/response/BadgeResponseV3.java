@@ -2,7 +2,11 @@ package com.smeem.api.badge.api.dto.response;
 
 import com.smeem.api.badge.service.dto.response.v3.BadgeGetServiceResponseV3;
 import com.smeem.domain.badge.model.BadgeType;
+import lombok.Builder;
 
+import static lombok.AccessLevel.PRIVATE;
+
+@Builder(access = PRIVATE)
 public record BadgeResponseV3(
         long badgeId,
         String name,
@@ -15,16 +19,16 @@ public record BadgeResponseV3(
         float badgeAcquisitionRatio
 ) {
     public static BadgeResponseV3 from(BadgeGetServiceResponseV3 badge) {
-        return new BadgeResponseV3(
-                badge.badgeId(),
-                badge.name(),
-                badge.type(),
-                badge.hasBadge(),
-                badge.remainingNumber(),
-                badge.contentForNonBadgeOwner(),
-                badge.contentForBadgeOwner(),
-                badge.imageUrl(),
-                badge.badgeAcquisitionRatio()
-        );
+        return BadgeResponseV3.builder()
+                .badgeId(badge.badgeId())
+                .name(badge.name())
+                .type(badge.type())
+                .hasBadge(badge.hasBadge())
+                .remainingNumber(badge.remainingNumber())
+                .contentForNonBadgeOwner(badge.contentForNonBadgeOwner())
+                .contentForBadgeOwner(badge.contentForBadgeOwner())
+                .imageUrl(badge.imageUrl())
+                .badgeAcquisitionRatio(badge.badgeAcquisitionRatio())
+                .build();
     }
 }
