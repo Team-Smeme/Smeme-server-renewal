@@ -26,13 +26,14 @@ public class BadgeScheduler {
     @Transactional
     public void updateBadgeAcquisitionRatio() {
         badgeFinder.findAll()
-                .forEach(
-                        badge -> {
-                            val badgeAcquisitionRatio = calculateBadgeAcquisitionRatio(badge);
-                            badgeUpdater.updateAcquisitionRatio(badge, badgeAcquisitionRatio);
-                        }
-                );
+                .forEach(this::updateEachBadge);
     }
+
+    private void updateEachBadge(Badge badge) {
+        val badgeAcquisitionRatio = calculateBadgeAcquisitionRatio(badge);
+        badgeUpdater.updateAcquisitionRatio(badge, badgeAcquisitionRatio);
+    }
+
     private float calculateBadgeAcquisitionRatio(final Badge badge) {
         val memberCount = memberCounter.count();
         val badgeCount = memberBadgeCounter.countByBadge(badge);

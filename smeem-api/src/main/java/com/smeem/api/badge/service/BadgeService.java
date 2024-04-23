@@ -31,13 +31,7 @@ public class BadgeService {
     public BadgeListServiceResponseV3 getBadgesV3(BadgeListServiceRequestV3 request) {
         val response = badgeFinder.findAllOrderById()
                 .stream()
-                .map(
-                    badge -> {
-                        val count = memberBadgeCounter.countByBadgeIdAndMemberId(badge.getId(), request.memberId());
-                        val hasBadge = count > 0;
-                        val remainingNumber = calculateRemainingNumber(badge.getId(), count);
-                        return BadgeGetServiceResponseV3.of(badge, hasBadge, remainingNumber);
-                    })
+                .map(badge -> convertToBadgeGetServiceResponseV3(badge, request.memberId()))
                 .toList();
         return BadgeListServiceResponseV3.of(response);
     }
@@ -85,5 +79,12 @@ public class BadgeService {
             case 5 -> 50 - count.intValue() > 0 ? 50 - count.intValue() : null;
             default -> null;
         };
+    }
+
+    private BadgeGetServiceResponseV3 convertToBadgeGetServiceResponseV3(Badge badge, final long memberId) {
+        val count = memberBadgeCounter.countByBadgeIdAndMemberId(badge.getId(), memberId);
+        val hasBadge = count > 0;
+        val remainingNumber = calculateRemainingNumber(badge.getId(), count);
+        return BadgeGetServiceResponseV3.of(badge, hasBadge, remainingNumber);
     }
 }
