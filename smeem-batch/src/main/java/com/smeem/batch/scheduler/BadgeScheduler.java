@@ -2,6 +2,7 @@ package com.smeem.batch.scheduler;
 
 
 import com.smeem.batch.scheduler.support.Scheduler;
+import com.smeem.common.config.ValueConfig;
 import com.smeem.domain.badge.adapter.BadgeFinder;
 import com.smeem.domain.badge.adapter.BadgeUpdater;
 import com.smeem.domain.badge.model.Badge;
@@ -21,7 +22,7 @@ public class BadgeScheduler {
     private final MemberCounter memberCounter;
     private final MemberBadgeCounter memberBadgeCounter;
 
-    @Scheduled(cron = "0 0 04 1 * *")
+    @Scheduled(cron = "${smeem.badge.update_cron_expression}")
     @Transactional
     public void updateBadgeAcquisitionRatio() {
         badgeFinder.findAll()
@@ -32,7 +33,6 @@ public class BadgeScheduler {
                         }
                 );
     }
-
     private float calculateBadgeAcquisitionRatio(final Badge badge) {
         val memberCount = memberCounter.count();
         val badgeCount = memberBadgeCounter.countByBadge(badge);
