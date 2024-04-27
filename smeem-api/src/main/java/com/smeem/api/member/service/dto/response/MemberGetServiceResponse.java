@@ -5,6 +5,7 @@ import com.smeem.api.goal.service.dto.response.GoalGetServiceResponse;
 import com.smeem.domain.goal.model.GoalType;
 import com.smeem.domain.member.model.LangType;
 import com.smeem.domain.member.model.Member;
+import com.smeem.domain.plan.model.Plan;
 import lombok.Builder;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -19,12 +20,16 @@ public record MemberGetServiceResponse(
         LangType targetLangType,
         boolean hasPushAlarm,
         TrainingTimeServiceResponse trainingTime,
-        BadgeServiceResponse badge
+        BadgeServiceResponse badge,
+
+        long trainingPlanId,
+        String trainingPlanContent
 ) {
 
     public static MemberGetServiceResponse of(
             GoalGetServiceResponse goal,
             Member member,
+            Plan trainingPlan,
             TrainingTimeServiceResponse trainingTime,
             BadgeServiceResponse badge
     )  {
@@ -37,6 +42,8 @@ public record MemberGetServiceResponse(
                 .hasPushAlarm(member.isHasPushAlarm())
                 .trainingTime(trainingTime)
                 .badge(badge)
+                .trainingPlanId(trainingPlan.getId())
+                .trainingPlanContent(trainingPlan.getContent())
                 .build();
     }
 }

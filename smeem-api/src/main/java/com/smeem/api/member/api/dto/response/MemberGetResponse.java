@@ -16,7 +16,9 @@ public record MemberGetResponse(
         String targetLang,
         boolean hasPushAlarm,
         TrainingTimeResponse trainingTime,
-        BadgeResponse badge
+        BadgeResponse badge,
+        long trainingPlanId,
+        String trainingPlanContent
 ) {
 
     public static MemberGetResponse from(MemberGetServiceResponse response) {
@@ -30,6 +32,8 @@ public record MemberGetResponse(
                 .hasPushAlarm(response.hasPushAlarm())
                 .trainingTime(TrainingTimeResponse.from(response.trainingTime()))
                 .badge(BadgeResponse.from(response.badge()))
+                .trainingPlanId(response.trainingPlanId())
+                .trainingPlanContent(response.trainingPlanContent())
                 .build();
     }
 }

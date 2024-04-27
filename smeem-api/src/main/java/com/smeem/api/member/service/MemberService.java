@@ -72,17 +72,19 @@ public class MemberService {
         val member = memberFinder.findById(memberId);
         val goal = goalService.getByType(GoalGetServiceRequest.of(member.getGoal()));
         val trainingTimes = trainingTimeService.getAllByMember(member);
+        val trainingPlan = member.getPlan();
 
         // 기본 시간 설정
         if (trainingTimes.isEmpty()) {
             val trainingTimeResponse = TrainingTimeServiceResponse.of("", 22, 0);
             val badgeResponse = BadgeServiceResponse.of(memberBadgeService.getBadgeByMemberId(memberId));
-            return MemberGetServiceResponse.of(goal, member, trainingTimeResponse, badgeResponse);
+            return MemberGetServiceResponse.of(goal, member, trainingPlan, trainingTimeResponse, badgeResponse);
         }
 
         return MemberGetServiceResponse.of(
                 goal,
                 member,
+                trainingPlan,
                 generateTrainingTimeResponse(trainingTimes),
                 BadgeServiceResponse.of(memberBadgeService.getBadgeByMemberId(memberId)));
     }
