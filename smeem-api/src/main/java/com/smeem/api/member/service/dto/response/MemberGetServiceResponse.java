@@ -22,7 +22,7 @@ public record MemberGetServiceResponse(
         TrainingTimeServiceResponse trainingTime,
         BadgeServiceResponse badge,
 
-        long trainingPlanId,
+        Long trainingPlanId,
         String trainingPlanContent
 ) {
 

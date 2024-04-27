@@ -17,7 +17,7 @@ public record MemberGetResponse(
         boolean hasPushAlarm,
         TrainingTimeResponse trainingTime,
         BadgeResponse badge,
-        long trainingPlanId,
+        Long trainingPlanId,
         String trainingPlanContent
 ) {
 
