@@ -21,9 +21,7 @@ public record MemberGetServiceResponse(
         boolean hasPushAlarm,
         TrainingTimeServiceResponse trainingTime,
         BadgeServiceResponse badge,
-
-        Long trainingPlanId,
-        String trainingPlanContent
+        PlanServiceResponse trainingPlan
 ) {
 
     public static MemberGetServiceResponse of(
@@ -42,8 +40,7 @@ public record MemberGetServiceResponse(
                 .hasPushAlarm(member.isHasPushAlarm())
                 .trainingTime(trainingTime)
                 .badge(badge)
-                .trainingPlanId(trainingPlan.getId())
-                .trainingPlanContent(trainingPlan.getContent())
+                .trainingPlan(PlanServiceResponse.of(trainingPlan))
                 .build();
     }
 }
