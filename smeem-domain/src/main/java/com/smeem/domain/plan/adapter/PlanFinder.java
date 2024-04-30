@@ -22,7 +22,7 @@ public class PlanFinder {
     }
 
     public List<Plan> findAll() {
-        return planRepository.findAll();
+        return planRepository.findAllOrderByIdAsc();
     }
 }
 
