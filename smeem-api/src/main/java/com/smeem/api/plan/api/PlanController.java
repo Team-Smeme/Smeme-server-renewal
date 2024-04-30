@@ -21,7 +21,7 @@ public class PlanController implements PlanApi {
     @Override
     @GetMapping
     public ResponseEntity<SuccessResponse<PlansAllGetResponse>> getAllPlans() {
-        val response = PlansAllGetResponse.of(planService.getAllPlans());
+        val response = PlansAllGetResponse.from(planService.getAllPlans());
         return ApiResponseGenerator.success(SUCCESS_GET_ALL_PLAN, response);
     }
 }

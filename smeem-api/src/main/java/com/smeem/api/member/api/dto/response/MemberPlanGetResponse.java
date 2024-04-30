@@ -13,7 +13,7 @@ public record MemberPlanGetResponse(
         int clearCount
 ) {
 
-    public static MemberPlanGetResponse of(MemberPlanGetServiceResponse response) {
+    public static MemberPlanGetResponse from(MemberPlanGetServiceResponse response) {
         return MemberPlanGetResponse.builder()
                 .plan(response.plan().content())
                 .goal(response.goal().goalType().getDescription())
