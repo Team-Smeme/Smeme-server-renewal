@@ -8,13 +8,12 @@ import com.smeem.api.member.service.dto.request.*;
 import com.smeem.api.member.service.dto.response.*;
 import com.smeem.common.config.ValueConfig;
 import com.smeem.domain.badge.adapter.BadgeFinder;
-import com.smeem.domain.member.exception.MemberException;
-import com.smeem.domain.plan.adapter.PlanFinder;
-import com.smeem.domain.training.exception.TrainingTimeException;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.member.adapter.member.MemberFinder;
 import com.smeem.domain.member.adapter.member.MemberUpdater;
+import com.smeem.domain.member.exception.MemberException;
 import com.smeem.domain.member.model.Member;
+import com.smeem.domain.plan.adapter.PlanFinder;
 import com.smeem.domain.training.model.DayType;
 import com.smeem.domain.training.model.TrainingTime;
 import com.smeem.external.discord.DiscordAlarmSender;
@@ -28,10 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.smeem.common.code.failure.MemberFailureCode.DUPLICATE_USERNAME;
-import static com.smeem.common.code.failure.TrainingTimeFailureCode.NOT_SET_TRAINING_TIME;
 import static com.smeem.common.config.ValueConfig.SIGN_IN_MESSAGE;
 import static com.smeem.external.discord.DiscordAlarmCase.INFO;
 import static java.util.Objects.isNull;
@@ -74,18 +71,10 @@ public class MemberService {
         val trainingTimes = trainingTimeService.getAllByMember(member);
         val trainingPlan = member.getPlan();
 
-        // 기본 시간 설정
-        if (trainingTimes.isEmpty()) {
-            val trainingTimeResponse = TrainingTimeServiceResponse.of("", 22, 0);
-            val badgeResponse = BadgeServiceResponse.of(memberBadgeService.getBadgeByMemberId(memberId));
-            return MemberGetServiceResponse.of(goal, member, trainingPlan, trainingTimeResponse, badgeResponse);
-        }
-
         return MemberGetServiceResponse.of(
                 goal,
                 member,
                 trainingPlan,
-                generateTrainingTimeResponse(trainingTimes),
                 BadgeServiceResponse.of(memberBadgeService.getBadgeByMemberId(memberId)));
     }
 
@@ -153,17 +142,6 @@ public class MemberService {
         return day.split(",");
     }
 
-    private TrainingTime getOneTrainingTime(List<TrainingTime> trainingTimes) {
-        return trainingTimes.stream().findFirst().orElseThrow(
-                () -> new TrainingTimeException(NOT_SET_TRAINING_TIME));
-    }
-
-    private String getDays(List<TrainingTime> trainingTimes) {
-        return trainingTimes.stream()
-                .map(trainingTime -> trainingTime.getDay().name())
-                .distinct()
-                .collect(Collectors.joining(","));
-    }
 
     private void checkMemberDuplicate(final String username) {
         if (memberFinder.existsByUsername(username)) {
@@ -175,14 +153,6 @@ public class MemberService {
         Badge welcomeBadge = badgeFinder.findById(valueConfig.getWELCOME_BADGE_ID());
         memberBadgeService.save(member, welcomeBadge);
         badges.add(welcomeBadge);
-    }
-
-    private TrainingTimeServiceResponse generateTrainingTimeResponse(List<TrainingTime> trainingTimes) {
-        val trainingTime = getOneTrainingTime(trainingTimes);
-        return TrainingTimeServiceResponse.of(
-                getDays(trainingTimes),
-                trainingTime.getHour(),
-                trainingTime.getMinute());
     }
 
     private boolean isNewMember(Member member) {
