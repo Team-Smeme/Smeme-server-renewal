@@ -13,9 +13,9 @@ public record PlansAllGetResponse(
         List<PlanResponse> plans
 ) {
 
-    public static PlansAllGetResponse of(PlansAllGetServiceResponse response) {
+    public static PlansAllGetResponse from(PlansAllGetServiceResponse response) {
         return PlansAllGetResponse.builder()
-                .plans(response.plans().stream().map(PlanResponse::of).toList())
+                .plans(response.plans().stream().map(PlanResponse::from).toList())
                 .build();
     }
 
@@ -25,7 +25,7 @@ public record PlansAllGetResponse(
             String content
     ) {
 
-        private static PlanResponse of(PlanServiceResponse response) {
+        private static PlanResponse from(PlanServiceResponse response) {
             return PlanResponse.builder()
                     .id(response.id())
                     .content(response.content())

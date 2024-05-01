@@ -13,7 +13,7 @@ public record MemberPerformanceGetResponse(
         int badgeCount
 ) {
 
-    public static MemberPerformanceGetResponse of(MemberPerformanceGetServiceResponse response) {
+    public static MemberPerformanceGetResponse from(MemberPerformanceGetServiceResponse response) {
         return MemberPerformanceGetResponse.builder()
                 .visitDays(response.visitDays())
                 .diaryCount(response.diaryCount())

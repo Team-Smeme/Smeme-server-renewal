@@ -74,7 +74,7 @@ public class MemberController implements MemberApi {
     @GetMapping("/performance/summary")
     public ResponseEntity<SuccessResponse<MemberPerformanceGetResponse>> getPerformanceSummary(Principal principal) {
         val memberId = PrincipalConverter.getMemberId(principal);
-        val response = MemberPerformanceGetResponse.of(
+        val response = MemberPerformanceGetResponse.from(
                 memberService.getPerformanceSummary(MemberPerformanceGetServiceRequest.of(memberId)));
         return ApiResponseGenerator.success(SUCCESS_GET_PERFORMANCE_SUMMARY, response);
     }
@@ -92,7 +92,7 @@ public class MemberController implements MemberApi {
     public ResponseEntity<SuccessResponse<MemberPlanGetResponse>> getMemberPlan(Principal principal) {
         val memberId = PrincipalConverter.getMemberId(principal);
         val response = memberService.getMemberPlan(MemberPlanGetServiceRequest.of(memberId))
-                .map(MemberPlanGetResponse::of)
+                .map(MemberPlanGetResponse::from)
                 .orElse(null);
         return ApiResponseGenerator.success(SUCCESS_GET_PLAN, response);
     }
