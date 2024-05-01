@@ -68,14 +68,8 @@ public class MemberService {
     public MemberGetServiceResponse getMemberProfile(final long memberId) {
         val member = memberFinder.findById(memberId);
         val goal = goalService.getByType(GoalGetServiceRequest.of(member.getGoal()));
-        val trainingTimes = trainingTimeService.getAllByMember(member);
-        val trainingPlan = member.getPlan();
-
-        return MemberGetServiceResponse.of(
-                goal,
-                member,
-                trainingPlan,
-                BadgeServiceResponse.of(memberBadgeService.getBadgeByMemberId(memberId)));
+        val badge = BadgeServiceResponse.of(memberBadgeService.getBadgeByMemberId(memberId));
+        return MemberGetServiceResponse.of(goal, member, badge);
     }
 
     @Transactional

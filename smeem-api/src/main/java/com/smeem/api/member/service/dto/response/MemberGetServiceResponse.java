@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.smeem.common.code.failure.TrainingTimeFailureCode.NOT_SET_TRAINING_TIME;
+import static java.util.Objects.nonNull;
 import static lombok.AccessLevel.PRIVATE;
-
 
 @Builder(access = PRIVATE)
 public record MemberGetServiceResponse(
@@ -31,13 +31,7 @@ public record MemberGetServiceResponse(
         PlanServiceResponse trainingPlan
 ) {
 
-    public static MemberGetServiceResponse of(
-            GoalGetServiceResponse goal,
-            Member member,
-            Plan trainingPlan,
-            BadgeServiceResponse badge
-    ) {
-
+    public static MemberGetServiceResponse of(GoalGetServiceResponse goal, Member member, BadgeServiceResponse badge) {
         return MemberGetServiceResponse.builder()
                 .username(member.getUsername())
                 .goalType(member.getGoal())
@@ -47,7 +41,7 @@ public record MemberGetServiceResponse(
                 .hasPushAlarm(member.isHasPushAlarm())
                 .trainingTime(generateTrainingTimeResponse(member.getTrainingTimes()))
                 .badge(badge)
-                .trainingPlan(PlanServiceResponse.of(trainingPlan))
+                .trainingPlan(PlanServiceResponse.of(member))
                 .build();
     }
 
@@ -72,6 +66,24 @@ public record MemberGetServiceResponse(
     private static TrainingTime getOneTrainingTime(List<TrainingTime> trainingTimes) {
         return trainingTimes.stream().findFirst().orElseThrow(
                 () -> new TrainingTimeException(NOT_SET_TRAINING_TIME));
+    }
+
+    @Builder(access = PRIVATE)
+    public record PlanServiceResponse(
+            long id,
+            String content
+    ) {
+
+        private static PlanServiceResponse of(Member member) {
+            return nonNull(member.getPlan()) ? PlanServiceResponse.of(member.getPlan()) : null;
+        }
+
+        private static PlanServiceResponse of(Plan plan) {
+            return PlanServiceResponse.builder()
+                    .id(plan.getId())
+                    .content(plan.getContent())
+                    .build();
+        }
     }
 
 }
