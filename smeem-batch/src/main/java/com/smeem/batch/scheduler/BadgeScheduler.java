@@ -2,7 +2,6 @@ package com.smeem.batch.scheduler;
 
 
 import com.smeem.batch.scheduler.support.Scheduler;
-import com.smeem.common.config.ValueConfig;
 import com.smeem.domain.badge.adapter.BadgeFinder;
 import com.smeem.domain.badge.adapter.BadgeUpdater;
 import com.smeem.domain.badge.model.Badge;
@@ -42,10 +41,9 @@ public class BadgeScheduler {
 
     private float postProcess(final float point) {
         if (point < 10.0f) {
-            return (float) Math.ceil(point);
+            return (float) Math.ceil(point * 2f) / 2f;
         } else {
             return (float) (Math.ceil(point / 10f) * 10);
         }
     }
-
 }
