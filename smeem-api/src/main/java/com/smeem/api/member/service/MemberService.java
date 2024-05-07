@@ -16,7 +16,7 @@ import com.smeem.domain.member.model.Member;
 import com.smeem.domain.plan.adapter.PlanFinder;
 import com.smeem.domain.training.model.DayType;
 import com.smeem.domain.training.model.TrainingTime;
-import com.smeem.external.discord.DiscordAlarmSender;
+import com.smeem.external.discord.DiscordService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -47,21 +47,21 @@ public class MemberService {
     private final TrainingTimeService trainingTimeService;
     private final GoalService goalService;
     private final MemberBadgeService memberBadgeService;
-    private final DiscordAlarmSender discordAlarmSender;
+    private final DiscordService discordService;
     private final ValueConfig valueConfig;
 
-    @Transactional
-    public MemberUpdateServiceResponse updateUserProfile(final MemberServiceUpdateUserProfileRequest request) {
-        checkMemberDuplicate(request.username());
-        val member = memberFinder.findById(request.memberId());
-        updateTermAccepted(member, request);
+        @Transactional
+        public MemberUpdateServiceResponse updateUserProfile(final MemberServiceUpdateUserProfileRequest request) {
+            checkMemberDuplicate(request.username());
+            val member = memberFinder.findById(request.memberId());
+            updateTermAccepted(member, request);
 
-        ArrayList<Badge> badges = new ArrayList<>();
-        if (isNewMember(member)) {
-            addWelcomeBadge(member, badges);
-            discordAlarmSender.send(SIGN_IN_MESSAGE + member.getId(), INFO);
-        }
-        member.updateUsername(request.username());
+            ArrayList<Badge> badges = new ArrayList<>();
+            if (isNewMember(member)) {
+                addWelcomeBadge(member, badges);
+                discordService.send(SIGN_IN_MESSAGE + member.getId(), INFO);
+            }
+            member.updateUsername(request.username());
         return MemberUpdateServiceResponse.of(badges);
     }
 
