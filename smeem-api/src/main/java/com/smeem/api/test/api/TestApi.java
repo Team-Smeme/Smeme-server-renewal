@@ -1,6 +1,6 @@
 package com.smeem.api.test.api;
 
-import com.smeem.api.common.dto.SuccessResponse;
+import com.smeem.api.common.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,12 +24,11 @@ public interface TestApi {
     ResponseEntity<SuccessResponse<?>> connect();
 
     @Operation(summary = "푸시알림 테스트 API")
-    @Parameter(name = "Authorization", description = "Bearer ${Smeem Access Token}", in = HEADER, required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "4xx", description = "유효하지 않은 요청"),
             @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
-    ResponseEntity<SuccessResponse<?>> sendMessage(Principal principal);
+    ResponseEntity<SuccessResponse<?>> sendMessage(@Parameter(hidden = true) Principal principal);
 }

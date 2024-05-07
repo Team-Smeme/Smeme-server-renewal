@@ -1,18 +1,15 @@
 package com.smeem.api.member.api;
 
-import com.smeem.api.common.ApiResponseUtil;
-import com.smeem.api.common.dto.SuccessResponse;
+import com.smeem.api.member.api.dto.response.MemberPerformanceGetResponse;
+import com.smeem.api.member.api.dto.response.*;
+import com.smeem.api.member.service.dto.request.*;
+import com.smeem.api.support.ApiResponseGenerator;
+import com.smeem.api.common.SuccessResponse;
 import com.smeem.api.member.api.dto.request.MemberPlanUpdateRequest;
 import com.smeem.api.member.api.dto.request.MemberPushUpdateRequest;
 import com.smeem.api.member.api.dto.request.MemberUpdateRequest;
-import com.smeem.api.member.api.dto.response.MemberGetResponse;
-import com.smeem.api.member.api.dto.response.MemberNameResponse;
-import com.smeem.api.member.api.dto.response.MemberUpdateResponse;
 import com.smeem.api.member.service.MemberService;
-import com.smeem.api.member.service.dto.request.MemberPushUpdateServiceRequest;
-import com.smeem.api.member.service.dto.request.MemberUpdatePlanServiceRequest;
-import com.smeem.api.member.service.dto.request.MemberServiceUpdateUserProfileRequest;
-import com.smeem.common.util.Util;
+import com.smeem.api.support.PrincipalConverter;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,38 +31,70 @@ public class MemberController implements MemberApi {
     @Override
     @PatchMapping
     public ResponseEntity<SuccessResponse<MemberUpdateResponse>> updateProfile(Principal principal, @RequestBody MemberUpdateRequest request) {
-        val response = MemberUpdateResponse.from(memberService.updateUserProfile(
-                Util.getMemberId(principal),
-                MemberServiceUpdateUserProfileRequest.of(request)));
-        return ApiResponseUtil.success(SUCCESS_UPDATE_USERNAME, response);
+        val memberId = PrincipalConverter.getMemberId(principal);
+        val response = MemberUpdateResponse.from(memberService.updateUserProfile(MemberServiceUpdateUserProfileRequest.of(memberId, request)));
+        return ApiResponseGenerator.success(SUCCESS_UPDATE_USERNAME, response);
     }
 
     @Override
     @GetMapping("/me")
     public ResponseEntity<SuccessResponse<MemberGetResponse>> getProfile(Principal principal) {
-        val response = MemberGetResponse.from(memberService.getMemberProfile(Util.getMemberId(principal)));
-        return ApiResponseUtil.success(SUCCESS_GET_USER, response);
+        long memberId = PrincipalConverter.getMemberId(principal);
+        val response = MemberGetResponse.from(memberService.getMemberProfile(memberId));
+        return ApiResponseGenerator.success(SUCCESS_GET_USER, response);
     }
 
     @Override
     @PatchMapping("/plan")
-    public ResponseEntity<SuccessResponse<?>> updateUserPlan(Principal principal, @Valid @RequestBody MemberPlanUpdateRequest request) {
-        memberService.updateLearningPlan(Util.getMemberId(principal), MemberUpdatePlanServiceRequest.of(request));
-        return ApiResponseUtil.success(SUCCESS_UPDATE_USER_PLAN);
+    public ResponseEntity<SuccessResponse<?>> updateMemberPlan(
+            Principal principal,
+            @Valid @RequestBody MemberPlanUpdateRequest request
+    ) {
+        val memberId = PrincipalConverter.getMemberId(principal);
+        memberService.updateLearningPlan(MemberUpdatePlanServiceRequest.of(memberId, request));
+        return ApiResponseGenerator.success(SUCCESS_UPDATE_USER_PLAN);
     }
 
     @Override
     @GetMapping("/nickname/check")
     public ResponseEntity<SuccessResponse<MemberNameResponse>> checkDuplicatedName(@Parameter(description = "유저 닉네임", required = true) @RequestParam String name) {
         val response = MemberNameResponse.from(memberService.checkDuplicatedName(name));
-        return ApiResponseUtil.success(SUCCESS_CHECK_DUPLICATED_NAME, response);
+        return ApiResponseGenerator.success(SUCCESS_CHECK_DUPLICATED_NAME, response);
     }
 
     @Override
     @PatchMapping("/push")
     public ResponseEntity<SuccessResponse<?>> updateUserPush(Principal principal, @RequestBody MemberPushUpdateRequest request) {
-        memberService.updateHasAlarm(Util.getMemberId(principal), MemberPushUpdateServiceRequest.of(request));
-        return ApiResponseUtil.success(SUCCESS_UPDATE_USER_PUSH);
+        val memberId = PrincipalConverter.getMemberId(principal);
+        memberService.updateHasAlarm(MemberPushUpdateServiceRequest.of(memberId, request));
+        return ApiResponseGenerator.success(SUCCESS_UPDATE_USER_PUSH);
+    }
+
+    @Override
+    @GetMapping("/performance/summary")
+    public ResponseEntity<SuccessResponse<MemberPerformanceGetResponse>> getPerformanceSummary(Principal principal) {
+        val memberId = PrincipalConverter.getMemberId(principal);
+        val response = MemberPerformanceGetResponse.from(
+                memberService.getPerformanceSummary(MemberPerformanceGetServiceRequest.of(memberId)));
+        return ApiResponseGenerator.success(SUCCESS_GET_PERFORMANCE_SUMMARY, response);
+    }
+
+    @Override
+    @PatchMapping("/visit")
+    public ResponseEntity<SuccessResponse<?>> updateMemberVisit(Principal principal) {
+        val memberId = PrincipalConverter.getMemberId(principal);
+        memberService.updateMemberVisit(MemberVisitUpdateRequest.of(memberId));
+        return ApiResponseGenerator.success(SUCCESS_UPDATE_VISIT_TODAY);
+    }
+
+    @Override
+    @GetMapping("/plan")
+    public ResponseEntity<SuccessResponse<MemberPlanGetResponse>> getMemberPlan(Principal principal) {
+        val memberId = PrincipalConverter.getMemberId(principal);
+        val response = memberService.getMemberPlan(MemberPlanGetServiceRequest.of(memberId))
+                .map(MemberPlanGetResponse::from)
+                .orElse(null);
+        return ApiResponseGenerator.success(SUCCESS_GET_PLAN, response);
     }
 
 }

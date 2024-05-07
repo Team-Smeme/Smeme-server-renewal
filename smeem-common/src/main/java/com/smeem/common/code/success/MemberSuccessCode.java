@@ -18,6 +18,9 @@ public enum MemberSuccessCode implements SuccessCode {
     SUCCESS_UPDATE_USER_PLAN(OK, "회원 학습 계획 업데이트 성공"),
     SUCCESS_CHECK_DUPLICATED_NAME(OK, "닉네임 중복 검사 성공"),
     SUCCESS_UPDATE_USER_PUSH(OK, "회원 푸시알람 동의여부 업데이트 성공"),
+    SUCCESS_GET_PERFORMANCE_SUMMARY(OK, "성과 요약 조회 성공"),
+    SUCCESS_UPDATE_VISIT_TODAY(OK, "방문 체크 성공"),
+    SUCCESS_GET_PLAN(OK, "플랜 및 목표 조회 성공"),
     ;
 
     private final HttpStatus status;

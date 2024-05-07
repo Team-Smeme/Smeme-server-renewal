@@ -15,6 +15,7 @@ public enum MemberFailureCode implements FailureCode {
      */
     DUPLICATE_USERNAME(BAD_REQUEST, "이미 존재하는 닉네임입니다."),
     INVALID_USERNAME(BAD_REQUEST, "유효하지 않은 닉네임입니다."),
+    CANNOT_WRITE_DIARY(BAD_REQUEST, "일기를 작성할 수 없는 회원입니다."),
 
     /**
      * 404 NOT FOUND

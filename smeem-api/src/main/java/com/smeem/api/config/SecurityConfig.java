@@ -13,7 +13,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
 
 @Configuration
@@ -54,6 +53,7 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/api/v2/goals/{type}")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/api/v2/goals")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/api/v2/members/nickname/check")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/api/v2/plans")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/favicon.ico")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
                                 .anyRequest().authenticated())

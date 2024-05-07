@@ -1,7 +1,7 @@
 package com.smeem.api.diary.api.dto.response;
 
 import com.smeem.api.diary.service.dto.response.DiaryGetServiceResponse;
-import com.smeem.common.util.Util;
+import com.smeem.api.support.TimeConverter;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -28,7 +28,7 @@ public record DiaryGetResponse(
     }
 
     private static String getCreatedAtToString(LocalDateTime createdAt) {
-        return Util.transferToLocalDateTime(createdAt);
+        return TimeConverter.transferToLocalDateTime(createdAt);
     }
 }
 

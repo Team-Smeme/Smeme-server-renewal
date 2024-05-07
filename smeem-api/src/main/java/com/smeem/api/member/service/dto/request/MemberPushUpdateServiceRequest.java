@@ -7,10 +7,12 @@ import static lombok.AccessLevel.*;
 
 @Builder(access = PRIVATE)
 public record MemberPushUpdateServiceRequest(
+        long memberId,
         boolean hasAlarm
 ) {
-    public static MemberPushUpdateServiceRequest of(MemberPushUpdateRequest request) {
+    public static MemberPushUpdateServiceRequest of(long memberId, MemberPushUpdateRequest request) {
         return MemberPushUpdateServiceRequest.builder()
+                .memberId(memberId)
                 .hasAlarm(request.hasAlarm())
                 .build();
     }

@@ -4,6 +4,7 @@ import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.diary.model.Diary;
 import com.smeem.domain.goal.model.GoalType;
 import com.smeem.domain.common.BaseTimeEntity;
+import com.smeem.domain.plan.model.Plan;
 import com.smeem.domain.training.model.TrainingTime;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -14,9 +15,10 @@ import lombok.val;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+
+import static java.util.Objects.isNull;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -53,7 +55,15 @@ public class Member extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private LangType targetLang;
 
-    private int diaryComboCount;
+    @Embedded
+    private DiaryComboInfo diaryComboInfo;
+
+    @Embedded
+    private MemberVisitInfo visitInfo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "training_plan_id")
+    private Plan plan;
 
     @OneToMany(mappedBy = "member")
     private final List<TrainingTime> trainingTimes = new ArrayList<>();
@@ -74,12 +84,11 @@ public class Member extends BaseTimeEntity {
         this.socialId = socialId;
         this.targetLang = targetLang;
         this.fcmToken = fcmToken;
-        this.goal = null;
-        this.diaryComboCount = 0;
+        this.diaryComboInfo = new DiaryComboInfo();
+        this.visitInfo = new MemberVisitInfo();
     }
 
     public void updateUsername(String username) {
-
         this.username = username;
     }
 
@@ -99,39 +108,8 @@ public class Member extends BaseTimeEntity {
         }
     }
 
-    public boolean hasDiaryWrittenToday() {
-        return this.diaries.stream().anyMatch(Diary::isWrittenToday);
-    }
-
-    public void updateDiaryCombo(Diary diary) {
-        this.diaryComboCount = diary.isCombo() ? this.diaryComboCount + 1 : 1;
-    }
-
-    public void updateDiaryCombo() {
-        this.diaryComboCount = calculateDiaryComboCount();
-    }
-
-    private List<Diary> getDiariesNotWrittenTodayOrderByCreatedAtDesc() {
-        return this.diaries.stream()
-                .filter(diary -> !diary.isWrittenToday())
-                .sorted(Comparator.comparing(Diary::getCreatedAt).reversed())
-                .toList();
-    }
-
-    private int calculateDiaryComboCount() {
-        val diaries = getDiariesNotWrittenTodayOrderByCreatedAtDesc();
-        int count = hasDiaryWrittenToday() ? 1 : 0;
-        LocalDate currentDate = LocalDate.now();
-
-        for (Diary diary : diaries) {
-            currentDate = currentDate.minusDays(1);
-            if (!diary.isCreatedAt(currentDate)) {
-                break;
-            }
-            count++;
-        }
-
-        return count;
+    public void updateDiaryComboCount() {
+        this.diaryComboInfo.update();
     }
 
     public static Member createInitialMember(SocialType socialType, String socialId, String fcmToken) {
@@ -144,7 +122,7 @@ public class Member extends BaseTimeEntity {
     }
 
     public boolean hasNotBadge(Badge badge) {
-        return badges.stream().noneMatch(memberBadge -> memberBadge.getBadge().equals(badge));
+        return this.badges.stream().noneMatch(memberBadge -> memberBadge.getBadge().equals(badge));
     }
 
     public List<Diary> getDiariesBetweenDate(LocalDate startDate, LocalDate endDate) {
@@ -158,4 +136,40 @@ public class Member extends BaseTimeEntity {
         return this.diaries.stream().anyMatch(diary -> diary.isCreatedAt(remindDate));
     }
 
+    public boolean hasWriteDiaryToday() {
+        val today = LocalDate.now();
+        return this.diaries.stream().anyMatch(diary -> diary.getCreatedAt().toLocalDate().equals(today));
+    }
+
+    public int getVisitCount() {
+        val visitCount = Objects.nonNull(this.visitInfo) ? this.visitInfo.getVisitCount() : null;
+        return Objects.nonNull(visitCount) ? visitCount : 1;
+    }
+
+    public void updatePlan(Plan plan) {
+        this.plan = plan;
+    }
+
+    public void updateVisitInfoToday() {
+        if (isNull(this.visitInfo)) {
+            this.visitInfo = new MemberVisitInfo();
+        } else {
+            this.visitInfo.updateToday();
+        }
+    }
+
+    public int getDiaryCountInWeek() {
+        return this.diaries.stream()
+                .filter(diary -> isBetweenThisWeek(diary.getCreatedAt().toLocalDate()))
+                .toList()
+                .size();
+    }
+
+    private boolean isBetweenThisWeek(LocalDate date) {
+        val today = LocalDate.now();
+        val dayNum = today.getDayOfWeek().getValue();
+        val monday = today.minusDays(dayNum - 1);
+        val sunday = today.plusDays(7 - dayNum);
+        return date.isAfter(monday.minusDays(1)) && date.isBefore(sunday.plusDays(1));
+    }
 }
