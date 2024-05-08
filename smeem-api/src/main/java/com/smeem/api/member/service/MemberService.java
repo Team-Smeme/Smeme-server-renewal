@@ -50,18 +50,18 @@ public class MemberService {
     private final DiscordService discordService;
     private final ValueConfig valueConfig;
 
-        @Transactional
-        public MemberUpdateServiceResponse updateUserProfile(final MemberServiceUpdateUserProfileRequest request) {
-            checkMemberDuplicate(request.username());
-            val member = memberFinder.findById(request.memberId());
-            updateTermAccepted(member, request);
+    @Transactional
+    public MemberUpdateServiceResponse updateUserProfile(final MemberServiceUpdateUserProfileRequest request) {
+        checkMemberDuplicate(request.username());
+        val member = memberFinder.findById(request.memberId());
+        updateTermAccepted(member, request);
 
-            ArrayList<Badge> badges = new ArrayList<>();
-            if (isNewMember(member)) {
-                addWelcomeBadge(member, badges);
-                discordService.send(SIGN_IN_MESSAGE + member.getId(), INFO);
-            }
-            member.updateUsername(request.username());
+        ArrayList<Badge> badges = new ArrayList<>();
+        if (isNewMember(member)) {
+            addWelcomeBadge(member, badges);
+            discordService.send(SIGN_IN_MESSAGE + member.getId(), INFO);
+        }
+        member.updateUsername(request.username());
         return MemberUpdateServiceResponse.of(badges);
     }
 
