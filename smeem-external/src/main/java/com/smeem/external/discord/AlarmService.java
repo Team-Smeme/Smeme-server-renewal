@@ -1,5 +1,5 @@
 package com.smeem.external.discord;
 
-public interface DiscordService {
+public interface AlarmService {
     void send(String content, DiscordAlarmCase alarmCase);
 }

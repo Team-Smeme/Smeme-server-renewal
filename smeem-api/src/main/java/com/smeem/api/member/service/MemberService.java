@@ -16,7 +16,7 @@ import com.smeem.domain.member.model.Member;
 import com.smeem.domain.plan.adapter.PlanFinder;
 import com.smeem.domain.training.model.DayType;
 import com.smeem.domain.training.model.TrainingTime;
-import com.smeem.external.discord.DiscordService;
+import com.smeem.external.discord.AlarmService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class MemberService {
     private final TrainingTimeService trainingTimeService;
     private final GoalService goalService;
     private final MemberBadgeService memberBadgeService;
-    private final DiscordService discordService;
+    private final AlarmService alarmService;
     private final ValueConfig valueConfig;
 
     @Transactional
@@ -59,7 +59,7 @@ public class MemberService {
         ArrayList<Badge> badges = new ArrayList<>();
         if (isNewMember(member)) {
             addWelcomeBadge(member, badges);
-            discordService.send(SIGN_IN_MESSAGE + member.getId(), INFO);
+            alarmService.send(SIGN_IN_MESSAGE + member.getId(), INFO);
         }
         member.updateUsername(request.username());
         return MemberUpdateServiceResponse.of(badges);

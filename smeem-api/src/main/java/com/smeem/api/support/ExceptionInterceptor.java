@@ -8,7 +8,7 @@ import com.smeem.domain.member.exception.MemberException;
 import com.smeem.domain.plan.exception.PlanException;
 import com.smeem.domain.topic.exception.TopicException;
 import com.smeem.domain.training.exception.TrainingTimeException;
-import com.smeem.external.discord.DiscordService;
+import com.smeem.external.discord.AlarmService;
 import com.smeem.external.firebase.exception.FcmException;
 import com.smeem.external.oauth.apple.exception.AppleException;
 import com.smeem.external.oauth.exception.AuthException;
@@ -25,7 +25,7 @@ import static com.smeem.external.discord.DiscordAlarmCase.ERROR;
 @RequiredArgsConstructor
 public class ExceptionInterceptor {
 
-    private final DiscordService discordService;
+    private final AlarmService alarmService;
 
     @ExceptionHandler(TrainingTimeException.class)
     public ResponseEntity<FailureResponse> trainingTimeException(TrainingTimeException exception) {
@@ -89,6 +89,6 @@ public class ExceptionInterceptor {
     }
 
     private void sendDiscordAlarm(RuntimeException exception) {
-            discordService.send(exception.getMessage(), ERROR);
+            alarmService.send(exception.getMessage(), ERROR);
     }
 }

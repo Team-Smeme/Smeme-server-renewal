@@ -16,7 +16,7 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class DiscordAlarmSender implements DiscordService {
+public class DiscordAlarmService implements AlarmService {
     
     private static final String APPLICATION_JSON_UTF8_VALUE = "application/json; UTF-8";
 
