@@ -6,7 +6,7 @@
 
 - ✍️ **서비스 소개**: [서비스 소개 바로가기](https://linktr.ee/smeem)
 - 📱 **iOS 다운로드**: [App Stroe 바로가기](https://apps.apple.com/kr/app/smeem-%EC%8A%A4%EB%B0%88-%EC%98%81%EC%9E%91-%EC%98%81%EC%96%B4%EC%9D%BC%EA%B8%B0-%EC%98%81%EC%96%B4%EB%85%B8%ED%8A%B8/id6450711685)
-- 📱 **Android 다운로드**: 준비 중
+- 📱 **Android 다운로드**: [Play Store 바로가기](https://play.google.com/store/apps/details?id=com.sopt.smeem&hl=ko&gl=US)
 
 <br/>
 
