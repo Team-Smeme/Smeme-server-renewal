@@ -6,7 +6,7 @@
 
 - ✍️ **서비스 소개**: [서비스 소개 바로가기](https://linktr.ee/smeem)
 - 📱 **iOS 다운로드**: [App Stroe 바로가기](https://apps.apple.com/kr/app/smeem-%EC%8A%A4%EB%B0%88-%EC%98%81%EC%9E%91-%EC%98%81%EC%96%B4%EC%9D%BC%EA%B8%B0-%EC%98%81%EC%96%B4%EB%85%B8%ED%8A%B8/id6450711685)
-- 📱 **Android 다운로드**: 준비 중
+- 📱 **Android 다운로드**: [Play Store 바로가기](https://play.google.com/store/apps/details?id=com.sopt.smeem&hl=ko&gl=US)
 
 <br/>
 
@@ -40,7 +40,7 @@
 ## 🗂️ 프로젝트 구조 (Project Architecture) : 멀티모듈 구조 (Multi-Module)
 Smeem 프로젝트는 단일 모듈 구조에서 시작하여, 코드 간의 의존도와 결합도를 줄여보고자 멀티모듈 구조의 프로젝트로 리팩토링을 진행했습니다.
 
-<img width="600" alt="image" src="https://github.com/Team-Smeme/Smeme-server-renewal/assets/81692211/3dc1d246-bf8f-47f9-bfc6-b22158f6c26f" />
+<img width="600" alt="image" src="https://github.com/Team-Smeme/Smeme-server-renewal/assets/55437339/367330ae-bb98-4f09-9caa-6a63353e4a64" />
 
 ### smeem-api
 - 클라이언트와 가장 직접적으로 소통하는 계층으로, API와 비즈니스 로직을 모아둔 모듈입니다.
