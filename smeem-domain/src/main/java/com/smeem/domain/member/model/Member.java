@@ -88,6 +88,15 @@ public class Member extends BaseTimeEntity {
         this.visitInfo = new MemberVisitInfo();
     }
 
+    public Member(Long id, SocialType social, String socialId, LangType targetLang) {
+        this.id = id;
+        this.social = social;
+        this.socialId = socialId;
+        this.targetLang = targetLang;
+        this.diaryComboInfo = new DiaryComboInfo();
+        this.visitInfo = new MemberVisitInfo();
+    }
+
     public void updateUsername(String username) {
         this.username = username;
     }
@@ -163,6 +172,10 @@ public class Member extends BaseTimeEntity {
                 .filter(diary -> isBetweenThisWeek(diary.getCreatedAt().toLocalDate()))
                 .toList()
                 .size();
+    }
+
+    public int getDiaryComboCount() {
+        return this.diaryComboInfo.getDiaryComboCount();
     }
 
     private boolean isBetweenThisWeek(LocalDate date) {
