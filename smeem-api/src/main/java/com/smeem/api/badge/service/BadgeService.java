@@ -7,7 +7,7 @@ import com.smeem.api.badge.service.dto.response.v3.BadgeListServiceResponseV3;
 import com.smeem.domain.badge.adapter.BadgeFinder;
 import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.badge.model.BadgeType;
-import com.smeem.domain.member.adapter.memberbadge.MemberBadgeCounter;
+import com.smeem.domain.member.adapter.member.MemberFinder;
 import com.smeem.domain.member.adapter.memberbadge.MemberBadgeFinder;
 import com.smeem.domain.member.adapter.memberbadge.MemberBadgeSaver;
 import com.smeem.domain.member.model.Member;
@@ -26,7 +26,7 @@ public class BadgeService {
     private final BadgeFinder badgeFinder;
     private final MemberBadgeSaver memberBadgeSaver;
     private final MemberBadgeFinder memberBadgeFinder;
-    private final MemberBadgeCounter memberBadgeCounter;
+    private final MemberFinder memberFinder;
 
     public BadgeListServiceResponseV3 getBadgesV3(BadgeListServiceRequestV3 request) {
         val response = badgeFinder.findAllOrderById()
@@ -71,20 +71,21 @@ public class BadgeService {
         badgeMap.computeIfAbsent(badge.getType(), k -> new ArrayList<>()).add(badge);
     }
 
-    private Integer calculateRemainingNumber(Long badgeId, Long count) {
+    private Integer calculateRemainingNumber(Long badgeId, int count) {
         return switch (badgeId.intValue()) {
-            case 2 -> 1 - count.intValue() > 0 ? 1 - count.intValue() : null;
-            case 3 -> 10 - count.intValue() > 0 ? 10 - count.intValue() : null;
-            case 4 -> 30 - count.intValue() > 0 ? 30 - count.intValue() : null;
-            case 5 -> 50 - count.intValue() > 0 ? 50 - count.intValue() : null;
+            case 2 -> 1 - count;
+            case 3 -> 10 - count;
+            case 4 -> 30 - count;
+            case 5 -> 50 - count;
             default -> null;
         };
     }
 
     private BadgeGetServiceResponseV3 convertToBadgeGetServiceResponseV3(Badge badge, final long memberId) {
-        val count = memberBadgeCounter.countByBadgeIdAndMemberId(badge.getId(), memberId);
-        val hasBadge = count > 0;
-        val remainingNumber = calculateRemainingNumber(badge.getId(), count);
+        val member = memberFinder.findById(memberId);
+        val hasBadge = memberBadgeFinder.isExist(member, badge);
+        val memberDiaryCount = member.getDiaries().size();
+        val remainingNumber = calculateRemainingNumber(badge.getId(), memberDiaryCount);
         return BadgeGetServiceResponseV3.of(badge, hasBadge, remainingNumber);
     }
 }
