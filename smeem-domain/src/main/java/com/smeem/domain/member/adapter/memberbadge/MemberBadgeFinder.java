@@ -26,7 +26,7 @@ public class MemberBadgeFinder {
                 .orElseThrow(() -> new MemberException(MemberFailureCode.EMPTY_MEMBER));
     }
 
-    public boolean isExist(Member member, Badge badge) {
+    public boolean isExistByMemberAndBadge(Member member, Badge badge) {
         return memberBadgeRepository.existsByMemberAndBadge(member, badge);
     }
 

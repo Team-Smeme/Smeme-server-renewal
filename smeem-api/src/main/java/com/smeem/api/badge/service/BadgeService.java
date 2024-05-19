@@ -83,7 +83,7 @@ public class BadgeService {
 
     private BadgeGetServiceResponseV3 convertToBadgeGetServiceResponseV3(Badge badge, final long memberId) {
         val member = memberFinder.findById(memberId);
-        val hasBadge = memberBadgeFinder.isExist(member, badge);
+        val hasBadge = memberBadgeFinder.isExistByMemberAndBadge(member, badge);
         val memberDiaryCount = member.getDiaries().size();
         val remainingNumber = calculateRemainingNumber(badge.getId(), memberDiaryCount);
         return BadgeGetServiceResponseV3.of(badge, hasBadge, remainingNumber);
