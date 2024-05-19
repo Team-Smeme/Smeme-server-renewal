@@ -1,7 +1,9 @@
 package com.smeem.domain.member.adapter.memberbadge;
 
 import com.smeem.common.code.failure.MemberFailureCode;
+import com.smeem.domain.badge.model.Badge;
 import com.smeem.domain.member.exception.MemberException;
+import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.model.MemberBadge;
 import com.smeem.domain.member.repository.MemberBadgeRepository;
 import com.smeem.domain.support.RepositoryAdapter;
@@ -22,6 +24,10 @@ public class MemberBadgeFinder {
     public MemberBadge findFirstByMemberIdOrderByCreatedAtDesc(final long id) {
         return memberBadgeRepository.findFirstByMemberIdOrderByCreatedAtDesc(id)
                 .orElseThrow(() -> new MemberException(MemberFailureCode.EMPTY_MEMBER));
+    }
+
+    public boolean isExistByMemberAndBadge(Member member, Badge badge) {
+        return memberBadgeRepository.existsByMemberAndBadge(member, badge);
     }
 
 }
