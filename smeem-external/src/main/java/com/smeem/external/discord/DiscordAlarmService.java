@@ -16,7 +16,7 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class DiscordAlarmSender {
+public class DiscordAlarmService implements AlarmService {
     
     private static final String APPLICATION_JSON_UTF8_VALUE = "application/json; UTF-8";
 
@@ -24,6 +24,7 @@ public class DiscordAlarmSender {
     private final ValueConfig valueConfig;
     private final Environment environment;
 
+    @Override
     public void send(final String content, final DiscordAlarmCase alarmCase) {
         try {
             val restClient = RestClient.create();

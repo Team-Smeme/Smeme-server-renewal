@@ -9,6 +9,7 @@ import com.smeem.api.member.service.dto.response.*;
 import com.smeem.common.config.ValueConfig;
 import com.smeem.domain.badge.adapter.BadgeFinder;
 import com.smeem.domain.badge.model.Badge;
+import com.smeem.domain.member.adapter.member.MemberCounter;
 import com.smeem.domain.member.adapter.member.MemberFinder;
 import com.smeem.domain.member.adapter.member.MemberUpdater;
 import com.smeem.domain.member.exception.MemberException;
@@ -16,7 +17,7 @@ import com.smeem.domain.member.model.Member;
 import com.smeem.domain.plan.adapter.PlanFinder;
 import com.smeem.domain.training.model.DayType;
 import com.smeem.domain.training.model.TrainingTime;
-import com.smeem.external.discord.DiscordAlarmSender;
+import com.smeem.external.discord.AlarmService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -47,8 +48,9 @@ public class MemberService {
     private final TrainingTimeService trainingTimeService;
     private final GoalService goalService;
     private final MemberBadgeService memberBadgeService;
-    private final DiscordAlarmSender discordAlarmSender;
+    private final AlarmService alarmService;
     private final ValueConfig valueConfig;
+    private final MemberCounter memberCounter;
 
     @Transactional
     public MemberUpdateServiceResponse updateUserProfile(final MemberServiceUpdateUserProfileRequest request) {
@@ -58,8 +60,9 @@ public class MemberService {
 
         ArrayList<Badge> badges = new ArrayList<>();
         if (isNewMember(member)) {
+            val allMemberCount = memberCounter.count();
             addWelcomeBadge(member, badges);
-            discordAlarmSender.send(SIGN_IN_MESSAGE + member.getId(), INFO);
+            alarmService.send(String.format(SIGN_IN_MESSAGE, request.username(), allMemberCount), INFO);
         }
         member.updateUsername(request.username());
         return MemberUpdateServiceResponse.of(badges);
