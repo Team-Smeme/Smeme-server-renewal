@@ -47,6 +47,9 @@ smeem:
       ios:
         app: 2.0.0
         force: 2.0.0
+      android:
+        app: 2.0.0
+        force: 2.0.0
   notification:
     title: "오늘의 영어 훈련, 딱 5분 걸려요!"
     body: "지금 눌러서 일기 쓰기 ✍️"
