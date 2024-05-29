@@ -3,6 +3,7 @@ package com.smeem.domain.visit.model;
 import com.smeem.domain.member.model.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,7 @@ public class Visit {
 
     private LocalDateTime visitedAt;
 
+    @Builder
     public Visit(Member member) {
         this.member = member;
         this.visitedAt = LocalDateTime.now();

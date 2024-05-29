@@ -13,6 +13,6 @@ public class VisitSaver {
     private final VisitRepository visitRepository;
 
     public void saveByMember(Member member) {
-        visitRepository.save(new Visit(member));
+        visitRepository.save(Visit.builder().member(member).build());
     }
 }
