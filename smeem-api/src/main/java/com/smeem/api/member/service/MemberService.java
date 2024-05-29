@@ -1,6 +1,5 @@
 package com.smeem.api.member.service;
 
-
 import com.smeem.api.badge.service.dto.response.BadgeServiceResponse;
 import com.smeem.api.goal.service.GoalService;
 import com.smeem.api.goal.service.dto.request.GoalGetServiceRequest;
@@ -17,6 +16,9 @@ import com.smeem.domain.member.model.Member;
 import com.smeem.domain.plan.adapter.PlanFinder;
 import com.smeem.domain.training.model.DayType;
 import com.smeem.domain.training.model.TrainingTime;
+import com.smeem.domain.visit.adapter.VisitCounter;
+import com.smeem.domain.visit.adapter.VisitFinder;
+import com.smeem.domain.visit.adapter.VisitSaver;
 import com.smeem.external.discord.AlarmService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -44,6 +46,9 @@ public class MemberService {
     private final MemberFinder memberFinder;
     private final MemberUpdater memberUpdater;
     private final PlanFinder planFinder;
+    private final VisitSaver visitSaver;
+    private final VisitFinder visitFinder;
+    private final VisitCounter visitorCounter;
 
     private final TrainingTimeService trainingTimeService;
     private final GoalService goalService;
@@ -51,6 +56,7 @@ public class MemberService {
     private final AlarmService alarmService;
     private final ValueConfig valueConfig;
     private final MemberCounter memberCounter;
+    private final VisitCounter visitCounter;
 
     @Transactional
     public MemberUpdateServiceResponse updateUserProfile(final MemberServiceUpdateUserProfileRequest request) {
@@ -97,13 +103,16 @@ public class MemberService {
 
     public MemberPerformanceGetServiceResponse getPerformanceSummary(final MemberPerformanceGetServiceRequest request) {
         val member = memberFinder.findById(request.memberId());
-        return MemberPerformanceGetServiceResponse.of(member);
+        val memberVisitCount = visitCounter.countByMember(member);
+        return MemberPerformanceGetServiceResponse.of(member, memberVisitCount);
     }
 
     @Transactional
     public void updateMemberVisit(final MemberVisitUpdateRequest request) {
         val member = memberFinder.findById(request.memberId());
-        member.updateVisitInfoToday();
+        if (!visitFinder.isVisitedToday(member)) {
+            visitSaver.saveByMember(member);
+        }
     }
 
     public Optional<MemberPlanGetServiceResponse> getMemberPlan(final MemberPlanGetServiceRequest request) {

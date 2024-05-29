@@ -9,7 +9,8 @@ import static lombok.AccessLevel.PRIVATE;
 public record ClientVersionGetResponse(
         String title,
         String content,
-        VersionResponse iosVersion
+        VersionResponse iosVersion,
+        VersionResponse androidVersion
 ) {
 
     public static ClientVersionGetResponse of(ClientVersionGetServiceResponse response) {
@@ -17,6 +18,7 @@ public record ClientVersionGetResponse(
                 .title(response.title())
                 .content(response.content())
                 .iosVersion(VersionResponse.of(response.iosVersion(), response.iosForceVersion()))
+                .androidVersion(VersionResponse.of(response.androidVersion(), response.androidForceVersion()))
                 .build();
     }
 

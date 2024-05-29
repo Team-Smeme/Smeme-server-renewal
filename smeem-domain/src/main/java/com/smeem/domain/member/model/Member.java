@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static java.util.Objects.isNull;
-
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -58,9 +56,6 @@ public class Member extends BaseTimeEntity {
     @Embedded
     private DiaryComboInfo diaryComboInfo;
 
-    @Embedded
-    private MemberVisitInfo visitInfo;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "training_plan_id")
     private Plan plan;
@@ -85,7 +80,14 @@ public class Member extends BaseTimeEntity {
         this.targetLang = targetLang;
         this.fcmToken = fcmToken;
         this.diaryComboInfo = new DiaryComboInfo();
-        this.visitInfo = new MemberVisitInfo();
+    }
+
+    public Member(Long id, SocialType social, String socialId, LangType targetLang) {
+        this.id = id;
+        this.social = social;
+        this.socialId = socialId;
+        this.targetLang = targetLang;
+        this.diaryComboInfo = new DiaryComboInfo();
     }
 
     public void updateUsername(String username) {
@@ -141,21 +143,8 @@ public class Member extends BaseTimeEntity {
         return this.diaries.stream().anyMatch(diary -> diary.getCreatedAt().toLocalDate().equals(today));
     }
 
-    public int getVisitCount() {
-        val visitCount = Objects.nonNull(this.visitInfo) ? this.visitInfo.getVisitCount() : null;
-        return Objects.nonNull(visitCount) ? visitCount : 1;
-    }
-
     public void updatePlan(Plan plan) {
         this.plan = plan;
-    }
-
-    public void updateVisitInfoToday() {
-        if (isNull(this.visitInfo)) {
-            this.visitInfo = new MemberVisitInfo();
-        } else {
-            this.visitInfo.updateToday();
-        }
     }
 
     public int getDiaryCountInWeek() {
@@ -163,6 +152,10 @@ public class Member extends BaseTimeEntity {
                 .filter(diary -> isBetweenThisWeek(diary.getCreatedAt().toLocalDate()))
                 .toList()
                 .size();
+    }
+
+    public int getDiaryComboCount() {
+        return this.diaryComboInfo.getDiaryComboCount();
     }
 
     private boolean isBetweenThisWeek(LocalDate date) {
