@@ -13,9 +13,9 @@ public record MemberPerformanceGetServiceResponse(
         int badgeCount
 ) {
 
-    public static MemberPerformanceGetServiceResponse of(Member member) {
+    public static MemberPerformanceGetServiceResponse of(Member member, int memberVisitCount) {
         return MemberPerformanceGetServiceResponse.builder()
-                .visitDays(member.getVisitCount())
+                .visitDays(memberVisitCount)
                 .diaryCount(member.getDiaries().size())
                 .diaryComboCount(member.getDiaryComboInfo().getDiaryComboCount())
                 .badgeCount(member.getBadges().size())
