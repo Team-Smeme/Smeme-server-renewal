@@ -10,10 +10,7 @@ import com.smeem.support.ServiceIntegrationTest;
 import com.smeem.support.fixture.MemberFixture;
 import jakarta.transaction.Transactional;
 import lombok.val;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.*;
@@ -44,23 +41,23 @@ public class MemberServiceIntegrationTest extends ServiceIntegrationTest {
             member = memberRepository.save(MemberFixture.member().build());
         }
 
-//        @Test
-//        @Transactional
-//        @DisplayName("[성공] 회원이 방문하면 하루에 한 번 이력이 남는다.")
-//        void createMemberVisitedHistoryTodayAtOnce() {
-//            // given
-//            val request = new MemberVisitUpdateRequest(member.getId());
-//
-//            int initCount = visitCounter.countByMember(member);
-//            assertThat(initCount).isEqualTo(0);
-//
-//            // when
-//            memberService.updateMemberVisit(request);
-//            memberService.updateMemberVisit(request);
-//
-//            // then
-//            int visitCount = visitCounter.countByMember(member);
-//            assertThat(visitCount).isEqualTo(1);
-//        }
+        @Test
+        @Transactional
+        @DisplayName("[성공] 회원이 방문하면 하루에 한 번 이력이 남는다.")
+        void createMemberVisitedHistoryTodayAtOnce() {
+            // given
+            val request = new MemberVisitUpdateRequest(member.getId());
+
+            int initCount = visitCounter.countByMember(member);
+            assertThat(initCount).isEqualTo(0);
+
+            // when
+            memberService.updateMemberVisit(request);
+            memberService.updateMemberVisit(request);
+
+            // then
+            int visitCount = visitCounter.countByMember(member);
+            assertThat(visitCount).isEqualTo(1);
+        }
     }
 }
