@@ -10,4 +10,5 @@ public interface VisitRepository extends JpaRepository<Visit, Long> {
 
     boolean existsByMemberAndVisitedAtBetween(Member member, LocalDateTime start, LocalDateTime end);
     int countByMember(Member member);
+    void deleteByMember(Member member);
 }
