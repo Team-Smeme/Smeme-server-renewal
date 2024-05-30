@@ -9,6 +9,7 @@ import com.smeem.domain.diary.adapter.DiaryDeleter;
 import com.smeem.domain.member.adapter.member.MemberDeleter;
 import com.smeem.domain.member.adapter.member.MemberFinder;
 import com.smeem.domain.member.adapter.member.MemberSaver;
+import com.smeem.domain.visit.adapter.VisitDeleter;
 import com.smeem.external.oauth.exception.TokenException;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.member.model.SocialType;
@@ -18,9 +19,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 import static com.smeem.common.code.failure.AuthFailureCode.INVALID_TOKEN;
 import static java.util.Objects.nonNull;
@@ -34,6 +32,7 @@ public class AuthService {
     private final MemberSaver memberSaver;
     private final MemberDeleter memberDeleter;
     private final DiaryDeleter diaryDeleter;
+    private final VisitDeleter visitDeleter;
 
     private final TokenService tokenService;
     private final AppleService appleService;
@@ -42,7 +41,7 @@ public class AuthService {
     private final TrainingTimeService trainingTimeService;
 
     @Transactional
-    public SignInServiceResponse signIn(final String socialAccessToken, final SignInServiceRequest request) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public SignInServiceResponse signIn(final String socialAccessToken, final SignInServiceRequest request) {
         val socialType = request.socialType();
         val socialId = socialLogin(socialType, socialAccessToken);
         val existMember = isMemberBySocialAndSocialId(socialType, socialId);
@@ -71,6 +70,7 @@ public class AuthService {
         trainingTimeService.deleteAllByMember(member);
         memberBadgeService.deleteAllByMember(member);
         memberDeleter.deleteById(memberId);
+        visitDeleter.deleteByMember(member);
     }
 
     private Member getMemberBySocialAndSocialId(final SocialType socialType, final String socialId) {
