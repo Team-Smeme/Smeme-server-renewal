@@ -1,4 +1,4 @@
-package com.smeem.diary.service;
+package com.smeem.diary.service.integration;
 
 import com.smeem.api.diary.service.DiaryCommandService;
 import com.smeem.api.diary.service.dto.request.DiaryCreateServiceRequest;
@@ -33,7 +33,7 @@ public class DiaryCommandServiceIntegrationTest extends ServiceIntegrationTest {
 
     @Nested
     @DisplayName("일기 저장 테스트")
-    class SaveTest {
+    class SaveDiaryTest {
 
         private Member member;
         private final String diaryContent = "test-diary-content";
@@ -44,6 +44,7 @@ public class DiaryCommandServiceIntegrationTest extends ServiceIntegrationTest {
             diaryRepository.deleteAllInBatch();
             member = memberRepository.save(MemberFixture.member().build());
         }
+
         @Test
         @Transactional
         @DisplayName("[성공] 오늘 일기를 작성하지 않은 회원은 일기를 작성할 수 있고, 연속 일기 작성 수가 업데이트된다.")
