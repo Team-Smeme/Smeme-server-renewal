@@ -48,7 +48,6 @@ public class MemberService {
     private final PlanFinder planFinder;
     private final VisitSaver visitSaver;
     private final VisitFinder visitFinder;
-    private final VisitCounter visitorCounter;
 
     private final TrainingTimeService trainingTimeService;
     private final GoalService goalService;
