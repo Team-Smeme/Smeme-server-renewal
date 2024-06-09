@@ -1,4 +1,4 @@
-package com.smeem.external.config;
+package com.smeem.external.firebase.config;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
