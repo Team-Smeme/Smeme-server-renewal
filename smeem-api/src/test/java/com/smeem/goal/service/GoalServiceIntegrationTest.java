@@ -61,23 +61,19 @@ public class GoalServiceIntegrationTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("[성공] 학습 목표 유형으로 학습 목표를 조회할 수 있다.")
     void getByType() throws Exception {
-      // given
-        goalRepository.save(
-                Goal.builder()
-                        .type(GoalType.DEVELOP)
-                        .way("Test Way")
-                        .detail("Test Detail")
-                        .build()
-        );
+        // given
+
+        goalRepository.save(GoalFixture.goal().type(GoalType.DEVELOP).build());
 
         val request = GoalGetServiceRequest.of(GoalType.DEVELOP);
-      // when
+
+        // when
         final GoalGetServiceResponse response = goalService.getByType(request);
 
-      // then
+        // then
         Assertions.assertThat(response)
                 .extracting("goalType", "way", "detail")
-                .containsExactly(GoalType.DEVELOP, "Test Way", "Test Detail");
+                .containsExactly(GoalType.DEVELOP, "test-goal-way", "test-goal-detail");
 
     }
 }
