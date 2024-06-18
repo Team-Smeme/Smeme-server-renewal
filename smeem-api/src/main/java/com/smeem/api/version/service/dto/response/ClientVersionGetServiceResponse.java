@@ -10,7 +10,9 @@ public record ClientVersionGetServiceResponse(
         String title,
         String content,
         String iosVersion,
-        String iosForceVersion
+        String iosForceVersion,
+        String androidVersion,
+        String androidForceVersion
 ) {
 
     public static ClientVersionGetServiceResponse of(ValueConfig valueConfig) {
@@ -19,6 +21,8 @@ public record ClientVersionGetServiceResponse(
                 .content(valueConfig.getCLIENT_VERSION_UPDATE_CONTENT())
                 .iosVersion(valueConfig.getCLIENT_VERSION_IOS_VERSION())
                 .iosForceVersion(valueConfig.getCLIENT_VERSION_IOS_FORCE_VERSION())
+                .androidVersion(valueConfig.getCLIENT_VERSION_ANDROID_VERSION())
+                .androidVersion(valueConfig.getCLIENT_VERSION_ANDROID_FORCE_VERSION())
                 .build();
     }
 }

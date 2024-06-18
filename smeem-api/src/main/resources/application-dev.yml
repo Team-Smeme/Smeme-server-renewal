@@ -45,6 +45,9 @@ smeem:
       title: "업데이트 알림"
       content: "보다 나아진 스밈의 최신 버전을 준비했어요! 새로운 버전으로 업데이트 후 이용해주세요."
       ios:
+        app: 2.0.2
+        force: 3.0.0
+      android:
         app: 2.0.0
         force: 2.0.0
   notification:

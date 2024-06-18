@@ -46,8 +46,11 @@ smeem:
       title: "업데이트 알림"
       content: "보다 나아진 스밈의 최신 버전을 준비했어요! 새로운 버전으로 업데이트 후 이용해주세요."
       ios:
-        app: 2.0.1
-        force: 2.0.0 # 심사 통과 후 3.0.0 업데이트 필요
+        app: 2.0.2
+        force: 3.0.0
+      android:
+        app: 2.0.0
+        force: 2.0.0
   notification:
     title: "오늘의 영어 훈련, 딱 5분 걸려요!"
     body: "지금 눌러서 일기 쓰기 ✍️"

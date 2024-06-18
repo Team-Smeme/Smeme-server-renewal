@@ -1,4 +1,4 @@
-package com.smeem.diary.service;
+package com.smeem.diary.service.integration;
 
 import com.smeem.api.diary.service.DiaryCommandService;
 import com.smeem.api.diary.service.dto.request.DiaryCreateServiceRequest;
@@ -33,7 +33,7 @@ public class DiaryCommandServiceIntegrationTest extends ServiceIntegrationTest {
 
     @Nested
     @DisplayName("일기 저장 테스트")
-    class SaveTest {
+    class SaveDiaryTest {
 
         private Member member;
         private final String diaryContent = "test-diary-content";

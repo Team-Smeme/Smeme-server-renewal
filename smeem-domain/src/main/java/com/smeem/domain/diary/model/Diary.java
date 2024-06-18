@@ -57,6 +57,13 @@ public class Diary extends BaseTimeEntity {
         setMember(member);
     }
 
+    public Diary(Long id, String content, LangType targetLang, boolean isPublic) {
+        this.id = id;
+        this.content = content;
+        this.targetLang = targetLang;
+        this.isPublic = isPublic;
+    }
+
     public void updateContent(String content) {
         this.content = content;
     }
