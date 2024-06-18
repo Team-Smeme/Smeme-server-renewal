@@ -45,6 +45,12 @@ public class DiaryCommandServiceIntegrationTest extends ServiceIntegrationTest {
             member = memberRepository.save(MemberFixture.member().build());
         }
 
+        @AfterEach
+        void tearDown() {
+            diaryRepository.deleteAllInBatch();
+            memberRepository.deleteAllInBatch();
+        }
+
         @Test
         @Transactional
         @DisplayName("[성공] 오늘 일기를 작성하지 않은 회원은 일기를 작성할 수 있고, 연속 일기 작성 수가 업데이트된다.")
