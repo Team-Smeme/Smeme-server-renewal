@@ -1,12 +1,11 @@
-package com.smeem.api.auth.jwt;
+package com.smeem.http.web.filter.token;
 
+import com.smeem.http.web.filter.SecretKeyFactory;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Component;
-
-import static com.smeem.api.auth.jwt.JwtValidationType.INVALID_JWT;
-import static com.smeem.api.auth.jwt.JwtValidationType.VALID_JWT;
 
 @Component
 @RequiredArgsConstructor
@@ -16,14 +15,14 @@ public class TokenValidator {
     public JwtValidationType validateToken(String token) {
         try {
             getBody(token);
-            return VALID_JWT;
+            return JwtValidationType.VALID_JWT;
         } catch (RuntimeException ex) {
-            return INVALID_JWT;
+            return JwtValidationType.INVALID_JWT;
         }
     }
 
     public long getUserFromJwt(String token) {
-        Claims claims = getBody(token);
+        val claims = getBody(token);
         return Long.parseLong(claims.get("memberId").toString());
     }
 
@@ -34,5 +33,4 @@ public class TokenValidator {
                 .parseClaimsJws(token)
                 .getBody();
     }
-
 }

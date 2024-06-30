@@ -1,8 +1,8 @@
-package com.smeem.api.auth.jwt;
+package com.smeem.http.web.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smeem.api.support.ApiResponseGenerator;
-import com.smeem.api.common.FailureResponse;
+import com.smeem.http.dto.response.ExceptionResponse;
+import com.smeem.http.exception.ExceptionCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
@@ -12,8 +12,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-
-import static com.smeem.common.code.failure.AuthFailureCode.INVALID_TOKEN;
 
 @Component
 public class CustomJwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
@@ -29,10 +27,12 @@ public class CustomJwtAuthenticationEntryPoint implements AuthenticationEntryPoi
         response.setCharacterEncoding("UTF-8");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getWriter().println(objectMapper.writeValueAsString(getFailureResponse()));
+        response.getWriter().println(objectMapper.writeValueAsString(exceptionResponse()));
     }
 
-    private ResponseEntity<FailureResponse> getFailureResponse() {
-        return ApiResponseGenerator.failure(INVALID_TOKEN);
+    private ResponseEntity<ExceptionResponse> exceptionResponse() {
+        return ResponseEntity
+                .status(ExceptionCode.UNAUTHORIZED.getStatusCode())
+                .body(ExceptionResponse.of(ExceptionCode.UNAUTHORIZED));
     }
 }

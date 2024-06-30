@@ -1,5 +1,7 @@
-package com.smeem.api.auth.jwt;
+package com.smeem.http.web.filter;
 
+import com.smeem.http.web.filter.token.JwtValidationType;
+import com.smeem.http.web.filter.token.TokenValidator;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,33 +18,40 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-import static com.smeem.api.auth.jwt.JwtValidationType.VALID_JWT;
-
-
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
     private final TokenValidator tokenValidator;
 
+    private static final String TOKEN_HEADER_NAME = "Authorization";
+    private static final String TOKEN_PREFIX = "Bearer ";
+
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws IOException, ServletException {
-        final String token = getJwtFromRequest(request);
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain
+    ) throws IOException, ServletException {
+        val token = getJwtFromRequest(request);
+
         if (isValidToken(token)) {
             val userId = tokenValidator.getUserFromJwt(token);
-            UserAuthentication authentication = new UserAuthentication(userId, null, null);
+            val authentication = new UserAuthentication(userId, null, null);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
+
         filterChain.doFilter(request, response);
     }
 
     private boolean isValidToken(String token) {
-        return StringUtils.hasText(token) && tokenValidator.validateToken(token) == VALID_JWT;
+        return StringUtils.hasText(token) && tokenValidator.validateToken(token) == JwtValidationType.VALID_JWT;
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        return (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) ? bearerToken.substring("Bearer ".length()) : null;
+        val bearerToken = request.getHeader(TOKEN_HEADER_NAME);
+        return (StringUtils.hasText(bearerToken) && bearerToken.startsWith(TOKEN_PREFIX))
+                ? bearerToken.substring(TOKEN_PREFIX.length())
+                : null;
     }
 }
