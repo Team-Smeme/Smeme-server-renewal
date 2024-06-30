@@ -1,0 +1,9 @@
+spring:
+  config:
+    import: application-secret.yml # TODO: secret key manager
+    activate:
+      on-profile: dev
+
+smeem:
+  secret:
+    key: ${JWT.SECRET}

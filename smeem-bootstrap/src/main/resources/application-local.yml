@@ -1,6 +1,11 @@
 spring:
   config:
+    import: application-secret.yml # secret manager
     activate:
       on-profile: local
 server:
   port: 8080
+
+smeem:
+  secret:
+    key: ${JWT.SECRET}
