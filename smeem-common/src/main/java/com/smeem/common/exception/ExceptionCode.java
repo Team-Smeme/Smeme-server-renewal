@@ -1,4 +1,4 @@
-package com.smeem.http.exception;
+package com.smeem.common.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ExceptionCode { //TODO: common 모듈로 이동
     // 4xx
-    UNAUTHORIZED(401, "인증된 토큰으로부터의 요청이 아닙니다."),
+    UNAUTHORIZED(401, "유효하지 않은 토큰"),
 
     ;
 
