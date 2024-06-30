@@ -1,0 +1,6 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+#server:
+#  port: 8080 TODO: 포트 설정 (8081+8082:무중단배포 or 8080)
