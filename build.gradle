@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.1'
     id 'io.spring.dependency-management' version '1.1.4'
+    id 'application'
 }
 
 allprojects {
@@ -19,6 +20,7 @@ subprojects {
         plugin 'java'
         plugin 'org.springframework.boot'
         plugin 'io.spring.dependency-management'
+        plugin 'application'
     }
 
     dependencies {
@@ -33,6 +35,10 @@ subprojects {
         testCompileOnly 'org.projectlombok:lombok'
     }
 
+    tasks.named('bootJar') {
+        mainClass.set("com.smeem.bootstrap.SmeemBootstrapApplication")
+    }
+
     tasks.named('test') {
         useJUnitPlatform()
     }
@@ -44,10 +50,10 @@ configurations {
     }
 }
 
-tasks.jar {
-    enabled = true
-}
-
 tasks.bootJar {
     enabled = false
+}
+
+tasks.jar {
+    enabled = true
 }

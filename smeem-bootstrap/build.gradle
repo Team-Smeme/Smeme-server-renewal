@@ -1,7 +1,5 @@
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-}
+	implementation project(':smeem-input-http')
 
-tasks.bootJar {
-	enabled = true
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 }
