@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum ExceptionCode { //TODO: common 모듈로 이동
     // 4xx
     UNAUTHORIZED(401, "유효하지 않은 토큰"),
+    NOT_FOUND(404, "존재하지 않음")
 
     ;
 

@@ -1,6 +1,6 @@
-package com.smeem.http.controller.dto.response;
+package com.smeem.application.port.input.dto.response;
 
-import com.smeem.http.exception.ExceptionCode;
+import com.smeem.common.exception.ExceptionCode;
 import lombok.AccessLevel;
 import lombok.Builder;
 
