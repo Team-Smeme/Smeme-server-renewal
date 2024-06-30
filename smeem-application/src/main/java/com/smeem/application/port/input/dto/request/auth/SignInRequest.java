@@ -1,6 +1,7 @@
 package com.smeem.application.port.input.dto.request.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.smeem.application.domain.generic.LangType;
 import com.smeem.application.domain.member.Member;
 import com.smeem.application.domain.member.SocialType;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,10 +15,6 @@ public record SignInRequest(
 ) {
 
         public Member toDomain(String socialId) {
-                return Member.builder()
-                        .socialId(socialId)
-                        .socialType(socialType)
-                        .fcmToken(fcmToken)
-                        .build();
+                return new Member(socialType, socialId, fcmToken);
         }
 }

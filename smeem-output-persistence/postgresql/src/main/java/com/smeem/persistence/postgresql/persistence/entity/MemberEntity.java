@@ -60,16 +60,16 @@ public class MemberEntity extends BaseEntity {
 
     public Member toDomain() {
         //TODO: fill
-        return Member.builder()
-                .id(id)
-                .social(new Member.Social(socialType, socialId))
-                .fcmToken(fcmToken)
-                .refreshToken(refreshToken)
-                .username(username)
-                .hasPushAlarm(hasPushAlarm)
-                .termAccepted(termAccepted)
-                .targetLang(targetLang)
-                .build();
+        return new Member(
+                fcmToken,
+                null,
+                hasPushAlarm,
+                id,
+                refreshToken,
+                new Member.Social(socialType, socialId),
+                targetLang,
+                termAccepted,
+                username);
     }
 
     public void update(Member member) {
