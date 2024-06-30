@@ -1,6 +1,6 @@
 package com.smeem.domain.training.adapter;
 
-import com.smeem.domain.member.model.Member;
+import com.smeem.domain.persistence.entity.MemberEntity;
 import com.smeem.domain.support.RepositoryAdapter;
 import com.smeem.domain.training.model.TrainingTime;
 import com.smeem.domain.training.repository.TrainingTimeRepository;
@@ -17,7 +17,7 @@ public class TrainingTimeFinder {
         return trainingTimeRepository.findById(id).orElse(null);
     }
 
-    public List<TrainingTime> findAllByMember(final Member member) {
+    public List<TrainingTime> findAllByMember(final MemberEntity member) {
         return trainingTimeRepository.findAllByMember(member);
     }
 }

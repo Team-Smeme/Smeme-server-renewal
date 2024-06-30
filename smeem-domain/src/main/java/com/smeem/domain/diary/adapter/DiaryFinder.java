@@ -1,7 +1,7 @@
 package com.smeem.domain.diary.adapter;
 
 import com.smeem.domain.diary.exception.DiaryException;
-import com.smeem.domain.diary.model.Diary;
+import com.smeem.domain.persistence.entity.DiaryEntity;
 import com.smeem.domain.diary.repository.DiaryRepository;
 import com.smeem.domain.support.RepositoryAdapter;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ public class DiaryFinder {
 
     private final DiaryRepository diaryRepository;
 
-    public Diary findById(final long id) {
+    public DiaryEntity findById(final long id) {
         return diaryRepository.findById(id)
                 .orElseThrow(() -> new DiaryException(INVALID_DIARY));
     }

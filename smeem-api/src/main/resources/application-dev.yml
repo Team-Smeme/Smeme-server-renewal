@@ -27,7 +27,6 @@ fcm:
   google_api: https://www.googleapis.com/auth/cloud-platform
 
 jwt:
-  secret: ${JWT.SECRET}
   KAKAO_URL: https://kapi.kakao.com/v2/user/me
   APPLE_URL: https://appleid.apple.com/auth/keys
   ACCESS_TOKEN_EXPIRED: 7200000

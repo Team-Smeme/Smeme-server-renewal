@@ -1,7 +1,8 @@
 package com.smeem.domain.diary.model;
 
-import com.smeem.domain.member.model.LangType;
-import com.smeem.domain.member.model.Member;
+import com.smeem.api.domain.member.LangType;
+import com.smeem.domain.persistence.entity.DiaryEntity;
+import com.smeem.domain.persistence.entity.MemberEntity;
 import com.smeem.domain.topic.model.Topic;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -35,13 +36,13 @@ public class DeletedDiary {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private MemberEntity member;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-    public DeletedDiary(Diary diary) {
+    public DeletedDiary(DiaryEntity diary) {
         this.content = diary.getContent();
         this.targetLang = diary.getTargetLang();
         this.isPublic = diary.isPublic();

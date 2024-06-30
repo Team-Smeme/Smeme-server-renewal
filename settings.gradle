@@ -1,4 +1,8 @@
 rootProject.name = 'smeem'
 
 include 'smeem-bootstrap'
+include 'smeem-common'
 include 'smeem-input-http'
+include 'smeem-application'
+include 'smeem-output-persistence'
+include 'smeem-output-persistence:postgresql'

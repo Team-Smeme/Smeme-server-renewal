@@ -1,9 +1,9 @@
 package com.smeem.domain.member.adapter.member;
 
 import com.smeem.domain.member.exception.MemberException;
-import com.smeem.domain.member.model.Member;
-import com.smeem.domain.member.model.SocialType;
-import com.smeem.domain.member.repository.MemberRepository;
+import com.smeem.domain.persistence.entity.MemberEntity;
+import com.smeem.api.domain.auth.vo.SocialType;
+import com.smeem.domain.persistence.repository.member.MemberRepository;
 import com.smeem.domain.support.RepositoryAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -25,23 +25,17 @@ public class MemberFinder {
         return memberRepository.existsBySocialAndSocialId(socialType, socialId);
     }
 
-    public Member findById(final long id) {
+    public MemberEntity findById(final long id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new MemberException(EMPTY_MEMBER));
     }
 
-    public Member findBySocialAndSocialId(final SocialType socialType, final String socialId) {
+    public MemberEntity findBySocialAndSocialId(final SocialType socialType, final String socialId) {
         return memberRepository.findBySocialAndSocialId(socialType, socialId)
                 .orElseThrow(() -> new MemberException(EMPTY_MEMBER));
     }
 
-    public Member findMemberCanWriteDiaryById(final long id) {
-        val member = findById(id);
-        if (member.hasWriteDiaryToday()) {
-            throw new MemberException(CANNOT_WRITE_DIARY);
-        }
-        return member;
-    }
+
 }
 
 

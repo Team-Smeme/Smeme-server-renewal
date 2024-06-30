@@ -1,12 +1,12 @@
 package com.smeem.http.controller.docs;
 
-import com.smeem.http.controller.dto.request.member.UpdateMemberHasPushAlarmRequest;
-import com.smeem.http.controller.dto.request.member.UpdateMemberRequest;
-import com.smeem.http.controller.dto.response.SmeemResponse;
-import com.smeem.http.controller.dto.response.member.RetrieveMemberResponse;
-import com.smeem.http.controller.dto.response.member.RetrievePerformanceResponse;
-import com.smeem.http.controller.dto.response.member.UpdateMemberResponse;
-import com.smeem.http.controller.dto.response.member.UsernameDuplicatedResponse;
+import com.smeem.application.port.input.dto.request.member.UpdateMemberHasPushAlarmRequest;
+import com.smeem.application.port.input.dto.request.member.UpdateMemberRequest;
+import com.smeem.application.port.input.dto.response.SmeemResponse;
+import com.smeem.application.port.input.dto.response.member.RetrieveMemberResponse;
+import com.smeem.application.port.input.dto.response.member.RetrievePerformanceResponse;
+import com.smeem.application.port.input.dto.response.member.UpdateMemberResponse;
+import com.smeem.application.port.input.dto.response.member.UsernameDuplicatedResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

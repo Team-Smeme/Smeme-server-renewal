@@ -1,7 +1,7 @@
 package com.smeem.domain.member.repository;
 
-import com.smeem.domain.badge.model.Badge;
-import com.smeem.domain.member.model.Member;
+import com.smeem.domain.persistence.entity.BadgeEntity;
+import com.smeem.domain.persistence.entity.MemberEntity;
 import com.smeem.domain.member.model.MemberBadge;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,6 +12,7 @@ public interface MemberBadgeRepository extends JpaRepository<MemberBadge, Long> 
 
     List<MemberBadge> findAllByMemberId(final long memberId);
     Optional<MemberBadge> findFirstByMemberIdOrderByCreatedAtDesc(final long memberId);
-    long countByBadge(Badge badge);
-    boolean existsByMemberAndBadge(Member member, Badge badge);
+    long countByBadge(BadgeEntity badge);
+    boolean existsByMemberAndBadge(MemberEntity member, BadgeEntity badge);
+    void deleteAllByMember(MemberEntity member);
 }

@@ -1,7 +1,7 @@
 package com.smeem.domain.badge.adapter;
 
 
-import com.smeem.domain.badge.model.Badge;
+import com.smeem.domain.persistence.entity.BadgeEntity;
 import com.smeem.domain.support.RepositoryAdapter;
 import lombok.RequiredArgsConstructor;
 
@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BadgeUpdater {
 
-    public void updateAcquisitionRatio(Badge badge, float acquisitionRatio) {
+    public void updateAcquisitionRatio(BadgeEntity badge, float acquisitionRatio) {
         badge.updateBadgeAcquisitionRatio(acquisitionRatio);
     }
 }

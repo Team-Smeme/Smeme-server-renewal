@@ -24,7 +24,8 @@ subprojects {
     }
 
     dependencies {
-        // test
+        implementation 'org.springframework.boot:spring-boot-autoconfigure'
+        implementation 'org.springframework.boot:spring-boot-starter-logging'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'org.springframework.security:spring-security-test'
 
@@ -33,6 +34,9 @@ subprojects {
         annotationProcessor 'org.projectlombok:lombok'
         testAnnotationProcessor 'org.projectlombok:lombok'
         testCompileOnly 'org.projectlombok:lombok'
+
+        // validation
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
     }
 
     tasks.named('bootJar') {

@@ -1,8 +1,8 @@
 package com.smeem.http.controller.docs;
 
-import com.smeem.http.controller.dto.request.plan.UpdateMemberPlanRequest;
-import com.smeem.http.controller.dto.response.SmeemResponse;
-import com.smeem.http.controller.dto.response.plan.RetrieveMemberPlanResponse;
+import com.smeem.application.port.input.dto.request.plan.UpdateMemberPlanRequest;
+import com.smeem.application.port.input.dto.response.SmeemResponse;
+import com.smeem.application.port.input.dto.response.plan.RetrieveMemberPlanResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

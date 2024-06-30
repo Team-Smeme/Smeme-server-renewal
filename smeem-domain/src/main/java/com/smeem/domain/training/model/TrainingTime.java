@@ -5,8 +5,9 @@ import static com.smeem.common.code.failure.TrainingTimeFailureCode.INVALID_MINU
 import static java.util.Objects.*;
 import static lombok.AccessLevel.PROTECTED;
 
+import com.smeem.api.domain.trainingtime.DayType;
 import com.smeem.domain.training.exception.TrainingTimeException;
-import com.smeem.domain.member.model.Member;
+import com.smeem.domain.persistence.entity.MemberEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,17 +31,17 @@ public class TrainingTime {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private MemberEntity member;
 
     @Builder
-    public TrainingTime(DayType day, int hour, int minute, Member member) {
+    public TrainingTime(DayType day, int hour, int minute, MemberEntity member) {
         this.day = day;
         setHour(hour);
         setMinute(minute);
         setMember(member);
     }
 
-    private void setMember(Member member) {
+    private void setMember(MemberEntity member) {
         if (nonNull(this.member)) {
             this.member.getTrainingTimes().remove(this);
         }

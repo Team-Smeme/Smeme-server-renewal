@@ -1,6 +1,6 @@
 package com.smeem.domain.visit.model;
 
-import com.smeem.domain.member.model.Member;
+import com.smeem.domain.persistence.entity.MemberEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,12 +20,12 @@ public class Visit {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private MemberEntity member;
 
     private LocalDateTime visitedAt;
 
     @Builder
-    public Visit(Member member) {
+    public Visit(MemberEntity member) {
         this.member = member;
         this.visitedAt = LocalDateTime.now();
     }

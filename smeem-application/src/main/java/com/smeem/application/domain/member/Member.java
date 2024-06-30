@@ -2,11 +2,13 @@ package com.smeem.application.domain.member;
 
 import com.smeem.application.domain.generic.LangType;
 import com.smeem.application.domain.goal.Goal;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-@Builder
 @Getter
+@Builder
+@AllArgsConstructor
 public class Member {
     private Long id;
     private final Social social;

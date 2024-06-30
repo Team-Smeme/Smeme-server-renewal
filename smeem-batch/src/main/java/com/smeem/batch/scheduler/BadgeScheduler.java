@@ -4,7 +4,7 @@ package com.smeem.batch.scheduler;
 import com.smeem.batch.scheduler.support.Scheduler;
 import com.smeem.domain.badge.adapter.BadgeFinder;
 import com.smeem.domain.badge.adapter.BadgeUpdater;
-import com.smeem.domain.badge.model.Badge;
+import com.smeem.domain.persistence.entity.BadgeEntity;
 import com.smeem.domain.member.adapter.member.MemberCounter;
 import com.smeem.domain.member.adapter.memberbadge.MemberBadgeCounter;
 import lombok.RequiredArgsConstructor;
@@ -28,12 +28,12 @@ public class BadgeScheduler {
                 .forEach(this::updateEachBadge);
     }
 
-    private void updateEachBadge(Badge badge) {
+    private void updateEachBadge(BadgeEntity badge) {
         val badgeAcquisitionRatio = calculateBadgeAcquisitionRatio(badge);
         badgeUpdater.updateAcquisitionRatio(badge, badgeAcquisitionRatio);
     }
 
-    private float calculateBadgeAcquisitionRatio(final Badge badge) {
+    private float calculateBadgeAcquisitionRatio(final BadgeEntity badge) {
         val memberCount = memberCounter.count();
         val badgeCount = memberBadgeCounter.countByBadge(badge);
         return postProcess((float) badgeCount / memberCount);

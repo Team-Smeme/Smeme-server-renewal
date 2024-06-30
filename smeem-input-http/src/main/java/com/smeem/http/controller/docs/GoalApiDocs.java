@@ -1,8 +1,8 @@
 package com.smeem.http.controller.docs;
 
-import com.smeem.http.controller.dto.response.SmeemResponse;
-import com.smeem.http.controller.dto.response.goal.RetrieveGoalResponse;
-import com.smeem.http.controller.dto.response.goal.RetrieveGoalsResponse;
+import com.smeem.application.port.input.dto.response.SmeemResponse;
+import com.smeem.application.port.input.dto.response.goal.RetrieveGoalResponse;
+import com.smeem.application.port.input.dto.response.goal.RetrieveGoalsResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

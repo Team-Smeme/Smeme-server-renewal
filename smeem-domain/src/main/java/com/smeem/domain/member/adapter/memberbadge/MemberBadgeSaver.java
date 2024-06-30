@@ -1,7 +1,7 @@
 package com.smeem.domain.member.adapter.memberbadge;
 
-import com.smeem.domain.badge.model.Badge;
-import com.smeem.domain.member.model.Member;
+import com.smeem.domain.persistence.entity.BadgeEntity;
+import com.smeem.domain.persistence.entity.MemberEntity;
 import com.smeem.domain.member.model.MemberBadge;
 import com.smeem.domain.member.repository.MemberBadgeRepository;
 import com.smeem.domain.support.RepositoryAdapter;
@@ -18,7 +18,7 @@ public class MemberBadgeSaver {
         memberBadgeRepository.save(memberBadge);
     }
 
-    public void saveByMemberAndBadge(Member member, Badge badge) {
+    public void saveByMemberAndBadge(MemberEntity member, BadgeEntity badge) {
         val memberBadge = new MemberBadge(member, badge);
         memberBadgeRepository.save(memberBadge);
     }

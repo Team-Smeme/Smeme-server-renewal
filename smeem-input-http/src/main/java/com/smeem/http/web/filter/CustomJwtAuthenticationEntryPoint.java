@@ -1,8 +1,8 @@
 package com.smeem.http.web.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smeem.http.dto.response.ExceptionResponse;
-import com.smeem.http.exception.ExceptionCode;
+import com.smeem.application.port.input.dto.response.ExceptionResponse;
+import com.smeem.common.exception.ExceptionCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;

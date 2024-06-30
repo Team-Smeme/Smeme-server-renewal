@@ -1,6 +1,6 @@
 package com.smeem.domain.training.adapter;
 
-import com.smeem.domain.member.model.Member;
+import com.smeem.domain.persistence.entity.MemberEntity;
 import com.smeem.domain.support.RepositoryAdapter;
 import com.smeem.domain.training.model.TrainingTime;
 import com.smeem.domain.training.repository.TrainingTimeRepository;
@@ -14,7 +14,7 @@ public class TrainingTimeDeleter {
 
     private final TrainingTimeRepository trainingTimeRepository;
 
-    public void deleteAllByMember(final Member member) {
+    public void deleteAllByMember(final MemberEntity member) {
         trainingTimeRepository.deleteAllByMember(member);
     }
 

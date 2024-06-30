@@ -1,6 +1,6 @@
 package com.smeem.domain.member.adapter.memberbadge;
 
-import com.smeem.domain.badge.model.Badge;
+import com.smeem.domain.persistence.entity.BadgeEntity;
 import com.smeem.domain.member.repository.MemberBadgeRepository;
 import com.smeem.domain.support.RepositoryAdapter;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ public class MemberBadgeCounter {
 
     private final MemberBadgeRepository memberBadgeRepository;
 
-    public long countByBadge(final Badge badge) {
+    public long countByBadge(final BadgeEntity badge) {
         return memberBadgeRepository.countByBadge(badge);
     }
 }

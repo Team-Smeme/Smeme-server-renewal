@@ -2,9 +2,10 @@ package com.smeem.domain.member.model;
 
 import static java.util.Objects.*;
 
-import com.smeem.domain.badge.model.Badge;
+import com.smeem.domain.persistence.entity.BadgeEntity;
 
 import com.smeem.domain.common.BaseTimeEntity;
+import com.smeem.domain.persistence.entity.MemberEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -23,19 +24,19 @@ public class MemberBadge extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private MemberEntity member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "badge_id")
-    private Badge badge;
+    private BadgeEntity badge;
 
     @Builder
-    public MemberBadge(Member member, Badge badge) {
+    public MemberBadge(MemberEntity member, BadgeEntity badge) {
         setMember(member);
         this.badge = badge;
     }
 
-    private void setMember(Member member) {
+    private void setMember(MemberEntity member) {
         if (nonNull(this.member)) {
             this.member.getBadges().remove(this);
         }

@@ -1,140 +1,81 @@
 package com.smeem.api.diary.api;
 
-import com.smeem.api.common.FailureResponse;
+import java.security.Principal;
+
+import com.smeem.api.support.ApiResponseGenerator;
 import com.smeem.api.common.SuccessResponse;
 import com.smeem.api.diary.api.dto.request.DiaryCreateRequest;
 import com.smeem.api.diary.api.dto.request.DiaryModifyRequest;
-import com.smeem.api.diary.api.dto.response.DiaryCreateResponse;
+import com.smeem.api.domain.diary.dto.response.DiaryWriteResponse;
 import com.smeem.api.diary.api.dto.response.DiaryGetResponse;
 import com.smeem.api.diary.api.dto.response.DiaryListGetResponse;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.smeem.api.domain.diary.DiaryQueryService;
+import com.smeem.api.domain.diary.DiaryCommandService;
+import com.smeem.api.diary.service.dto.request.*;
+import com.smeem.api.support.PrincipalConverter;
+import com.smeem.api.support.UriConverter;
+import lombok.val;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 
-import static io.swagger.v3.oas.annotations.enums.ParameterIn.HEADER;
+import lombok.RequiredArgsConstructor;
 
-@Tag(name = "[Diary] 일기 관련 API (V2)")
-public interface DiaryApi {
+import static com.smeem.common.code.success.DiarySuccessCode.*;
 
-    @Operation(summary = "일기 생성 API")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "성공"),
-            @ApiResponse(
-                    responseCode = "4xx",
-                    description = "유효하지 않은 요청",
-                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "유효하지 않은 토큰",
-                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "서버 내부 오류",
-                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
-            )
-    })
-    ResponseEntity<SuccessResponse<DiaryCreateResponse>> createDiary(
-            @Parameter(hidden = true) Principal principal,
-            @RequestBody DiaryCreateRequest request
-    );
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/v2/diaries")
+public class DiaryApi implements DiaryApiDocs {
 
-    @Operation(summary = "일기 상세 조회 API")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "성공"),
-            @ApiResponse(
-                    responseCode = "4xx",
-                    description = "유효하지 않은 요청",
-                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "유효하지 않은 토큰",
-                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "서버 내부 오류",
-                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
-            )
-    })
-    ResponseEntity<SuccessResponse<DiaryGetResponse>> getDiaryDetail(@PathVariable long diaryId);
+    private final DiaryCommandService diaryCommandService;
+    private final DiaryQueryService diaryQueryService;
 
-    @Operation(summary = "일기 수정 API")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(
-                    responseCode = "4xx",
-                    description = "유효하지 않은 요청",
-                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "유효하지 않은 토큰",
-                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "서버 내부 오류",
-                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
-            )
-    })
-    ResponseEntity<SuccessResponse<?>> modifyDiary(@PathVariable long diaryId, @RequestBody DiaryModifyRequest request);
+    @PostMapping
+    public ResponseEntity<SuccessResponse<DiaryWriteResponse>> createDiary(Principal principal, @RequestBody DiaryCreateRequest request) {
+        val memberId = PrincipalConverter.getMemberId(principal);
+        val response = DiaryWriteResponse.from(
+                diaryCommandService.createDiary(DiaryCreateServiceRequest.of(memberId, request)));
+        val uri = UriConverter.getURI("/{diaryId}", response.diaryId());
+        return ApiResponseGenerator.success(SUCCESS_CREATE_DIARY, uri, response);
+    }
 
-    @Operation(summary = "일기 삭제 API")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(
-                    responseCode = "4xx",
-                    description = "유효하지 않은 요청",
-                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "유효하지 않은 토큰",
-                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "서버 내부 오류",
-                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
-            )
-    })
-    ResponseEntity<SuccessResponse<?>> deleteDiary(@PathVariable long diaryId);
+    @GetMapping("/{diaryId}")
+    public ResponseEntity<SuccessResponse<DiaryGetResponse>> getDiaryDetail(@PathVariable long diaryId) {
+        val response = DiaryGetResponse.from(
+                diaryQueryService.getDiaryDetail(DiaryGetServiceRequest.of(diaryId)));
+        return ApiResponseGenerator.success(SUCCESS_GET_DIARY, response);
+    }
 
-    @Operation(summary = "기간 내 일기 목록 조회 API")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(
-                    responseCode = "4xx",
-                    description = "유효하지 않은 요청",
-                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "유효하지 않은 토큰",
-                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "서버 내부 오류",
-                    content = @Content(schema = @Schema(implementation = FailureResponse.class))
-            )
-    })
-    ResponseEntity<SuccessResponse<DiaryListGetResponse>> getDiaries(
-            @Parameter(hidden = true) Principal principal,
+    @PatchMapping("/{diaryId}")
+    public ResponseEntity<SuccessResponse<?>> modifyDiary(@PathVariable long diaryId, @RequestBody DiaryModifyRequest request) {
+        diaryCommandService.modifyDiary(DiaryModifyServiceRequest.of(diaryId, request));
+        return ApiResponseGenerator.success(SUCCESS_UPDATE_DAIRY);
+    }
+
+    @DeleteMapping("/{diaryId}")
+    public ResponseEntity<SuccessResponse<?>> deleteDiary(@PathVariable long diaryId) {
+        diaryCommandService.deleteDiary(DiaryDeleteServiceRequest.of(diaryId));
+        return ApiResponseGenerator.success(SUCCESS_DELETE_DIARY);
+    }
+
+    @GetMapping
+    public ResponseEntity<SuccessResponse<DiaryListGetResponse>> getDiaries(
+            Principal principal,
             @RequestParam String start,
             @RequestParam String end
-    );
+    ) {
+        val memberId = PrincipalConverter.getMemberId(principal);
+        val response = DiaryListGetResponse.from(
+                diaryQueryService.getDiaries(DiaryListGetServiceRequest.of(memberId, start, end)));
+        return ApiResponseGenerator.success(SUCCESS_GET_DIARIES, response);
+    }
 }

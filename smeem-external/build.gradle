@@ -4,6 +4,7 @@ bootJar { enabled = false }
 
 dependencies {
     implementation project(':smeem-common')
+    implementation project(':smeem-api')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
 

@@ -1,7 +1,6 @@
 package com.smeem.http.web.filter;
 
-import com.smeem.http.web.filter.token.JwtValidationType;
-import com.smeem.http.web.filter.token.TokenValidator;
+import com.smeem.application.domain.auth.UserAuthentication;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

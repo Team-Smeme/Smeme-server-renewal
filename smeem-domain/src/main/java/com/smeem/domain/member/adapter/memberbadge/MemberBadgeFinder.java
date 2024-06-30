@@ -1,9 +1,9 @@
 package com.smeem.domain.member.adapter.memberbadge;
 
 import com.smeem.common.code.failure.MemberFailureCode;
-import com.smeem.domain.badge.model.Badge;
+import com.smeem.domain.persistence.entity.BadgeEntity;
 import com.smeem.domain.member.exception.MemberException;
-import com.smeem.domain.member.model.Member;
+import com.smeem.domain.persistence.entity.MemberEntity;
 import com.smeem.domain.member.model.MemberBadge;
 import com.smeem.domain.member.repository.MemberBadgeRepository;
 import com.smeem.domain.support.RepositoryAdapter;
@@ -26,7 +26,7 @@ public class MemberBadgeFinder {
                 .orElseThrow(() -> new MemberException(MemberFailureCode.EMPTY_MEMBER));
     }
 
-    public boolean isExistByMemberAndBadge(Member member, Badge badge) {
+    public boolean isExistByMemberAndBadge(MemberEntity member, BadgeEntity badge) {
         return memberBadgeRepository.existsByMemberAndBadge(member, badge);
     }
 

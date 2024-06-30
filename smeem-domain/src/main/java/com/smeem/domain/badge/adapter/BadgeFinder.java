@@ -1,8 +1,8 @@
 package com.smeem.domain.badge.adapter;
 
 import com.smeem.domain.badge.exception.BadgeException;
-import com.smeem.domain.badge.model.Badge;
-import com.smeem.domain.badge.repository.BadgeRepository;
+import com.smeem.domain.persistence.entity.BadgeEntity;
+import com.smeem.domain.persistence.repository.badge.BadgeRepository;
 import com.smeem.domain.support.RepositoryAdapter;
 import lombok.RequiredArgsConstructor;
 
@@ -17,16 +17,16 @@ public class BadgeFinder {
 
     private final BadgeRepository badgeRepository;
 
-    public Badge findById(final long id) {
+    public BadgeEntity findById(final long id) {
         return badgeRepository.findById(id)
                 .orElseThrow(() -> new BadgeException(INVALID_BADGE));
     }
 
-    public List<Badge> findAllOrderById() {
+    public List<BadgeEntity> findAllOrderById() {
         return badgeRepository.findAllOrderById();
     }
 
-    public Optional<Badge> findBadgeByDiaryCount(final int diaryCount) {
+    public Optional<BadgeEntity> findBadgeByDiaryCount(final int diaryCount) {
         return switch (diaryCount) {
             case 50 -> badgeRepository.findById(5L);
             case 30 -> badgeRepository.findById(4L);
@@ -36,7 +36,7 @@ public class BadgeFinder {
         };
     }
 
-    public Optional<Badge> findBadgeByDiaryComboCount(final int diaryComboCount) {
+    public Optional<BadgeEntity> findBadgeByDiaryComboCount(final int diaryComboCount) {
         return switch (diaryComboCount) {
             case 30 -> badgeRepository.findById(9L);
             case 15 -> badgeRepository.findById(8L);
@@ -46,7 +46,7 @@ public class BadgeFinder {
         };
     }
 
-    public List<Badge> findAll() {
+    public List<BadgeEntity> findAll() {
         return badgeRepository.findAll();
     }
 }

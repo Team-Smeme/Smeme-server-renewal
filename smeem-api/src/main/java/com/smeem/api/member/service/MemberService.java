@@ -14,7 +14,7 @@ import com.smeem.domain.member.adapter.member.MemberUpdater;
 import com.smeem.domain.member.exception.MemberException;
 import com.smeem.domain.member.model.Member;
 import com.smeem.domain.plan.adapter.PlanFinder;
-import com.smeem.domain.training.model.DayType;
+import com.smeem.api.domain.trainingtime.DayType;
 import com.smeem.domain.training.model.TrainingTime;
 import com.smeem.domain.visit.adapter.VisitCounter;
 import com.smeem.domain.visit.adapter.VisitFinder;
