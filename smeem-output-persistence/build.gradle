@@ -1,0 +1,20 @@
+project(':smeem-output-persistence:postgresql') {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.postgresql:postgresql'
+    }
+}
+
+allprojects {
+    dependencies {
+        implementation project(':smeem-common')
+        implementation project(':smeem-application')
+    }
+    tasks.bootJar {
+        enabled = false
+    }
+
+    tasks.jar {
+        enabled = true
+    }
+}
