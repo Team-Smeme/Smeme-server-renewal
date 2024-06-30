@@ -1,0 +1,11 @@
+spring:
+  config:
+    import: classpath:http-config/application.yml
+  application:
+    name: "smeem"
+  messages:
+    encoding: UTF-8
+
+#secret:
+#  token: ${SECRET_MANAGER_TOKEN}
+#  workspaceId: ${SECRET_MANAGER_WORKSPACE} TODO: 추가 적용 (application-secret)
