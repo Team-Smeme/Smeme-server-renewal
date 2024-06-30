@@ -1,7 +1,4 @@
-rootProject.name = 'server'
-include 'smeem-api'
-include 'smeem-domain'
-include 'smeem-batch'
-include 'smeem-external'
-include 'smeem-common'
+rootProject.name = 'smeem'
 
+include 'smeem-bootstrap'
+include 'smeem-input-http'
