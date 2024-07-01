@@ -1,13 +1,13 @@
-package com.smeem.domain.persistence.repository.badge;
+package com.smeem.persistence.postgresql.persistence.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.smeem.domain.persistence.entity.BadgeEntity;
-import com.smeem.domain.badge.model.QBadge;
+import com.smeem.persistence.postgresql.persistence.entity.BadgeEntity;
 import lombok.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.smeem.persistence.postgresql.persistence.entity.QBadgeEntity.badgeEntity;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,8 +18,8 @@ public class BadgeRepositoryImpl implements BadgeCustomRepository {
     @Override
     public List<BadgeEntity> findAllOrderById() {
         return queryFactory
-                .selectFrom(QBadge.badge)
-                .orderBy(QBadge.badge.id.asc())
+                .selectFrom(badgeEntity)
+                .orderBy(badgeEntity.id.asc())
                 .fetch();
     }
 }

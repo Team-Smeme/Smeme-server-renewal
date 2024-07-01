@@ -1,4 +1,4 @@
-package com.smeem.domain.config;
+package com.smeem.persistence.postgresql.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

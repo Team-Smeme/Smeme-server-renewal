@@ -1,6 +1,6 @@
 package com.smeem.http.controller;
 
-import com.smeem.application.domain.generic.Message;
+import com.smeem.application.domain.generic.SmeemMessage;
 import com.smeem.application.port.input.AuthUseCase;
 import com.smeem.http.controller.docs.AuthApiDocs;
 import com.smeem.application.port.input.dto.request.auth.SignInRequest;
@@ -28,14 +28,14 @@ public class AuthApi implements AuthApiDocs {
             @RequestHeader("Authorization") String socialAccessToken,
             @RequestBody SignInRequest request
     ) {
-        return SmeemResponse.of(authUseCase.signIn(socialAccessToken, request), Message.SIGNED_IN);
+        return SmeemResponse.of(authUseCase.signIn(socialAccessToken, request), SmeemMessage.SIGNED_IN);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/token")
     public SmeemResponse<GenerateTokenResponse> generateToken(Principal principal) {
         val memberId = smeemConverter.toMemberId(principal);
-        return SmeemResponse.of(authUseCase.generateToken(memberId), Message.GENERATE_TOKEN);
+        return SmeemResponse.of(authUseCase.generateToken(memberId), SmeemMessage.GENERATE_TOKEN);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -43,7 +43,7 @@ public class AuthApi implements AuthApiDocs {
     public SmeemResponse<?> signOut(Principal principal) {
         val memberId = smeemConverter.toMemberId(principal);
         authUseCase.signOut(memberId);
-        return SmeemResponse.of(Message.SIGNED_OUT);
+        return SmeemResponse.of(SmeemMessage.SIGNED_OUT);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -51,6 +51,6 @@ public class AuthApi implements AuthApiDocs {
     public SmeemResponse<?> withdraw(Principal principal) {
         val memberId = smeemConverter.toMemberId(principal);
         authUseCase.withdraw(memberId);
-        return SmeemResponse.of(Message.WITHDRAW);
+        return SmeemResponse.of(SmeemMessage.WITHDRAW);
     }
 }
