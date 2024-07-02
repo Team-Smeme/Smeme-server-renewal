@@ -12,4 +12,10 @@ public class SmeemMessage {
 
     // badge
     public static final String RETRIEVE_BADGE = "배지 조회 성공";
+
+    // diary
+    public static final String WRITE_DIARY = "일기 작성 성공";
+    public static final String MODIFY_DIARY = "일기 수정 성공";
+    public static final String RETRIEVE_DIARY = "일기 조회 성공";
+    public static final String DELETE_MESSAGE = "일기 삭제 성공";
 }

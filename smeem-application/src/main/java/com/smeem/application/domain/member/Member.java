@@ -13,27 +13,15 @@ public class Member {
     private String refreshToken;
     private String username;
     private Goal goal;
-    private boolean hasPushAlarm = false;
-    private boolean termAccepted = false;
-    private LangType targetLang = LangType.defaultType();
+    private boolean hasPushAlarm;
+    private boolean termAccepted;
+    private LangType targetLang;
+    private int diaryComboCount;
 
     public Member(SocialType socialType, String socialId, String fcmToken) {
         this.social = new Social(socialType, socialId);
         this.fcmToken = fcmToken;
-    }
-
-    public Member(String fcmToken, Goal goal, boolean hasPushAlarm, Long id, String refreshToken, Social social,
-                  LangType targetLang, boolean termAccepted, String username
-    ) {
-        this.fcmToken = fcmToken;
-        this.goal = goal;
-        this.hasPushAlarm = hasPushAlarm;
-        this.id = id;
-        this.refreshToken = refreshToken;
-        this.social = social;
-        this.targetLang = targetLang;
-        this.termAccepted = termAccepted;
-        this.username = username;
+        init();
     }
 
     public Member updateSmeemToken(String refreshToken) {
@@ -44,6 +32,22 @@ public class Member {
     public Member emptyRefreshToken() {
         this.refreshToken = null;
         return this;
+    }
+
+    public Member updateDiaryComboCount(boolean diaryWrittenYesterday) {
+        if (diaryWrittenYesterday) {
+            diaryComboCount++;
+        } else {
+            diaryComboCount = 1;
+        }
+        return this;
+    }
+
+    private void init() {
+        this.hasPushAlarm = false;
+        this.termAccepted = false;
+        this.targetLang = LangType.defaultType();
+        this.diaryComboCount = 0;
     }
 
     public record Social(
