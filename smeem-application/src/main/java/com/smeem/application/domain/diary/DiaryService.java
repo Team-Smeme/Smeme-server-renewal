@@ -44,17 +44,16 @@ public class DiaryService implements DiaryUseCase {
     }
 
     private List<Badge> acquireBadgeOfWritingDiary(Member member) {
-        val acquireBadgeIds = new ArrayList<Long>();
+        val acquiredBadges = new ArrayList<Badge>();
         badgePort.findByBadgeTypeAndStandard(BadgeType.COUNTING, diaryPort.countByMember(member.getId()))
-                .ifPresent(badge -> acquireBadgeIds.add(badge.getId()));
+                .ifPresent(acquiredBadges::add);
         badgePort.findByBadgeTypeAndStandard(BadgeType.COMBO, member.getDiaryComboCount())
-                .ifPresent(badge -> acquireBadgeIds.add(badge.getId()));
+                .ifPresent(acquiredBadges::add);
 
         val acquiredBadgeIds = memberBadgePort.findIdsByMember(member.getId());
 
-        return acquireBadgeIds.stream()
-                .filter(id -> !acquiredBadgeIds.contains(id))
-                .map(badgeId -> memberBadgePort.save(member.getId(), badgeId))
+        return acquiredBadges.stream()
+                .filter(badge -> !acquiredBadgeIds.contains(badge.getId()))
                 .toList();
     }
 
