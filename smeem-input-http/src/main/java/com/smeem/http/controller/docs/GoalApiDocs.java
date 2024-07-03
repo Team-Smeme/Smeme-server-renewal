@@ -1,5 +1,6 @@
 package com.smeem.http.controller.docs;
 
+import com.smeem.application.domain.goal.GoalType;
 import com.smeem.application.port.input.dto.response.SmeemResponse;
 import com.smeem.application.port.input.dto.response.goal.RetrieveGoalResponse;
 import com.smeem.application.port.input.dto.response.goal.RetrieveGoalsResponse;
@@ -37,6 +38,6 @@ public interface GoalApiDocs {
                     description = "학습목표 유형",
                     required = true,
                     in = ParameterIn.PATH
-            ) String type //TODO: GoalType
+            ) GoalType goalType
     );
 }

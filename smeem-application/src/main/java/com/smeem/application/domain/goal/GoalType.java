@@ -1,4 +1,4 @@
-package com.smeem.domain.goal.model;
+package com.smeem.application.domain.goal;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

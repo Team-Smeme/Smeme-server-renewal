@@ -18,4 +18,7 @@ public class SmeemMessage {
     public static final String MODIFY_DIARY = "일기 수정 성공";
     public static final String RETRIEVE_DIARY = "일기 조회 성공";
     public static final String DELETE_MESSAGE = "일기 삭제 성공";
+
+    // goal
+    public static final String RETRIEVE_GOAL = "목표 조회 성공";
 }
