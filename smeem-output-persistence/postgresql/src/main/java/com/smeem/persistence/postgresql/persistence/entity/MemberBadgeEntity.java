@@ -9,18 +9,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class MemberBadgeEntity extends BaseEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "member_badge_id")
     private Long id;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member_id")
-//    private MemberEntity member;
+    @Column(nullable = false)
     private long memberId;
+    @Column(nullable = false)
+    private long badgeId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "badge_id")
-    private BadgeEntity badge;
+    public MemberBadgeEntity(long memberId, long badgeId) {
+        this.memberId = memberId;
+        this.badgeId = badgeId;
+    }
 }

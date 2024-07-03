@@ -8,7 +8,7 @@ import com.smeem.application.port.input.dto.response.diary.RetrieveDiariesRespon
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiaryResponse;
 import com.smeem.application.port.input.dto.response.diary.WriteDiaryResponse;
 import com.smeem.http.controller.docs.DiaryApiDocs;
-import com.smeem.http.util.SmeemConverter;
+import com.smeem.common.util.SmeemConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;

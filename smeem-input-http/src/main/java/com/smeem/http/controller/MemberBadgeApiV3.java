@@ -5,7 +5,7 @@ import com.smeem.application.port.input.BadgeUseCase;
 import com.smeem.application.port.input.dto.response.SmeemResponse;
 import com.smeem.application.port.input.dto.response.badge.RetrieveMemberBadgesResponse;
 import com.smeem.http.controller.docs.MemberBadgeApiV3Docs;
-import com.smeem.http.util.SmeemConverter;
+import com.smeem.common.util.SmeemConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -25,7 +25,7 @@ public class MemberAdapter implements MemberPort {
 
     @Override
     public Member save(Member member) {
-        return memberRepository.save(new MemberEntity(member)).toDomain();
+        return memberRepository.save(MemberEntity.of(member)).toDomain();
     }
 
     @Override

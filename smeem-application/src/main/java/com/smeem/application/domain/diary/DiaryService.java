@@ -8,10 +8,7 @@ import com.smeem.application.port.input.dto.request.diary.WriteDiaryRequest;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiariesResponse;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiaryResponse;
 import com.smeem.application.port.input.dto.response.diary.WriteDiaryResponse;
-import com.smeem.application.port.output.persistence.BadgePort;
-import com.smeem.application.port.output.persistence.DiaryPort;
-import com.smeem.application.port.output.persistence.MemberBadgePort;
-import com.smeem.application.port.output.persistence.MemberPort;
+import com.smeem.application.port.output.persistence.*;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -29,11 +26,13 @@ public class DiaryService implements DiaryUseCase {
     private final MemberPort memberPort;
     private final BadgePort badgePort;
     private final MemberBadgePort memberBadgePort;
+    private final TopicPort topicPort;
 
     @Transactional
     public WriteDiaryResponse writeDiary(long memberId, WriteDiaryRequest request) {
         val member = memberPort.findById(memberId);
-        val savedDiary = diaryPort.save(request.toDomain(member));
+        val topic = request.topicId() != null ? topicPort.findById(request.topicId()) : null;
+        val savedDiary = diaryPort.save(request.toDomain(member, topic));
 
         val diaryWrittenYesterday = diaryPort.isExistByMemberAndYesterday(memberId);
         memberPort.update(member.updateDiaryComboCount(diaryWrittenYesterday));
@@ -58,20 +57,23 @@ public class DiaryService implements DiaryUseCase {
     }
 
     public RetrieveDiaryResponse retrieveDiary(long diaryId) {
-        return null;
+        return RetrieveDiaryResponse.of(diaryPort.findByIdJoinMemberAndTopic(diaryId));
     }
 
     @Transactional
     public void modifyDiary(long diaryId, WriteDiaryRequest request) {
-
+        val foundDiary = diaryPort.findById(diaryId);
+        diaryPort.update(request.toDomain(foundDiary));
     }
 
     @Transactional
     public void deleteDiary(long diary) {
-
+        diaryPort.deleteById(diary);
     }
 
     public RetrieveDiariesResponse retrieveDiariesByTerm(long memberId, LocalDate startDate, LocalDate endDate) {
-        return null;
+        return RetrieveDiariesResponse.of(
+                diaryPort.findByMemberAndTerm(memberId, startDate, endDate),
+                diaryPort.isExistByMemberAndPastAgo(memberId, 30));
     }
 }

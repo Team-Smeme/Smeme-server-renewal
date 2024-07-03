@@ -7,7 +7,7 @@ import com.smeem.application.port.input.dto.request.auth.SignInRequest;
 import com.smeem.application.port.input.dto.response.SmeemResponse;
 import com.smeem.application.port.input.dto.response.auth.GenerateTokenResponse;
 import com.smeem.application.port.input.dto.response.auth.SignInResponse;
-import com.smeem.http.util.SmeemConverter;
+import com.smeem.common.util.SmeemConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;

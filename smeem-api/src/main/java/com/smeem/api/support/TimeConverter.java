@@ -5,7 +5,5 @@ import java.time.format.DateTimeFormatter;
 
 public class TimeConverter {
 
-    public static String transferToLocalDateTime(LocalDateTime date) {
-        return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-    }
+
 }
