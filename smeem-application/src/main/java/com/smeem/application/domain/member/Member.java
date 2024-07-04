@@ -2,6 +2,7 @@ package com.smeem.application.domain.member;
 
 import com.smeem.application.domain.generic.LangType;
 import com.smeem.application.domain.goal.Goal;
+import com.smeem.application.domain.plan.Plan;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,6 +15,7 @@ public class Member {
     private String refreshToken;
     private String username;
     private Goal goal;
+    private Plan plan;
     private boolean hasPushAlarm;
     private boolean termAccepted;
     private LangType targetLang;

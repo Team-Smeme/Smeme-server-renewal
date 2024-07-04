@@ -1,4 +1,4 @@
-package com.smeem.domain.plan.model;
+package com.smeem.persistence.postgresql.persistence.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,13 +12,10 @@ import static lombok.AccessLevel.PROTECTED;
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-public class Plan {
-
+public class PlanEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-
     private String content;
-
     private int clearCount;
 }

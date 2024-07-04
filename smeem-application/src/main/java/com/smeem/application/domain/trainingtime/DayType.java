@@ -1,4 +1,4 @@
-package com.smeem.api.domain.trainingtime;
+package com.smeem.application.domain.trainingtime;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

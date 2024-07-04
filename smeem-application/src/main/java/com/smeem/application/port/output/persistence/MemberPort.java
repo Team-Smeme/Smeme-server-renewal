@@ -10,4 +10,7 @@ public interface MemberPort {
     void update(Member member);
     Member findById(long id);
     void deleteById(long id);
+    boolean isExistByUsername(String username);
+    Member findByIdJoinGoalAndPlan(long memberId);
+    int countAll();
 }

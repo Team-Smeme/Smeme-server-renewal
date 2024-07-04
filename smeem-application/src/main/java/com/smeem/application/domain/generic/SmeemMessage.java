@@ -21,4 +21,8 @@ public class SmeemMessage {
 
     // goal
     public static final String RETRIEVE_GOAL = "목표 조회 성공";
+
+    // member
+    public static final String UPDATE_MEMBER = "회원 수정 성공";
+    public static final String RETRIEVE_MEMBER = "회원 조회 성공";
 }

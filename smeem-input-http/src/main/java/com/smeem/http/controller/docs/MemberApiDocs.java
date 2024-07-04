@@ -85,7 +85,7 @@ public interface MemberApiDocs {
                     description = "OK success",
                     content = @Content(schema = @Schema(implementation = RetrievePerformanceResponse.class)))
     })
-    SmeemResponse<RetrievePerformanceResponse> retrieveSummary(@Parameter(hidden = true) Principal principal);
+    SmeemResponse<RetrievePerformanceResponse> retrievePerformance(@Parameter(hidden = true) Principal principal);
 
     @Operation(summary = "출석체크 api", description = "회원이 출석체크합니다.")
     @ApiResponses(value = {

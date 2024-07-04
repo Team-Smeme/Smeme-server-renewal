@@ -10,4 +10,10 @@ public record UsernameDuplicatedResponse(
         @Schema(description = "중복 여부")
         boolean isExist
 ) {
+
+        public static UsernameDuplicatedResponse of(boolean isExist) {
+                return UsernameDuplicatedResponse.builder()
+                        .isExist(isExist)
+                        .build();
+        }
 }
