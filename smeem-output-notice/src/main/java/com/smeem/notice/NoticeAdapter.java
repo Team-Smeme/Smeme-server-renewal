@@ -3,11 +3,11 @@ package com.smeem.notice;
 import com.smeem.application.port.output.notice.NoticePort;
 import com.smeem.application.port.output.notice.NoticeType;
 import com.smeem.notice.discord.DiscordNoticeService;
-import com.smeem.notice.discord.dto.DiscordErrorMessage;
 import com.smeem.notice.discord.dto.DiscordMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
 @Component
@@ -26,11 +26,18 @@ public class NoticeAdapter implements NoticePort {
 
     @Override
     public void noticeError(Exception exception, WebRequest webRequest) {
-        val message = DiscordErrorMessage.of(
+        val message = DiscordMessage.of(
                 "## 💥 500 Error",
-                exception,
-                webRequest,
-                NoticeType.ERROR);
+                exception.getMessage() + "\n\n 🔗 " + getRequestUri(webRequest),
+                NoticeType.ERROR
+        );
         discordNoticeService.notice(message);
+    }
+
+    private static String getRequestUri(WebRequest webRequest) {
+        val request = ((ServletWebRequest) webRequest).getRequest();
+        val path = request.getMethod() + " " + request.getRequestURL();
+        val queryString = request.getQueryString() != null ? "?" + request.getQueryString() : "";
+        return path + queryString;
     }
 }

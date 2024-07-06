@@ -19,13 +19,6 @@ public record DiscordRequest(
                 .build();
     }
 
-    public static DiscordRequest of(DiscordErrorMessage message) {
-        return DiscordRequest.builder()
-                .content("# " + message.title())
-                .embeds(List.of(Embed.of(message)))
-                .build();
-    }
-
     @Builder(access = PRIVATE)
     private record Embed(
             String title,
@@ -38,18 +31,6 @@ public record DiscordRequest(
                     .description("### ⏰ 발생 시간 \n"
                             + message.sendAt()
                             + "\n### 📢 안내 내용\n"
-                            + message.content())
-                    .build();
-        }
-
-        private static Embed of(DiscordErrorMessage message) {
-            return Embed.builder()
-                    .title(message.noticeType().getName())
-                    .description("### ⏰ 발생 시간 \n"
-                            + message.requestedAt()
-                            + "\n### 🔗 요청 URI\n"
-                            + message.requestUri()
-                            + "\n### 📢 에러 내용\n"
                             + message.content())
                     .build();
         }
