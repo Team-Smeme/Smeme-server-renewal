@@ -7,4 +7,5 @@ import java.time.LocalDate;
 
 public interface VisitRepository extends JpaRepository<VisitEntity, Long> {
     boolean existsByMemberIdAndVisitedAt(long memberId, LocalDate visitedAt);
+    boolean deleteByMemberId(long memberId);
 }

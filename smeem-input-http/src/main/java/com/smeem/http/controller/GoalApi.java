@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/goals")
 public class GoalApi implements GoalApiDocs {
-    private GoalUseCase goalUseCase;
+    private final GoalUseCase goalUseCase;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping

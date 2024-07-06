@@ -5,7 +5,7 @@ import com.smeem.application.port.output.persistence.MemberPort;
 import com.smeem.common.exception.ExceptionCode;
 import com.smeem.common.exception.SmeemException;
 import com.smeem.persistence.postgresql.persistence.entity.MemberEntity;
-import com.smeem.persistence.postgresql.persistence.repository.MemberRepository;
+import com.smeem.persistence.postgresql.persistence.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Repository;
@@ -18,6 +18,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberAdapter implements MemberPort {
     private final MemberRepository memberRepository;
+    private final MemberBadgeRepository memberBadgeRepository;
+    private final DeletedDiaryRepository deletedDiaryRepository;
+    private final DiaryRepository diaryRepository;
+    private final TrainingTimeRepository trainingTimeRepository;
+    private final VisitRepository visitRepository;
 
     @Override
     public Optional<Member> findBySocial(Member.Social social) {
@@ -43,7 +48,11 @@ public class MemberAdapter implements MemberPort {
 
     @Override
     public void deleteById(long id) {
-        //TODO: diary, goal, plan, trainingTime etc...
+        memberBadgeRepository.deleteByMemberId(id);
+        deletedDiaryRepository.deleteByMemberId(id);
+        diaryRepository.deleteByMemberId(id);
+        trainingTimeRepository.deleteByMemberId(id);
+        visitRepository.deleteByMemberId(id);
         memberRepository.deleteById(id);
     }
 

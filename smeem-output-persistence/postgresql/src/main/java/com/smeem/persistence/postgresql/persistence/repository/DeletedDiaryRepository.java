@@ -8,4 +8,5 @@ import java.time.LocalDateTime;
 
 public interface DeletedDiaryRepository extends JpaRepository<DeletedDiaryEntity, Long> {
     void deleteByCreatedAtBetween(LocalDateTime from, LocalDateTime to);
+    void deleteByMemberId(long memberId);
 }

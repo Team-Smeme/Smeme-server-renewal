@@ -10,4 +10,5 @@ public interface MemberBadgeRepository extends JpaRepository<MemberBadgeEntity, 
     List<MemberBadgeEntity> findByMemberId(long memberId);
     int countByMemberId(long memberId);
     Optional<MemberBadgeEntity> findFirstByMemberId(long memberId);
+    void deleteByMemberId(long memberId);
 }
