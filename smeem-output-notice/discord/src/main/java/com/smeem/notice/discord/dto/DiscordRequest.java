@@ -1,7 +1,6 @@
 package com.smeem.notice.discord.dto;
 
 import lombok.Builder;
-import lombok.Getter;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ public record DiscordRequest(
 
     public static DiscordRequest of(DiscordMessage message) {
         return DiscordRequest.builder()
-                .content("# " + message.title())
+                .content(message.title())
                 .embeds(List.of(Embed.of(message)))
                 .build();
     }
@@ -35,22 +34,22 @@ public record DiscordRequest(
 
         private static Embed of(DiscordMessage message) {
             return Embed.builder()
-                    .title(message.noticeType().name())
+                    .title(message.noticeType().getName())
                     .description("### ⏰ 발생 시간 \n"
                             + message.sendAt()
-                            + "### 📢 안내 내용"
+                            + "\n### 📢 안내 내용\n"
                             + message.content())
                     .build();
         }
 
         private static Embed of(DiscordErrorMessage message) {
             return Embed.builder()
-                    .title(message.noticeType().name())
+                    .title(message.noticeType().getName())
                     .description("### ⏰ 발생 시간 \n"
                             + message.requestedAt()
-                            + "### 🔗 요청 URI"
+                            + "\n### 🔗 요청 URI\n"
                             + message.requestUri()
-                            + "### 📢 에러 내용"
+                            + "\n### 📢 에러 내용\n"
                             + message.content())
                     .build();
         }
