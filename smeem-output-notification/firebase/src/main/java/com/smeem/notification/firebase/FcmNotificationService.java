@@ -1,39 +1,37 @@
-package com.smeem.external.firebase;
+package com.smeem.notification.firebase;
 
 import com.google.firebase.messaging.*;
-import com.smeem.external.firebase.dto.request.NotificationRequest;
-import com.smeem.external.firebase.dto.request.NotificationSingleRequest;
-import com.smeem.external.firebase.dto.request.NotificationMulticastRequest;
-import com.smeem.external.firebase.exception.FcmException;
+import com.smeem.common.exception.ExceptionCode;
+import com.smeem.common.exception.SmeemException;
+import com.smeem.notification.firebase.dto.request.NotificationMulticastRequest;
+import com.smeem.notification.firebase.dto.request.NotificationRequest;
+import com.smeem.notification.firebase.dto.request.NotificationSingleRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
-import static com.smeem.common.code.failure.FcmFailureCode.FCM_SERVICE_UNAVAILABLE;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class FcmNotificationService implements NotificationService {
-
+public class FcmNotificationService {
     private final FirebaseMessaging firebaseMessaging;
 
-    public void sendMessage(final NotificationSingleRequest request) {
+    public void sendMessage(NotificationSingleRequest request) {
         try {
             val message = request.buildMessage().setApnsConfig(getApnsConfig(request)).build();
             firebaseMessaging.sendAsync(message);
         } catch (RuntimeException exception) {
-            throw new FcmException(FCM_SERVICE_UNAVAILABLE, exception.getMessage());
+            throw new SmeemException(ExceptionCode.SERVICE_AVAILABLE, "FCM Service");
         }
     }
 
-    public void sendMessages(final NotificationMulticastRequest request) {
+    public void sendMessages(NotificationMulticastRequest request) {
         try {
             val messages = request.buildSendMessage().setApnsConfig(getApnsConfig(request)).build();
             firebaseMessaging.sendMulticastAsync(messages);
         } catch (RuntimeException exception) {
-            throw new FcmException(FCM_SERVICE_UNAVAILABLE, exception.getMessage());
+            throw new SmeemException(ExceptionCode.SERVICE_AVAILABLE, "FCM Service");
         }
     }
 

@@ -1,4 +1,4 @@
-package com.smeem.external.config;
+package com.smeem.notification.firebase.config;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -16,7 +16,6 @@ import lombok.*;
 
 @Configuration
 public class FcmConfig {
-
     private final ClassPathResource firebaseResource;
     private final String projectId;
 

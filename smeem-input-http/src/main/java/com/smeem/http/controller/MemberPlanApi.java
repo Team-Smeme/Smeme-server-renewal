@@ -8,10 +8,8 @@ import com.smeem.application.port.input.dto.response.plan.RetrieveMemberPlanResp
 import com.smeem.common.util.SmeemConverter;
 import com.smeem.http.controller.docs.MemberPlanApiDocs;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -22,6 +20,7 @@ public class MemberPlanApi implements MemberPlanApiDocs {
     private final MemberUseCase memberUseCase;
     private final SmeemConverter smeemConverter;
 
+    @ResponseStatus(HttpStatus.OK)
     @PatchMapping
     public SmeemResponse<?> updatePlan(Principal principal, UpdateMemberPlanRequest request) {
         long memberId = smeemConverter.toMemberId(principal);
@@ -29,6 +28,7 @@ public class MemberPlanApi implements MemberPlanApiDocs {
         return SmeemResponse.of(SmeemMessage.UPDATE_MEMBER);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public SmeemResponse<RetrieveMemberPlanResponse> retrievePlan(Principal principal) {
         long memberId = smeemConverter.toMemberId(principal);

@@ -1,4 +1,4 @@
-package com.smeem.external.firebase;
+package com.smeem.notification.firebase;
 
 import com.smeem.external.firebase.dto.request.NotificationSingleRequest;
 import com.smeem.external.firebase.dto.request.NotificationMulticastRequest;

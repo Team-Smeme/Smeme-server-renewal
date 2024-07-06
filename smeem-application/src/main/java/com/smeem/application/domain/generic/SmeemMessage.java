@@ -28,4 +28,7 @@ public class SmeemMessage {
 
     // plan
     public static final String RETRIEVE_PLAN = "플랜 조회 성공";
+
+    // test
+    public static final String TEST = "테스트 성공";
 }
