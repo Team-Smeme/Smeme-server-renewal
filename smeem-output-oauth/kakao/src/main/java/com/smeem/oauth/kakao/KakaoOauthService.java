@@ -2,27 +2,26 @@ package com.smeem.oauth.kakao;
 
 import com.smeem.common.exception.ExceptionCode;
 import com.smeem.common.exception.SmeemException;
+import com.smeem.common.util.SmeemProperty;
 import com.smeem.oauth.kakao.dto.KakaoResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class KakaoOauthService {
-    @Value("${jwt.KAKAO_URL}")
-    private String KAKAO_URL;
+    private final SmeemProperty smeemProperty;
 
     public String getKakaoData(final String accessToken) {
         try {
             val restClient = RestClient.create();
             val response = restClient.get()
-                    .uri(KAKAO_URL)
+                    .uri(smeemProperty.getKAKAO_URL())
                     .header(AUTHORIZATION, accessToken)
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError,

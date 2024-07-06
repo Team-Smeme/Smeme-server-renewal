@@ -11,8 +11,20 @@ import java.util.Base64;
 @Component
 @Getter
 public class SmeemProperty {
+    /**
+     * http
+     */
     @Value("${smeem.secret.key}")
     private String SMEEM_SECRET_KEY;
+
+    /**
+     * oauth-module
+     */
+    @Value("${oauth.url.apple}")
+    private String APPLE_URL;
+
+    @Value("${oauth.url.kakao}")
+    private String KAKAO_URL;
 
     @PostConstruct
     protected void init() {

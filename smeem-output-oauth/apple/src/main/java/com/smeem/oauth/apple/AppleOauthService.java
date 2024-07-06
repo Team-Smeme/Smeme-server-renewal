@@ -4,13 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smeem.common.exception.ExceptionCode;
 import com.smeem.common.exception.SmeemException;
+import com.smeem.common.util.SmeemProperty;
 import com.smeem.oauth.apple.dto.response.AppleKey;
 import com.smeem.oauth.apple.dto.response.AppleKeysResponse;
 import com.smeem.oauth.apple.dto.response.DecodedAppleKey;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -29,9 +29,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AppleOauthService {
     private final ObjectMapper objectMapper;
-
-    @Value("${jwt.APPLE_URL}")
-    private String APPLE_URL;
+    private final SmeemProperty smeemProperty;
 
     public String getAppleData(String appleAccessToken) {
         val publicAppleKeys = getApplePublicKeys();
@@ -53,7 +51,7 @@ public class AppleOauthService {
         try {
             val restClient = RestClient.create();
             return restClient.get()
-                    .uri(APPLE_URL)
+                    .uri(smeemProperty.getAPPLE_URL())
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError, (appleRequest, appleResponse) -> {
                         throw new SmeemException(ExceptionCode.SERVICE_AVAILABLE);
