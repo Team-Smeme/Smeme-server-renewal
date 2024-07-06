@@ -3,4 +3,12 @@ project(':smeem-batch') {
         implementation project(':smeem-common')
         implementation project(':smeem-application')
     }
+
+    tasks.bootJar {
+        enabled = false
+    }
+
+    tasks.jar {
+        enabled = true
+    }
 }

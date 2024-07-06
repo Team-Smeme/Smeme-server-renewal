@@ -15,3 +15,11 @@ project(':smeem-input-http') {
         implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
     }
 }
+
+tasks.bootJar {
+    enabled = false
+}
+
+tasks.jar {
+    enabled = true
+}
