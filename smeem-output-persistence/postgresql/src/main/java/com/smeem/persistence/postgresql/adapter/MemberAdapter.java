@@ -64,6 +64,6 @@ public class MemberAdapter implements MemberPort {
 
     private MemberEntity find(long id) {
         return memberRepository.findById(id)
-                .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, "id: " + id));
+                .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, "(Member ID: " + id + ")"));
     }
 }
