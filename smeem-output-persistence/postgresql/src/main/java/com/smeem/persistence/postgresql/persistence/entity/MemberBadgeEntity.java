@@ -1,12 +1,12 @@
 package com.smeem.persistence.postgresql.persistence.entity;
 
-import com.smeem.application.domain.badge.Badge;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "member_badge", schema = "smeem")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class MemberBadgeEntity extends BaseEntity {

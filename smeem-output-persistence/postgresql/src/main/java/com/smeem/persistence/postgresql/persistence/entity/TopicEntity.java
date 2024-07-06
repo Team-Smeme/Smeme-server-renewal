@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
+@Table(name = "topic", schema = "smeem")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class TopicEntity {

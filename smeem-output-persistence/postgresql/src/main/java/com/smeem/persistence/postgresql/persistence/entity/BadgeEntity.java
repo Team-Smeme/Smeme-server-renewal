@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "badge", schema = "smeem")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BadgeEntity {

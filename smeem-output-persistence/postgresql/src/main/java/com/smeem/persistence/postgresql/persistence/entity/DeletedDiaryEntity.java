@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
+@Table(name = "deleted_diary", schema = "smeem")
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 public class DeletedDiaryEntity {

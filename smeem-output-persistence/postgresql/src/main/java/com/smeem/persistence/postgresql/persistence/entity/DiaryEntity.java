@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "diary", schema = "smeem")
 @Builder(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor

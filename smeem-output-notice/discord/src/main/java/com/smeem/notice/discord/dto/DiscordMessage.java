@@ -7,7 +7,7 @@ import lombok.Builder;
 import java.time.LocalDate;
 
 @Builder(access = AccessLevel.PRIVATE)
-public record DiscordMessage( //TODO: 인터페이스 활용
+public record DiscordMessage(
         String title,
         String content,
         LocalDate sendAt,
