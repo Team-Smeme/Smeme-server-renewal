@@ -2,7 +2,7 @@ package com.smeem.http.controller;
 
 import com.smeem.application.domain.generic.SmeemMessage;
 import com.smeem.application.port.input.BadgeUseCase;
-import com.smeem.application.port.input.dto.response.SmeemResponse;
+import com.smeem.http.controller.dto.SmeemResponse;
 import com.smeem.application.port.input.dto.response.badge.RetrieveMemberBadgesResponse;
 import com.smeem.http.controller.docs.MemberBadgeApiV3Docs;
 import com.smeem.common.util.SmeemConverter;

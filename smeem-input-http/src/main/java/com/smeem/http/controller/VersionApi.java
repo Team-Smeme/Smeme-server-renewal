@@ -2,7 +2,7 @@ package com.smeem.http.controller;
 
 import com.smeem.application.domain.generic.SmeemMessage;
 import com.smeem.application.port.input.VersionUseCase;
-import com.smeem.application.port.input.dto.response.SmeemResponse;
+import com.smeem.http.controller.dto.SmeemResponse;
 import com.smeem.application.port.input.dto.response.version.RetrieveAppVersionResponse;
 import com.smeem.http.controller.docs.VersionApiDocs;
 import lombok.RequiredArgsConstructor;

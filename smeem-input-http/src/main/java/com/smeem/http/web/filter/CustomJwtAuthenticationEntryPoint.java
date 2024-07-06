@@ -1,7 +1,7 @@
 package com.smeem.http.web.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smeem.application.port.input.dto.response.ExceptionResponse;
+import com.smeem.http.controller.dto.ExceptionResponse;
 import com.smeem.common.exception.ExceptionCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,6 +33,6 @@ public class CustomJwtAuthenticationEntryPoint implements AuthenticationEntryPoi
     private ResponseEntity<ExceptionResponse> exceptionResponse() {
         return ResponseEntity
                 .status(ExceptionCode.UNAUTHORIZED.getStatusCode())
-                .body(ExceptionResponse.of(ExceptionCode.UNAUTHORIZED));
+                .body(ExceptionResponse.of(ExceptionCode.UNAUTHORIZED.getMessage()));
     }
 }

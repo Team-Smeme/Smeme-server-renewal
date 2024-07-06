@@ -1,7 +1,7 @@
 package com.smeem.http.controller.docs;
 
 import com.smeem.application.port.input.dto.request.diary.WriteDiaryRequest;
-import com.smeem.application.port.input.dto.response.SmeemResponse;
+import com.smeem.http.controller.dto.SmeemResponse;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiariesResponse;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiaryResponse;
 import com.smeem.application.port.input.dto.response.diary.WriteDiaryResponse;

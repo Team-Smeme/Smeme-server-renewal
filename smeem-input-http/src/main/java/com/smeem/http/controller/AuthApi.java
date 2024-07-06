@@ -4,7 +4,7 @@ import com.smeem.application.domain.generic.SmeemMessage;
 import com.smeem.application.port.input.AuthUseCase;
 import com.smeem.http.controller.docs.AuthApiDocs;
 import com.smeem.application.port.input.dto.request.auth.SignInRequest;
-import com.smeem.application.port.input.dto.response.SmeemResponse;
+import com.smeem.http.controller.dto.SmeemResponse;
 import com.smeem.application.port.input.dto.response.auth.GenerateTokenResponse;
 import com.smeem.application.port.input.dto.response.auth.SignInResponse;
 import com.smeem.common.util.SmeemConverter;

@@ -3,7 +3,7 @@ package com.smeem.http.controller;
 import com.smeem.application.domain.generic.SmeemMessage;
 import com.smeem.application.domain.goal.GoalType;
 import com.smeem.application.port.input.GoalUseCase;
-import com.smeem.application.port.input.dto.response.SmeemResponse;
+import com.smeem.http.controller.dto.SmeemResponse;
 import com.smeem.application.port.input.dto.response.goal.RetrieveGoalResponse;
 import com.smeem.application.port.input.dto.response.goal.RetrieveGoalsResponse;
 import com.smeem.http.controller.docs.GoalApiDocs;

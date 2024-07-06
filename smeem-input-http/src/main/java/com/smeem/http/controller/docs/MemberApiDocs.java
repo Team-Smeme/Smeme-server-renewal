@@ -2,7 +2,7 @@ package com.smeem.http.controller.docs;
 
 import com.smeem.application.port.input.dto.request.member.UpdateMemberHasPushAlarmRequest;
 import com.smeem.application.port.input.dto.request.member.UpdateMemberRequest;
-import com.smeem.application.port.input.dto.response.SmeemResponse;
+import com.smeem.http.controller.dto.SmeemResponse;
 import com.smeem.application.port.input.dto.response.member.RetrieveMemberResponse;
 import com.smeem.application.port.input.dto.response.member.RetrievePerformanceResponse;
 import com.smeem.application.port.input.dto.response.member.UpdateMemberResponse;

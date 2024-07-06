@@ -5,7 +5,7 @@ import com.smeem.application.port.input.AuthUseCase;
 import com.smeem.application.port.input.dto.request.auth.SignInRequest;
 import com.smeem.application.port.input.dto.response.auth.GenerateTokenResponse;
 import com.smeem.application.port.input.dto.response.auth.SignInResponse;
-import com.smeem.application.port.output.external.SocialPort;
+import com.smeem.application.port.output.oauth.OauthPort;
 import com.smeem.application.port.output.persistence.MemberPort;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -17,12 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class AuthService implements AuthUseCase {
     private final MemberPort memberPort;
-    private final SocialPort socialPort;
+    private final OauthPort oauthPort;
     private final TokenGenerator tokenGenerator;
 
     @Transactional
     public SignInResponse signIn(String socialAccessToken, SignInRequest request) {
-        val social = socialPort.login(request.socialType(), socialAccessToken);
+        val social = oauthPort.login(request.socialType(), socialAccessToken);
         val signedMember = signIn(social, request);
         memberPort.update(signedMember.updateSmeemToken(tokenGenerator.generateRefreshToken(signedMember.getId())));
         return SignInResponse.of(tokenGenerator.generateAccessToken(signedMember.getId()), signedMember);

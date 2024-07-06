@@ -3,7 +3,7 @@ package com.smeem.http.controller;
 import com.smeem.application.domain.generic.SmeemMessage;
 import com.smeem.application.port.input.DiaryUseCase;
 import com.smeem.application.port.input.dto.request.diary.WriteDiaryRequest;
-import com.smeem.application.port.input.dto.response.SmeemResponse;
+import com.smeem.http.controller.dto.SmeemResponse;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiariesResponse;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiaryResponse;
 import com.smeem.application.port.input.dto.response.diary.WriteDiaryResponse;

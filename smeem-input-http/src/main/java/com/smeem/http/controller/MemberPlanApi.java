@@ -3,7 +3,7 @@ package com.smeem.http.controller;
 import com.smeem.application.domain.generic.SmeemMessage;
 import com.smeem.application.port.input.MemberUseCase;
 import com.smeem.application.port.input.dto.request.plan.UpdateMemberPlanRequest;
-import com.smeem.application.port.input.dto.response.SmeemResponse;
+import com.smeem.http.controller.dto.SmeemResponse;
 import com.smeem.application.port.input.dto.response.plan.RetrieveMemberPlanResponse;
 import com.smeem.common.util.SmeemConverter;
 import com.smeem.http.controller.docs.MemberPlanApiDocs;

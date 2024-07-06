@@ -15,14 +15,12 @@
 //    @Value("${smeem.notification.body}")
 //    private String NOTIFICATION_BODY;
 //
-//    @Value("${jwt.APPLE_URL}")
-//    private String APPLE_URL;
+
 //
 //    @Value("${WELCOME_BADGE_ID}")
 //    private Long WELCOME_BADGE_ID;
 //
-//    @Value("${jwt.KAKAO_URL}")
-//    private String KAKAO_URL;
+
 //
 //    @Value("${fcm.file_path}")
 //    private String FIREBASE_CONFIG_PATH;

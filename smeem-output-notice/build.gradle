@@ -1,6 +1,8 @@
 project(':smeem-output-notice') {
     dependencies {
         implementation project(':smeem-output-notice:discord')
+
+        implementation 'org.springframework.boot:spring-boot-starter-web'
     }
 }
 

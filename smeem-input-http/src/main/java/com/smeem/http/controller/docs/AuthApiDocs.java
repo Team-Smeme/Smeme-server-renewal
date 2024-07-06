@@ -1,7 +1,7 @@
 package com.smeem.http.controller.docs;
 
 import com.smeem.application.port.input.dto.request.auth.SignInRequest;
-import com.smeem.application.port.input.dto.response.SmeemResponse;
+import com.smeem.http.controller.dto.SmeemResponse;
 import com.smeem.application.port.input.dto.response.auth.GenerateTokenResponse;
 import com.smeem.application.port.input.dto.response.auth.SignInResponse;
 import io.swagger.v3.oas.annotations.Operation;
