@@ -93,16 +93,18 @@ public class DiaryAdapter implements DiaryPort {
 
     private DiaryEntity find(long id) {
         return diaryRepository.findById(id)
-                .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, " id: " + id));
+                .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, "(Diary ID: " + id + ")"));
     }
 
     private MemberEntity findByMemberId(long id) {
         return memberRepository.findById(id)
-                .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, " id: " + id));
+                .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, "(Member ID: " + id + ")"));
     }
 
     private TopicEntity findByTopicId(long id) {
         return topicRepository.findById(id)
-                .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, " id: " + id));
+                .orElseThrow(() -> new SmeemException(
+                        ExceptionCode.NOT_FOUND,
+                        "(서버 개발자에게 문의: Topic ID: " + id + ")"));
     }
 }
