@@ -22,7 +22,7 @@ public class MemberPlanApi implements MemberPlanApiDocs {
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping
-    public SmeemResponse<?> updatePlan(Principal principal, UpdateMemberPlanRequest request) {
+    public SmeemResponse<?> updatePlan(Principal principal, @RequestBody UpdateMemberPlanRequest request) {
         long memberId = smeemConverter.toMemberId(principal);
         memberUseCase.updatePlan(memberId, request);
         return SmeemResponse.of(SmeemMessage.UPDATE_MEMBER);
