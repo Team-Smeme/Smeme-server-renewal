@@ -1,7 +1,9 @@
 package com.smeem.application.port.output.notice;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @RequiredArgsConstructor
 public enum NoticeType {
     SIGN_IN("회원가입 알리미"),
