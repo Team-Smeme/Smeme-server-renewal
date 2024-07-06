@@ -93,6 +93,7 @@ public class MemberService implements MemberUseCase {
         val foundMember = memberPort.findById(memberId);
         if (!visitPort.isExistByMemberAndToday(foundMember.getId())) {
             foundMember.visit();
+            memberPort.update(foundMember);
             visitPort.visit(new Visit(foundMember.getId()));
         }
     }
