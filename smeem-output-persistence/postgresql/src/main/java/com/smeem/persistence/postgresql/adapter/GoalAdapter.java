@@ -26,7 +26,9 @@ public class GoalAdapter implements GoalPort {
     @Override
     public Goal findByGoalType(GoalType goalType) {
         val foundGoal = goalRepository.findByGoalType(goalType)
-                .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, "GoalType: " + goalType));
+                .orElseThrow(() -> new SmeemException(
+                        ExceptionCode.NOT_FOUND,
+                        "(서버 개발자에게 문의: GoalType: " + goalType + ")"));
         return foundGoal.toDomain();
     }
 
