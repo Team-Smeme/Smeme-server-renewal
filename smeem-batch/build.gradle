@@ -1,14 +1,6 @@
-jar { enabled = true }
-
-bootJar { enabled = false }
-
-dependencies {
-    implementation project(":smeem-common")
-    implementation project(":smeem-domain")
-    implementation project(":smeem-external")
-
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-
-    // jpa
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+project(':smeem-batch') {
+    dependencies {
+        implementation project(':smeem-common')
+        implementation project(':smeem-application')
+    }
 }

@@ -36,11 +36,9 @@ out/
 ### VS Code ###
 .vscode/
 
-application.properties
 application-oauth2.yml
-*.properties
-.env
 smeem_fcm.json
 .DS_Store
 
 application-secret.yml
+docker/postgresql

@@ -1,0 +1,70 @@
+spring:
+  config:
+    import: application-secret.yml
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=smeem
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 1000
+        auto_quote_keyword: true
+    show-sql: true
+
+logging.level:
+  org.hibernate.SQL: debug
+
+### smeem
+smeem:
+  secret:
+    key: ${SMEEM.SECRET.KEY}
+  duration:
+    expired: ${SMEEM.DURATION.EXPIRED}
+    remind: ${SMEEM.DURATION.REMIND}
+  client:
+    version:
+      title: "업데이트 알림"
+      content: "보다 나아진 스밈의 최신 버전을 준비했어요! 새로운 버전으로 업데이트 후 이용해주세요."
+      ios:
+        app: 2.0.2
+        force: 3.0.0
+      android:
+        app: 2.0.0
+        force: 2.0.0
+  notification:
+    title: "오늘의 영어 훈련, 딱 5분 걸려요!"
+    body: "지금 눌러서 일기 쓰기 ✍️"
+    cron_expression: "-"
+
+### auth
+jwt:
+  ACCESS_TOKEN_EXPIRED: 7200000
+  REFRESH_TOKEN_EXPIRED: 1209600000
+
+### oauth
+oauth:
+  url:
+    apple: https://appleid.apple.com/auth/keys
+    kakao: https://kapi.kakao.com/v2/user/me
+
+### notice
+discord:
+  webhook:
+    url:
+      sign-in: ${DISCORD.WEBHOOK.URL.TEST}
+      withdraw: ${DISCORD.WEBHOOK.URL.TEST}
+      error: ${DISCORD.WEBHOOK.URL.TEST}
+
+### notification
+fcm:
+  file_path: firebase-config/smeem_fcm.json
+  project_id: ${FCM.PROJECT_ID}
+  url: ${FCM.URL}
+  google_api: https://www.googleapis.com/auth/cloud-platform
