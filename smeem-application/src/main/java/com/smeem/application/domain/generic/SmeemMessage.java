@@ -25,4 +25,7 @@ public class SmeemMessage {
     // member
     public static final String UPDATE_MEMBER = "회원 수정 성공";
     public static final String RETRIEVE_MEMBER = "회원 조회 성공";
+
+    // plan
+    public static final String RETRIEVE_PLAN = "플랜 조회 성공";
 }
