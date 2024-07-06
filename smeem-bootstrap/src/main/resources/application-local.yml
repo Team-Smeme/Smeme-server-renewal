@@ -10,7 +10,7 @@ spring:
     password: postgres
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         format_sql: true
@@ -18,12 +18,10 @@ spring:
         auto_quote_keyword: true
     show-sql: true
 
-server:
-  port: 8080
-
 logging.level:
   org.hibernate.SQL: debug
 
+### smeem
 smeem:
   secret:
     key: ${SMEEM.SECRET.KEY}
@@ -44,25 +42,17 @@ smeem:
     title: "오늘의 영어 훈련, 딱 5분 걸려요!"
     body: "지금 눌러서 일기 쓰기 ✍️"
     cron_expression: "-"
-  badge:
-    update_cron_expression: "0 0 04 1 * *"
 
-
-sentry:
-  dsn: ${SENTRY.DSN}
-  environment: dev
-  enable-tracing: true
-  exception-resolver-order: -2147483647
-
-
+### auth
 jwt:
-  KAKAO_URL: https://kapi.kakao.com/v2/user/me
-  APPLE_URL: https://appleid.apple.com/auth/keys
   ACCESS_TOKEN_EXPIRED: 7200000
   REFRESH_TOKEN_EXPIRED: 1209600000
 
-badge:
-  welcome-badge-id: ${WELCOME_BADGE_ID}
+### oauth
+oauth:
+  url:
+    apple: https://appleid.apple.com/auth/keys
+    kakao: https://kapi.kakao.com/v2/user/me
 
 ### notice
 discord:
