@@ -53,13 +53,7 @@ public class BadgeAdapter implements BadgePort, MemberBadgePort {
 
     @Override
     public List<Long> findIdsByMember(long memberId) {
-        return memberBadgeRepository.findByMemberId(memberId).stream().map(MemberBadgeEntity::getId).toList();
-    }
-
-    @Override
-    public Badge save(long memberId, long badgeId) {
-        memberBadgeRepository.save(new MemberBadgeEntity(memberId, badgeId));
-        return findBadge(badgeId).toDomain();
+        return memberBadgeRepository.findByMemberId(memberId).stream().map(MemberBadgeEntity::getBadgeId).toList();
     }
 
     private BadgeEntity findBadge(long id) {
