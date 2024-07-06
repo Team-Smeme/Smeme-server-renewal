@@ -13,4 +13,5 @@ public interface DiaryUseCase {
     void modifyDiary(long diaryId, WriteDiaryRequest request);
     void deleteDiary(long diary);
     RetrieveDiariesResponse retrieveDiariesByTerm(long memberId, LocalDate startDate, LocalDate endDate);
+    void deleteExpiredDiaries(int duration);
 }

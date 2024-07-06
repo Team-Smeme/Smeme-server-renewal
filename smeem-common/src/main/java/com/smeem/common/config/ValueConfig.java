@@ -9,11 +9,7 @@
 //@Configuration
 //public class ValueConfig { //TODO: move personal
 //
-//    @Value("${smeem.notification.title}")
-//    private String NOTIFICATION_TITLE;
-//
-//    @Value("${smeem.notification.body}")
-//    private String NOTIFICATION_BODY;
+
 //
 
 //
@@ -31,8 +27,6 @@
 //    @Value("${fcm.google_api}")
 //    private String GOOGLE_API_URI;
 //
-//    @Value("${smeem.duration.expired}")
-//    private int DURATION_EXPIRED;
 //
 //    @Value("${smeem.duration.remind}")
 //    private int DURATION_REMIND;

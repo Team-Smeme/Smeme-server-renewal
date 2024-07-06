@@ -2,6 +2,8 @@ package com.smeem.application.port.output.persistence;
 
 import com.smeem.application.domain.member.Member;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberPort {
@@ -12,4 +14,5 @@ public interface MemberPort {
     void deleteById(long id);
     boolean isExistByUsername(String username);
     int countAll();
+    List<Member> findByTrainingTime(LocalDateTime date);
 }

@@ -44,3 +44,4 @@ smeem_fcm.json
 .DS_Store
 
 application-secret.yml
+postgresql

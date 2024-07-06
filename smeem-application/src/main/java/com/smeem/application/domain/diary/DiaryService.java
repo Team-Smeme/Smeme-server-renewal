@@ -76,4 +76,10 @@ public class DiaryService implements DiaryUseCase {
                 diaryPort.findByMemberAndTerm(memberId, startDate, endDate),
                 diaryPort.isExistByMemberAndPastAgo(memberId, 30));
     }
+
+    @Transactional
+    public void deleteExpiredDiaries(int duration) {
+        val expiredDate = LocalDate.now().minusDays(duration - 1);
+        diaryPort.deleteByCreatedAt(expiredDate);
+    }
 }

@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -53,6 +55,11 @@ public class MemberAdapter implements MemberPort {
     @Override
     public int countAll() {
         return (int)memberRepository.count();
+    }
+
+    @Override
+    public List<Member> findByTrainingTime(LocalDateTime trainingTime) {
+        return memberRepository.findByTrainingTime(trainingTime).stream().map(MemberEntity::toDomain).toList();
     }
 
     private MemberEntity find(long id) {

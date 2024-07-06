@@ -1,5 +1,6 @@
 dependencies {
 	implementation project(':smeem-common')
+	implementation project(':smeem-batch')
 	implementation project(':smeem-input-http')
 	implementation project(':smeem-output-persistence')
 	implementation project(':smeem-output-persistence:postgresql')

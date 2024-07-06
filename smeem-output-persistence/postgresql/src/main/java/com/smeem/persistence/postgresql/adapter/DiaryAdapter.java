@@ -84,6 +84,13 @@ public class DiaryAdapter implements DiaryPort {
         return 0;
     }
 
+    @Override
+    public void deleteByCreatedAt(LocalDate expiredDate) {
+        deletedDiaryRepository.deleteByCreatedAtBetween(
+                expiredDate.atStartOfDay(),
+                expiredDate.atStartOfDay().plusDays(1));
+    }
+
     private DiaryEntity find(long id) {
         return diaryRepository.findById(id)
                 .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, " id: " + id));
