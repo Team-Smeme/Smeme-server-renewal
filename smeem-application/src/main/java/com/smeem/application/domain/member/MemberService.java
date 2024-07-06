@@ -38,12 +38,8 @@ public class MemberService implements MemberUseCase {
     @Transactional
     public UpdateMemberResponse updateMember(long memberId, UpdateMemberRequest request) {
         val foundMember = memberPort.findById(memberId);
+        val isSignIn = foundMember.getUsername() == null;
         val acquiredBadges = new ArrayList<Badge>();
-
-        if (foundMember.getUsername() == null) { // 회원가입 절차
-            noticePort.noticeSignIn(request.username(), memberPort.countAll());
-            acquiredBadges.add(badgePort.saveWelcomeBadgeToMember(memberId));
-        }
 
         if (request.username() != null) {
             foundMember.updateUsername(request.username());
@@ -52,6 +48,11 @@ public class MemberService implements MemberUseCase {
             foundMember.updateTermAccepted(request.termAccepted());
         }
         memberPort.update(foundMember);
+
+        if (isSignIn) {
+            noticePort.noticeSignIn(request.username(), memberPort.countAll());
+            acquiredBadges.add(badgePort.saveWelcomeBadgeToMember(memberId));
+        }
 
         return UpdateMemberResponse.of(acquiredBadges);
     }
