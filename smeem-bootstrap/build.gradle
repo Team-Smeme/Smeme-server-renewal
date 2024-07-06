@@ -3,6 +3,8 @@ dependencies {
 	implementation project(':smeem-input-http')
 	implementation project(':smeem-output-persistence')
 	implementation project(':smeem-output-persistence:postgresql')
+	implementation project(':smeem-output-notice')
+	implementation project(':smeem-output-notice:discord')
 
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 }

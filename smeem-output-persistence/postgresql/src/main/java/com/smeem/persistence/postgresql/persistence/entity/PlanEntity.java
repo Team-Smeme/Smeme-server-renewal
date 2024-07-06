@@ -1,5 +1,6 @@
 package com.smeem.persistence.postgresql.persistence.entity;
 
+import com.smeem.application.domain.plan.Plan;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -18,4 +19,12 @@ public class PlanEntity {
     private Long id;
     private String content;
     private int clearCount;
+
+    public Plan toDomain() {
+        return Plan.builder()
+                .id(id)
+                .content(content)
+                .clearCount(clearCount)
+                .build();
+    }
 }

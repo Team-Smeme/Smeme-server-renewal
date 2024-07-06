@@ -3,7 +3,7 @@ project(':smeem-application') {
         implementation project(':smeem-common')
 
         // docs
-        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
 
         // transaction
         implementation 'org.springframework:spring-tx:6.1.10'

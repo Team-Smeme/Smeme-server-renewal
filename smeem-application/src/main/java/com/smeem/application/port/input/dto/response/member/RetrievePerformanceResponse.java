@@ -1,5 +1,6 @@
 package com.smeem.application.port.input.dto.response.member;
 
+import com.smeem.application.domain.member.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
@@ -16,4 +17,13 @@ public record RetrievePerformanceResponse(
         @Schema(description = "획득한 배지 개수")
         int badgeCount
 ) {
+
+        public static RetrievePerformanceResponse of(Member member, int diaryCount, int badgeCount) {
+                return RetrievePerformanceResponse.builder()
+                        .visitDays(member.getVisitDays())
+                        .diaryCount(diaryCount)
+                        .diaryComboCount(member.getDiaryComboCount())
+                        .badgeCount(badgeCount)
+                        .build();
+        }
 }

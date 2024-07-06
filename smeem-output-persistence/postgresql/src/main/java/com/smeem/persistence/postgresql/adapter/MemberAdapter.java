@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class MemberAdapter implements MemberPort {
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public Optional<Member> findBySocial(Member.Social social) {
@@ -43,6 +43,16 @@ public class MemberAdapter implements MemberPort {
     public void deleteById(long id) {
         //TODO: diary, goal, plan, trainingTime etc...
         memberRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean isExistByUsername(String username) {
+        return memberRepository.existsByUsername(username);
+    }
+
+    @Override
+    public int countAll() {
+        return (int)memberRepository.count();
     }
 
     private MemberEntity find(long id) {

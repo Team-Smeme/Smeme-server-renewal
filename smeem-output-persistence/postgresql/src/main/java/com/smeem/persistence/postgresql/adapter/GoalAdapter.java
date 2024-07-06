@@ -29,4 +29,15 @@ public class GoalAdapter implements GoalPort {
                 .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, "GoalType: " + goalType));
         return foundGoal.toDomain();
     }
+
+    @Override
+    public Goal findById(long goalId) {
+        val foundGoal = find(goalId);
+        return foundGoal.toDomain();
+    }
+
+    private GoalEntity find(long goalId) {
+        return goalRepository.findById(goalId)
+                .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, "Goal ID: " + goalId));
+    }
 }

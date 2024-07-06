@@ -11,6 +11,7 @@ import com.smeem.persistence.postgresql.persistence.entity.MemberBadgeEntity;
 import com.smeem.persistence.postgresql.persistence.repository.BadgeRepository;
 import com.smeem.persistence.postgresql.persistence.repository.MemberBadgeRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -34,6 +35,23 @@ public class BadgeAdapter implements BadgePort, MemberBadgePort {
     }
 
     @Override
+    public Optional<Badge> findRecentlyByMember(long memberId) {
+        return memberBadgeRepository.findFirstByMemberId(memberId)
+                .map(memberBadge -> findBadge(memberBadge.getBadgeId()).toDomain());
+    }
+
+    @Override
+    public Badge saveWelcomeBadgeToMember(long memberId) {
+        val memberBadge = memberBadgeRepository.save(new MemberBadgeEntity(memberId, 1L));
+        return findBadge(memberBadge.getBadgeId()).toDomain();
+    }
+
+    @Override
+    public int countByMember(long memberId) {
+        return memberBadgeRepository.countByMemberId(memberId);
+    }
+
+    @Override
     public List<Long> findIdsByMember(long memberId) {
         return memberBadgeRepository.findByMemberId(memberId).stream().map(MemberBadgeEntity::getId).toList();
     }
@@ -41,10 +59,10 @@ public class BadgeAdapter implements BadgePort, MemberBadgePort {
     @Override
     public Badge save(long memberId, long badgeId) {
         memberBadgeRepository.save(new MemberBadgeEntity(memberId, badgeId));
-        return find(badgeId).toDomain();
+        return findBadge(badgeId).toDomain();
     }
 
-    private BadgeEntity find(long id) {
+    private BadgeEntity findBadge(long id) {
         return badgeRepository.findById(id)
                 .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, "id: " + id));
     }

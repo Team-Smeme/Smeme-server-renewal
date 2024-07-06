@@ -22,7 +22,7 @@ public record SignInResponse(
                         .accessToken(accessToken)
                         .refreshToken(member.getRefreshToken())
                         .isRegistered(member.getUsername() != null)
-                        .hasPlan(member.getGoal() != null)
+                        .hasPlan(member.getGoalId() != null)
                         .build();
         }
 }

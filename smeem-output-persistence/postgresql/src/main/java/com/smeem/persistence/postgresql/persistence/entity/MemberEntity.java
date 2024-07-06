@@ -31,12 +31,8 @@ public class MemberEntity extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private LangType targetLang;
     private int diaryComboCount;
-
-//    @Embedded
-//    private DiaryComboInfo diaryComboInfo;
-
+    private int visitDays;
     private Long goalId;
-
     private Long trainingPlanId;
 
     public Member toDomain() {
@@ -50,6 +46,7 @@ public class MemberEntity extends BaseEntity {
                 .termAccepted(termAccepted)
                 .targetLang(targetLang)
                 .diaryComboCount(diaryComboCount)
+                .visitDays(visitDays)
                 .build();
     }
 
@@ -64,8 +61,8 @@ public class MemberEntity extends BaseEntity {
                 .diaryComboCount(member.getDiaryComboCount())
                 .username(member.getUsername())
                 .fcmToken(member.getFcmToken())
+                .visitDays(member.getVisitDays())
                 .build();
-
     }
 
     public void update(Member member) {
@@ -75,5 +72,7 @@ public class MemberEntity extends BaseEntity {
         hasPushAlarm = member.isHasPushAlarm();
         termAccepted = member.isTermAccepted();
         targetLang = member.getTargetLang();
+        diaryComboCount = member.getDiaryComboCount();
+        visitDays = member.getVisitDays();
     }
 }

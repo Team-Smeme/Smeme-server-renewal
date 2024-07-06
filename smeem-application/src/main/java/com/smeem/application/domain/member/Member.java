@@ -1,25 +1,26 @@
 package com.smeem.application.domain.member;
 
 import com.smeem.application.domain.generic.LangType;
-import com.smeem.application.domain.goal.Goal;
-import com.smeem.application.domain.plan.Plan;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
+@AllArgsConstructor
 public class Member {
     private Long id;
     private final Social social;
     private String fcmToken;
     private String refreshToken;
     private String username;
-    private Goal goal;
-    private Plan plan;
+    private Long goalId;
+    private Long planId;
     private boolean hasPushAlarm;
     private boolean termAccepted;
     private LangType targetLang;
     private int diaryComboCount;
+    private int visitDays;
 
     public Member(SocialType socialType, String socialId, String fcmToken) {
         this.social = new Social(socialType, socialId);
@@ -27,13 +28,27 @@ public class Member {
         init();
     }
 
-    public Member updateSmeemToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-        return this;
+    private void init() {
+        this.hasPushAlarm = false;
+        this.termAccepted = false;
+        this.targetLang = LangType.defaultType();
+        this.diaryComboCount = 0;
     }
 
     public Member emptyRefreshToken() {
         this.refreshToken = null;
+        return this;
+    }
+
+    public void visit() {
+        this.visitDays++;
+    }
+
+    /**
+     * update
+     */
+    public Member updateSmeemToken(String refreshToken) {
+        this.refreshToken = refreshToken;
         return this;
     }
 
@@ -46,13 +61,29 @@ public class Member {
         return this;
     }
 
-    private void init() {
-        this.hasPushAlarm = false;
-        this.termAccepted = false;
-        this.targetLang = LangType.defaultType();
-        this.diaryComboCount = 0;
+    public void updateHasPushAlarm(boolean hasPushAlarm) {
+        this.hasPushAlarm = hasPushAlarm;
     }
 
+    public void updateUsername(String username) {
+        this.username = username;
+    }
+
+    public void updateTermAccepted(boolean termAccepted) {
+        this.termAccepted = termAccepted;
+    }
+
+    public void updateGoal(long goalId) {
+        this.goalId = goalId;
+    }
+
+    public void updatePlan(long planId) {
+        this.planId = planId;
+    }
+
+    /**
+     * record
+     */
     public record Social(
             SocialType socialType,
             String socialId

@@ -1,5 +1,6 @@
 package com.smeem.persistence.postgresql.persistence.entity;
 
+import com.smeem.application.domain.badge.Badge;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

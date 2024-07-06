@@ -12,7 +12,8 @@ public interface DiaryPort {
     Diary findByIdJoinMemberAndTopic(long id);
     Diary findById(long id);
     Diary update(Diary diary);
-    void deleteById(long id);
+    void softDelete(long id);
     List<Diary> findByMemberAndTerm(long memberId, LocalDate startAt, LocalDate endAt);
     boolean isExistByMemberAndPastAgo(long memberId, int days);
+    int countWeeklyByMember(long memberId);
 }

@@ -68,7 +68,7 @@ public class DiaryService implements DiaryUseCase {
 
     @Transactional
     public void deleteDiary(long diary) {
-        diaryPort.deleteById(diary);
+        diaryPort.softDelete(diary);
     }
 
     public RetrieveDiariesResponse retrieveDiariesByTerm(long memberId, LocalDate startDate, LocalDate endDate) {

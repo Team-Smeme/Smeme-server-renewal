@@ -3,6 +3,7 @@ package com.smeem.application.port.input.dto.response.member;
 import com.smeem.application.domain.badge.Badge;
 import com.smeem.application.domain.badge.BadgeType;
 import com.smeem.application.domain.generic.LangType;
+import com.smeem.application.domain.goal.Goal;
 import com.smeem.application.domain.goal.GoalType;
 import com.smeem.application.domain.member.Member;
 import com.smeem.application.domain.plan.Plan;
@@ -38,18 +39,18 @@ public record RetrieveMemberResponse(
         PlanResponse trainingPlan
 ) {
 
-    public static RetrieveMemberResponse of(Member member, List<TrainingTime> trainingTimes, Badge recentBadge) {
+    public static RetrieveMemberResponse of(Member member, Goal goal, Plan plan, List<TrainingTime> trainingTimes, Badge recentBadge) {
         return RetrieveMemberResponse.builder()
                 .username(member.getUsername())
-                .target(member.getGoal() != null ? member.getGoal().getGoalType() : null)
-                .title(member.getGoal() != null ? member.getGoal().getGoalType().getDescription() : "")
-                .way(member.getGoal() != null ? member.getGoal().getWay() : "")
-                .detail(member.getGoal() != null ? member.getGoal().getDetail() : "")
+                .target(goal != null ? goal.getGoalType() : null)
+                .title(goal != null ? goal.getGoalType().getDescription() : "")
+                .way(goal != null ? goal.getWay() : "")
+                .detail(goal != null ? goal.getDetail() : "")
                 .targetLang(member.getTargetLang())
                 .hasPushAlarm(member.isHasPushAlarm())
                 .trainingTime(TrainingTimeResponse.of(trainingTimes))
                 .badge(recentBadge != null ? BadgeResponse.of(recentBadge) : null)
-                .trainingPlan(PlanResponse.of(member.getPlan()))
+                .trainingPlan(plan != null ? PlanResponse.of(plan) : null)
                 .build();
     }
 

@@ -4,9 +4,11 @@ import com.smeem.application.domain.diary.Diary;
 import com.smeem.application.port.output.persistence.DiaryPort;
 import com.smeem.common.exception.ExceptionCode;
 import com.smeem.common.exception.SmeemException;
+import com.smeem.persistence.postgresql.persistence.entity.DeletedDiaryEntity;
 import com.smeem.persistence.postgresql.persistence.entity.DiaryEntity;
 import com.smeem.persistence.postgresql.persistence.entity.MemberEntity;
 import com.smeem.persistence.postgresql.persistence.entity.TopicEntity;
+import com.smeem.persistence.postgresql.persistence.repository.DeletedDiaryRepository;
 import com.smeem.persistence.postgresql.persistence.repository.DiaryRepository;
 import com.smeem.persistence.postgresql.persistence.repository.MemberRepository;
 import com.smeem.persistence.postgresql.persistence.repository.TopicRepository;
@@ -23,6 +25,7 @@ public class DiaryAdapter implements DiaryPort {
     private final DiaryRepository diaryRepository;
     private final MemberRepository memberRepository;
     private final TopicRepository topicRepository;
+    private final DeletedDiaryRepository deletedDiaryRepository;
 
     @Override
     public int countByMember(long memberId) {
@@ -59,8 +62,9 @@ public class DiaryAdapter implements DiaryPort {
     }
 
     @Override
-    public void deleteById(long id) {
-        diaryRepository.deleteById(id);
+    public void softDelete(long diaryId) {
+        deletedDiaryRepository.save(new DeletedDiaryEntity(find(diaryId)));
+        diaryRepository.deleteById(diaryId);
     }
 
     @Override
@@ -73,6 +77,11 @@ public class DiaryAdapter implements DiaryPort {
     @Override
     public boolean isExistByMemberAndPastAgo(long memberId, int days) {
         return diaryRepository.existsByMemberAndPastAgo(memberId, days);
+    }
+
+    @Override
+    public int countWeeklyByMember(long memberId) {
+        return 0;
     }
 
     private DiaryEntity find(long id) {

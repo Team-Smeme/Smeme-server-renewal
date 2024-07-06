@@ -8,4 +8,5 @@ import java.util.List;
 public interface GoalPort {
     List<Goal> findAll();
     Goal findByGoalType(GoalType goalType);
+    Goal findById(long goalId);
 }

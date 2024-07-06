@@ -16,6 +16,7 @@ allprojects {
         implementation project(':smeem-common')
         implementation project(':smeem-application')
     }
+
     tasks.bootJar {
         enabled = false
     }

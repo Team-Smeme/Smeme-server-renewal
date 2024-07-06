@@ -1,0 +1,16 @@
+spring:
+  config:
+    import: application-secret.yml
+    activate:
+      on-profile: dev
+
+discord:
+  webhook:
+    url:
+      github: ""
+      dev:
+        error: ""
+      prod:
+        sign-in: ""
+        withdraw: ""
+        error: ""

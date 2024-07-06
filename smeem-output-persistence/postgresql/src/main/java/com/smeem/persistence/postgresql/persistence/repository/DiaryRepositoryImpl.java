@@ -48,4 +48,13 @@ public class DiaryRepositoryImpl implements DiaryCustomRepository {
                         diaryEntity.createdAt.between(remindAt, remindAt.plusDays(1)))
                 .fetchFirst() != null;
     }
+
+    @Override
+    public long countWeeklyByMemberId(long memberId) {
+        return queryFactory
+                .select(diaryEntity.id)
+                .from(diaryEntity)
+                .where(diaryEntity.memberId.eq(memberId))
+                .stream().count();
+    }
 }

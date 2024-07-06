@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface BadgePort {
     List<Badge> findAll();
     Optional<Badge> findByBadgeTypeAndStandard(BadgeType badgeType, int standard);
-    Optional<Badge> findByMemberIdRecently(long memberId);
-    Badge saveWelcomeBadge(long memberId);
+    Optional<Badge> findRecentlyByMember(long memberId);
+    Badge saveWelcomeBadgeToMember(long memberId);
+    int countByMember(long memberId);
 }
