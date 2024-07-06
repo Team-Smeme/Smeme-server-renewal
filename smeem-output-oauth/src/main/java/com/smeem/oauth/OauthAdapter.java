@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class OauthAdapter implements OauthPort {
-    private AppleOauthService appleOauthService;
-    private KakaoOauthService kakaoOauthService;
+    private final AppleOauthService appleOauthService;
+    private final KakaoOauthService kakaoOauthService;
 
     @Override
     public Member.Social login(SocialType socialType, String accessToken) {
