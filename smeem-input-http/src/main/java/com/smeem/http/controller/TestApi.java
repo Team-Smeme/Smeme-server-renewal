@@ -23,6 +23,12 @@ public class TestApi implements TestApiDocs {
     private final NotificationPort notificationPort;
     private final SmeemConverter smeemConverter;
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public String test() {
+        return "server connect";
+    }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @GetMapping("/alarm")
     public SmeemResponse<?> pushAlarm(Principal principal) {
