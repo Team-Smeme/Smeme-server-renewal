@@ -1,0 +1,26 @@
+project(':smeem-output-notice') {
+    dependencies {
+        implementation project(':smeem-output-notice:discord')
+    }
+}
+
+project(':smeem-output-notice:discord') {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+    }
+}
+
+allprojects {
+    dependencies {
+        implementation project(':smeem-common')
+        implementation project(':smeem-application')
+    }
+
+    tasks.bootJar {
+        enabled = false
+    }
+
+    tasks.jar {
+        enabled = true
+    }
+}
