@@ -16,6 +16,22 @@ public record RetrieveAppVersionResponse(
         VersionResponse androidVersion
 ) {
 
+    public static RetrieveAppVersionResponse of(
+            String title,
+            String content,
+            String androidVersion,
+            String androidForceVersion,
+            String iOSVersion,
+            String iOSForceVersion
+    ) {
+        return RetrieveAppVersionResponse.builder()
+                .title(title)
+                .content(content)
+                .iosVersion(VersionResponse.of(iOSVersion, iOSForceVersion))
+                .androidVersion(VersionResponse.of(androidVersion, androidForceVersion))
+                .build();
+    }
+
     @Builder(access = AccessLevel.PRIVATE)
     private record VersionResponse(
             @Schema(description = "최신 버전")
@@ -23,5 +39,12 @@ public record RetrieveAppVersionResponse(
             @Schema(description = "강제 업데이트 버전")
             String forceVersion
     ) {
+
+        private static VersionResponse of(String version, String forceVersion) {
+            return VersionResponse.builder()
+                    .version(version)
+                    .forceVersion(forceVersion)
+                    .build();
+        }
     }
 }

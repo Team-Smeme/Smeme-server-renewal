@@ -19,6 +19,11 @@ public class TopicAdapter implements TopicPort {
         return find(id).toDomain();
     }
 
+    @Override
+    public Topic findRandom() {
+        return topicRepository.findRandom().toDomain();
+    }
+
     private TopicEntity find(long id) {
         return topicRepository.findById(id)
                 .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, "id: " + id));

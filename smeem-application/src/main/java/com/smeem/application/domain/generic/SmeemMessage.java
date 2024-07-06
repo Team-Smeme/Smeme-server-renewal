@@ -31,4 +31,10 @@ public class SmeemMessage {
 
     // test
     public static final String TEST = "테스트 성공";
+
+    // topic
+    public static final String RETRIEVE_TOPIC = "일기 주제 조회 성공";
+
+    // version
+    public static final String RETRIEVE_VERSION = "버전 조회 성공";
 }

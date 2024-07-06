@@ -45,23 +45,7 @@
 //    @Value("${discord.webhook.info-url}")
 //    private String DISCORD_WEBHOOK_INFO_URL;
 //
-//    @Value("${smeem.client.version.title}")
-//    private String CLIENT_VERSION_UPDATE_TITLE;
-//
-//    @Value("${smeem.client.version.content}")
-//    private String CLIENT_VERSION_UPDATE_CONTENT;
-//
-//    @Value("${smeem.client.version.ios.app}")
-//    private String CLIENT_VERSION_IOS_VERSION;
-//
-//    @Value("${smeem.client.version.ios.force}")
-//    private String CLIENT_VERSION_IOS_FORCE_VERSION;
-//
-//    @Value("${smeem.client.version.android.app}")
-//    private String CLIENT_VERSION_ANDROID_VERSION;
-//
-//    @Value("${smeem.client.version.android.force}")
-//    private String CLIENT_VERSION_ANDROID_FORCE_VERSION;
+
 //
 //    public static final String SIGN_IN_MESSAGE = "새로운 유저 %s 가 가입했습니다! ✍️ \n 현재 회원 수: %d 명";
 //

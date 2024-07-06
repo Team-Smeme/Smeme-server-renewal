@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class PlanAdapter implements PlanPort {
@@ -19,6 +21,11 @@ public class PlanAdapter implements PlanPort {
     public Plan findById(long id) {
         val foundPlan = find(id);
         return foundPlan.toDomain();
+    }
+
+    @Override
+    public List<Plan> findAll() {
+        return planRepository.findAll().stream().map(PlanEntity::toDomain).toList();
     }
 
     private PlanEntity find(long id) {

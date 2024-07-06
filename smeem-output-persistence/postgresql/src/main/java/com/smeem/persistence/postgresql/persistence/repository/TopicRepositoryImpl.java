@@ -1,14 +1,14 @@
-package com.smeem.domain.topic.repository;
+package com.smeem.persistence.postgresql.persistence.repository;
 
 import com.querydsl.core.types.dsl.NumberExpression;
-import com.smeem.domain.topic.model.Topic;
+import com.smeem.persistence.postgresql.persistence.entity.TopicEntity;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 
-import static com.smeem.domain.topic.model.QTopic.topic;
+import static com.smeem.persistence.postgresql.persistence.entity.QTopicEntity.topicEntity;
 
 @Repository
 @RequiredArgsConstructor
@@ -17,9 +17,9 @@ public class TopicRepositoryImpl implements TopicCustomRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Topic findByRandom() {
+    public TopicEntity findRandom() {
         return queryFactory
-                .selectFrom(topic)
+                .selectFrom(topicEntity)
                 .orderBy(NumberExpression.random().asc())
                 .limit(1)
                 .fetchFirst();
