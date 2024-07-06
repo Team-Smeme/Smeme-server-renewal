@@ -18,6 +18,7 @@ public record DiscordMessage( //TODO: 인터페이스 활용
         return DiscordMessage.builder()
                 .title(title)
                 .content(content)
+                .sendAt(LocalDate.now())
                 .noticeType(noticeType)
                 .build();
     }
