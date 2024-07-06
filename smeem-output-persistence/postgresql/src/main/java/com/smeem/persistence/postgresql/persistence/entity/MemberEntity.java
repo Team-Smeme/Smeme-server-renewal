@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "member")
+@Table(name = "member", schema = "smeem") // TODO: 통일
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
@@ -21,19 +21,19 @@ public class MemberEntity extends BaseEntity {
     private SocialType socialType;
     @Column(nullable = false)
     private String socialId;
+    private String fcmToken;
     private String refreshToken;
-    private boolean hasPushAlarm;
     @Column(length = 10, unique = true)
     private String username;
-    private String fcmToken;
+    private Long goalId;
+    private Long planId;
+    private boolean hasPushAlarm;
     private boolean termAccepted;
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private LangType targetLang;
     private int diaryComboCount;
     private int visitDays;
-    private Long goalId;
-    private Long trainingPlanId;
 
     public Member toDomain() {
         return Member.builder()
@@ -42,6 +42,8 @@ public class MemberEntity extends BaseEntity {
                 .fcmToken(fcmToken)
                 .refreshToken(refreshToken)
                 .username(username)
+                .goalId(goalId)
+                .planId(planId)
                 .hasPushAlarm(hasPushAlarm)
                 .termAccepted(termAccepted)
                 .targetLang(targetLang)
@@ -54,21 +56,25 @@ public class MemberEntity extends BaseEntity {
         return MemberEntity.builder()
                 .socialId(member.getSocial().socialId())
                 .socialType(member.getSocial().socialType())
+                .fcmToken(member.getFcmToken())
                 .refreshToken(member.getRefreshToken())
+                .username(member.getUsername())
+                .goalId(member.getGoalId())
+                .planId(member.getPlanId())
                 .hasPushAlarm(member.isHasPushAlarm())
                 .termAccepted(member.isTermAccepted())
                 .targetLang(member.getTargetLang())
                 .diaryComboCount(member.getDiaryComboCount())
-                .username(member.getUsername())
-                .fcmToken(member.getFcmToken())
                 .visitDays(member.getVisitDays())
                 .build();
     }
 
     public void update(Member member) {
-        refreshToken = member.getRefreshToken();
         fcmToken = member.getFcmToken();
+        refreshToken = member.getRefreshToken();
         username = member.getUsername();
+        goalId = member.getGoalId();
+        planId = member.getPlanId();
         hasPushAlarm = member.isHasPushAlarm();
         termAccepted = member.isTermAccepted();
         targetLang = member.getTargetLang();
