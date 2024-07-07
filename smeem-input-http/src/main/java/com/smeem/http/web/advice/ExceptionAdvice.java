@@ -1,7 +1,8 @@
 package com.smeem.http.web.advice;
 
+import com.smeem.common.logger.HookLogger;
+import com.smeem.common.logger.LoggingMessage;
 import com.smeem.http.controller.dto.ExceptionResponse;
-import com.smeem.application.port.output.notice.NoticePort;
 import com.smeem.common.exception.SmeemException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import org.springframework.web.context.request.WebRequest;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class ExceptionAdvice {
-    private final NoticePort noticePort;
+    private final HookLogger hookLogger;
 
     @ExceptionHandler(SmeemException.class)
     public ResponseEntity<ExceptionResponse> smeemException(SmeemException exception) {
@@ -24,7 +25,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ExceptionResponse> baseException(RuntimeException exception, WebRequest webRequest) {
-        noticePort.noticeError(exception, webRequest);
+        hookLogger.send(LoggingMessage.error(exception, webRequest));
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ExceptionResponse.of(exception.getMessage()));

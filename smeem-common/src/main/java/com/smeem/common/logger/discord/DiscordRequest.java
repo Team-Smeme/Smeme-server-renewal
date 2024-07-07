@@ -1,5 +1,6 @@
-package com.smeem.notice.discord.dto;
+package com.smeem.common.logger.discord;
 
+import com.smeem.common.logger.LoggingMessage;
 import lombok.Builder;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public record DiscordRequest(
         List<Embed> embeds
 ) {
 
-    public static DiscordRequest of(DiscordMessage message) {
+    public static DiscordRequest of(LoggingMessage message) {
         return DiscordRequest.builder()
                 .content(message.title())
                 .embeds(List.of(Embed.of(message)))
@@ -25,7 +26,7 @@ public record DiscordRequest(
             String description
     ) {
 
-        private static Embed of(DiscordMessage message) {
+        private static Embed of(LoggingMessage message) {
             return Embed.builder()
                     .title(message.noticeType().getName())
                     .description("### ⏰ 발생 시간 \n"

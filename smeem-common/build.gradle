@@ -1,5 +1,6 @@
 project(':smeem-common') {
     dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
     }
 
     tasks.bootJar {
