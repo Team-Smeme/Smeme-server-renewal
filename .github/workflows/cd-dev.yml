@@ -1,8 +1,9 @@
 name: deploy-dev
 
-on:
-  push:
-    branches: [ develop ]
+## docker image 배포 대체, 추가 배포 자동화 필요
+#on:
+#  push:
+#    branches: [ develop ]
 
 jobs:
   build:
