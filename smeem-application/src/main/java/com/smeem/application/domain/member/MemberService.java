@@ -13,8 +13,9 @@ import com.smeem.application.port.input.dto.response.member.RetrievePerformanceR
 import com.smeem.application.port.input.dto.response.member.UpdateMemberResponse;
 import com.smeem.application.port.input.dto.response.member.UsernameDuplicatedResponse;
 import com.smeem.application.port.input.dto.response.plan.RetrieveMemberPlanResponse;
-import com.smeem.application.port.output.notice.NoticePort;
 import com.smeem.application.port.output.persistence.*;
+import com.smeem.common.logger.HookLogger;
+import com.smeem.common.logger.LoggingMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -31,9 +32,9 @@ public class MemberService implements MemberUseCase {
     private final BadgePort badgePort;
     private final DiaryPort diaryPort;
     private final VisitPort visitPort;
-    private final NoticePort noticePort;
     private final GoalPort goalPort;
     private final PlanPort planPort;
+    private final HookLogger hookLogger;
 
     @Transactional
     public UpdateMemberResponse updateMember(long memberId, UpdateMemberRequest request) {
@@ -50,8 +51,7 @@ public class MemberService implements MemberUseCase {
         memberPort.update(foundMember);
 
         if (isSignIn) {
-            noticePort.noticeSignIn(request.username(), memberPort.countAll());
-            acquiredBadges.add(badgePort.saveWelcomeBadgeToMember(memberId));
+            hookLogger.send(LoggingMessage.signIn(request.username(), memberPort.countAll()));
         }
 
         return UpdateMemberResponse.of(acquiredBadges);
