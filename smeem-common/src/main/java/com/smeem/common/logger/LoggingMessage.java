@@ -18,7 +18,7 @@ public record LoggingMessage(
 
     public static LoggingMessage of(String title, String content, LoggerType noticeType) {
         return LoggingMessage.builder()
-                .title(title)
+                .title("# " + title)
                 .content(content)
                 .sendAt(LocalDate.now())
                 .noticeType(noticeType)
@@ -27,7 +27,7 @@ public record LoggingMessage(
 
     public static LoggingMessage signIn(String username, int memberCount) {
         return LoggingMessage.builder()
-                .title("전체 회원 수: " + memberCount)
+                .title("# 전체 회원 수: " + memberCount)
                 .content("새로운 회원 " + username + "님이 가입했습니다.")
                 .sendAt(LocalDate.now())
                 .noticeType(LoggerType.SIGN_IN)
@@ -36,7 +36,7 @@ public record LoggingMessage(
 
     public static LoggingMessage error(Exception exception, WebRequest webRequest) {
         return LoggingMessage.builder()
-                .title("🧨 500 에러 발생")
+                .title("# 🧨 500 에러 발생")
                 .content(exception.getMessage() + "\n\n 🔗 [요청 URI] " + getRequestUri(webRequest))
                 .sendAt(LocalDate.now())
                 .noticeType(LoggerType.ERROR)
