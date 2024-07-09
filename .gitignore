@@ -42,3 +42,6 @@ smeem_fcm.json
 
 application-secret.yml
 docker/postgresql
+
+smeem_fcm_dev.json
+smeem_fcm_prod.json

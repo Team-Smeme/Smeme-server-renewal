@@ -64,7 +64,7 @@ discord:
 
 ### notification
 fcm:
-  file_path: firebase-config/smeem_fcm.json
-  project_id: ${FCM.PROJECT_ID}
+  file_path: firebase-config/smeem_fcm_dev.json
+  project_id: ${FCM.PROJECT_ID.dev}
   url: ${FCM.URL}
   google_api: https://www.googleapis.com/auth/cloud-platform
