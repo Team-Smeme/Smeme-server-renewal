@@ -29,7 +29,8 @@ public class AuthService implements AuthUseCase {
     }
 
     private Member signIn(Member.Social social, SignInRequest request) {
-        return memberPort.findBySocial(social).orElse(memberPort.save(request.toDomain(social.socialId())));
+        return memberPort.findBySocial(social)
+                .orElseGet(() -> memberPort.save(request.toDomain(social.socialId())));
     }
 
     @Transactional
