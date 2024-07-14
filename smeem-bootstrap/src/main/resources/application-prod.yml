@@ -59,7 +59,7 @@ discord:
   webhook:
     url:
       sign-in: ${DISCORD.WEBHOOK.URL.PROD.SIGN_IN}
-      withdraw: ${DISCORD.WEBHOOK.URL.TEST}
+      withdraw: ${DISCORD.WEBHOOK.URL.TEST} #TODO: prod용 회원탈퇴 디스코드 채널 개설
       error: ${DISCORD.WEBHOOK.URL.ERROR}
 
 ### notification
