@@ -1,6 +1,7 @@
 package com.smeem.http.controller.docs;
 
 import com.smeem.application.port.input.dto.request.auth.SignInRequest;
+import com.smeem.application.port.input.dto.request.member.WithdrawRequest;
 import com.smeem.http.controller.dto.SmeemResponse;
 import com.smeem.application.port.input.dto.response.auth.GenerateTokenResponse;
 import com.smeem.application.port.input.dto.response.auth.SignInResponse;
@@ -68,5 +69,10 @@ public interface AuthApiDocs {
                     description = "NO CONTENT success"
             )
     })
-    SmeemResponse<?> withdraw(@Parameter(hidden = true) Principal principal);
+    SmeemResponse<?> withdraw(
+            @Parameter(hidden = true) Principal principal,
+            @RequestBody(
+                    description = "탈퇴 사유 Request Body",
+                    content = @Content(schema = @Schema(implementation = WithdrawRequest.class))
+            ) WithdrawRequest request);
 }

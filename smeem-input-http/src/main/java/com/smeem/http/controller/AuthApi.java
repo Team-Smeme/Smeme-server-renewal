@@ -2,6 +2,7 @@ package com.smeem.http.controller;
 
 import com.smeem.application.domain.generic.SmeemMessage;
 import com.smeem.application.port.input.AuthUseCase;
+import com.smeem.application.port.input.dto.request.member.WithdrawRequest;
 import com.smeem.http.controller.docs.AuthApiDocs;
 import com.smeem.application.port.input.dto.request.auth.SignInRequest;
 import com.smeem.http.controller.dto.SmeemResponse;
@@ -48,9 +49,9 @@ public class AuthApi implements AuthApiDocs {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
-    public SmeemResponse<?> withdraw(Principal principal) {
+    public SmeemResponse<?> withdraw(Principal principal, @RequestBody WithdrawRequest request) {
         val memberId = smeemConverter.toMemberId(principal);
-        authUseCase.withdraw(memberId);
+        authUseCase.withdraw(memberId, request);
         return SmeemResponse.of(SmeemMessage.WITHDRAW);
     }
 }

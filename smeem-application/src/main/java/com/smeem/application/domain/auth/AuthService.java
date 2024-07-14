@@ -3,10 +3,13 @@ package com.smeem.application.domain.auth;
 import com.smeem.application.domain.member.Member;
 import com.smeem.application.port.input.AuthUseCase;
 import com.smeem.application.port.input.dto.request.auth.SignInRequest;
+import com.smeem.application.port.input.dto.request.member.WithdrawRequest;
 import com.smeem.application.port.input.dto.response.auth.GenerateTokenResponse;
 import com.smeem.application.port.input.dto.response.auth.SignInResponse;
 import com.smeem.application.port.output.oauth.OauthPort;
 import com.smeem.application.port.output.persistence.MemberPort;
+import com.smeem.common.logger.HookLogger;
+import com.smeem.common.logger.LoggingMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ public class AuthService implements AuthUseCase {
     private final MemberPort memberPort;
     private final OauthPort oauthPort;
     private final TokenGenerator tokenGenerator;
+    private final HookLogger hookLogger;
 
     @Transactional
     public SignInResponse signIn(String socialAccessToken, SignInRequest request) {
@@ -46,7 +50,13 @@ public class AuthService implements AuthUseCase {
     }
 
     @Transactional
-    public void withdraw(long memberId) {
+    public void withdraw(long memberId, WithdrawRequest request) {
         memberPort.deleteById(memberId);
+        if (request.withdrawType() != null) {
+            memberPort.saveWithdraw(request.toDomain());
+            hookLogger.send(LoggingMessage.withdraw(
+                    String.format("[%s] %s", request.withdrawType(), request.withdrawType().getDescription()),
+                    request.reason()));
+        }
     }
 }
