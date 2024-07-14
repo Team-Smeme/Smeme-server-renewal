@@ -49,7 +49,7 @@ public class AuthApi implements AuthApiDocs {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
-    public SmeemResponse<?> withdraw(Principal principal, @RequestBody WithdrawRequest request) {
+    public SmeemResponse<?> withdraw(Principal principal, @RequestBody(required = false) WithdrawRequest request) {
         val memberId = smeemConverter.toMemberId(principal);
         authUseCase.withdraw(memberId, request);
         return SmeemResponse.of(SmeemMessage.WITHDRAW);
