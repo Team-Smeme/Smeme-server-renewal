@@ -45,7 +45,7 @@ public record LoggingMessage(
 
     public static LoggingMessage withdraw(String withdrawType, String reason) {
         return LoggingMessage.builder()
-                .title("# 💦회원탈퇴")
+                .title("# 💦 회원탈퇴")
                 .content("기존 회원이 탈퇴했습니다."
                         + "\n탈퇴 사유: " + withdrawType
                         + "\n상세 의견: " + reason)
