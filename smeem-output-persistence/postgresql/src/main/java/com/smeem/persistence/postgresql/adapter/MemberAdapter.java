@@ -1,10 +1,12 @@
 package com.smeem.persistence.postgresql.adapter;
 
 import com.smeem.application.domain.member.Member;
+import com.smeem.application.domain.withdraw.Withdraw;
 import com.smeem.application.port.output.persistence.MemberPort;
 import com.smeem.common.exception.ExceptionCode;
 import com.smeem.common.exception.SmeemException;
 import com.smeem.persistence.postgresql.persistence.entity.MemberEntity;
+import com.smeem.persistence.postgresql.persistence.entity.WithdrawEntity;
 import com.smeem.persistence.postgresql.persistence.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -23,6 +25,7 @@ public class MemberAdapter implements MemberPort {
     private final DiaryRepository diaryRepository;
     private final TrainingTimeRepository trainingTimeRepository;
     private final VisitRepository visitRepository;
+    private final WithdrawRepository withdrawRepository;
 
     @Override
     public Optional<Member> findBySocial(Member.Social social) {
@@ -69,6 +72,11 @@ public class MemberAdapter implements MemberPort {
     @Override
     public List<Member> findByTrainingTime(LocalDateTime trainingTime) {
         return memberRepository.findByTrainingTime(trainingTime).stream().map(MemberEntity::toDomain).toList();
+    }
+
+    @Override
+    public void saveWithdraw(Withdraw withdraw) {
+        withdrawRepository.save(new WithdrawEntity(withdraw));
     }
 
     private MemberEntity find(long id) {
