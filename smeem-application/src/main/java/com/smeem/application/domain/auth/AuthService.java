@@ -52,10 +52,10 @@ public class AuthService implements AuthUseCase {
     @Transactional
     public void withdraw(long memberId, WithdrawRequest request) {
         memberPort.deleteById(memberId);
-        if (request.withdrawType() != null) {
+        if (request != null) {
             memberPort.saveWithdraw(request.toDomain());
             hookLogger.send(LoggingMessage.withdraw(
-                    String.format("[%s] %s", request.withdrawType(), request.withdrawType().getDescription()),
+                    String.format("[%s] %s", request.withdrawType(), request.withdrawType().describeConstable()),
                     request.reason()));
         }
     }
