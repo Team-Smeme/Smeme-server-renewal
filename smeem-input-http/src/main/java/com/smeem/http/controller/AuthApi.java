@@ -39,7 +39,7 @@ public class AuthApi implements AuthApiDocs {
         return SmeemResponse.of(authUseCase.generateToken(memberId), SmeemMessage.GENERATE_TOKEN);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/sign-out")
     public SmeemResponse<?> signOut(Principal principal) {
         val memberId = smeemConverter.toMemberId(principal);
@@ -47,7 +47,7 @@ public class AuthApi implements AuthApiDocs {
         return SmeemResponse.of(SmeemMessage.SIGNED_OUT);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping
     public SmeemResponse<?> withdraw(Principal principal, @RequestBody(required = false) WithdrawRequest request) {
         val memberId = smeemConverter.toMemberId(principal);
