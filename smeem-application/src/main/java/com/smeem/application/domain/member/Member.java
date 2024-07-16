@@ -44,7 +44,7 @@ public class Member {
         this.visitDays++;
     }
 
-    public boolean isNew() {
+    public boolean signUp() {
         return this.username == null;
     }
 
