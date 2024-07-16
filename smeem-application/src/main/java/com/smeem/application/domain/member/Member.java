@@ -47,9 +47,9 @@ public class Member {
     /**
      * update
      */
-    public Member updateSmeemToken(String refreshToken) {
+    public void updateTokenInLogin(String refreshToken, String fcmToken) {
         this.refreshToken = refreshToken;
-        return this;
+        this.fcmToken = fcmToken;
     }
 
     public Member updateDiaryComboCount(boolean diaryWrittenYesterday) {
