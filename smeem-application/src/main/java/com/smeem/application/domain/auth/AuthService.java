@@ -28,7 +28,10 @@ public class AuthService implements AuthUseCase {
     public SignInResponse signIn(String socialAccessToken, SignInRequest request) {
         val social = oauthPort.login(request.socialType(), socialAccessToken);
         val signedMember = signIn(social, request);
-        memberPort.update(signedMember.updateSmeemToken(tokenGenerator.generateRefreshToken(signedMember.getId())));
+        signedMember.updateTokenInLogin(
+                tokenGenerator.generateRefreshToken(signedMember.getId()),
+                request.fcmToken());
+        memberPort.update(signedMember);
         return SignInResponse.of(tokenGenerator.generateAccessToken(signedMember.getId()), signedMember);
     }
 

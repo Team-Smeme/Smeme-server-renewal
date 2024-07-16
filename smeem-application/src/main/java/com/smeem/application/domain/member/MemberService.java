@@ -39,7 +39,6 @@ public class MemberService implements MemberUseCase {
     @Transactional
     public UpdateMemberResponse updateMember(long memberId, UpdateMemberRequest request) {
         val foundMember = memberPort.findById(memberId);
-        val isSignIn = foundMember.getUsername() == null;
         val acquiredBadges = new ArrayList<Badge>();
 
         if (request.username() != null) {
@@ -50,7 +49,8 @@ public class MemberService implements MemberUseCase {
         }
         memberPort.update(foundMember);
 
-        if (isSignIn) {
+        if (foundMember.signUp()) {
+            acquiredBadges.add(badgePort.saveWelcomeBadgeToMember(foundMember.getId()));
             hookLogger.send(LoggingMessage.signIn(request.username(), memberPort.countAll()));
         }
 
