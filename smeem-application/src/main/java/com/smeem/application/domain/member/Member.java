@@ -44,6 +44,10 @@ public class Member {
         this.visitDays++;
     }
 
+    public boolean isNew() {
+        return this.username == null;
+    }
+
     /**
      * update
      */
