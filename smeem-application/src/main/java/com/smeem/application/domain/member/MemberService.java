@@ -41,6 +41,11 @@ public class MemberService implements MemberUseCase {
         val foundMember = memberPort.findById(memberId);
         val acquiredBadges = new ArrayList<Badge>();
 
+        if (foundMember.signUp()) {
+            acquiredBadges.add(badgePort.saveWelcomeBadgeToMember(foundMember.getId()));
+            hookLogger.send(LoggingMessage.signIn(request.username(), memberPort.countAll()));
+        }
+
         if (request.username() != null) {
             foundMember.updateUsername(request.username());
         }
@@ -48,11 +53,6 @@ public class MemberService implements MemberUseCase {
             foundMember.updateTermAccepted(request.termAccepted());
         }
         memberPort.update(foundMember);
-
-        if (foundMember.signUp()) {
-            acquiredBadges.add(badgePort.saveWelcomeBadgeToMember(foundMember.getId()));
-            hookLogger.send(LoggingMessage.signIn(request.username(), memberPort.countAll()));
-        }
 
         return UpdateMemberResponse.of(acquiredBadges);
     }
