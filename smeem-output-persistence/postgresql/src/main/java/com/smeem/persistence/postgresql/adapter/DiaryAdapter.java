@@ -81,7 +81,7 @@ public class DiaryAdapter implements DiaryPort {
 
     @Override
     public int countWeeklyByMember(long memberId) {
-        return 0;
+        return (int) diaryRepository.countWeeklyByMemberId(memberId);
     }
 
     @Override

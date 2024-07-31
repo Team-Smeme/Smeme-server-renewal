@@ -53,6 +53,7 @@ public class DiaryService implements DiaryUseCase {
 
         return acquiredBadges.stream()
                 .filter(badge -> !acquiredBadgeIds.contains(badge.getId()))
+                .peek(badge -> badgePort.saveAcquiredBadge(member.getId(), badge))
                 .toList();
     }
 

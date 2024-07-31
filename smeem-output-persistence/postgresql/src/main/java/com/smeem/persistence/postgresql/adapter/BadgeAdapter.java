@@ -52,6 +52,12 @@ public class BadgeAdapter implements BadgePort, MemberBadgePort {
     }
 
     @Override
+    public Badge saveAcquiredBadge(long memberId, Badge badge) {
+        val memberBadge = memberBadgeRepository.save(new MemberBadgeEntity(memberId, badge.getId()));
+        return findBadge(memberBadge.getBadgeId()).toDomain();
+    }
+
+    @Override
     public List<Long> findIdsByMember(long memberId) {
         return memberBadgeRepository.findByMemberId(memberId).stream().map(MemberBadgeEntity::getBadgeId).toList();
     }

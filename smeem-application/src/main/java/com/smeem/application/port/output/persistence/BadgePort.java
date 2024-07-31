@@ -12,4 +12,5 @@ public interface BadgePort {
     Optional<Badge> findRecentlyByMember(long memberId);
     Badge saveWelcomeBadgeToMember(long memberId);
     int countByMember(long memberId);
+    Badge saveAcquiredBadge(long memberId, Badge badge);
 }
