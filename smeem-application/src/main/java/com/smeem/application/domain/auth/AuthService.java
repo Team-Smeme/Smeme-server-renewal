@@ -58,7 +58,7 @@ public class AuthService implements AuthUseCase {
         if (request != null) {
             memberPort.saveWithdraw(request.toDomain());
             hookLogger.send(LoggingMessage.withdraw(
-                    String.format("[%s] %s", request.withdrawType(), request.withdrawType().describeConstable()),
+                    String.format("[%s] %s", request.withdrawType(), request.withdrawType().getDescription()),
                     request.reason()));
         }
     }
