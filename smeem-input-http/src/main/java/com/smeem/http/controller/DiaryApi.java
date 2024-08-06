@@ -49,7 +49,7 @@ public class DiaryApi implements DiaryApiDocs {
         return SmeemResponse.of(SmeemMessage.MODIFY_DIARY);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{diaryId}")
     public SmeemResponse<?> deleteDiary(@PathVariable long diaryId) {
         diaryUseCase.deleteDiary(diaryId);
