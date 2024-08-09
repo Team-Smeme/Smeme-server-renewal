@@ -1,0 +1,38 @@
+project(':smeem-output-oauth') {
+    dependencies {
+        implementation project(':smeem-output-oauth:apple')
+        implementation project(':smeem-output-oauth:kakao')
+    }
+}
+
+project(':smeem-output-oauth:apple') {
+    dependencies {
+    }
+}
+
+project(':smeem-output-oauth:kakao') {
+    dependencies {
+    }
+}
+
+allprojects {
+    dependencies {
+        implementation project(':smeem-common')
+        implementation project(':smeem-application')
+
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+
+        // JWT
+        implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+        implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+        implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+    }
+
+    tasks.bootJar {
+        enabled = false
+    }
+
+    tasks.jar {
+        enabled = true
+    }
+}

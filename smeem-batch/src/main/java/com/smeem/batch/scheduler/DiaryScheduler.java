@@ -1,33 +1,21 @@
 package com.smeem.batch.scheduler;
 
-import com.smeem.batch.scheduler.support.Scheduler;
-import com.smeem.common.config.ValueConfig;
-import com.smeem.domain.diary.adapter.DiaryDeleter;
+import com.smeem.application.port.input.DiaryUseCase;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-@Scheduler
+@Component
 @RequiredArgsConstructor
 public class DiaryScheduler {
+    private final DiaryUseCase diaryUseCase;
 
-    private final DiaryDeleter diaryDeleter;
-
-    private final ValueConfig valueConfig;
+    @Value("${smeem.duration.expired}")
+    private int DURATION_EXPIRED;
 
     @Scheduled(cron = "0 0 0 * * *")
-    @Transactional
     public void deleteExpiredDiaries() {
-        val expiryDate = getExpiryDate();
-        diaryDeleter.deleteByUpdatedAtBefore(expiryDate);
-    }
-
-    private LocalDateTime getExpiryDate() {
-        val expiredDay = valueConfig.getDURATION_EXPIRED() - 1;
-        return LocalDate.now().minusDays(expiredDay).atStartOfDay();
+        diaryUseCase.deleteExpiredDiaries(DURATION_EXPIRED);
     }
 }

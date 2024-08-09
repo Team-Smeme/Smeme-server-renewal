@@ -1,0 +1,31 @@
+project(':smeem-output-notification') {
+    dependencies {
+        implementation project(':smeem-output-notification:firebase')
+    }
+}
+
+project(':smeem-output-notification:firebase') {
+    dependencies {
+        // fcm
+        implementation 'com.google.firebase:firebase-admin:9.1.1'
+
+        // firebase
+        implementation 'com.google.code.gson:gson:2.10.1'
+        implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+    }
+}
+
+allprojects {
+    dependencies {
+        implementation project(':smeem-common')
+        implementation project(':smeem-application')
+    }
+
+    tasks.bootJar {
+        enabled = false
+    }
+
+    tasks.jar {
+        enabled = true
+    }
+}

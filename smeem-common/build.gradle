@@ -1,9 +1,13 @@
-jar { enabled = true }
+project(':smeem-common') {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+    }
 
-bootJar { enabled = false }
+    tasks.bootJar {
+        enabled = false
+    }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-
+    tasks.jar {
+        enabled = true
+    }
 }
