@@ -1,8 +1,9 @@
 name: deploy-prod
 
-on:
-  push:
-    branches: [ main ]
+# docker 기반 CI/CD 재구성 예정
+#on:
+#  push:
+#    branches: [ main ]
 
 jobs:
   build:
