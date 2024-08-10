@@ -130,7 +130,8 @@ public class MemberService implements MemberUseCase {
 
     public RetrieveMemberPlanResponse retrieveMemberPlan(long memberId) {
         val foundMember = memberPort.findById(memberId);
-        val foundPlan = planPort.findById(foundMember.getPlanId());
+        val planId = foundMember.getPlanId();
+        val foundPlan = planId != null ? planPort.findById(foundMember.getPlanId()) : null;
         val foundGoal = goalPort.findById(foundMember.getGoalId());
         return RetrieveMemberPlanResponse.of(
                 foundGoal,
