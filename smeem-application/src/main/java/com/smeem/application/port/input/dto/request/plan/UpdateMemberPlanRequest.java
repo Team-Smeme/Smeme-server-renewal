@@ -22,5 +22,9 @@ public record UpdateMemberPlanRequest(
             @Schema(description = "분")
             Integer minute
     ) {
+
+        public boolean isEmpty() {
+            return day == null || day.isEmpty() || hour == null || minute == null;
+        }
     }
 }

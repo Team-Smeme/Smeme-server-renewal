@@ -114,7 +114,7 @@ public class MemberService implements MemberUseCase {
         }
         memberPort.update(foundMember);
 
-        if (request.trainingTime() != null) {
+        if (request.trainingTime() != null && !request.trainingTime().isEmpty()) {
             trainingTimePort.deleteByMemberId(memberId);
             val trainingTimes = new ArrayList<TrainingTime>();
             for (String dayType : request.trainingTime().day().split(",")) {
