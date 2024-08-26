@@ -26,7 +26,7 @@ for RETRY_COUNT in {1..15}
 do
     echo "> Health check"
 
-    RESPONSE=$(curl -s http://localhost:8080${HEALTH_CHECK_URI})
+    RESPONSE=$(curl -s http://localhost${HEALTH_CHECK_URI})
     # shellcheck disable=SC2126
     UP_COUNT=$(echo "${RESPONSE}" | grep 'UP' | wc -l)
 
