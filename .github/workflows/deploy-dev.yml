@@ -78,10 +78,10 @@ jobs:
 
             # .env 파일 추가
             if ! grep -q "REGISTRY_URL=" .env; then
-              echo "REGISTRY_URL=${{ secrets.IMAGE_NAME_DEV }}" >> .env
+              echo "REGISTRY_URL=${{ secrets.REGISTRY_URL_DEV }}" >> .env
             fi
             if ! grep -q "IMAGE_NAME=" .env; then
-              echo "IMAGE_NAME=${{ secrets.REGISTRY_URL_DEV }}" >> .env
+              echo "IMAGE_NAME=${{ secrets.IMAGE_NAME_DEV }}" >> .env
             fi
 
             # 배포 스크립트 실행
