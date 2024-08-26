@@ -55,7 +55,7 @@ jobs:
 
       - name: Build docker image
         run: |
-          docker build --platform linux/amd64 -t smeemdev/smeem-dev:latest -f Dockerfile-prod .
+          docker build --platform linux/amd64 -t smeemdev/smeem-dev:latest -f Dockerfile-dev .
           docker push smeemdev/smeem-dev:latest
 
   deploy-cd:
