@@ -11,7 +11,7 @@ echo "> Pull docker image"
 sudo docker pull "${REGISTRY_URL}"/"${IMAGE_NAME}":"${TAG}"
 
 echo "> Stop running docker container"
-if [ "$(docker ps -a -q -f name=${CONTAINER_NAME})" ]; then
+if [ "$(sudo docker ps -a -q -f name=${CONTAINER_NAME})" ]; then
   sudo docker stop ${CONTAINER_NAME}
   sudo docker rm ${CONTAINER_NAME}
 fi
