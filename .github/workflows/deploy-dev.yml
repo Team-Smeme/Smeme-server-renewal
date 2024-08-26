@@ -1,8 +1,8 @@
 name: deploy-dev
 
 on:
-  push:
-    branches: [ develop ] #TODO: change trigger
+  release:
+    types: [ published ]
 
 jobs:
   build:
