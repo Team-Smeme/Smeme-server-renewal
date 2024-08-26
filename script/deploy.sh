@@ -17,7 +17,7 @@ if [ "$(docker ps -a -q -f name=${CONTAINER_NAME})" ]; then
 fi
 
 echo "> Run docker"
-sudo docker run -d --name ${CONTAINER_NAME} -p 80:8080 "${REGISTRY_URL}"/${IMAGE_NAME}:${TAG}
+sudo docker run -d --name ${CONTAINER_NAME} -p 80:8080 "${REGISTRY_URL}"/"${IMAGE_NAME}":${TAG}
 
 echo "----------------------------------------------------------------------"
 

@@ -36,7 +36,8 @@ jobs:
 
       - name: Create FireBase JSON file From AWS
         run: |
-          aws s3 cp --region ap-northeast-2 s3://${{ secrets.AWS_BUCKET_NAME }}/json/smeem_fcm.json smeem-notification/src/main/resources/firebase-config/smeem_fcm.json
+          echo "FCM_JSON_PATH=smeem-notification/src/main/resources/firebase-config/smeem_fcm_dev.json" >> $GITHUB_ENV
+          aws s3 cp --region ap-northeast-2 ${{ secrets.AWS_S3_FCM_JSON_URI_DEV }} $FCM_JSON_PATH
 
       - name: Build with Gradle
         run: |
