@@ -1,8 +1,8 @@
-name: deploy-dev
+name: deploy-prod
 
 on:
-  release:
-    types: [ published ]
+  push:
+    branches: [ main ]
 
 jobs:
   build:
@@ -30,15 +30,15 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_PROD_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_PROD_SECRET_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Set FCM_JSON_PATH
-        run: echo "FCM_JSON_PATH=smeem-output-notification/src/main/resources/firebase-config/smeem_fcm_dev.json" >> $GITHUB_ENV
+        run: echo "FCM_JSON_PATH=smeem-output-notification/src/main/resources/firebase-config/smeem_fcm_prod.json" >> $GITHUB_ENV
 
       - name: Create FireBase JSON file From AWS
-        run: aws s3 cp --region ap-northeast-2 ${{ secrets.AWS_S3_FCM_JSON_URI_DEV }} ${{ env.FCM_JSON_PATH }}
+        run: aws s3 cp --region ap-northeast-2 ${{ secrets.AWS_S3_FCM_JSON_URI_PROD }} ${{ env.FCM_JSON_PATH }}
 
       - name: Build with Gradle
         run: |
@@ -52,13 +52,13 @@ jobs:
       - name: Login docker
         uses: docker/login-action@v2.2.0
         with:
-          username: ${{ secrets.DOCKERHUB_LOGIN_USERNAME_DEV }}
-          password: ${{ secrets.DOCKERHUB_LOGIN_ACCESSTOKEN_DEV }}
+          username: ${{ secrets.DOCKERHUB_LOGIN_USERNAME_PROD }}
+          password: ${{ secrets.DOCKERHUB_LOGIN_ACCESSTOKEN_PROD }}
 
       - name: Build docker image
         run: |
-          docker build --platform linux/amd64 -t smeemdev/smeem-dev:latest -f Dockerfile-dev .
-          docker push smeemdev/smeem-dev:latest
+          docker build --platform linux/amd64 -t smeemprod/smeem-prod:latest -f Dockerfile-prod .
+          docker push smeemprod/smeem-prod:latest
 
   deploy-cd:
     needs: build
@@ -68,22 +68,22 @@ jobs:
       - name: SSH로 서버 접속
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.RELEASE_SERVER_IP_DEV }}
-          username: ${{ secrets.RELEASE_SERVER_USER_DEV }}
-          key: ${{ secrets.RELEASE_SERVER_KEY_DEV }}
+          host: ${{ secrets.RELEASE_SERVER_IP_PROD }}
+          username: ${{ secrets.RELEASE_SERVER_USER_PROD }}
+          key: ${{ secrets.RELEASE_SERVER_KEY_PROD }}
           script: |
             cd ~
 
             # deploy.sh 파일 다운로드
-            wget https://raw.githubusercontent.com/Team-Smeme/Smeme-server-renewal/develop/script/deploy.sh -O deploy.sh
+            wget https://raw.githubusercontent.com/Team-Smeme/Smeme-server-renewal/main/script/deploy.sh -O deploy.sh
             chmod +x deploy.sh
 
             # .env 파일 추가
             if ! grep -q "REGISTRY_URL=" .env; then
-              echo "REGISTRY_URL=${{ secrets.REGISTRY_URL_DEV }}" >> .env
+              echo "REGISTRY_URL=${{ secrets.REGISTRY_URL_PROD }}" >> .env
             fi
             if ! grep -q "IMAGE_NAME=" .env; then
-              echo "IMAGE_NAME=${{ secrets.IMAGE_NAME_DEV }}" >> .env
+              echo "IMAGE_NAME=${{ secrets.IMAGE_NAME_PROD }}" >> .env
             fi
 
             # 배포 스크립트 실행
