@@ -15,7 +15,6 @@ public class WithdrawEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private WithdrawType withdrawType;
-    @Column(nullable = false)
     private String reason;
 
     public WithdrawEntity(Withdraw withdraw) {
