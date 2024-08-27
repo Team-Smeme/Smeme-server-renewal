@@ -16,14 +16,14 @@ public record RetrieveMemberPlanResponse(
         @Schema(description = "성취한 횟수")
         int clearedCount,
         @Schema(description = "전체 성취 횟수")
-        int clearCount
+        Integer clearCount
 ) {
 
         public static RetrieveMemberPlanResponse of(Goal goal, Plan plan, int diaryCount) {
                 return RetrieveMemberPlanResponse.builder()
-                        .plan(plan.getContent())
+                        .plan(plan != null ? plan.getContent() : null)
                         .goal(goal.getGoalType().getDescription())
-                        .clearCount(plan.getClearCount())
+                        .clearCount(plan != null ? plan.getClearCount() : null)
                         .clearedCount(diaryCount)
                         .build();
         }

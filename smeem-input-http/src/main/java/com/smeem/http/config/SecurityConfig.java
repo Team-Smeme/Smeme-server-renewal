@@ -47,7 +47,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
                                 .requestMatchers(new AntPathRequestMatcher("/api/v2/auth", "POST")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/api/v2/test")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/actuator/health")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/api/v2/test")).permitAll() //TODO: 삭제
                                 .requestMatchers(new AntPathRequestMatcher("/api/v2/versions/client/app")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/api/v2/goals/{type}")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/api/v2/goals")).permitAll()

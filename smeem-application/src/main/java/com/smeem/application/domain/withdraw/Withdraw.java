@@ -10,6 +10,5 @@ public class Withdraw {
     public Long id;
     @NotNull
     private WithdrawType withdrawType;
-    @NotNull
     private String reason;
 }

@@ -114,7 +114,7 @@ public class MemberService implements MemberUseCase {
         }
         memberPort.update(foundMember);
 
-        if (request.trainingTime() != null) {
+        if (request.trainingTime() != null && !request.trainingTime().isEmpty()) {
             trainingTimePort.deleteByMemberId(memberId);
             val trainingTimes = new ArrayList<TrainingTime>();
             for (String dayType : request.trainingTime().day().split(",")) {
@@ -130,7 +130,8 @@ public class MemberService implements MemberUseCase {
 
     public RetrieveMemberPlanResponse retrieveMemberPlan(long memberId) {
         val foundMember = memberPort.findById(memberId);
-        val foundPlan = planPort.findById(foundMember.getPlanId());
+        val planId = foundMember.getPlanId();
+        val foundPlan = planId != null ? planPort.findById(foundMember.getPlanId()) : null;
         val foundGoal = goalPort.findById(foundMember.getGoalId());
         return RetrieveMemberPlanResponse.of(
                 foundGoal,
