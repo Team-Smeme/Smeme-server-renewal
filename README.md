@@ -1,23 +1,28 @@
-# Smeem(스밈) Server
+# Smeem(스밈)
+
+### 일기로 시작하는 외국어 훈련, 스밈 ✍️
 
 <img width="908" alt="image" src="https://github.com/Team-Smeme/Smeme-server-renewal/assets/55437339/d375dc1c-abb0-4e2e-a6e5-aad074913114">
 
 <br/><br/>
 
-- ✍️ **서비스 소개**: [서비스 소개 바로가기](https://linktr.ee/smeem)
-- 📱 **iOS 다운로드**: [App Stroe 바로가기](https://apps.apple.com/kr/app/smeem-%EC%8A%A4%EB%B0%88-%EC%98%81%EC%9E%91-%EC%98%81%EC%96%B4%EC%9D%BC%EA%B8%B0-%EC%98%81%EC%96%B4%EB%85%B8%ED%8A%B8/id6450711685)
-- 📱 **Android 다운로드**: [Play Store 바로가기](https://play.google.com/store/apps/details?id=com.sopt.smeem&hl=ko&gl=US)
+## Architecture
+### Server Architecture
+<img alt="image" width="600" src="https://github.com/user-attachments/assets/fb290cc9-1f98-4536-b4cb-c7fb5b421580"/>
 
 <br/>
 
-## 🧑‍💻 팀원 소개 (Team)
+## Server Developer
 
 | [김소현](https://github.com/thguss) | [최윤한](https://github.com/unanchoi) |
 |:---:|:---:|
-|<img width="250" alt="image" src="https://avatars.githubusercontent.com/u/55437339?v=4" />|<img width="250" alt="image" src="https://github.com/Team-Smeme/Smeme-server-renewal/assets/55437339/e546c4ee-b991-4168-bd94-f97d296b095e" />|
+|<img width="100" alt="image" src="https://avatars.githubusercontent.com/u/55437339?v=4" />|<img width="100" alt="image" src="https://github.com/Team-Smeme/Smeme-server-renewal/assets/55437339/e546c4ee-b991-4168-bd94-f97d296b095e" />|
 | Server Lead Developer | Server Developer |
 |- 프로젝트 구조 설계/리팩토링<br/>- 일기 관련 기능 구현|프로젝트 구조 설계/리팩토링<br/> - 인증, 회원 관련 기능 구현|
 |[[아티클] FCM으로 푸시알림 기능 구현하기](https://soso-hyeon.tistory.com/87) <br/> [[아티클] 멀티모듈 구조 설계 기록](https://soso-hyeon.tistory.com/83)|[[아티클] Presentation Layer <-> Application Layer DTO 리팩토링](https://ntnb.tistory.com/35)|
+
+### Article
+[]() by @thguss
 
 <br/>
 
