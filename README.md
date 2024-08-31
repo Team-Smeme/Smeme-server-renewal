@@ -12,7 +12,7 @@
 
 <br/>
 
-### Hexagonal Architecture (Multi-Module)
+### Hexagonal Architecture (based Multi-Module)
 <img alt="image" width="600" src="https://github.com/user-attachments/assets/fc6d8bff-2cbc-499e-854a-4b5ef6c9a197"/>
 
 <br/><br/>
