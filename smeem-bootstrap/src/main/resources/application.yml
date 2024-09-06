@@ -1,0 +1,8 @@
+spring:
+  config:
+    import:
+      - classpath:application-actuator.yml
+  application:
+    name: "smeem"
+  messages:
+    encoding: UTF-8
