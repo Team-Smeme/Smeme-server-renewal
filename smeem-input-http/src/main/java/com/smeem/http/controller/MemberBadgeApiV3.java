@@ -4,7 +4,7 @@ import com.smeem.application.domain.generic.SmeemMessage;
 import com.smeem.application.port.input.BadgeUseCase;
 import com.smeem.http.controller.dto.SmeemResponse;
 import com.smeem.application.port.input.dto.response.badge.RetrieveMemberBadgesResponse;
-import com.smeem.http.controller.docs.MemberBadgeV3ApiDocs;
+import com.smeem.http.controller.docs.MemberBadgeApiV3Docs;
 import com.smeem.common.util.SmeemConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.security.Principal;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v3/members/badges")
-public class MemberBadgeV3Api implements MemberBadgeV3ApiDocs {
+public class MemberBadgeApiV3 implements MemberBadgeApiV3Docs {
     private final BadgeUseCase badgeUseCase;
     private final SmeemConverter smeemConverter;
 

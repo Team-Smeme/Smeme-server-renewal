@@ -6,7 +6,6 @@ import lombok.val;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -21,11 +20,7 @@ import java.util.Set;
 public class DuplicateRequestAspect {
     private final Set<String> requestSet = Collections.synchronizedSet(new HashSet<>());
 
-    @Pointcut("within(*..*Api)")
-    public void onRequest() {
-    }
-
-    @Around("onRequest()")
+    @Around("execution(public * com.smeem.http..*(..))")
     public Object duplicateRequestCheck(ProceedingJoinPoint joinPoint) throws Throwable {
         val request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         val httpMethod = request.getMethod();
