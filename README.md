@@ -18,10 +18,8 @@
 <br/><br/>
 
 ## Tech Stack
-- Java, Spring Boot
-- PostgreSQL, Spring Data JPA, QueryDSL
-- AWS : EC2, RDS, Code Deploy, Nginx
-- JUnit5
+- Java 17, Spring Boot 3.2.1, Spring Data JPA
+- PostgreSQL, AWS(EC2, RDS), Docker
 - Swagger
 - Kakao/Apple Oauth, Discord WebHook, Firebase Messaging Service
 
