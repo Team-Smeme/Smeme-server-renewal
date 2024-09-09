@@ -1,0 +1,6 @@
+discord:
+  webhook:
+    url:
+      sign_in: ${DISCORD_WEBHOOK_SIGN_IN_URL}
+      withdraw: ${DISCORD_WEBHOOK_WITHDRAW_URL}
+      error: ${DISCORD_WEBHOOK_ERROR_URL}

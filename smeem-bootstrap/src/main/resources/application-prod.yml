@@ -2,67 +2,11 @@ spring:
   config:
     activate:
       on-profile: prod
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${DB_URL}:5432/postgres?currentSchema=${DB_NAME}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: none
-    properties:
-      hibernate:
-        format_sql: true
-        default_batch_fetch_size: 1000
-        auto_quote_keyword: true
-    show-sql: true
+    import:
+      - classpath:postgres-config/application-prod.yml
+      - classpath:smeem-config/application-prod.yml
+      - classpath:notification-config/application-prod.yml
+      - classpath:common-config/application-prod.yml
 
 logging.level:
   org.hibernate.SQL: debug
-
-### smeem
-smeem:
-  secret:
-    key: ${SMEEM_SECRET_KEY}
-  duration:
-    expired: ${SMEEM_DURATION_EXPIRED}
-    remind: ${SMEEM_DURATION_REMIND}
-  client:
-    version:
-      title: "업데이트 알림"
-      content: "보다 나아진 스밈의 최신 버전을 준비했어요! 새로운 버전으로 업데이트 후 이용해주세요."
-      ios:
-        app: 2.0.2
-        force: 2.0.0
-      android:
-        app: 2.0.0
-        force: 2.0.0
-  notification:
-    title: "오늘의 영어 훈련, 딱 5분 걸려요!"
-    body: "지금 눌러서 일기 쓰기 ✍️"
-    cron_expression: "0 0/30 * * * *"
-
-### auth
-jwt:
-  ACCESS_TOKEN_EXPIRED: 7200000
-  REFRESH_TOKEN_EXPIRED: 1209600000
-
-### oauth
-oauth:
-  url:
-    apple: https://appleid.apple.com/auth/keys
-    kakao: https://kapi.kakao.com/v2/user/me
-
-### notice
-discord:
-  webhook:
-    url:
-      sign-in: ${DISCORD_WEBHOOK_SIGN_IN_URL}
-      withdraw: ${DISCORD_WEBHOOK_WITHDRAW_URL}
-      error: ${DISCORD_WEBHOOK_ERROR_URL}
-
-### notification
-fcm:
-  file_path: firebase-config/smeem_fcm_prod.json
-  project_id: ${FCM_PROJECT_ID}
-#  google_api: https://www.googleapis.com/auth/cloud-platform
