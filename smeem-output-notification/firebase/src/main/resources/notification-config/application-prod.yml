@@ -1,0 +1,6 @@
+notification:
+  title: ${NOTIFICATION_TITLE}
+  body: ${NOTIFICATION_BODY}
+  fcm:
+    file_path: firebase-config/smeem_fcm_prod.json
+    project_id: ${FCM_PROJECT_ID}

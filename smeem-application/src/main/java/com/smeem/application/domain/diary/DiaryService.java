@@ -1,5 +1,6 @@
 package com.smeem.application.domain.diary;
 
+import com.smeem.application.config.SmeemProperties;
 import com.smeem.application.domain.badge.Badge;
 import com.smeem.application.domain.badge.BadgeType;
 import com.smeem.application.domain.member.Member;
@@ -27,6 +28,7 @@ public class DiaryService implements DiaryUseCase {
     private final BadgePort badgePort;
     private final MemberBadgePort memberBadgePort;
     private final TopicPort topicPort;
+    private final SmeemProperties smeemProperties;
 
     @Transactional
     public WriteDiaryResponse writeDiary(long memberId, WriteDiaryRequest request) {
@@ -73,9 +75,10 @@ public class DiaryService implements DiaryUseCase {
     }
 
     public RetrieveDiariesResponse retrieveDiariesByTerm(long memberId, LocalDate startDate, LocalDate endDate) {
+        val remindDuration = smeemProperties.getDuration().remind();
         return RetrieveDiariesResponse.of(
                 diaryPort.findByMemberAndTerm(memberId, startDate, endDate),
-                diaryPort.isExistByMemberAndPastAgo(memberId, 30));
+                diaryPort.isExistByMemberAndPastAgo(memberId, remindDuration));
     }
 
     @Transactional

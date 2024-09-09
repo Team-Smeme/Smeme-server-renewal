@@ -12,6 +12,7 @@ public enum ExceptionCode {
 
     // 5xx
     SERVICE_AVAILABLE(503, "서비스에 접근할 수 없음 "),
+    INTERNAL_SERVER_ERROR(500, "서버 내부 오류"),
     ;
 
     private final int statusCode;

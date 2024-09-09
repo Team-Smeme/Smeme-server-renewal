@@ -1,0 +1,13 @@
+spring:
+  config:
+    import:
+      - classpath:oauth-apple-config/application.yml
+      - classpath:oauth-kakao-config/application.yml
+  application:
+    name: "smeem"
+  messages:
+    encoding: UTF-8
+
+secret:
+  token: ${SECRET_MANAGER_TOKEN}
+  workspace-id: ${SECRET_MANAGER_WORKSPACE_ID}

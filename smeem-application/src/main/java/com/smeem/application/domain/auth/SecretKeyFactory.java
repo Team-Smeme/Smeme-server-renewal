@@ -1,22 +1,21 @@
 package com.smeem.application.domain.auth;
 
-import com.smeem.common.util.SmeemProperty;
+import com.smeem.application.config.SmeemProperties;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-
-import static java.util.Base64.getEncoder;
+import java.util.Base64;
 
 @Component
 @RequiredArgsConstructor
 public class SecretKeyFactory {
-    private final SmeemProperty smeemProperty;
+    private final SmeemProperties smeemProperties;
 
     public SecretKey create() {
-        val encodedKey = getEncoder().encodeToString(smeemProperty.getSMEEM_SECRET_KEY().getBytes());
+        val encodedKey = Base64.getEncoder().encodeToString(smeemProperties.getSecret().getKey().getBytes());
         return Keys.hmacShaKeyFor(encodedKey.getBytes());
     }
 }
