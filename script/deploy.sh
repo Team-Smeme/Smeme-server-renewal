@@ -19,9 +19,10 @@ if [ "$(sudo docker ps -a -q -f name=${CONTAINER_NAME})" ]; then
 fi
 
 echo "> Run docker"
-sudo docker run -d --name ${CONTAINER_NAME} -p 80:8080 "${REGISTRY_URL}"/"${IMAGE_NAME}":${TAG} \
+sudo docker run -d --name ${CONTAINER_NAME} -p 80:8080 \
   -e SECRET_MANAGER_TOKEN="${SECRET_MANAGER_TOKEN}" \
-  -e SECRET_MANAGER_WORKSPACE_ID="${SECRET_MANAGER_WORKSPACE_ID}"
+  -e SECRET_MANAGER_WORKSPACE_ID="${SECRET_MANAGER_WORKSPACE_ID}" \
+  "${REGISTRY_URL}"/"${IMAGE_NAME}":${TAG}
 
 echo "----------------------------------------------------------------------"
 
