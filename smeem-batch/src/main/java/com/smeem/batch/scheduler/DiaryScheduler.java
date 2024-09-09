@@ -1,8 +1,9 @@
 package com.smeem.batch.scheduler;
 
+import com.smeem.application.config.SmeemProperties;
 import com.smeem.application.port.input.DiaryUseCase;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.val;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -10,12 +11,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DiaryScheduler {
     private final DiaryUseCase diaryUseCase;
-
-    @Value("${smeem.duration.expired}")
-    private int DURATION_EXPIRED;
+    private final SmeemProperties smeemProperties;
 
     @Scheduled(cron = "0 0 0 * * *")
     public void deleteExpiredDiaries() {
-        diaryUseCase.deleteExpiredDiaries(DURATION_EXPIRED);
+        val expiredDuration = smeemProperties.getDuration().expired();
+        diaryUseCase.deleteExpiredDiaries(expiredDuration);
     }
 }

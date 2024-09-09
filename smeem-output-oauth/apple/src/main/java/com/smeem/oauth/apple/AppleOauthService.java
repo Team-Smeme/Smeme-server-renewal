@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smeem.common.exception.ExceptionCode;
 import com.smeem.common.exception.SmeemException;
-import com.smeem.common.util.SmeemProperty;
+import com.smeem.oauth.apple.config.AppleProperties;
 import com.smeem.oauth.apple.dto.response.AppleKey;
 import com.smeem.oauth.apple.dto.response.AppleKeysResponse;
 import com.smeem.oauth.apple.dto.response.DecodedAppleKey;
@@ -29,7 +29,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AppleOauthService {
     private final ObjectMapper objectMapper;
-    private final SmeemProperty smeemProperty;
+    private final AppleProperties appleProperties;
 
     public String getAppleData(String appleAccessToken) {
         val publicAppleKeys = getApplePublicKeys();
@@ -51,7 +51,7 @@ public class AppleOauthService {
         try {
             val restClient = RestClient.create();
             return restClient.get()
-                    .uri(smeemProperty.getAPPLE_URL())
+                    .uri(appleProperties.url())
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError, (appleRequest, appleResponse) -> {
                         throw new SmeemException(ExceptionCode.SERVICE_AVAILABLE);
