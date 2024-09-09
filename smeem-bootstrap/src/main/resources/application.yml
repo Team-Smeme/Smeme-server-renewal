@@ -1,7 +1,8 @@
 spring:
-#  config:
-#    import:
-#      - classpath:application-actuator.yml
+  config:
+    import:
+      - classpath:oauth-apple-config/application.yml
+      - classpath:oauth-kakao-config/application.yml
   application:
     name: "smeem"
   messages:
