@@ -1,0 +1,12 @@
+spring:
+#  config:
+#    import:
+#      - classpath:application-actuator.yml
+  application:
+    name: "smeem"
+  messages:
+    encoding: UTF-8
+
+secret:
+  token: ${SECRET_MANAGER_TOKEN}
+  workspace-id: ${SECRET_MANAGER_WORKSPACE_ID}

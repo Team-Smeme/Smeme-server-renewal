@@ -1,13 +1,12 @@
 spring:
   config:
-    import: application-secret.yml
     activate:
       on-profile: prod
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${DATABASE.ENDPOINT_URL.prod}:5432/postgres?currentSchema=${DATABASE.NAME.prod}
-    username: ${DATABASE.USERNAME.prod}
-    password: ${DATABASE.PASSWORD.prod}
+    url: jdbc:postgresql://${DB_URL}:5432/postgres?currentSchema=${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: none
@@ -24,10 +23,10 @@ logging.level:
 ### smeem
 smeem:
   secret:
-    key: ${SMEEM.SECRET.KEY}
+    key: ${SMEEM_SECRET_KEY}
   duration:
-    expired: ${SMEEM.DURATION.EXPIRED}
-    remind: ${SMEEM.DURATION.REMIND}
+    expired: ${SMEEM_DURATION_EXPIRED}
+    remind: ${SMEEM_DURATION_REMIND}
   client:
     version:
       title: "업데이트 알림"
@@ -58,13 +57,12 @@ oauth:
 discord:
   webhook:
     url:
-      sign-in: ${DISCORD.WEBHOOK.URL.PROD.SIGN_IN}
-      withdraw: ${DISCORD.WEBHOOK.URL.PROD.WITHDRAW}
-      error: ${DISCORD.WEBHOOK.URL.PROD.ERROR}
+      sign-in: ${DISCORD_WEBHOOK_SIGN_IN_URL}
+      withdraw: ${DISCORD_WEBHOOK_WITHDRAW_URL}
+      error: ${DISCORD_WEBHOOK_ERROR_URL}
 
 ### notification
 fcm:
   file_path: firebase-config/smeem_fcm_prod.json
-  project_id: ${FCM.PROJECT_ID.prod}
-  url: ${FCM.URL}
-  google_api: https://www.googleapis.com/auth/cloud-platform
+  project_id: ${FCM_PROJECT_ID}
+#  google_api: https://www.googleapis.com/auth/cloud-platform
