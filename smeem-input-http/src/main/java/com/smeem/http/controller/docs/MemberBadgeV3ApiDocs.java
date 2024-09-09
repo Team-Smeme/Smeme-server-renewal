@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.security.Principal;
 
 @Tag(name = "MemberBadgeApi (v3)", description = "회원의 배지(Badge) 관련 Api 입니다.")
-public interface MemberBadgeApiV3Docs {
+public interface MemberBadgeV3ApiDocs {
 
     @Operation(summary = "배지 조회 api", description = "회원의 배지 정보를 조회합니다.")
     @ApiResponses(value = {
