@@ -20,7 +20,7 @@ import java.util.Set;
 public class DuplicateRequestAspect {
     private final Set<String> requestSet = Collections.synchronizedSet(new HashSet<>());
 
-    @Around("execution(public * com.smeem.http..*(..))")
+    @Around("@within(org.springframework.web.bind.annotation.RestController)")
     public Object duplicateRequestCheck(ProceedingJoinPoint joinPoint) throws Throwable {
         val request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         val httpMethod = request.getMethod();
