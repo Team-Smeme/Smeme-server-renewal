@@ -1,0 +1,25 @@
+project(':smeem-output-cache') {
+	dependencies {
+	}
+}
+
+project(':smeem-output-cache:redis') {
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	}
+}
+
+allprojects {
+	dependencies {
+		implementation project(':smeem-common')
+		implementation project(':smeem-application')
+	}
+
+	tasks.bootJar {
+		enabled = false
+	}
+
+	tasks.jar {
+		enabled = true
+	}
+}
