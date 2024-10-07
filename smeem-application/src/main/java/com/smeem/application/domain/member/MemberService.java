@@ -89,7 +89,7 @@ public class MemberService implements MemberUseCase {
     }
 
     @Transactional
-    public void checkAttendance(long memberId) {
+    public void visit(long memberId) {
         val foundMember = memberPort.findById(memberId);
         if (!visitPort.isExistByMemberAndToday(foundMember.getId())) {
             foundMember.visit();
