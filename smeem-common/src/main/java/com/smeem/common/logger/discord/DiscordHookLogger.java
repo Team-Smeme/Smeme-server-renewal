@@ -1,31 +1,22 @@
 package com.smeem.common.logger.discord;
 
+import com.smeem.common.config.DiscordProperties;
 import com.smeem.common.logger.HookLogger;
 import com.smeem.common.logger.LoggerType;
 import com.smeem.common.logger.LoggingMessage;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class DiscordHookLogger implements HookLogger {
-    private final String signInUrl;
-    private final String withdrawUrl;
-    private final String errorUrl;
-    private final static String APPLICATION_JSON_UTF8_VALUE = "application/json; UTF-8";
+    private final DiscordProperties discordProperties;
 
-    DiscordHookLogger(
-            @Value("${discord.webhook.url.sign-in}") String signInUrl,
-            @Value("${discord.webhook.url.withdraw}") String withdrawUrl,
-            @Value("${discord.webhook.url.error}") String errorUrl
-    ) {
-        this.signInUrl = signInUrl;
-        this.withdrawUrl = withdrawUrl;
-        this.errorUrl = errorUrl;
-    }
+    private final static String APPLICATION_JSON_UTF8_VALUE = "application/json; UTF-8";
 
     @Override
     public void send(LoggingMessage loggingMessage) {
@@ -44,9 +35,9 @@ public class DiscordHookLogger implements HookLogger {
 
     private String getWebhookUrl(LoggerType loggerType) {
         return switch (loggerType) {
-            case SIGN_IN -> signInUrl;
-            case WITHDRAW -> withdrawUrl;
-            case ERROR -> errorUrl;
+            case SIGN_IN -> discordProperties.webhook().url().sign_in();
+            case WITHDRAW -> discordProperties.webhook().url().withdraw();
+            case ERROR -> discordProperties.webhook().url().error();
         };
     }
 }

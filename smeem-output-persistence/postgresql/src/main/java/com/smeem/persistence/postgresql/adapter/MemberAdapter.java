@@ -24,7 +24,6 @@ public class MemberAdapter implements MemberPort {
     private final DeletedDiaryRepository deletedDiaryRepository;
     private final DiaryRepository diaryRepository;
     private final TrainingTimeRepository trainingTimeRepository;
-    private final VisitRepository visitRepository;
     private final WithdrawRepository withdrawRepository;
 
     @Override
@@ -55,7 +54,6 @@ public class MemberAdapter implements MemberPort {
         deletedDiaryRepository.deleteByMemberId(id);
         diaryRepository.deleteByMemberId(id);
         trainingTimeRepository.deleteByMemberId(id);
-        visitRepository.deleteByMemberId(id);
         memberRepository.deleteById(id);
     }
 

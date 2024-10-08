@@ -16,7 +16,7 @@ public class NotificationScheduler {
     private final MemberPort memberPort;
     private final NotificationPort notificationPort;
 
-    @Scheduled(cron = "${smeem.notification.cron_expression}")
+    @Scheduled(cron = "0 0/30 * * * *")
     public void pushAlarmByTrainingTime() throws InterruptedException {
         Thread.sleep(1000);
         val members = memberPort.findByTrainingTime(LocalDateTime.now());

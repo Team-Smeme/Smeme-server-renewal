@@ -76,9 +76,9 @@ public class MemberApi implements MemberApiDocs {
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/visit")
-    public SmeemResponse<?> checkAttendance(Principal principal) {
+    public SmeemResponse<?> visit(Principal principal) {
         val memberId = smeemConverter.toMemberId(principal);
-        memberUseCase.checkAttendance(memberId);
+        memberUseCase.visit(memberId);
         return SmeemResponse.of(SmeemMessage.UPDATE_MEMBER);
     }
 }

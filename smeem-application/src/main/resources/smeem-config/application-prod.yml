@@ -1,0 +1,15 @@
+smeem:
+  secret:
+    key: ${SMEEM_SECRET_KEY}
+  duration:
+    remind: ${SMEEM_DURATION_REMIND}
+  client:
+    version:
+      title: ${CLIENT_VERSION_TITLE}
+      content: ${CLIENT_VERSION_CONTENT}
+      ios:
+        app: ${CLIENT_VERSION_IOS_APP}
+        force: ${CLIENT_VERSION_IOS_FORCE}
+      android:
+        app: ${CLIENT_VERSION_ANDROID_APP}
+        force: ${CLIENT_VERSION_ANDROID_FORCE}

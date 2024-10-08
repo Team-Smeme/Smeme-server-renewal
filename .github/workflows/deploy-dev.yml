@@ -85,6 +85,12 @@ jobs:
             if ! grep -q "IMAGE_NAME=" .env; then
               echo "IMAGE_NAME=${{ secrets.IMAGE_NAME_DEV }}" >> .env
             fi
+            if ! grep -q "SECRET_MANAGER_TOKEN=" .env; then
+              echo "SECRET_MANAGER_TOKEN=${{ secrets.SECRET_MANAGER_TOKEN }}" >> .env
+            fi
+            if ! grep -q "SECRET_MANAGER_WORKSPACE_ID=" .env; then
+              echo "SECRET_MANAGER_WORKSPACE_ID=${{ secrets.SECRET_MANAGER_WORKSPACE_ID }}" >> .env
+            fi
 
             # 배포 스크립트 실행
             sudo ./deploy.sh

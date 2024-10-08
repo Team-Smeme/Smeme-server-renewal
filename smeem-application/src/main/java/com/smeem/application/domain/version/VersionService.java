@@ -1,5 +1,6 @@
 package com.smeem.application.domain.version;
 
+import com.smeem.application.config.SmeemProperties;
 import com.smeem.application.port.input.VersionUseCase;
 import com.smeem.application.port.input.dto.response.version.RetrieveAppVersionResponse;
 import lombok.RequiredArgsConstructor;
@@ -10,16 +11,16 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class VersionService implements VersionUseCase {
-    private final Property property;
+    private final SmeemProperties smeemProperties;
 
     @Override
     public RetrieveAppVersionResponse retrieveAppVersion() {
         return RetrieveAppVersionResponse.of(
-                property.getCLIENT_VERSION_UPDATE_TITLE(),
-                property.getCLIENT_VERSION_UPDATE_CONTENT(),
-                property.getCLIENT_VERSION_ANDROID_VERSION(),
-                property.getCLIENT_VERSION_ANDROID_FORCE_VERSION(),
-                property.getCLIENT_VERSION_IOS_VERSION(),
-                property.getCLIENT_VERSION_IOS_FORCE_VERSION());
+                smeemProperties.getClient().version().title(),
+                smeemProperties.getClient().version().content(),
+                smeemProperties.getClient().version().android().app(),
+                smeemProperties.getClient().version().android().force(),
+                smeemProperties.getClient().version().ios().app(),
+                smeemProperties.getClient().version().ios().force());
     }
 }
