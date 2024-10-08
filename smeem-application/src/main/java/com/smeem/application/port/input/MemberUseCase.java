@@ -15,7 +15,7 @@ public interface MemberUseCase {
     UsernameDuplicatedResponse checkUsernameDuplicated(String username);
     void updateMemberHasPush(long memberId, UpdateMemberHasPushAlarmRequest request);
     RetrievePerformanceResponse retrieveMemberPerformance(long memberId);
-    void checkAttendance(long memberId);
+    void visit(long memberId);
     void updatePlan(long memberId, UpdateMemberPlanRequest request);
     RetrieveMemberPlanResponse retrieveMemberPlan(long memberId);
 }

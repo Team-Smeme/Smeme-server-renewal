@@ -93,5 +93,5 @@ public interface MemberApiDocs {
                     responseCode = "200",
                     description = "OK success")
     })
-    SmeemResponse<?> checkAttendance(@Parameter(hidden = true) Principal principal);
+    SmeemResponse<?> visit(@Parameter(hidden = true) Principal principal);
 }
