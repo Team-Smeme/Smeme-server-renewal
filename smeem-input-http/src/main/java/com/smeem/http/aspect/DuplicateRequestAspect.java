@@ -1,12 +1,11 @@
 package com.smeem.http.aspect;
 
 import com.smeem.common.exception.ExceptionCode;
-import com.smeem.http.controller.dto.ExceptionResponse;
+import com.smeem.common.exception.SmeemException;
 import lombok.val;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -33,7 +32,7 @@ public class DuplicateRequestAspect {
         val requestId = joinPoint.getSignature().toLongString();
         if (requestSet.contains(requestId)) {
             // 중복 요청인 경우
-            return handleDuplicateRequest();
+           throw new SmeemException(ExceptionCode.TOO_MANY_REQUESTS);
         }
         requestSet.add(requestId);
 
@@ -42,11 +41,5 @@ public class DuplicateRequestAspect {
         } finally { // 요청 후 요청값 삭제
             requestSet.remove(requestId);
         }
-    }
-
-    private ResponseEntity<ExceptionResponse> handleDuplicateRequest() {
-        return ResponseEntity
-                .status(ExceptionCode.TOO_MANY_REQUESTS.getStatusCode())
-                .body(ExceptionResponse.of(ExceptionCode.TOO_MANY_REQUESTS.getMessage() + ": 중복된 요청"));
     }
 }
