@@ -97,7 +97,6 @@ public class MemberService implements MemberUseCase {
         String key = "visit:" + today;
 
         if (!cachePort.getBit(key, foundMember.getId())) {
-            System.out.println("test");
             foundMember.visit();
             memberPort.update(foundMember);
             cachePort.setBit(key, foundMember.getId(), true);
