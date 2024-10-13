@@ -3,7 +3,6 @@ package com.smeem.application.domain.member;
 import com.smeem.application.domain.badge.Badge;
 import com.smeem.application.domain.trainingtime.DayType;
 import com.smeem.application.domain.trainingtime.TrainingTime;
-import com.smeem.application.domain.visit.Visit;
 import com.smeem.application.port.input.MemberUseCase;
 import com.smeem.application.port.input.dto.request.member.UpdateMemberHasPushAlarmRequest;
 import com.smeem.application.port.input.dto.request.member.UpdateMemberRequest;
@@ -13,6 +12,7 @@ import com.smeem.application.port.input.dto.response.member.RetrievePerformanceR
 import com.smeem.application.port.input.dto.response.member.UpdateMemberResponse;
 import com.smeem.application.port.input.dto.response.member.UsernameDuplicatedResponse;
 import com.smeem.application.port.input.dto.response.plan.RetrieveMemberPlanResponse;
+import com.smeem.application.port.output.cache.CachePort;
 import com.smeem.application.port.output.persistence.*;
 import com.smeem.common.logger.HookLogger;
 import com.smeem.common.logger.LoggingMessage;
@@ -21,6 +21,8 @@ import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 @Service
@@ -31,10 +33,10 @@ public class MemberService implements MemberUseCase {
     private final TrainingTimePort trainingTimePort;
     private final BadgePort badgePort;
     private final DiaryPort diaryPort;
-    private final VisitPort visitPort;
     private final GoalPort goalPort;
     private final PlanPort planPort;
     private final HookLogger hookLogger;
+    private final CachePort cachePort;
 
     @Transactional
     public UpdateMemberResponse updateMember(long memberId, UpdateMemberRequest request) {
@@ -89,12 +91,15 @@ public class MemberService implements MemberUseCase {
     }
 
     @Transactional
-    public void checkAttendance(long memberId) {
-        val foundMember = memberPort.findById(memberId);
-        if (!visitPort.isExistByMemberAndToday(foundMember.getId())) {
+    public void visit(long memberId) {
+        Member foundMember = memberPort.findById(memberId);
+        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String key = "visit:" + today;
+
+        if (!cachePort.getBit(key, foundMember.getId())) {
             foundMember.visit();
             memberPort.update(foundMember);
-            visitPort.visit(new Visit(foundMember.getId()));
+            cachePort.setBit(key, foundMember.getId(), true);
         }
     }
 

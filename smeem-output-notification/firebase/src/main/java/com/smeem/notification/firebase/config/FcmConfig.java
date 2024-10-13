@@ -4,7 +4,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -15,16 +15,14 @@ import java.io.IOException;
 import lombok.*;
 
 @Configuration
+@EnableConfigurationProperties(FcmProperties.class)
 public class FcmConfig {
     private final ClassPathResource firebaseResource;
     private final String projectId;
 
-    public FcmConfig(
-            @Value("${fcm.file_path}") String firebaseFilePath,
-            @Value("${fcm.project_id}") String projectId
-    ) {
-        this.firebaseResource = new ClassPathResource(firebaseFilePath);
-        this.projectId = projectId;
+    public FcmConfig(FcmProperties fcmProperties) {
+        this.firebaseResource = new ClassPathResource(fcmProperties.fcm().file_path());
+        this.projectId = fcmProperties.fcm().project_id();
     }
 
     @PostConstruct
