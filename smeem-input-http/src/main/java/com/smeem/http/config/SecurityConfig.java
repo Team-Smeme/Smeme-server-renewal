@@ -56,6 +56,7 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/api/v2/plans")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/favicon.ico")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/actuator/**")).permitAll()
                                 .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
