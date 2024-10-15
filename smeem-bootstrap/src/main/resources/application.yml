@@ -3,6 +3,7 @@ spring:
     import:
       - classpath:oauth-apple-config/application.yml
       - classpath:oauth-kakao-config/application.yml
+      - classpath:gpt-config/application.yml
   application:
     name: "smeem"
   messages:
