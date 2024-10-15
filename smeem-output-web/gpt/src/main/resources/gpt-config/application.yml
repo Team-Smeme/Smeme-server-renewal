@@ -1,0 +1,3 @@
+gpt:
+  openai:
+    api: ${CHAT_GPT_TOKEN}

@@ -1,0 +1,32 @@
+project(':smeem-output-web') {
+    dependencies {
+    }
+}
+
+project(':smeem-output-web:gpt') {
+    dependencies {
+        // Spring AI
+        implementation platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT")
+        implementation 'org.springframework.ai:spring-ai-openai'
+
+        // jackson
+        implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+    }
+}
+
+allprojects {
+    dependencies {
+        implementation project(':smeem-common')
+        implementation project(':smeem-application')
+
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+    }
+
+    tasks.bootJar {
+        enabled = false
+    }
+
+    tasks.jar {
+        enabled = true
+    }
+}

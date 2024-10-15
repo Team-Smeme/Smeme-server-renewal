@@ -3,6 +3,7 @@ package com.smeem.http.controller;
 import com.smeem.application.domain.generic.SmeemMessage;
 import com.smeem.application.port.input.DiaryUseCase;
 import com.smeem.application.port.input.dto.request.diary.WriteDiaryRequest;
+import com.smeem.application.port.input.dto.response.diary.CoachDiaryResponse;
 import com.smeem.http.controller.dto.SmeemResponse;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiariesResponse;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiaryResponse;
@@ -70,5 +71,13 @@ public class DiaryApi implements DiaryApiDocs {
                         LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE),
                         LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE)),
                 SmeemMessage.RETRIEVE_DIARY);
+    }
+
+    //TODO: URI 변경 (/{diaryId}/correction), diaryId 파라미터 추가
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/coach")
+    public SmeemResponse<CoachDiaryResponse> coachDiary(@RequestBody String content) {
+        CoachDiaryResponse response = diaryUseCase.coachDiary(content);
+        return SmeemResponse.of(response, SmeemMessage.COACH_DIARY);
     }
 }
