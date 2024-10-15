@@ -1,6 +1,7 @@
 package com.smeem.http.controller.docs;
 
 import com.smeem.application.port.input.dto.request.diary.WriteDiaryRequest;
+import com.smeem.application.port.input.dto.response.diary.CoachDiaryResponse;
 import com.smeem.http.controller.dto.SmeemResponse;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiariesResponse;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiaryResponse;
@@ -108,5 +109,27 @@ public interface DiaryApiDocs {
                     required = true,
                     in = ParameterIn.QUERY
             ) String end
+    );
+
+    //TODO: delete RequestBody, add Parameter
+    @Operation(summary = "일기 코칭 api", description = "[개발 중] 일기 AI 코칭을 실행 및 결과를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK success",
+                    content = @Content(schema = @Schema(implementation = CoachDiaryResponse.class)))
+    })
+    SmeemResponse<CoachDiaryResponse> coachDiary(
+            @RequestBody(
+                    description = "테스트용 Request Body",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = String.class))
+            ) String content
+//            @Parameter(
+//                    name = "diaryId",
+//                    description = "코칭할 일기 id",
+//                    required = true,
+//                    in = ParameterIn.PATH
+//            ) long diaryId
     );
 }

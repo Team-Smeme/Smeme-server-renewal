@@ -13,7 +13,9 @@ public enum ExceptionCode {
 
     // 5xx
     SERVICE_AVAILABLE(503, "서비스에 접근할 수 없음 "),
+    OPEN_AI_SERVICE_AVAILABLE(503, "OpenAI 서비스 에러"),
     INTERNAL_SERVER_ERROR(500, "서버 내부 오류"),
+    JSON_PARSE_ERROR(500, "json 파싱 오류. 서버에게 문의해주세요."),
     ;
 
     private final int statusCode;
