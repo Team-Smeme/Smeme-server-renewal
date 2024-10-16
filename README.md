@@ -8,7 +8,7 @@
 
 ## Architecture
 ### Server Architecture
-<img alt="image" width="600" src="https://github.com/user-attachments/assets/fb290cc9-1f98-4536-b4cb-c7fb5b421580"/>
+<img width="900" alt="image" src="https://github.com/user-attachments/assets/11e56163-abaa-47c6-af1c-e677897e12cd">
 
 <br/>
 
