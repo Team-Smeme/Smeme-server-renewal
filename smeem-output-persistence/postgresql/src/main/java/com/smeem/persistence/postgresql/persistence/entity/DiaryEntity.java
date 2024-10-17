@@ -41,6 +41,7 @@ public class DiaryEntity extends BaseEntity {
                 .content(content)
                 .targetLang(targetLang)
                 .createdAt(createdAt)
+                .memberId(memberId)
                 .build();
     }
 
@@ -51,6 +52,7 @@ public class DiaryEntity extends BaseEntity {
                 .targetLang(targetLang)
                 .createdAt(createdAt)
                 .member(member)
+                .memberId(memberId)
                 .topic(topic)
                 .build();
     }

@@ -1,6 +1,9 @@
 package com.smeem.application.config;
 
+import com.smeem.common.exception.ExceptionCode;
+import com.smeem.common.exception.SmeemException;
 import jakarta.annotation.PostConstruct;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -8,17 +11,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @Getter
+@AllArgsConstructor
 @ConfigurationProperties(prefix = "smeem")
 public class SmeemProperties {
     private final Secret secret;
     private final Duration duration;
     private final Client client;
-
-    public SmeemProperties(Secret secret, Duration duration, Client client) {
-        this.secret = secret;
-        this.duration = duration;
-        this.client = client;
-    }
+    private final Limit limit;
 
     @Getter
     public static class Secret {
@@ -57,5 +56,17 @@ public class SmeemProperties {
             ) {
             }
         }
+    }
+
+    public record Limit(
+            int correction
+    ) {
+
+        public void validateCorrectionLimit(int correctionCount) {
+            if (correctionCount >= correction) {
+                throw new SmeemException(ExceptionCode.EXCEED_CORRECTION_LIMIT);
+            }
+        }
+
     }
 }
