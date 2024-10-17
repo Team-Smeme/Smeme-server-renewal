@@ -8,13 +8,13 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder(access = AccessLevel.PRIVATE)
-public record CoachDiaryResponse(
-        @Schema(description = "교정 정보")
+public record CorrectionsResponse(
+        @Schema(description = "코칭 결과")
         List<Correction> corrections
 ) {
 
-    public static CoachDiaryResponse of(List<Correction> corrections) {
-        return CoachDiaryResponse.builder()
+    public static CorrectionsResponse of(List<Correction> corrections) {
+        return CorrectionsResponse.builder()
                 .corrections(corrections)
                 .build();
     }
