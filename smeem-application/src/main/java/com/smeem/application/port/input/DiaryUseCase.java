@@ -1,7 +1,6 @@
 package com.smeem.application.port.input;
 
 import com.smeem.application.port.input.dto.request.diary.WriteDiaryRequest;
-import com.smeem.application.port.input.dto.response.diary.CoachDiaryResponse;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiariesResponse;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiaryResponse;
 import com.smeem.application.port.input.dto.response.diary.WriteDiaryResponse;
@@ -15,5 +14,4 @@ public interface DiaryUseCase {
     void deleteDiary(long diary);
     RetrieveDiariesResponse retrieveDiariesByTerm(long memberId, LocalDate startDate, LocalDate endDate);
     void deleteExpiredDiaries(int duration);
-    CoachDiaryResponse coachDiary(String content); //TODO: String to Response DTO
 }
