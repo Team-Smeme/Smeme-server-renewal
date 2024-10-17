@@ -25,6 +25,11 @@ public class RedisCacheAdapter implements CachePort {
     }
 
     @Override
+    public String getBitmap(String key) {
+        return redisTemplate.opsForValue().get(key);
+    }
+
+    @Override
     public Optional<Integer> getInt(String key) {
         return Optional.ofNullable(integerRedisTemplate.opsForValue().get(key));
     }
