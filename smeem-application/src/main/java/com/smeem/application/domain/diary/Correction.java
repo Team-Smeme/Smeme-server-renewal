@@ -2,7 +2,9 @@ package com.smeem.application.domain.diary;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
+@Builder
 public record Correction(
         @Schema(description = "교정 전 문장", example = "hallo")
         @JsonProperty("original_sentence")
