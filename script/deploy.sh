@@ -12,7 +12,7 @@ TAG="latest"
 CONTAINER_NAME="smeem"
 HEALTH_CHECK_URI="/actuator/health"
 
-docker_ps_output=$(sudo docker ps | grep $CONTAINER_NAME)
+docker_ps_output=$(sudo docker ps | grep "$CONTAINER_NAME-")
 running_container_name=$(echo "$docker_ps_output" | awk '{print $NF}')
 blue_port=$(echo "$running_container_name" | awk -F'-' '{print $NF}')
 
