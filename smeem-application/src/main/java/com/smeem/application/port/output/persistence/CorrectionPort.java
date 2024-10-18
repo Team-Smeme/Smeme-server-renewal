@@ -11,7 +11,8 @@ public interface CorrectionPort {
 
     int countDistinctByMemberAndDate(long memberId, LocalDate date);
 
-    //TODO: 일기 삭제, 일기 수정
+    List<Correction> findByDiary(long diary);
+
     void deleteByDiary(long diaryId);
 
     //TODO: 회원탈퇴
