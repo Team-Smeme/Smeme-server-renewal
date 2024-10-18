@@ -30,8 +30,7 @@ jobs:
 
       - name: Set FCM JSON File Path
         run: |
-          echo "FCM_JSON_PATH=smeem-output-notification/src/main/resources/firebase-config/ \
-          smeem_fcm_dev.json" >> $GITHUB_ENV
+          echo "FCM_JSON_PATH=smeem-output-notification/src/main/resources/firebase-config/smeem_fcm_dev.json" >> $GITHUB_ENV
         # FCM JSON 파일 위치 경로 설정
 
       - name: Create FCM JSON File from AWS
