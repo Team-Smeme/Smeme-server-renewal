@@ -65,7 +65,7 @@ for retry_count in {1..15}
 do
     echo "> Health check"
 
-    response=$(curl -s http://localhost${HEALTH_CHECK_URI})
+    response=$(curl -s http://localhost:"${green_port}"${HEALTH_CHECK_URI})
     # shellcheck disable=SC2126
     up_count=$(echo "${response}" | grep 'UP' | wc -l)
 
@@ -101,8 +101,8 @@ then
 fi
 
 ## 서비스 URL 업데이트 및 Nginx 리로드
-#echo "set \$service_url http://127.0.0.1:${green_port};" | sudo tee ${NGINX_CONFIG_PATH}/conf.d/service-url.inc
-#sudo nginx -t && sudo nginx -s reload
+echo "set \$service_url 127.0.0.1:${green_port};" | sudo tee ${NGINX_CONFIG_PATH}/conf.d/service-url.inc
+sudo nginx -t && sudo nginx -s reload
 
 sleep 1
 
