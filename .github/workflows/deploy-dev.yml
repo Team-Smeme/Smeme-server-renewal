@@ -82,19 +82,14 @@ jobs:
             wget https://raw.githubusercontent.com/Team-Smeme/Smeme-server-renewal/develop/script/deploy.sh -O deploy.sh
             chmod +x deploy.sh
 
-            # .env 파일 추가
-            if ! grep -q "REGISTRY_URL=" .env; then
-              echo "REGISTRY_URL=${{ secrets.REGISTRY_URL_DEV }}" >> .env
-            fi
-            if ! grep -q "IMAGE_NAME=" .env; then
-              echo "IMAGE_NAME=${{ secrets.IMAGE_NAME_DEV }}" >> .env
-            fi
-            if ! grep -q "SECRET_MANAGER_TOKEN=" .env; then
-              echo "SECRET_MANAGER_TOKEN=${{ secrets.SECRET_MANAGER_TOKEN }}" >> .env
-            fi
-            if ! grep -q "SECRET_MANAGER_WORKSPACE_ID=" .env; then
-              echo "SECRET_MANAGER_WORKSPACE_ID=${{ secrets.SECRET_MANAGER_WORKSPACE_ID }}" >> .env
-            fi
+            # 기존 .env 파일 삭제 및 새로 생성
+            rm -f .env  # 기존 .env 파일을 삭제합니다.
+            
+            # .env 파일 새로 생성
+            echo "REGISTRY_URL=${{ secrets.REGISTRY_URL_DEV }}" >> .env
+            echo "IMAGE_NAME=${{ secrets.IMAGE_NAME_DEV }}" >> .env
+            echo "SECRET_MANAGER_TOKEN=${{ secrets.SECRET_MANAGER_TOKEN }}" >> .env
+            echo "SECRET_MANAGER_WORKSPACE_ID=${{ secrets.SECRET_MANAGER_WORKSPACE_ID }}" >> .env
 
             # 배포 스크립트 실행
             sudo ./deploy.sh
