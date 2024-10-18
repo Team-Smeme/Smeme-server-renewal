@@ -31,6 +31,11 @@ public class CorrectionAdapter implements CorrectionPort {
     }
 
     @Override
+    public List<Correction> findByDiary(long diaryId) {
+        return correctionRepository.findByDiaryId(diaryId).stream().map(CorrectionEntity::toDomain).toList();
+    }
+
+    @Override
     public void deleteByDiary(long diaryId) {
         correctionRepository.deleteByDiaryId(diaryId);
     }
