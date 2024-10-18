@@ -6,12 +6,8 @@ import com.smeem.common.exception.ExceptionCode;
 import com.smeem.common.exception.SmeemException;
 import com.smeem.persistence.postgresql.persistence.entity.DeletedDiaryEntity;
 import com.smeem.persistence.postgresql.persistence.entity.DiaryEntity;
-import com.smeem.persistence.postgresql.persistence.entity.MemberEntity;
-import com.smeem.persistence.postgresql.persistence.entity.TopicEntity;
 import com.smeem.persistence.postgresql.persistence.repository.DeletedDiaryRepository;
 import com.smeem.persistence.postgresql.persistence.repository.DiaryRepository;
-import com.smeem.persistence.postgresql.persistence.repository.MemberRepository;
-import com.smeem.persistence.postgresql.persistence.repository.TopicRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Repository;
@@ -23,8 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DiaryAdapter implements DiaryPort {
     private final DiaryRepository diaryRepository;
-    private final MemberRepository memberRepository;
-    private final TopicRepository topicRepository;
     private final DeletedDiaryRepository deletedDiaryRepository;
 
     @Override
@@ -40,14 +34,6 @@ public class DiaryAdapter implements DiaryPort {
     @Override
     public boolean isExistByMemberAndYesterday(long memberId) {
         return diaryRepository.existsByMemberIdAndYesterday(memberId);
-    }
-
-    @Override
-    public Diary findByIdJoinMemberAndTopic(long id) {
-        val foundDiary = find(id);
-        val member = findByMemberId(foundDiary.getMemberId()).toDomain();
-        val topic = foundDiary.getTopicId() != null ? findByTopicId(foundDiary.getTopicId()).toDomain() : null;
-        return foundDiary.toDomain(member, topic);
     }
 
     @Override
@@ -94,17 +80,5 @@ public class DiaryAdapter implements DiaryPort {
     private DiaryEntity find(long id) {
         return diaryRepository.findById(id)
                 .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, "(Diary ID: " + id + ")"));
-    }
-
-    private MemberEntity findByMemberId(long id) {
-        return memberRepository.findById(id)
-                .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, "(Member ID: " + id + ")"));
-    }
-
-    private TopicEntity findByTopicId(long id) {
-        return topicRepository.findById(id)
-                .orElseThrow(() -> new SmeemException(
-                        ExceptionCode.NOT_FOUND,
-                        "(서버 개발자에게 문의: Topic ID: " + id + ")"));
     }
 }
