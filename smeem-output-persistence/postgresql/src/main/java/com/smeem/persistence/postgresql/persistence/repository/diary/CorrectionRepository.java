@@ -5,4 +5,7 @@ import com.smeem.persistence.postgresql.persistence.repository.diary.custom.Corr
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CorrectionRepository extends JpaRepository<CorrectionEntity, Long>, CorrectionCustomRepository {
+    void deleteByDiaryId(long diaryId);
+
+    void deleteByMemberId(long memberId);
 }
