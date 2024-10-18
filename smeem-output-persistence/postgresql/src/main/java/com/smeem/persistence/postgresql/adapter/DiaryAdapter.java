@@ -28,7 +28,7 @@ public class DiaryAdapter implements DiaryPort {
 
     @Override
     public Diary save(Diary diary) {
-        return diaryRepository.save(DiaryEntity.of(diary)).toDomain();
+        return diaryRepository.save(new DiaryEntity(diary)).toDomain();
     }
 
     @Override

@@ -24,19 +24,21 @@ import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class DiaryService implements DiaryUseCase {
+    private final CorrectionPort correctionPort;
     private final DiaryPort diaryPort;
     private final MemberPort memberPort;
     private final BadgePort badgePort;
     private final MemberBadgePort memberBadgePort;
     private final TopicPort topicPort;
     private final SmeemProperties smeemProperties;
-    private final CorrectionPort correctionPort;
 
     @Transactional
     public WriteDiaryResponse writeDiary(long memberId, WriteDiaryRequest request) {
-        val member = memberPort.findById(memberId);
-        val topic = request.topicId() != null ? topicPort.findById(request.topicId()) : null;
-        val savedDiary = diaryPort.save(request.toDomain(member, topic));
+        Member member = memberPort.findById(memberId);
+        if (request.topicId() != null) {
+            topicPort.checkValidation(request.topicId());
+        }
+        Diary savedDiary = diaryPort.save(request.toDomain(member));
 
         val diaryWrittenYesterday = diaryPort.isExistByMemberAndYesterday(memberId);
         memberPort.update(member.updateDiaryComboCount(diaryWrittenYesterday));
@@ -70,15 +72,17 @@ public class DiaryService implements DiaryUseCase {
     }
 
     @Transactional
-    public void modifyDiary(long diaryId, WriteDiaryRequest request) {
-        val foundDiary = diaryPort.findById(diaryId);
+    public void modifyDiary(long memberId, long diaryId, WriteDiaryRequest request) {
+        Diary foundDiary = diaryPort.findById(diaryId);
+        foundDiary.validateDiaryOwnership(memberId);
         diaryPort.update(request.toDomain(foundDiary));
+        correctionPort.deleteByDiary(diaryId);
     }
 
     @Transactional
-    public void deleteDiary(long diary) {
-        diaryPort.softDelete(diary);
-        //TODO: 코칭 정보 삭제
+    public void deleteDiary(long diaryId) {
+        diaryPort.softDelete(diaryId);
+        correctionPort.deleteByDiary(diaryId);
     }
 
     public RetrieveDiariesResponse retrieveDiariesByTerm(long memberId, LocalDate startDate, LocalDate endDate) {
