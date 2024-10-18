@@ -25,7 +25,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_DEV }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY_DEV }}
-          aws-region: ap-northeast-2
+          aws-region: ${{ secrets.AWS_REGION }}
         # AWS 자격 증명 설정
 
       - name: Set FCM JSON File Path
