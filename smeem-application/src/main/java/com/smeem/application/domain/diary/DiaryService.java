@@ -4,6 +4,7 @@ import com.smeem.application.config.SmeemProperties;
 import com.smeem.application.domain.badge.Badge;
 import com.smeem.application.domain.badge.BadgeType;
 import com.smeem.application.domain.member.Member;
+import com.smeem.application.domain.topic.Topic;
 import com.smeem.application.port.input.DiaryUseCase;
 import com.smeem.application.port.input.dto.request.diary.WriteDiaryRequest;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiariesResponse;
@@ -29,6 +30,7 @@ public class DiaryService implements DiaryUseCase {
     private final MemberBadgePort memberBadgePort;
     private final TopicPort topicPort;
     private final SmeemProperties smeemProperties;
+    private final CorrectionPort correctionPort;
 
     @Transactional
     public WriteDiaryResponse writeDiary(long memberId, WriteDiaryRequest request) {
@@ -60,7 +62,11 @@ public class DiaryService implements DiaryUseCase {
     }
 
     public RetrieveDiaryResponse retrieveDiary(long diaryId) {
-        return RetrieveDiaryResponse.of(diaryPort.findByIdJoinMemberAndTopic(diaryId));
+        Diary diary = diaryPort.findById(diaryId);
+        Topic topic = diary.getTopicId() != null ? topicPort.findById(diary.getTopicId()) : null;
+        Member member = memberPort.findById(diary.getMemberId());
+        List<Correction> corrections = correctionPort.findByDiary(diaryId);
+        return RetrieveDiaryResponse.of(diary, topic, member, corrections);
     }
 
     @Transactional
