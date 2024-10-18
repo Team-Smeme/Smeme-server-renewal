@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public interface DiaryUseCase {
     WriteDiaryResponse writeDiary(long memberId, WriteDiaryRequest request);
     RetrieveDiaryResponse retrieveDiary(long diaryId);
-    void modifyDiary(long diaryId, WriteDiaryRequest request);
+    void modifyDiary(long memberId, long diaryId, WriteDiaryRequest request);
     void deleteDiary(long diary);
     RetrieveDiariesResponse retrieveDiariesByTerm(long memberId, LocalDate startDate, LocalDate endDate);
     void deleteExpiredDiaries(int duration);
