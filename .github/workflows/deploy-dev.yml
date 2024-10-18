@@ -25,13 +25,12 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_DEV }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY_DEV }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ap-northeast-2
         # AWS 자격 증명 설정
 
       - name: Set FCM JSON File Path
         run: |
-          echo "FCM_JSON_PATH=smeem-output-notification/src/main/resources/firebase-config/ \
-          smeem_fcm_dev.json" >> $GITHUB_ENV
+          echo "FCM_JSON_PATH=smeem-output-notification/src/main/resources/firebase-config/smeem_fcm_dev.json" >> $GITHUB_ENV
         # FCM JSON 파일 위치 경로 설정
 
       - name: Create FCM JSON File from AWS

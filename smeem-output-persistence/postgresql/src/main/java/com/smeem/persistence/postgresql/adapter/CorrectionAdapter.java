@@ -29,4 +29,19 @@ public class CorrectionAdapter implements CorrectionPort {
     public int countDistinctByMemberAndDate(long memberId, LocalDate date) {
         return correctionRepository.countDistinctKeyByMemberIdAndCreatedAt(memberId, date);
     }
+
+    @Override
+    public List<Correction> findByDiary(long diaryId) {
+        return correctionRepository.findByDiaryId(diaryId).stream().map(CorrectionEntity::toDomain).toList();
+    }
+
+    @Override
+    public void deleteByDiary(long diaryId) {
+        correctionRepository.deleteByDiaryId(diaryId);
+    }
+
+    @Override
+    public void deleteByMember(long memberId) {
+        correctionRepository.deleteByMemberId(memberId);
+    }
 }

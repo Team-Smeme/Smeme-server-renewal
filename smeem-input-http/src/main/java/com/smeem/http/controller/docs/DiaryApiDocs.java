@@ -59,6 +59,7 @@ public interface DiaryApiDocs {
                     description = "OK success")
     })
     SmeemResponse<?> modifyDiary(
+            @Parameter(hidden = true) Principal principal,
             @Parameter(
                     name = "diaryId",
                     description = "수정할 일기 id",

@@ -4,6 +4,7 @@ import com.smeem.application.config.SmeemProperties;
 import com.smeem.application.domain.badge.Badge;
 import com.smeem.application.domain.badge.BadgeType;
 import com.smeem.application.domain.member.Member;
+import com.smeem.application.domain.topic.Topic;
 import com.smeem.application.port.input.DiaryUseCase;
 import com.smeem.application.port.input.dto.request.diary.WriteDiaryRequest;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiariesResponse;
@@ -23,6 +24,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class DiaryService implements DiaryUseCase {
+    private final CorrectionPort correctionPort;
     private final DiaryPort diaryPort;
     private final MemberPort memberPort;
     private final BadgePort badgePort;
@@ -32,9 +34,11 @@ public class DiaryService implements DiaryUseCase {
 
     @Transactional
     public WriteDiaryResponse writeDiary(long memberId, WriteDiaryRequest request) {
-        val member = memberPort.findById(memberId);
-        val topic = request.topicId() != null ? topicPort.findById(request.topicId()) : null;
-        val savedDiary = diaryPort.save(request.toDomain(member, topic));
+        Member member = memberPort.findById(memberId);
+        if (request.topicId() != null) {
+            topicPort.checkValidation(request.topicId());
+        }
+        Diary savedDiary = diaryPort.save(request.toDomain(member));
 
         val diaryWrittenYesterday = diaryPort.isExistByMemberAndYesterday(memberId);
         memberPort.update(member.updateDiaryComboCount(diaryWrittenYesterday));
@@ -60,19 +64,25 @@ public class DiaryService implements DiaryUseCase {
     }
 
     public RetrieveDiaryResponse retrieveDiary(long diaryId) {
-        return RetrieveDiaryResponse.of(diaryPort.findByIdJoinMemberAndTopic(diaryId));
+        Diary diary = diaryPort.findById(diaryId);
+        Topic topic = diary.getTopicId() != null ? topicPort.findById(diary.getTopicId()) : null;
+        Member member = memberPort.findById(diary.getMemberId());
+        List<Correction> corrections = correctionPort.findByDiary(diaryId);
+        return RetrieveDiaryResponse.of(diary, topic, member, corrections);
     }
 
     @Transactional
-    public void modifyDiary(long diaryId, WriteDiaryRequest request) {
-        val foundDiary = diaryPort.findById(diaryId);
+    public void modifyDiary(long memberId, long diaryId, WriteDiaryRequest request) {
+        Diary foundDiary = diaryPort.findById(diaryId);
+        foundDiary.validateDiaryOwnership(memberId);
         diaryPort.update(request.toDomain(foundDiary));
+        correctionPort.deleteByDiary(diaryId);
     }
 
     @Transactional
-    public void deleteDiary(long diary) {
-        diaryPort.softDelete(diary);
-        //TODO: 코칭 정보 삭제
+    public void deleteDiary(long diaryId) {
+        diaryPort.softDelete(diaryId);
+        correctionPort.deleteByDiary(diaryId);
     }
 
     public RetrieveDiariesResponse retrieveDiariesByTerm(long memberId, LocalDate startDate, LocalDate endDate) {

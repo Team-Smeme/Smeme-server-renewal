@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 //TODO: Redis 죽으면 어떻게 할 것인가?
@@ -26,7 +27,8 @@ public class RedisCacheAdapter implements CachePort {
 
     @Override
     public String getBitmap(String key) {
-        return redisTemplate.opsForValue().get(key);
+        byte[] arr = redisTemplate.execute(it -> it.stringCommands().get(key.getBytes()), true);
+        return Arrays.toString(arr);
     }
 
     @Override

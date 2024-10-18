@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
+@Table(name = "correction", schema = "smeem")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CorrectionEntity extends BaseEntity {
     @Id

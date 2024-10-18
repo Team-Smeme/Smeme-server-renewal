@@ -3,7 +3,6 @@ package com.smeem.http.controller;
 import com.smeem.application.domain.generic.SmeemMessage;
 import com.smeem.application.port.input.DiaryUseCase;
 import com.smeem.application.port.input.dto.request.diary.WriteDiaryRequest;
-import com.smeem.application.port.input.dto.response.diary.CorrectionsResponse;
 import com.smeem.http.controller.dto.SmeemResponse;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiariesResponse;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiaryResponse;
@@ -45,8 +44,13 @@ public class DiaryApi implements DiaryApiDocs {
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{diaryId}")
-    public SmeemResponse<?> modifyDiary(@PathVariable long diaryId, @RequestBody WriteDiaryRequest request) {
-        diaryUseCase.modifyDiary(diaryId, request);
+    public SmeemResponse<?> modifyDiary(
+            Principal principal,
+            @PathVariable long diaryId,
+            @RequestBody WriteDiaryRequest request
+    ) {
+        long memberId = smeemConverter.toMemberId(principal);
+        diaryUseCase.modifyDiary(memberId, diaryId, request);
         return SmeemResponse.of(SmeemMessage.MODIFY_DIARY);
     }
 

@@ -18,4 +18,11 @@ public class SmeemException extends RuntimeException {
         this.defaultMessage = exceptionCode.getMessage();
         this.detailMessage = message;
     }
+
+    public String getMessage() {
+        if (detailMessage != null) {
+            return  "[" + defaultMessage + "] " + detailMessage;
+        }
+        return defaultMessage;
+    }
 }

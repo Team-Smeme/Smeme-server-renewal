@@ -1,8 +1,6 @@
 package com.smeem.application.domain.diary;
 
 import com.smeem.application.domain.generic.LangType;
-import com.smeem.application.domain.member.Member;
-import com.smeem.application.domain.topic.Topic;
 import com.smeem.common.exception.ExceptionCode;
 import com.smeem.common.exception.SmeemException;
 import lombok.Builder;
@@ -16,8 +14,7 @@ public class Diary {
     private Long id;
     private String content;
     private LangType targetLang;
-    private Topic topic;
-    private Member member;
+    private Long topicId;
     private long memberId;
     private LocalDateTime createdAt;
 
