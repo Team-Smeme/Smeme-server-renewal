@@ -20,10 +20,6 @@ jobs:
           java-version: '17'
         # 자바 버전을 JDK 17로 설정
 
-      - name: Verify AWS Access Key Setup
-        run:
-          echo "AWS Access Key ID Length: ${{ secrets.AWS_ACCESS_KEY_DEV }}"
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
