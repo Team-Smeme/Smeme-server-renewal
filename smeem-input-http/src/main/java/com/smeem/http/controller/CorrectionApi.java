@@ -14,7 +14,7 @@ import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v2/diaries/{diaryId}")
+@RequestMapping("/api/v2/diaries/{diaryId}/corrections")
 public class CorrectionApi implements CorrectionApiDocs {
     private final SmeemConverter smeemConverter;
     private final CorrectionUseCase correctionUseCase;
