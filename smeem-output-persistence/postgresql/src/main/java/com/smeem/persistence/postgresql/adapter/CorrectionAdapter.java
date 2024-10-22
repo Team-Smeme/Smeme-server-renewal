@@ -39,9 +39,4 @@ public class CorrectionAdapter implements CorrectionPort {
     public void deleteByDiary(long diaryId) {
         correctionRepository.deleteByDiaryId(diaryId);
     }
-
-    @Override
-    public void deleteByMember(long memberId) {
-        correctionRepository.deleteByMemberId(memberId);
-    }
 }

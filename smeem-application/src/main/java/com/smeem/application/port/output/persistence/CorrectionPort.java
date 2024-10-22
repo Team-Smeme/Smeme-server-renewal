@@ -14,7 +14,4 @@ public interface CorrectionPort {
     List<Correction> findByDiary(long diary);
 
     void deleteByDiary(long diaryId);
-
-    //TODO: 회원탈퇴
-    void deleteByMember(long memberId);
 }

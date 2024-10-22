@@ -55,6 +55,10 @@ public class AuthService implements AuthUseCase {
     @Transactional
     public void withdraw(long memberId, WithdrawRequest request) {
         memberPort.deleteById(memberId);
+        createWithdrawal(request);
+    }
+
+    private void createWithdrawal(WithdrawRequest request) {
         if (request != null) {
             memberPort.saveWithdraw(request.toDomain());
             hookLogger.send(LoggingMessage.withdraw(
