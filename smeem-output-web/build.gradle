@@ -10,7 +10,7 @@ project(':smeem-output-web:gpt') {
         implementation 'org.springframework.ai:spring-ai-openai'
 
         // jackson
-        implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+        implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.0'
     }
 }
 
