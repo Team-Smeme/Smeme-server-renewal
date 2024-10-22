@@ -19,8 +19,8 @@ public interface CorrectionApiDocs {
     @Operation(summary = "일기 코칭 api", description = "AI 코칭 실행 및 결과 조회")
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200",
-                    description = "OK success",
+                    responseCode = "201",
+                    description = "CREATED success",
                     content = @Content(schema = @Schema(implementation = CorrectionsResponse.class)))
     })
     SmeemResponse<CorrectionsResponse> correctDiary(
