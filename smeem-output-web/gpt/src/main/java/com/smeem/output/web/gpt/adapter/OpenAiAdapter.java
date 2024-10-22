@@ -82,7 +82,7 @@ public class OpenAiAdapter implements OpenAiPort {
         Paragraph : %s
 
         JSON response description:
-        - original_sentence: Separate sentence from paragraph.
+        - original_sentence: Separate sentence from paragraph, including whitespace, spaces and special characters exactly as they appear in the original.
         - corrected_sentence: corrected sentence including correct expressions.
         - reason: this value MUST be Korean. reason is why the sentence is corrected.
         """, content);
