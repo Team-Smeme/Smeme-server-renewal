@@ -4,6 +4,7 @@ spring:
       on-profile: local
     import:
       - classpath:postgres-config/application-local.yml
+      - classpath:mongo-config/application-local.yml
       - classpath:smeem-config/application-local.yml
       - classpath:notification-config/application-local.yml
       - classpath:common-config/application-local.yml
