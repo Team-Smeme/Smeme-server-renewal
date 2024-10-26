@@ -14,6 +14,9 @@ public record Correction(
         String correctedSentence,
         @Schema(description = "교정 사유", example = "스펠링 틀림")
         @JsonProperty("reason")
-        String reason
+        String reason,
+        @Schema(description = "교정 여부", example = "true")
+        @JsonProperty("is_corrected")
+        boolean isCorrected
 ) {
 }
