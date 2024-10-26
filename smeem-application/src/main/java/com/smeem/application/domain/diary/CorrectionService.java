@@ -30,12 +30,15 @@ public class CorrectionService implements CorrectionUseCase {
         LocalDate today = LocalDate.now();
         String key = getCorrectionCacheKey(memberId, today);
 
+        // 제한 횟수 검증
         int correctionCount = getOrUpdateCorrectionCount(key, memberId, today);
         smeemProperties.getLimit().validateCorrectionLimit(correctionCount);
 
+        // 일기 소유권 검증
         Diary diary = diaryPort.findById(diaryId);
         diary.validateDiaryOwnership(memberId);
 
+        // AI 첨삭 및 캐시 업데이트
         List<Correction> corrections = createCorrections(diary);
         cachePort.incrementInt(key);
 
@@ -60,6 +63,6 @@ public class CorrectionService implements CorrectionUseCase {
 
     private List<Correction> createCorrections(Diary diary) {
         List<Correction> corrections = openAiPort.promptCorrections(diary.getContent());
-        return correctionPort.saveAll(corrections, diary);
+        return correctionPort.save(corrections, diary);
     }
 }

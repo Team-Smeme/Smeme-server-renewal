@@ -7,11 +7,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface CorrectionPort {
-    List<Correction> saveAll(List<Correction> corrections, Diary diary);
+    List<Correction> save(List<Correction> corrections, Diary diary);
 
     int countDistinctByMemberAndDate(long memberId, LocalDate date);
 
     List<Correction> findByDiary(long diary);
 
     void deleteByDiary(long diaryId);
+
+    void deleteByMember(long memberId);
 }
