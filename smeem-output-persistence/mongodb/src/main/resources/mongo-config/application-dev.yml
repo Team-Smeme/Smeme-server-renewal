@@ -5,6 +5,4 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://${MONGO_HOST}:27017/smeem
-      username: ${MONGO_USERNAME}
-      password: ${MONGO_PASSWORD}
+      uri: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:27017/smeem?authSource=admin
