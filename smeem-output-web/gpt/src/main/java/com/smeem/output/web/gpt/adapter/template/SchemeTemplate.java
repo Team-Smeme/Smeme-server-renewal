@@ -14,9 +14,9 @@ public class SchemeTemplate {
                                     "original_sentence": {"type": "string"},
                                     "corrected_sentence": {"type": "string"},
                                     "reason": {"type": "string"},
-                                    "is_corrected": {"type": "boolean"},
+                                    "is_corrected": {"type": "boolean"}
                                 },
-                                "required": ["original_sentence", "corrected_sentence", "reason"],
+                                "required": ["original_sentence", "corrected_sentence", "reason", "is_corrected"],
                                 "additionalProperties": false
                             }
                         }
