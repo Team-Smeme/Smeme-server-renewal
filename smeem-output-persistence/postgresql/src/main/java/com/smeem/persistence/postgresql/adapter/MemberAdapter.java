@@ -8,7 +8,6 @@ import com.smeem.common.exception.SmeemException;
 import com.smeem.persistence.postgresql.persistence.entity.MemberEntity;
 import com.smeem.persistence.postgresql.persistence.entity.WithdrawEntity;
 import com.smeem.persistence.postgresql.persistence.repository.*;
-import com.smeem.persistence.postgresql.persistence.repository.diary.CorrectionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Repository;
@@ -20,7 +19,6 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class MemberAdapter implements MemberPort {
-    private final CorrectionRepository correctionRepository;
     private final MemberRepository memberRepository;
     private final MemberBadgeRepository memberBadgeRepository;
     private final DeletedDiaryRepository deletedDiaryRepository;
@@ -57,7 +55,6 @@ public class MemberAdapter implements MemberPort {
         diaryRepository.deleteByMemberId(id);
         trainingTimeRepository.deleteByMemberId(id);
         memberRepository.deleteById(id);
-        correctionRepository.deleteByMemberId(id);
     }
 
     @Override
