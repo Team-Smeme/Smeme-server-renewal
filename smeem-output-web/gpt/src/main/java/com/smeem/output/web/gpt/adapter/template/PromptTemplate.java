@@ -5,7 +5,9 @@ public class PromptTemplate {
         return String.format("""
         Paragraph : %s
         
-        Please correct the following English sentences, determine whether each sentence is correct or incorrect, and generate a JSON response in the specified format. The JSON format should be as follows:
+        Please correct the following English sentences, determine whether each sentence is correct or incorrect, and generate a JSON response in the specified format.
+        Make sure to keep the order of the sentences.
+        The JSON format should be as follows:
 
         JSON response description:
         - original_sentence: The original sentence exactly as it appears.
