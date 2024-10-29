@@ -1,6 +1,8 @@
 project(':smeem-output-persistence:postgresql') {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+        // postgresql
         implementation 'org.postgresql:postgresql'
 
         // QueryDSL
@@ -8,6 +10,13 @@ project(':smeem-output-persistence:postgresql') {
         annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
         annotationProcessor "jakarta.annotation:jakarta.annotation-api"
         annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    }
+}
+
+project(':smeem-output-persistence:mongodb') {
+    dependencies {
+        // mongodb
+        implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     }
 }
 
