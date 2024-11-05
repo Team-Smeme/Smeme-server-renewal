@@ -14,8 +14,8 @@ import java.util.Date;
 public class TokenGenerator {
     private final SecretKeyFactory secretKeyFactory;
 
-    private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 2 * 12 * 1000000L;
-    private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 24 * 14L;
+    private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 2L;           // 2시간
+    private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 60 * 60 * 1000 * 24 * 14L;    // 2주
 
     public String generateAccessToken(long memberId) {
         val authentication = UserAuthentication.create(memberId);
