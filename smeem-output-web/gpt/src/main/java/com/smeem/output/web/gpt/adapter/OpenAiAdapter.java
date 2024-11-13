@@ -15,12 +15,12 @@ import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.api.OpenAiApi.ChatCompletionRequest.ResponseFormat;
+import org.springframework.ai.openai.api.ResponseFormat;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static org.springframework.ai.openai.api.OpenAiApi.ChatCompletionRequest.ResponseFormat.Type.JSON_SCHEMA;
+import static org.springframework.ai.openai.api.ResponseFormat.Type.JSON_SCHEMA;
 
 @Component
 @RequiredArgsConstructor
