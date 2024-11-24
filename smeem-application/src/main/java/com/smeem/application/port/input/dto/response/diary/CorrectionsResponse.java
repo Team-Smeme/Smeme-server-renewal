@@ -10,12 +10,12 @@ import java.util.List;
 @Builder(access = AccessLevel.PRIVATE)
 public record CorrectionsResponse(
         @Schema(description = "코칭 결과")
-        List<Correction> corrections
+        List<CorrectionResponse> corrections
 ) {
 
     public static CorrectionsResponse of(List<Correction> corrections) {
         return CorrectionsResponse.builder()
-                .corrections(corrections)
+                .corrections(corrections.stream().map(CorrectionResponse::from).toList())
                 .build();
     }
 }
