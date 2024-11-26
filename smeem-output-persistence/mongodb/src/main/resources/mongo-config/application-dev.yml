@@ -5,4 +5,4 @@ spring:
 
   data:
     mongodb:
-      uri: ${MONGO_HOST}
+      uri: ${MONGO_HOST}?tls=true
