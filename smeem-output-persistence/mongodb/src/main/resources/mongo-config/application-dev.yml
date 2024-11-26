@@ -5,4 +5,4 @@ spring:
 
   data:
     mongodb:
-      uri: ${MONGO_HOST}?tls=true
+      uri: mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}/smeem?tls=true
