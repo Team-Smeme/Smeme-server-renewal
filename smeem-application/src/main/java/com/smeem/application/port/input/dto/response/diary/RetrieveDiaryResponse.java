@@ -25,6 +25,8 @@ public record RetrieveDiaryResponse(
         String createdAt,
         @Schema(description = "일기 작성자 닉네임")
         String username,
+        @Schema(description = "일기 수정 여부")
+        boolean isUpdated,
         @Schema(description = "코칭 결과 정보")
         List<CorrectionResponse> corrections,
         @Schema(description = "코칭 횟수")
@@ -45,6 +47,7 @@ public record RetrieveDiaryResponse(
                         .content(diary.getContent())
                         .createdAt(SmeemConverter.toString(diary.getCreatedAt()))
                         .username(member.getUsername())
+                        .isUpdated(diary.isUpdated())
                         .corrections(corrections.stream().map(CorrectionResponse::from).toList())
                         .correctionCount(correctionCount)
                         .correctionMaxCount(1)

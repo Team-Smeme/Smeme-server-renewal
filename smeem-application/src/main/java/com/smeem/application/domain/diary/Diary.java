@@ -17,10 +17,15 @@ public class Diary {
     private Long topicId;
     private long memberId;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public void validateDiaryOwnership(long memberId) {
         if (this.memberId != memberId) {
             throw new SmeemException(ExceptionCode.INVALID_MEMBER_AND_DIARY);
         }
+    }
+
+    public boolean isUpdated() {
+        return updatedAt.isAfter(createdAt);
     }
 }

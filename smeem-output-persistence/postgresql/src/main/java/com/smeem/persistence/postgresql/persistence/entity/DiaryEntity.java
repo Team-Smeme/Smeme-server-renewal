@@ -37,6 +37,7 @@ public class DiaryEntity extends BaseEntity {
                 .topicId(topicId)
                 .memberId(memberId)
                 .createdAt(createdAt)
+                .updatedAt(updatedAt)
                 .build();
     }
 
