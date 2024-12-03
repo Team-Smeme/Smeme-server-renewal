@@ -44,8 +44,13 @@ public class DiaryApi implements DiaryApiDocs {
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{diaryId}")
-    public SmeemResponse<?> modifyDiary(@PathVariable long diaryId, @RequestBody WriteDiaryRequest request) {
-        diaryUseCase.modifyDiary(diaryId, request);
+    public SmeemResponse<?> modifyDiary(
+            Principal principal,
+            @PathVariable long diaryId,
+            @RequestBody WriteDiaryRequest request
+    ) {
+        long memberId = smeemConverter.toMemberId(principal);
+        diaryUseCase.modifyDiary(memberId, diaryId, request);
         return SmeemResponse.of(SmeemMessage.MODIFY_DIARY);
     }
 

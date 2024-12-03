@@ -9,7 +9,6 @@ public interface DiaryPort {
     int countByMember(long memberId);
     Diary save(Diary diary);
     boolean isExistByMemberAndYesterday(long memberId);
-    Diary findByIdJoinMemberAndTopic(long id);
     Diary findById(long id);
     Diary update(Diary diary);
     void softDelete(long id);

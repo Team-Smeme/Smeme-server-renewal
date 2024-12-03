@@ -37,6 +37,7 @@ public class MemberService implements MemberUseCase {
     private final PlanPort planPort;
     private final HookLogger hookLogger;
     private final CachePort cachePort;
+    private final VisitPort visitPort;
 
     @Transactional
     public UpdateMemberResponse updateMember(long memberId, UpdateMemberRequest request) {
@@ -90,16 +91,18 @@ public class MemberService implements MemberUseCase {
                 badgePort.countByMember(memberId));
     }
 
+    //TODO: redis 죽으면?
     @Transactional
     public void visit(long memberId) {
         Member foundMember = memberPort.findById(memberId);
-        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        String key = "visit:" + today;
+        LocalDate today = LocalDate.now();
+        String key = "visit:" + today.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
         if (!cachePort.getBit(key, foundMember.getId())) {
             foundMember.visit();
             memberPort.update(foundMember);
             cachePort.setBit(key, foundMember.getId(), true);
+            visitPort.update(today, cachePort.getBitmap(key));
         }
     }
 

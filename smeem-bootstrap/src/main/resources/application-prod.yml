@@ -4,6 +4,7 @@ spring:
       on-profile: prod
     import:
       - classpath:postgres-config/application-prod.yml
+      - classpath:mongo-config/application-prod.yml
       - classpath:smeem-config/application-prod.yml
       - classpath:notification-config/application-prod.yml
       - classpath:common-config/application-prod.yml

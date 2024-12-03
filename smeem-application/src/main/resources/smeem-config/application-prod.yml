@@ -13,3 +13,5 @@ smeem:
       android:
         app: ${CLIENT_VERSION_ANDROID_APP}
         force: ${CLIENT_VERSION_ANDROID_FORCE}
+  limit:
+    correction: ${SMEEM_CORRECTION_LIMIT_COUNT}

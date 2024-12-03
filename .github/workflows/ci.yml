@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -16,30 +16,22 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 17
-          distribution: 'temurin'
+          distribution: 'corretto'
           cache: gradle
-
-      - name: Create application-secret.yml
-        run: |
-          pwd
-          cd ./smeem-bootstrap/src/main/resources
-          touch ./application-secret.yml
-          echo "${{ secrets.APPLICATION_SECRET_YML }}" >> ./application-secret.yml
-          cat ./application-secret.yml
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_DEV }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY_DEV }}
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Set FCM_JSON_PATH
-        run: echo "FCM_JSON_PATH=smeem-output-notification/src/main/resources/firebase-config/smeem_fcm_dev.json" >> $GITHUB_ENV
+        run: |
+          echo "FCM_JSON_PATH=smeem-output-notification/src/main/resources/firebase-config/smeem_fcm_dev.json" >> $GITHUB_ENV
 
       - name: Create FireBase JSON file From AWS
         run: aws s3 cp --region ap-northeast-2 ${{ secrets.AWS_S3_FCM_JSON_URI_DEV }} ${{ env.FCM_JSON_PATH }}
-
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
         shell: bash

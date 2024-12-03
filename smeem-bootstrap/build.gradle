@@ -4,6 +4,7 @@ dependencies {
 	implementation project(':smeem-input-http')
 	implementation project(':smeem-output-persistence')
 	implementation project(':smeem-output-persistence:postgresql')
+	implementation project(':smeem-output-persistence:mongodb')
 	implementation project(':smeem-output-notification')
 	implementation project(':smeem-output-notification:firebase')
 	implementation project(':smeem-output-oauth')
@@ -11,9 +12,12 @@ dependencies {
 	implementation project(':smeem-output-oauth:kakao')
 	implementation project(':smeem-output-cache')
 	implementation project(':smeem-output-cache:redis')
+	implementation project(':smeem-output-web')
+	implementation project(':smeem-output-web:gpt')
 
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 }
 
 tasks.bootJar {
