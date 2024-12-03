@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Document(collection = "smeem")
+@Document(collection = "correction")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CorrectionDocument {
