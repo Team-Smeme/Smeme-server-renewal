@@ -24,6 +24,7 @@ public record WriteDiaryRequest(
 
         public Diary toDomain(Diary originDiary) {
                 return Diary.builder()
+                        .id(originDiary.getId())
                         .content(content)
                         .targetLang(originDiary.getTargetLang())
                         .topicId(topicId)
