@@ -43,7 +43,7 @@ public class CorrectionDocument {
             return Correction.builder()
                     .originalSentence(originContent)
                     .correctedSentence(correctedContent)
-                    .reason(reason)
+                    .reason(reason == null ? "" : reason)
                     .isCorrected(corrected)
                     .build();
         }
