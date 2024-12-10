@@ -13,7 +13,7 @@ public class DiaryEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(length = 6000, nullable = false)
     private String content;
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
