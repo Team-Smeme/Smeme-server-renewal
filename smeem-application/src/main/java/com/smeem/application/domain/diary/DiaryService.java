@@ -91,7 +91,7 @@ public class DiaryService implements DiaryUseCase {
     public void modifyDiary(long memberId, long diaryId, WriteDiaryRequest request) {
         Diary foundDiary = diaryPort.findById(diaryId);
         foundDiary.validateDiaryOwnership(memberId);
-        diaryPort.update(request.toDomain(foundDiary));
+        diaryPort.update(request.update(foundDiary));
         correctionPort.deleteByDiary(diaryId);
     }
 
