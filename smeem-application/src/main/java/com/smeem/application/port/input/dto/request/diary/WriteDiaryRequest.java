@@ -22,12 +22,12 @@ public record WriteDiaryRequest(
                         .build();
         }
 
-        public Diary toDomain(Diary originDiary) {
+        public Diary update(Diary originDiary) {
                 return Diary.builder()
                         .id(originDiary.getId())
                         .content(content)
                         .targetLang(originDiary.getTargetLang())
-                        .topicId(topicId)
+                        .topicId(originDiary.getTopicId())
                         .memberId(originDiary.getMemberId())
                         .build();
         }
