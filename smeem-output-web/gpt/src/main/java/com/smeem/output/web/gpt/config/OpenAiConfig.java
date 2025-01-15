@@ -20,8 +20,8 @@ public class OpenAiConfig {
     @Bean
     public OpenAiChatModel openAiChatModel(OpenAiApi openAiApi) {
         OpenAiChatOptions options = OpenAiChatOptions.builder()
-                .withModel("gpt-4o-mini")
-                .withTemperature(0.4)
+                .model("gpt-4o-mini")
+                .temperature(0.4)
                 .build();
         return new OpenAiChatModel(openAiApi, options);
     }

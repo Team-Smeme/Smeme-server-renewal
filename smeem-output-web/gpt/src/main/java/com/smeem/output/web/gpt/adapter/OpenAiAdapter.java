@@ -44,7 +44,7 @@ public class OpenAiAdapter implements OpenAiPort {
     @Override
     public List<Correction> promptCorrections(String content) {
         OpenAiChatOptions options = OpenAiChatOptions.builder()
-                .withResponseFormat(new ResponseFormat(JSON_SCHEMA, SchemeTemplate.getCorrectionScheme()))
+                .responseFormat(new ResponseFormat(JSON_SCHEMA, SchemeTemplate.getCorrectionScheme()))
                 .build();
 
         Prompt prompt = new Prompt(PromptTemplate.getCorrectionPrompt(content), options);
