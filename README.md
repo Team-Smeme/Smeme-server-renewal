@@ -29,7 +29,7 @@
 
 |<img width="200" alt="image" src="https://avatars.githubusercontent.com/u/55437339?v=4" />|<img width="200" alt="image" src="https://github.com/Team-Smeme/Smeme-server-renewal/assets/55437339/e546c4ee-b991-4168-bd94-f97d296b095e" />|
 |:--:|:--:|
-|[김소현(thguss)](https://github.com/thguss)|[최윤한(unanchoi)](https://github.com/unanchoi)|[임주민](https://avatars.githubusercontent.com/u/76610340?v=4)|
+|[김소현(thguss)](https://github.com/thguss)|[최윤한(unanchoi)](https://github.com/unanchoi)|[임주민(jumining)](https://github.com/jumining)|
 |mvp ~ | mvp ~ sprint2|25.03.04 ~|
 
 <br/>
