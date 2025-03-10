@@ -19,8 +19,8 @@ public class SurveyApi implements SurveyApiDocs {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/coaching")
-    public SmeemResponse<?> surveyCoaching(Principal principal, @RequestBody(required = false) CoachingSurveyRequest request) {
-        surveyUseCase.surveyCoaching(request.diaryId(), request);
+    public SmeemResponse<?> saveCoachingSurveyResult(Principal principal, @RequestBody(required = false) CoachingSurveyRequest request) {
+        surveyUseCase.saveCoachingSurveyResult(request);
         return SmeemResponse.of(SmeemMessage.SURVEY_COACHING);
     }
 }

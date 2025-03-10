@@ -15,13 +15,13 @@ import java.security.Principal;
 
 @Tag(name = "SurveyApi", description = "설문조사 관련 Api 입니다.")
 public interface SurveyApiDocs {
-    @Operation(summary = "코칭 만족도 조사 api", description = "코칭 만족도 조사를 진행합니다.")
+    @Operation(summary = "코칭 만족도 조사 api", description = "코칭 만족도 조사를 결과를 전송합니다.")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
                     description = "OK success")
     })
-    SmeemResponse<?> surveyCoaching(
+    SmeemResponse<?> saveCoachingSurveyResult(
             @Parameter(hidden = true) Principal principal,
             @RequestBody(
                     description = "만족도 조사 Request Body",

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public enum DissatisfactionReason {
+public enum DissatisfactionType {
     HARD_TO_UNDERSTAND("이해하기 어려움"),
     TOO_SHORT("너무 짧음"),
     FEEDBACK_ERROR("피드백 오류"),
