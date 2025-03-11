@@ -11,6 +11,8 @@ public interface CorrectionPort {
 
     int countDistinctByMemberAndDate(long memberId, LocalDate date);
 
+    int countByMember(long memberId);
+
     List<Correction> findByDiary(long diary);
 
     void deleteByDiary(long diaryId);
