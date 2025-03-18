@@ -16,4 +16,6 @@ public interface CorrectionRepository extends MongoRepository<CorrectionDocument
     void deleteByDiaryId(long diaryId);
 
     void deleteByMemberId(long memberId);
+
+    int countByMemberId(long memberId);
 }
