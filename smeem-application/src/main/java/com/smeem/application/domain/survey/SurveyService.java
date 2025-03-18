@@ -17,4 +17,3 @@ public class SurveyService implements SurveyUseCase {
         surveyPort.saveCoachingSurveyResult(request.toDomain());
     }
 }
-
