@@ -7,7 +7,7 @@ import java.util.List;
 
 public record CoachingSurveyRequest(
         Long diaryId,
-        boolean isSatisfied,
+        Boolean isSatisfied,
         List<DissatisfactionType> dissatisfactionTypes,
         String reason
 ) {

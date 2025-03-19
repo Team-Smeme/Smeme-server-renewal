@@ -22,7 +22,7 @@ public class CoachingSurveyEntity extends BaseEntity {
 
     public CoachingSurveyEntity(CoachingSurvey coachingSurvey) {
         diaryId = coachingSurvey.getDiaryId();
-        isSatisfied = coachingSurvey.isSatisfied();
+        isSatisfied = coachingSurvey.getIsSatisfied();
         dissatisfactionTypes = coachingSurvey.getDissatisfactionTypes();
         reason = coachingSurvey.getReason();
     }

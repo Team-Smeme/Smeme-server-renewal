@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 public class CoachingSurvey {
     Long diaryId;
-    boolean isSatisfied;
+    Boolean isSatisfied;
     List<DissatisfactionType> dissatisfactionTypes;
     String reason;
 }
