@@ -4,17 +4,21 @@ import com.smeem.application.domain.survey.CoachingSurvey;
 import com.smeem.application.domain.survey.DissatisfactionType;
 import com.smeem.common.util.GenericEnumListConverter;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
 @Table(name = "coaching_survey", schema = "smeem")
+@Getter
 @NoArgsConstructor
 public class CoachingSurveyEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private Long diaryId;
+    @Column(nullable = false)
     private Boolean isSatisfied;
     @Convert(converter = DissatisfactionTypeConverter.class)
     private List<DissatisfactionType> dissatisfactionTypes;
