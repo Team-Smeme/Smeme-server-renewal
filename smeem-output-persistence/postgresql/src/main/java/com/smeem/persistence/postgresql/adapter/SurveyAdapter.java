@@ -13,7 +13,14 @@ public class SurveyAdapter implements SurveyPort {
     private final CoachingSurveyRepository surveyRepository;
 
     @Override
-    public void saveCoachingSurveyResult(CoachingSurvey coachingSurvey) {
-        surveyRepository.save(new CoachingSurveyEntity(coachingSurvey));
+    public CoachingSurvey saveCoachingSurveyResult(CoachingSurvey coachingSurvey) {
+        CoachingSurveyEntity savedEntity = surveyRepository.save(new CoachingSurveyEntity(coachingSurvey));
+
+        return CoachingSurvey.builder()
+                .diaryId(savedEntity.getDiaryId())
+                .isSatisfied(savedEntity.getIsSatisfied())
+                .dissatisfactionTypes(savedEntity.getDissatisfactionTypes())
+                .reason(savedEntity.getReason())
+                .build();
     }
 }
