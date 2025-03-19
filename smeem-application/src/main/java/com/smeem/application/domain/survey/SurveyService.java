@@ -30,7 +30,7 @@ public class SurveyService implements SurveyUseCase {
 
         diaryPort.findById(request.diaryId());
 
-        if (request.isSatisfied() && (request.dissatisfactionTypes() != null && !request.dissatisfactionTypes().isEmpty())) {
+        if (Boolean.TRUE.equals(request.isSatisfied()) && (request.dissatisfactionTypes() != null && !request.dissatisfactionTypes().isEmpty())) {
             throw new SmeemException(ExceptionCode.INVALID_FIELD, "불만족을 선택한 경우에만 유형을 선택할 수 있습니다.");
         }
     }
