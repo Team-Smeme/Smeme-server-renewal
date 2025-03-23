@@ -16,4 +16,5 @@ public interface DiaryPort {
     boolean isExistByMemberAndPastAgo(long memberId, int days);
     int countWeeklyByMember(long memberId);
     void deleteByCreatedAt(LocalDate date);
+    boolean existsById(long id);
 }
