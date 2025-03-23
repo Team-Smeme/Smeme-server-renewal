@@ -1,4 +1,4 @@
-package com.smeem.common.util;
+package com.smeem.persistence.postgresql;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

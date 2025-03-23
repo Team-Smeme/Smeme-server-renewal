@@ -2,7 +2,7 @@ package com.smeem.persistence.postgresql.persistence.entity;
 
 import com.smeem.application.domain.survey.CoachingSurvey;
 import com.smeem.application.domain.survey.DissatisfactionType;
-import com.smeem.common.util.GenericEnumListConverter;
+import com.smeem.persistence.postgresql.GenericEnumListConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
