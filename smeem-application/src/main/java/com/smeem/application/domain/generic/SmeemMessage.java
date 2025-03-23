@@ -38,4 +38,7 @@ public class SmeemMessage {
 
     // version
     public static final String RETRIEVE_VERSION = "버전 조회 성공";
+
+    // survey
+    public static final String SURVEY_COACHING = "만족도 조사 결과 보내기 성공";
 }
