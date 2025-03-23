@@ -8,6 +8,9 @@ import com.smeem.common.exception.ExceptionCode;
 import com.smeem.common.exception.SmeemException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,22 +18,21 @@ public class SurveyService implements SurveyUseCase {
     private final SurveyPort surveyPort;
     private final DiaryPort diaryPort;
 
+    @Transactional
     public CoachingSurvey saveCoachingSurveyResult(CoachingSurveyRequest request) {
-        validateCoachingSurveyRequest(request);
+        validateDiaryExists(request.diaryId());
+        validateDissatisfactionType(request.isSatisfied(), request.dissatisfactionTypes());
         return surveyPort.saveCoachingSurveyResult(request.toDomain());
     }
 
-    private void validateCoachingSurveyRequest(CoachingSurveyRequest request) {
-        if (request.diaryId() == null) {
-            throw new SmeemException(ExceptionCode.MISSING_FIELD, "diaryId는 필수 값입니다.");
+    private void validateDiaryExists(long diaryId) {
+        if (!diaryPort.existsById(diaryId)) {
+            throw new SmeemException(ExceptionCode.NOT_FOUND, "(Diary ID: " + diaryId + ")");
         }
-        if (request.isSatisfied() == null) {
-            throw new SmeemException(ExceptionCode.MISSING_FIELD, "isSatisfied는 필수 값입니다.");
-        }
+    }
 
-        diaryPort.findById(request.diaryId());
-
-        if (Boolean.TRUE.equals(request.isSatisfied()) && (request.dissatisfactionTypes() != null && !request.dissatisfactionTypes().isEmpty())) {
+    private void validateDissatisfactionType(boolean isSatisfied, List<DissatisfactionType> dissatisfactionTypes) {
+        if (isSatisfied && (dissatisfactionTypes != null && !dissatisfactionTypes.isEmpty())) {
             throw new SmeemException(ExceptionCode.INVALID_FIELD, "불만족을 선택한 경우에만 유형을 선택할 수 있습니다.");
         }
     }
