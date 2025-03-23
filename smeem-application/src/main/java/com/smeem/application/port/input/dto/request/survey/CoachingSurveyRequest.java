@@ -6,8 +6,8 @@ import com.smeem.application.domain.survey.DissatisfactionType;
 import java.util.List;
 
 public record CoachingSurveyRequest(
-        Long diaryId,
-        Boolean isSatisfied,
+        long diaryId,
+        boolean isSatisfied,
         List<DissatisfactionType> dissatisfactionTypes,
         String reason
 ) {

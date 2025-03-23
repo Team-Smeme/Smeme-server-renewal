@@ -8,8 +8,8 @@ import java.util.List;
 @Builder
 @Getter
 public class CoachingSurvey {
-    Long diaryId;
-    Boolean isSatisfied;
+    long diaryId;
+    boolean isSatisfied;
     List<DissatisfactionType> dissatisfactionTypes;
     String reason;
 }
