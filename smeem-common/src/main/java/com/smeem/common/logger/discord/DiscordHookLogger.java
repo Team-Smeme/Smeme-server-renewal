@@ -38,6 +38,7 @@ public class DiscordHookLogger implements HookLogger {
             case SIGN_IN -> discordProperties.webhook().url().sign_in();
             case WITHDRAW -> discordProperties.webhook().url().withdraw();
             case ERROR -> discordProperties.webhook().url().error();
+            case SURVEY -> discordProperties.webhook().url().survey();
         };
     }
 }

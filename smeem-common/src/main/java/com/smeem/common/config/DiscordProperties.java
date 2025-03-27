@@ -14,7 +14,8 @@ public record DiscordProperties(
         public record Url(
            String sign_in,
            String withdraw,
-           String error
+           String error,
+           String survey
         ) {
         }
     }

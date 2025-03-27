@@ -54,6 +54,16 @@ public record LoggingMessage(
                 .build();
     }
 
+    public static LoggingMessage coachingSurvey(boolean isSatisfied, String dissatisfactionTypes, String reason) {
+        return LoggingMessage.builder()
+                .title((isSatisfied ? "# 👍 좋은" : "# 👎 아쉬운") + " 만족도 조사 결과")
+                .content((isSatisfied ? "" : "\n불만족 사유: " + dissatisfactionTypes)
+                        + "\n상세 이유: " + reason)
+                .sendAt(LocalDate.now())
+                .noticeType(LoggerType.SURVEY)
+                .build();
+    }
+
     private static String getRequestUri(WebRequest webRequest) {
         val request = ((ServletWebRequest) webRequest).getRequest();
         val path = request.getMethod() + " " + request.getRequestURL();
