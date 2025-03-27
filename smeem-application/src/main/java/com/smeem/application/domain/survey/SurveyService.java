@@ -6,23 +6,36 @@ import com.smeem.application.port.output.persistence.DiaryPort;
 import com.smeem.application.port.output.persistence.SurveyPort;
 import com.smeem.common.exception.ExceptionCode;
 import com.smeem.common.exception.SmeemException;
+import com.smeem.common.logger.HookLogger;
+import com.smeem.common.logger.LoggingMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class SurveyService implements SurveyUseCase {
     private final SurveyPort surveyPort;
     private final DiaryPort diaryPort;
+    private final HookLogger hookLogger;
 
     @Transactional
     public CoachingSurvey saveCoachingSurveyResult(CoachingSurveyRequest request) {
         validateDiaryExists(request.diaryId());
         validateDissatisfactionType(request.isSatisfied(), request.dissatisfactionTypes());
-        return surveyPort.saveCoachingSurveyResult(request.toDomain());
+
+        CoachingSurvey coachingSurveyResult = request.toDomain();
+
+        hookLogger.send(LoggingMessage.coachingSurvey(
+                coachingSurveyResult.isSatisfied(),
+                coachingSurveyResult.getDissatisfactionTypes().stream()
+                        .map(DissatisfactionType::getDescription)
+                        .collect(Collectors.joining(", ")),
+                coachingSurveyResult.getReason()));
+        return surveyPort.saveCoachingSurveyResult(coachingSurveyResult);
     }
 
     private void validateDiaryExists(long diaryId) {
