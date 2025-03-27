@@ -1,7 +1,12 @@
 package com.smeem.application.domain.survey;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.smeem.common.exception.ExceptionCode;
+import com.smeem.common.exception.SmeemException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Getter
@@ -14,4 +19,19 @@ public enum DissatisfactionType {
     ;
 
     private final String description;
+
+    @JsonCreator
+    public static DissatisfactionType fromString(String value) {
+        try {
+            return DissatisfactionType.valueOf(value);
+        } catch (IllegalArgumentException e) {
+            throw new SmeemException(ExceptionCode.INVALID_ENUM_TYPE, value);
+        }
+    }
+
+    public static List<DissatisfactionType> fromStringArray(List<String> values) {
+        return values.stream()
+                .map(DissatisfactionType::fromString)
+                .toList();
+    }
 }

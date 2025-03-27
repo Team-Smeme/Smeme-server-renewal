@@ -8,7 +8,7 @@ import java.util.List;
 public record CoachingSurveyRequest(
         long diaryId,
         boolean isSatisfied,
-        List<DissatisfactionType> dissatisfactionTypes,
+        List<String> dissatisfactionTypes,
         String reason
 ) {
 
@@ -16,7 +16,7 @@ public record CoachingSurveyRequest(
         return CoachingSurvey.builder()
                 .diaryId(diaryId)
                 .isSatisfied(isSatisfied)
-                .dissatisfactionTypes(dissatisfactionTypes)
+                .dissatisfactionTypes(DissatisfactionType.fromStringArray(dissatisfactionTypes))
                 .reason(reason)
                 .build();
     }

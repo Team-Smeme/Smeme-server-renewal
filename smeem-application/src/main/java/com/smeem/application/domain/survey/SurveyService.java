@@ -44,7 +44,7 @@ public class SurveyService implements SurveyUseCase {
         }
     }
 
-    private void validateDissatisfactionType(boolean isSatisfied, List<DissatisfactionType> dissatisfactionTypes) {
+    private void validateDissatisfactionType(boolean isSatisfied, List<String> dissatisfactionTypes) {
         if (isSatisfied && (dissatisfactionTypes != null && !dissatisfactionTypes.isEmpty())) {
             throw new SmeemException(ExceptionCode.INVALID_FIELD, "불만족을 선택한 경우에만 유형을 선택할 수 있습니다.");
         }
