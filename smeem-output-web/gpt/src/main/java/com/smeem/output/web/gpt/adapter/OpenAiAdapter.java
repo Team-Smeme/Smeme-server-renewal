@@ -49,7 +49,7 @@ public class OpenAiAdapter implements OpenAiPort {
 
         Prompt prompt = new Prompt(PromptTemplate.getCorrectionPrompt(content), options);
         ChatResponse call = chatModel.call(prompt);
-        String response = call.getResult().getOutput().getContent();
+        String response = call.getResult().getOutput().getText();
 
         try {
             return objectMapper.readValue(response, CorrectionsResponse.class).results();

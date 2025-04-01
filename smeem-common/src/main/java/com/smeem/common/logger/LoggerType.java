@@ -9,6 +9,7 @@ public enum LoggerType {
     SIGN_IN("회원가입 알리미"),
     WITHDRAW("회원탈퇴 알리미"),
     ERROR("에러 알리미"),
+    SURVEY("만족도 조사 알리미"),
     ;
 
     private final String name;

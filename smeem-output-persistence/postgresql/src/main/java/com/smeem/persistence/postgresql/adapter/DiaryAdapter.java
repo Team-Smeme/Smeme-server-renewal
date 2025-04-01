@@ -77,6 +77,11 @@ public class DiaryAdapter implements DiaryPort {
                 expiredDate.atStartOfDay().plusDays(1));
     }
 
+    @Override
+    public boolean existsById(long id) {
+        return diaryRepository.existsById(id);
+    }
+
     private DiaryEntity find(long id) {
         return diaryRepository.findById(id)
                 .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, "(Diary ID: " + id + ")"));

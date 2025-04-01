@@ -32,6 +32,11 @@ public class CorrectionAdapter implements CorrectionPort {
     }
 
     @Override
+    public int countByMember(long memberId) {
+        return correctionRepository.countByMemberId(memberId);
+    }
+
+    @Override
     public List<Correction> findByDiary(long diaryId) {
         return correctionRepository.findByDiaryId(diaryId)
                 .map(CorrectionDocument::toDomain)
