@@ -7,6 +7,7 @@ import lombok.val;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.smeem.persistence.postgresql.persistence.entity.QDiaryEntity.diaryEntity;
@@ -54,7 +55,9 @@ public class DiaryRepositoryImpl implements DiaryCustomRepository {
         return queryFactory
                 .select(diaryEntity.id)
                 .from(diaryEntity)
-                .where(diaryEntity.memberId.eq(memberId))
+                .where(
+                        diaryEntity.memberId.eq(memberId),
+                        diaryEntity.createdAt.after(LocalDateTime.now().minusDays(7)))
                 .stream().count();
     }
 }
