@@ -35,7 +35,7 @@ public class CorrectionService implements CorrectionUseCase {
 
         // 제한 횟수 검증
         int correctionCount = getOrUpdateCorrectionCount(key, memberId, today);
-//        smeemProperties.getLimit().validateCorrectionLimit(correctionCount);
+        smeemProperties.getLimit().validateCorrectionLimit(correctionCount);
 
         // 일기 소유권 검증
         Diary diary = diaryPort.findById(diaryId);
