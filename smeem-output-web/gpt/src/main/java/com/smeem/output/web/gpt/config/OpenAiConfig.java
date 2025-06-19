@@ -1,6 +1,5 @@
 package com.smeem.output.web.gpt.config;
 
-import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.model.ApiKey;
 import org.springframework.ai.model.SimpleApiKey;
 import org.springframework.ai.model.tool.DefaultToolCallingManager;
@@ -55,16 +54,5 @@ public class OpenAiConfig {
                 DefaultToolCallingManager.builder().build(),
                 DEFAULT_RETRY_TEMPLATE,
                 NOOP);
-    }
-
-    @Bean
-    public ChatClient.Builder chatClientBuilder(OpenAiChatModel openAiChatModel) {
-        return ChatClient.builder(openAiChatModel)
-                .defaultSystem("안녕하세요.");
-    }
-
-    @Bean
-    public ChatClient chatClient(ChatClient.Builder builder) {
-        return builder.build();
     }
 }

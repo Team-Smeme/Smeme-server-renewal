@@ -3,9 +3,11 @@ package com.smeem.application.domain.member;
 import com.smeem.application.domain.generic.LangType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+import java.time.LocalDate;
+
+@Data
 @Builder
 @AllArgsConstructor
 public class Member {
@@ -20,7 +22,9 @@ public class Member {
     private boolean termAccepted;
     private LangType targetLang;
     private int diaryComboCount;
+
     private int visitDays;
+    private LocalDate lastVisitDate;
 
     public Member(SocialType socialType, String socialId, String fcmToken) {
         this.social = new Social(socialType, socialId);
@@ -38,10 +42,6 @@ public class Member {
     public Member emptyRefreshToken() {
         this.refreshToken = null;
         return this;
-    }
-
-    public void visit() {
-        this.visitDays++;
     }
 
     public boolean signUp() {

@@ -5,6 +5,5 @@ import com.smeem.application.domain.diary.Correction;
 import java.util.List;
 
 public interface OpenAiPort {
-    String prompt(String message);
     List<Correction> promptCorrections(String content);
 }

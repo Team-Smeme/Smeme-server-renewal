@@ -8,7 +8,6 @@ spring:
       - classpath:smeem-config/application-local.yml
       - classpath:notification-config/application-local.yml
       - classpath:common-config/application-local.yml
-      - classpath:redis-config/application-local.yml
 
 logging.level:
   org.hibernate.SQL: debug

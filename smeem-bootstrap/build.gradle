@@ -10,8 +10,6 @@ dependencies {
 	implementation project(':smeem-output-oauth')
 	implementation project(':smeem-output-oauth:apple')
 	implementation project(':smeem-output-oauth:kakao')
-	implementation project(':smeem-output-cache')
-	implementation project(':smeem-output-cache:redis')
 	implementation project(':smeem-output-web')
 	implementation project(':smeem-output-web:gpt')
 
