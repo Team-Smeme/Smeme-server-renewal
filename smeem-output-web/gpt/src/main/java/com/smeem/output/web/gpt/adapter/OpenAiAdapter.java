@@ -10,7 +10,6 @@ import com.smeem.output.web.gpt.adapter.dto.CorrectionsResponse;
 import com.smeem.output.web.gpt.adapter.template.PromptTemplate;
 import com.smeem.output.web.gpt.adapter.template.SchemeTemplate;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;
@@ -25,21 +24,8 @@ import static org.springframework.ai.openai.api.ResponseFormat.Type.JSON_SCHEMA;
 @Component
 @RequiredArgsConstructor
 public class OpenAiAdapter implements OpenAiPort {
-    private final ChatClient chatClient;
     private final OpenAiChatModel chatModel;
     private final ObjectMapper objectMapper;
-
-    @Override
-    public String prompt(String message) {
-        try {
-            return chatClient.prompt()
-                    .user(message)
-                    .call()
-                    .content();
-        } catch (Exception exception) {
-            throw new SmeemException(ExceptionCode.OPEN_AI_SERVICE_AVAILABLE, exception.getMessage());
-        }
-    }
 
     @Override
     public List<Correction> promptCorrections(String content) {
