@@ -6,6 +6,8 @@ import com.smeem.application.domain.member.SocialType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "member", schema = "smeem")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -33,7 +35,9 @@ public class MemberEntity extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private LangType targetLang;
     private int diaryComboCount;
+
     private int visitDays;
+    private LocalDate lastVisitDate;
 
     public Member toDomain() {
         return Member.builder()
@@ -49,6 +53,7 @@ public class MemberEntity extends BaseEntity {
                 .targetLang(targetLang)
                 .diaryComboCount(diaryComboCount)
                 .visitDays(visitDays)
+                .lastVisitDate(lastVisitDate)
                 .build();
     }
 
@@ -66,6 +71,7 @@ public class MemberEntity extends BaseEntity {
                 .targetLang(member.getTargetLang())
                 .diaryComboCount(member.getDiaryComboCount())
                 .visitDays(member.getVisitDays())
+                .lastVisitDate(member.getLastVisitDate())
                 .build();
     }
 
@@ -80,5 +86,6 @@ public class MemberEntity extends BaseEntity {
         targetLang = member.getTargetLang();
         diaryComboCount = member.getDiaryComboCount();
         visitDays = member.getVisitDays();
+        lastVisitDate = member.getLastVisitDate();
     }
 }

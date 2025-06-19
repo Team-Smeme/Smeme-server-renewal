@@ -10,7 +10,6 @@ import com.smeem.application.port.input.dto.request.diary.WriteDiaryRequest;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiariesResponse;
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiaryResponse;
 import com.smeem.application.port.input.dto.response.diary.WriteDiaryResponse;
-import com.smeem.application.port.output.cache.CachePort;
 import com.smeem.application.port.output.persistence.*;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +31,6 @@ public class DiaryService implements DiaryUseCase {
     private final MemberBadgePort memberBadgePort;
     private final TopicPort topicPort;
     private final SmeemProperties smeemProperties;
-    private final CachePort cachePort;
 
     @Transactional
     public WriteDiaryResponse writeDiary(long memberId, WriteDiaryRequest request) {
@@ -71,20 +68,8 @@ public class DiaryService implements DiaryUseCase {
         Topic topic = diary.getTopicId() != null ? topicPort.findById(diary.getTopicId()) : null;
         Member member = memberPort.findById(diary.getMemberId());
         List<Correction> corrections = correctionPort.findByDiary(diaryId);
-        int correctionCount = getCorrectionCount(member.getId());
+        int correctionCount = correctionPort.countDistinctByMemberAndDate(member.getId(), LocalDate.now());
         return RetrieveDiaryResponse.of(diary, topic, member, corrections, correctionCount);
-    }
-
-    private int getCorrectionCount(long memberId) {
-        LocalDate now = LocalDate.now();
-        String today = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        String key = "correction:" + today + ":" + memberId;
-        return cachePort.getInt(key)
-                .orElseGet(() -> {
-                    int count = correctionPort.countDistinctByMemberAndDate(memberId, now);
-                    cachePort.setInt(key, count);
-                    return count;
-                });
     }
 
     @Transactional

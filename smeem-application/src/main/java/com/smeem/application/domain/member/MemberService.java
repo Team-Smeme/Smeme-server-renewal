@@ -3,6 +3,7 @@ package com.smeem.application.domain.member;
 import com.smeem.application.domain.badge.Badge;
 import com.smeem.application.domain.trainingtime.DayType;
 import com.smeem.application.domain.trainingtime.TrainingTime;
+import com.smeem.application.domain.visit.MemberVisitStore;
 import com.smeem.application.port.input.MemberUseCase;
 import com.smeem.application.port.input.dto.request.member.UpdateMemberHasPushAlarmRequest;
 import com.smeem.application.port.input.dto.request.member.UpdateMemberRequest;
@@ -12,7 +13,6 @@ import com.smeem.application.port.input.dto.response.member.RetrievePerformanceR
 import com.smeem.application.port.input.dto.response.member.UpdateMemberResponse;
 import com.smeem.application.port.input.dto.response.member.UsernameDuplicatedResponse;
 import com.smeem.application.port.input.dto.response.plan.RetrieveMemberPlanResponse;
-import com.smeem.application.port.output.cache.CachePort;
 import com.smeem.application.port.output.persistence.*;
 import com.smeem.common.logger.HookLogger;
 import com.smeem.common.logger.LoggingMessage;
@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 @Service
@@ -36,8 +35,7 @@ public class MemberService implements MemberUseCase {
     private final GoalPort goalPort;
     private final PlanPort planPort;
     private final HookLogger hookLogger;
-    private final CachePort cachePort;
-    private final VisitPort visitPort;
+    private final MemberVisitStore memberVisitStore;
 
     @Transactional
     public UpdateMemberResponse updateMember(long memberId, UpdateMemberRequest request) {
@@ -91,19 +89,24 @@ public class MemberService implements MemberUseCase {
                 badgePort.countByMember(memberId));
     }
 
-    //TODO: redis 죽으면?
     @Transactional
     public void visit(long memberId) {
-        Member foundMember = memberPort.findById(memberId);
-        LocalDate today = LocalDate.now();
-        String key = "visit:" + today.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-
-        if (!cachePort.getBit(key, foundMember.getId())) {
-            foundMember.visit();
-            memberPort.update(foundMember);
-            cachePort.setBit(key, foundMember.getId(), true);
-            visitPort.update(today, cachePort.getBitmap(key));
+        if (memberVisitStore.isVisit(memberId)) {
+            return;
         }
+
+        LocalDate today = LocalDate.now();
+        Member foundMember = memberPort.findById(memberId);
+
+        if (today.equals(foundMember.getLastVisitDate())) {
+            memberVisitStore.visit(memberId);
+            return;
+        }
+
+        foundMember.setVisitDays(foundMember.getVisitDays() + 1);
+        foundMember.setLastVisitDate(today);
+        memberPort.update(foundMember);
+        memberVisitStore.visit(memberId);
     }
 
     @Transactional
