@@ -15,3 +15,6 @@ include 'smeem-output-oauth:apple'
 include 'smeem-output-oauth:kakao'
 include 'smeem-output-web'
 include 'smeem-output-web:gpt'
+include 'smeem-output-web:scrap'
+findProject(':smeem-output-web:scrap')?.name = 'scrap'
+

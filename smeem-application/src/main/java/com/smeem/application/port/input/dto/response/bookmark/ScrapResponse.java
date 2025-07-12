@@ -1,0 +1,36 @@
+package com.smeem.application.port.input.dto.response.bookmark;
+
+import com.smeem.application.domain.bookmark.Bookmark;
+import com.smeem.application.port.output.web.scrap.ScrapInfo;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import lombok.NonNull;
+
+@Builder
+public record ScrapResponse(
+        @Schema(description = "썸네일 이미지 url", example = "https://www.smeem.com")
+        String thumbnail,
+
+        @Schema(description = "요청한 url", example = "https://www.smeem.com")
+        @NonNull
+        String url,
+
+        @Schema(description = "본문 내용", example = "1. Pissed off: 엄청 화나다 ...")
+        String description
+) {
+        public static ScrapResponse from(ScrapInfo scrapInfo) {
+                return ScrapResponse.builder()
+                        .thumbnail(scrapInfo.image())
+                        .url(scrapInfo.url())
+                        .description(scrapInfo.description())
+                        .build();
+        }
+
+        public static ScrapResponse from(Bookmark bookmark) {
+                return ScrapResponse.builder()
+                        .thumbnail(bookmark.getThumbnailImageUrl())
+                        .url(bookmark.getScrapedUrl())
+                        .description(bookmark.getDescription())
+                        .build();
+        }
+}

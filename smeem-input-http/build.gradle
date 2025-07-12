@@ -16,11 +16,6 @@ project(':smeem-input-http') {
 
         // AOP
         implementation 'org.springframework.boot:spring-boot-starter-aop'
-
-        // scrap
-        implementation group: 'net.sourceforge.htmlcleaner', name: 'htmlcleaner', version: '2.18'
-        implementation 'org.apache.commons:commons-text:1.10.0'
-
     }
 }
 

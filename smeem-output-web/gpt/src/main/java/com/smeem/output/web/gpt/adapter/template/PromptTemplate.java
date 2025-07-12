@@ -17,46 +17,32 @@ public class PromptTemplate {
                 """, content);
     }
 
-    //todo. 테스트 필요
     public static String getExpressionPrompt(String content) {
         return String.format("""
-                아래 텍스트를 참고해서 영어 학습자가 공부할 만한 '영어 단어 - 한국어 의미' 표현을 딱 하나만 추출해줘.
-                ❗️다른 자료는 참고하지 말고, 반드시 아래 텍스트만 기반으로 판단해줘.
+                Based on the text below, extract exactly **one useful English expression (a phrase or short sentence)** and its **Korean meaning** that would help a Korean English learner.
+                
+                ❗️Use only the information in the text. Do NOT use outside knowledge.
+                
+                The expression should:
+                - Be more than just a word (preferably a phrase or short sentence).
+                - Be practically useful for real-life situations.
+                
+                When translating to Korean:
+                - Translate in a natural and commonly spoken form.
+                - Do **not** include punctuation like question marks (?) unless it's truly necessary for the Korean sentence.
                 
                 ---
                 %s
                 ---
                 
-                ✅ 출력은 아래와 같은 JSON 형식으로 정확히 해줘. 설명 없이 JSON만 출력해.
+                ✅ Your output must be in the following **JSON format**, with no explanation — just the JSON block.
                 
                 ```json
                 {
-                  "english": "영어단어",
-                  "korean": "한글의미"
+                  "expression": "EnglishExpression",
+                  "translatedExpression": "KoreanMeaning"
                 }
                 ```
-                """, content);
-    }
-
-    public static String getExpressionsPrompt(String content) {
-        return String.format("""
-                아래 텍스트를 참고해서 영어 학습자가 공부할 만한 '영어 단어 - 한국어 의미' 표현 쌍을 최대한 많이 추출해줘.
-                ❗️다른 자료는 참고하지 말고, 반드시 아래 텍스트만 기반으로 판단해줘.
-                
-                ---
-                %s
-                ---
-                
-                ✅ 출력은 아래와 같은 **JSON 배열** 형식으로 정확히 해줘. 설명 없이 JSON만 출력해.
-                
-                ```json
-                [
-                  {
-                    "english": "영어단어",
-                    "korean": "한글의미"
-                  },
-                  ...
-                ]
                 """, content);
     }
 }

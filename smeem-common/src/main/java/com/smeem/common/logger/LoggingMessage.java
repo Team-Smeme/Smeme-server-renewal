@@ -43,6 +43,15 @@ public record LoggingMessage(
                 .build();
     }
 
+    public static LoggingMessage error(Exception exception, String caller) {
+        return LoggingMessage.builder()
+                .title("# 🧨 500 에러 발생")
+                .content(exception.getMessage() + "\n\n 🔗 Caller=" + caller)
+                .sendAt(LocalDate.now())
+                .noticeType(LoggerType.ERROR)
+                .build();
+    }
+
     public static LoggingMessage withdraw(String withdrawType, String reason) {
         return LoggingMessage.builder()
                 .title("# 💦 회원탈퇴")

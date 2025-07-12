@@ -14,6 +14,14 @@ project(':smeem-output-web:gpt') {
     }
 }
 
+project(':smeem-output-web:scrap') {
+    dependencies {
+
+        implementation group: 'net.sourceforge.htmlcleaner', name: 'htmlcleaner', version: '2.18'
+        implementation 'org.apache.commons:commons-text:1.10.0'
+    }
+}
+
 allprojects {
     dependencies {
         implementation project(':smeem-common')

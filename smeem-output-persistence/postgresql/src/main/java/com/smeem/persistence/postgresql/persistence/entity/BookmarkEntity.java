@@ -1,0 +1,60 @@
+package com.smeem.persistence.postgresql.persistence.entity;
+
+import com.smeem.application.domain.bookmark.Bookmark;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import static com.smeem.application.util.DomainConstant.BOOKMARK;
+import static com.smeem.application.util.DomainConstant.SMEEM;
+
+@Entity
+@Table(name = BOOKMARK, schema = SMEEM)
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class BookmarkEntity extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private long memberId;
+
+    @Column(nullable = false)
+    private String expression;
+
+    @Column(nullable = false)
+    private String translatedExpression;
+
+    @Column
+    private String thumbnailImageUrl;
+
+    @Column(nullable = false)
+    private String scrapedUrl;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String description;
+
+    public BookmarkEntity(Bookmark domain) {
+        this.memberId = domain.getMemberId();
+        this.expression = domain.getExpression();
+        this.translatedExpression = domain.getTranslatedExpression();
+        this.thumbnailImageUrl = domain.getThumbnailImageUrl();
+        this.scrapedUrl = domain.getScrapedUrl();
+        this.description = domain.getDescription();
+    }
+
+    public Bookmark toDomain() {
+        return Bookmark.builder()
+                .id(this.id)
+                .memberId(this.memberId)
+                .expression(this.expression)
+                .translatedExpression(this.translatedExpression)
+                .thumbnailImageUrl(this.thumbnailImageUrl)
+                .scrapedUrl(this.scrapedUrl)
+                .description(this.description)
+                .build();
+    }
+}

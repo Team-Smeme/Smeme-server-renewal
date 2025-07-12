@@ -8,8 +8,11 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+import static com.smeem.application.util.DomainConstant.MEMBER;
+import static com.smeem.application.util.DomainConstant.SMEEM;
+
 @Entity
-@Table(name = "member", schema = "smeem")
+@Table(name = MEMBER, schema = SMEEM)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
@@ -39,6 +42,9 @@ public class MemberEntity extends BaseEntity {
     private int visitDays;
     private LocalDate lastVisitDate;
 
+    private Integer scrapedCountPerDay;
+    private LocalDate lastScrapedDate;
+
     public Member toDomain() {
         return Member.builder()
                 .id(id)
@@ -54,6 +60,8 @@ public class MemberEntity extends BaseEntity {
                 .diaryComboCount(diaryComboCount)
                 .visitDays(visitDays)
                 .lastVisitDate(lastVisitDate)
+                .scrapedCountPerDay(scrapedCountPerDay)
+                .lastScrapedDate(lastScrapedDate)
                 .build();
     }
 
@@ -72,6 +80,8 @@ public class MemberEntity extends BaseEntity {
                 .diaryComboCount(member.getDiaryComboCount())
                 .visitDays(member.getVisitDays())
                 .lastVisitDate(member.getLastVisitDate())
+                .scrapedCountPerDay(member.getScrapedCountPerDay())
+                .lastScrapedDate(member.getLastScrapedDate())
                 .build();
     }
 
@@ -87,5 +97,7 @@ public class MemberEntity extends BaseEntity {
         diaryComboCount = member.getDiaryComboCount();
         visitDays = member.getVisitDays();
         lastVisitDate = member.getLastVisitDate();
+        scrapedCountPerDay = member.getScrapedCountPerDay();
+        lastScrapedDate = member.getLastScrapedDate();
     }
 }
