@@ -4,6 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class SmeemMessage {
+    // general
+    public static final String SUCCESS_REQUEST = "요청처리 성공";
+
     // auth
     public static final String SIGNED_IN = "로그인 성공";
     public static final String SIGNED_OUT = "로그아웃 성공";

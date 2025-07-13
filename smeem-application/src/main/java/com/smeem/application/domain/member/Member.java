@@ -26,13 +26,12 @@ public class Member {
     private int visitDays;
     private LocalDate lastVisitDate;
 
+    private Integer scrapedCountPerDay;
+    private LocalDate lastScrapedDate;
+
     public Member(SocialType socialType, String socialId, String fcmToken) {
         this.social = new Social(socialType, socialId);
         this.fcmToken = fcmToken;
-        init();
-    }
-
-    private void init() {
         this.hasPushAlarm = false;
         this.termAccepted = false;
         this.targetLang = LangType.defaultType();

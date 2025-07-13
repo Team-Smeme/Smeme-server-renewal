@@ -7,6 +7,7 @@ import com.smeem.application.port.input.dto.request.member.WithdrawRequest;
 import com.smeem.application.port.input.dto.response.auth.GenerateTokenResponse;
 import com.smeem.application.port.input.dto.response.auth.SignInResponse;
 import com.smeem.application.port.output.oauth.OauthPort;
+import com.smeem.application.port.output.persistence.BookmarkPort;
 import com.smeem.application.port.output.persistence.CorrectionPort;
 import com.smeem.application.port.output.persistence.MemberPort;
 import com.smeem.common.logger.HookLogger;
@@ -20,8 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AuthService implements AuthUseCase {
-    private final CorrectionPort correctionPort;
+
     private final MemberPort memberPort;
+    private final CorrectionPort correctionPort;
+    private BookmarkPort bookmarkPort;
+
     private final OauthPort oauthPort;
     private final TokenGenerator tokenGenerator;
     private final HookLogger hookLogger;
@@ -56,6 +60,7 @@ public class AuthService implements AuthUseCase {
 
     @Transactional
     public void withdraw(long memberId, WithdrawRequest request) {
+        bookmarkPort.deleteByMemberId(memberId);
         correctionPort.deleteByMember(memberId);
         memberPort.deleteById(memberId);
         createWithdrawal(request);

@@ -26,4 +26,24 @@ public class SchemeTemplate {
                 }
         """;
     }
+
+    public static String getExpressionScheme() {
+        return """
+                    {
+                        "type": "object",
+                        "properties": {
+                            "expression": {
+                                "type": "string",
+                                "description": "A useful English word extracted from the input text."
+                            },
+                            "translatedExpression": {
+                                "type": "string",
+                                "description": "The Korean meaning of the extracted English word."
+                            }
+                        },
+                        "required": ["expression", "translatedExpression"],
+                        "additionalProperties": false
+                    }
+                """;
+    }
 }

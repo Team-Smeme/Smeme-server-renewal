@@ -38,9 +38,10 @@ public class MemberAdapter implements MemberPort {
     }
 
     @Override
-    public void update(Member member) {
+    public Member update(Member member) {
         val foundMember = find(member.getId());
         foundMember.update(member);
+        return foundMember.toDomain();
     }
 
     @Override

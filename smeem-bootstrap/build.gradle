@@ -12,6 +12,7 @@ dependencies {
 	implementation project(':smeem-output-oauth:kakao')
 	implementation project(':smeem-output-web')
 	implementation project(':smeem-output-web:gpt')
+	implementation project(':smeem-output-web:scrap')
 
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
