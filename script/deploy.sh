@@ -10,7 +10,7 @@ CONTAINER_NAME="smeem"
 HEALTH_CHECK_URI="/actuator/health"
 
 echo "> Stop old version"
-if [ "$(sudo docker ps -a -q -f name=${CONTAINER_NAME})" ]; then
+if [ "$(docker ps -a -q -f name=${CONTAINER_NAME})" ]; then
   docker stop ${CONTAINER_NAME}
   docker rm ${CONTAINER_NAME}
 fi
@@ -19,7 +19,7 @@ echo "----------------------------------------------------------------------"
 
 # 도커 이미지 풀 받기
 echo "> Pull Docker Image"
-sudo docker pull "${REGISTRY_URL}"/"${IMAGE_NAME}":"${TAG}"
+docker pull "${REGISTRY_URL}"/"${IMAGE_NAME}":"${TAG}"
 
 # 서버 실행
 echo "> Run Docker"
