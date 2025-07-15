@@ -1,6 +1,8 @@
 package com.smeem.application.domain.bookmark;
 
-import com.smeem.application.port.input.dto.request.bookmark.BookmarkFallbackRequest;
+import com.smeem.application.domain.bookmark.model.Bookmark;
+import com.smeem.application.domain.bookmark.model.Expression;
+import com.smeem.application.port.input.bookmark.dto.BookmarkFallbackRequest;
 import com.smeem.application.port.output.web.scrap.ScrapInfo;
 import lombok.NonNull;
 

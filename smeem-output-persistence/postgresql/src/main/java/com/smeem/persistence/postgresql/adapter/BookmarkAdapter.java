@@ -1,12 +1,13 @@
 package com.smeem.persistence.postgresql.adapter;
 
-import com.smeem.application.domain.bookmark.Bookmark;
+import com.smeem.application.domain.bookmark.model.Bookmark;
 import com.smeem.application.port.output.persistence.BookmarkPort;
 import com.smeem.persistence.postgresql.persistence.entity.BookmarkEntity;
 import com.smeem.persistence.postgresql.persistence.repository.bookmark.BookmarkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -41,5 +42,20 @@ public class BookmarkAdapter implements BookmarkPort {
     @Override
     public void deleteByMemberId(long memberId) {
         bookmarkRepository.deleteByMemberId(memberId);
+    }
+
+    @Override
+    public Bookmark getById(long bookmarkId) {
+        return bookmarkRepository.findById(bookmarkId)
+                .map(BookmarkEntity::toDomain)
+                .orElse(null);
+    }
+
+    @Override
+    public List<Bookmark> getByMemberId(long memberId) {
+        return bookmarkRepository.findByMemberId(memberId)
+                .stream()
+                .map(BookmarkEntity::toDomain)
+                .toList();
     }
 }

@@ -1,13 +1,16 @@
-package com.smeem.application.domain.bookmark;
+package com.smeem.application.domain.bookmark.model;
 
 import lombok.Builder;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Builder
 @Data
 public class Bookmark {
     private Long id;
     private long memberId;
+    private LocalDateTime createdAt;
 
     /**
      * expression

@@ -1,8 +1,6 @@
 package com.smeem.http.controller.docs;
 
-import com.smeem.application.port.input.dto.request.bookmark.BookmarkFallbackRequest;
-import com.smeem.application.port.input.dto.request.bookmark.BookmarkRequest;
-import com.smeem.application.port.input.dto.response.bookmark.BookmarkResponse;
+import com.smeem.application.port.input.bookmark.dto.*;
 import com.smeem.http.controller.dto.SmeemResponse;
 import com.smeem.http.security.MemberId;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +11,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Tag(name = "Bookmark API", description = "북마크 API")
 public interface BookmarkApiDocs {
@@ -49,5 +48,30 @@ public interface BookmarkApiDocs {
                     required = true,
                     content = @Content(schema = @Schema(implementation = BookmarkFallbackRequest.class))
             ) BookmarkFallbackRequest request
+    );
+
+    @Operation(summary = "북마크 상세 조회", description = "북마크 ID로 상세 정보를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK success",
+                    content = @Content(schema = @Schema(implementation = BookmarkDetailResponse.class))
+            )
+    })
+    SmeemResponse<BookmarkDetailResponse> getBookmarkDetail(
+            @Parameter(hidden = true) @MemberId long memberId,
+            @Parameter(description = "조회할 북마크 ID", required = true) @PathVariable long bookmarkId
+    );
+
+    @Operation(summary = "북마크 전체 조회", description = "사용자가 등록한 북마크 전체를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK success",
+                    content = @Content(schema = @Schema(implementation = BookmarkListResponse.class))
+            )
+    })
+    SmeemResponse<BookmarkListResponse> getBookmarks(
+            @Parameter(hidden = true) @MemberId long memberId
     );
 }

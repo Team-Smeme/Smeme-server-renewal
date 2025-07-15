@@ -1,11 +1,13 @@
 package com.smeem.application.domain.bookmark;
 
+import com.smeem.application.domain.bookmark.model.Bookmark;
+import com.smeem.application.domain.bookmark.model.Expression;
 import com.smeem.application.domain.member.Member;
-import com.smeem.application.port.input.BookmarkUseCase;
-import com.smeem.application.port.input.dto.request.bookmark.BookmarkFallbackRequest;
-import com.smeem.application.port.input.dto.request.bookmark.BookmarkRequest;
-import com.smeem.application.port.input.dto.response.bookmark.BookmarkResponse;
-import com.smeem.application.port.input.dto.response.bookmark.ScrapResponse;
+import com.smeem.application.port.input.bookmark.BookmarkCommandUseCase;
+import com.smeem.application.port.input.bookmark.dto.BookmarkFallbackRequest;
+import com.smeem.application.port.input.bookmark.dto.BookmarkRequest;
+import com.smeem.application.port.input.bookmark.dto.BookmarkResponse;
+import com.smeem.application.port.input.bookmark.dto.ScrapResponse;
 import com.smeem.application.port.output.persistence.BookmarkPort;
 import com.smeem.application.port.output.persistence.MemberPort;
 import com.smeem.application.port.output.web.openai.OpenAiPort;
@@ -23,7 +25,7 @@ import static com.smeem.application.domain.bookmark.BookmarkConverter.convert;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class BookmarkCommandService implements BookmarkUseCase {
+public class BookmarkCommandService implements BookmarkCommandUseCase {
 
     private final BookmarkStore bookmarkStore;
     private final BookmarkPort bookmarkPort;

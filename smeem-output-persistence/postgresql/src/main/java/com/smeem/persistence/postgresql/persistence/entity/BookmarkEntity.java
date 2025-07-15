@@ -1,6 +1,6 @@
 package com.smeem.persistence.postgresql.persistence.entity;
 
-import com.smeem.application.domain.bookmark.Bookmark;
+import com.smeem.application.domain.bookmark.model.Bookmark;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -55,6 +55,7 @@ public class BookmarkEntity extends BaseEntity {
                 .thumbnailImageUrl(this.thumbnailImageUrl)
                 .scrapedUrl(this.scrapedUrl)
                 .description(this.description)
+                .createdAt(this.createdAt)
                 .build();
     }
 }

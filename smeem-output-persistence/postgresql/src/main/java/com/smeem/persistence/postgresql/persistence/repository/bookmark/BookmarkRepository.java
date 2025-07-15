@@ -15,4 +15,6 @@ public interface BookmarkRepository extends JpaRepository<BookmarkEntity, Long> 
     Optional<BookmarkEntity> findFirstByScrapedUrl(String scrapedUrl);
 
     void deleteByMemberId(long memberId);
+
+    List<BookmarkEntity> findByMemberId(long memberId);
 }
