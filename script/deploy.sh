@@ -20,6 +20,7 @@ echo "----------------------------------------------------------------------"
 # 도커 이미지 풀 받기
 echo "> Pull Docker Image"
 docker pull "${REGISTRY_URL}"/"${IMAGE_NAME}":"${TAG}"
+echo "pull ${REGISTRY_URL}/${IMAGE_NAME}:${TAG}"
 
 # 서버 실행
 echo "> Run Docker"
