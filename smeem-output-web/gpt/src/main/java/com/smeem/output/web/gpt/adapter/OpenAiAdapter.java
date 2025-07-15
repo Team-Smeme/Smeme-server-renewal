@@ -2,7 +2,7 @@ package com.smeem.output.web.gpt.adapter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smeem.application.domain.bookmark.Expression;
+import com.smeem.application.domain.bookmark.model.Expression;
 import com.smeem.application.domain.diary.Correction;
 import com.smeem.application.port.output.web.openai.OpenAiPort;
 import com.smeem.common.exception.ExceptionCode;

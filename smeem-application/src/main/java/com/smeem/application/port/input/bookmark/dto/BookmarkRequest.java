@@ -1,4 +1,4 @@
-package com.smeem.application.port.input.dto.request.bookmark;
+package com.smeem.application.port.input.bookmark.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.NonNull;

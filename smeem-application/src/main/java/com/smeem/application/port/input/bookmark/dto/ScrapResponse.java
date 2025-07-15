@@ -1,6 +1,6 @@
-package com.smeem.application.port.input.dto.response.bookmark;
+package com.smeem.application.port.input.bookmark.dto;
 
-import com.smeem.application.domain.bookmark.Bookmark;
+import com.smeem.application.domain.bookmark.model.Bookmark;
 import com.smeem.application.port.output.web.scrap.ScrapInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

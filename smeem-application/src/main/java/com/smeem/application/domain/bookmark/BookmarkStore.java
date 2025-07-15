@@ -1,5 +1,6 @@
 package com.smeem.application.domain.bookmark;
 
+import com.smeem.application.domain.bookmark.model.Bookmark;
 import com.smeem.application.port.output.persistence.BookmarkPort;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;

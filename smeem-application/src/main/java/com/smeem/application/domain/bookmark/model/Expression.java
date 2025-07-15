@@ -1,4 +1,4 @@
-package com.smeem.application.domain.bookmark;
+package com.smeem.application.domain.bookmark.model;
 
 import lombok.Builder;
 
