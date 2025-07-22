@@ -11,22 +11,14 @@ import java.util.List;
 @Builder(access = AccessLevel.PRIVATE)
 public record CorrectionsResponse(
         @Schema(description = "코칭 결과")
-        List<CorrectionResponse> corrections,
-        @Schema(description = "회원 이름")
-        String username,
-        @Schema(description = "첨삭 횟수")
-        int totalCount
+        List<CorrectionResponse> corrections
 ) {
 
     public static CorrectionsResponse of(
-            List<Correction> corrections,
-            Member member,
-            int totalCount
+            List<Correction> corrections
     ) {
         return CorrectionsResponse.builder()
                 .corrections(corrections.stream().map(CorrectionResponse::from).toList())
-                .username(member.getUsername())
-                .totalCount(totalCount)
                 .build();
     }
 }
