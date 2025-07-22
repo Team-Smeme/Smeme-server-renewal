@@ -1,12 +1,10 @@
 package com.smeem.application.domain.diary;
 
 import com.smeem.application.config.SmeemProperties;
-import com.smeem.application.domain.member.Member;
 import com.smeem.application.port.input.CorrectionUseCase;
 import com.smeem.application.port.input.dto.response.diary.CorrectionsResponse;
 import com.smeem.application.port.output.persistence.CorrectionPort;
 import com.smeem.application.port.output.persistence.DiaryPort;
-import com.smeem.application.port.output.persistence.MemberPort;
 import com.smeem.application.port.output.web.openai.OpenAiPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +22,6 @@ public class CorrectionService implements CorrectionUseCase {
     private final DiaryPort diaryPort;
     private final OpenAiPort openAiPort;
     private final SmeemProperties smeemProperties;
-    private final MemberPort memberPort;
 
     @Transactional
     public CorrectionsResponse correctDiary(long memberId, long diaryId) {
@@ -39,10 +36,7 @@ public class CorrectionService implements CorrectionUseCase {
         diary.validateDiaryOwnership(memberId);
 
         List<Correction> corrections = createCorrections(diary);
-
-        Member member = memberPort.findById(memberId);
-        int totalCorrectionCount = correctionPort.countByMember(memberId);
-        return CorrectionsResponse.of(corrections, member, totalCorrectionCount);
+        return CorrectionsResponse.of(corrections);
     }
 
     private List<Correction> createCorrections(Diary diary) {
