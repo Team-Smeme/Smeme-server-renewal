@@ -4,6 +4,7 @@ import com.smeem.application.domain.bookmark.model.Bookmark;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
@@ -30,7 +31,10 @@ public record BookmarkListResponse(
             String expression,
 
             @Schema(description = "스크랩 본문 내용", example = "오늘의 문장 ✅ Can you make up clean our room please?")
-            String description
+            String description,
+
+            @Schema(description = "등록 일자", example = "2025-07-16T00:34:49.396436")
+            LocalDateTime createdAt
     ) {
 
         private static BookmarkResponse from(Bookmark bookmark) {
@@ -39,6 +43,7 @@ public record BookmarkListResponse(
                     .thumbnailImageUrl(bookmark.getThumbnailImageUrl())
                     .expression(bookmark.getExpression())
                     .description(bookmark.getDescription())
+                    .createdAt(bookmark.getCreatedAt())
                     .build();
         }
     }
