@@ -24,5 +24,6 @@ public class Bookmark {
     private String thumbnailImageUrl;
     private String scrapedUrl;
     private String description;
+    private ScrapType scrapType;
 }
 

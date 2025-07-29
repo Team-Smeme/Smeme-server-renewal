@@ -4,6 +4,7 @@ import com.smeem.application.domain.bookmark.model.Bookmark;
 import com.smeem.application.domain.bookmark.model.Expression;
 import com.smeem.application.port.input.bookmark.dto.BookmarkFallbackRequest;
 import com.smeem.application.port.output.web.scrap.ScrapInfo;
+import com.smeem.application.util.ScrapTypeUtils;
 import lombok.NonNull;
 
 public class BookmarkConverter {
@@ -16,6 +17,7 @@ public class BookmarkConverter {
                 .thumbnailImageUrl(scrapInfo.image())
                 .expression(expression.expression())
                 .translatedExpression(expression.translatedExpression())
+                .scrapType(ScrapTypeUtils.getType(scrapInfo.url()))
                 .build();
     }
 
@@ -27,6 +29,7 @@ public class BookmarkConverter {
                 .thumbnailImageUrl(request.thumbnailImageUrl())
                 .expression(request.expression())
                 .translatedExpression(request.translatedExpression())
+                .scrapType(ScrapTypeUtils.getType(request.scrapedUrl()))
                 .build();
     }
 
