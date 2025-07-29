@@ -44,4 +44,8 @@ public class SmeemMessage {
 
     // survey
     public static final String SURVEY_COACHING = "만족도 조사 결과 보내기 성공";
+
+    // bookmark
+    public static final String DELETE_BOOKMARK = "북마크 삭제 성공";
+    public static final String MODIFY_BOOKMARK = "북마크 수정 성공";
 }

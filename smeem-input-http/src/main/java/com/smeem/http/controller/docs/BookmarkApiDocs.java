@@ -74,4 +74,34 @@ public interface BookmarkApiDocs {
     SmeemResponse<BookmarkListResponse> getBookmarks(
             @Parameter(hidden = true) @MemberId long memberId
     );
+
+    @Operation(summary = "북마크 삭제", description = "북마크 ID를 기반으로 북마크를 삭제합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK success"
+            )
+    })
+    SmeemResponse<?> deleteBookmark(
+            @Parameter(hidden = true) @MemberId long memberId,
+            @Parameter(description = "삭제할 북마크 ID", required = true) @PathVariable long bookmarkId
+    );
+
+    @Operation(summary = "북마크 수정", description = "북마크 ID를 기반으로 북마크 내용을 수정합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK success",
+                    content = @Content(schema = @Schema(implementation = BookmarkModifyResponse.class))
+            )
+    })
+    SmeemResponse<BookmarkModifyResponse> modifyBookmark(
+            @Parameter(hidden = true) @MemberId long memberId,
+            @Parameter(description = "수정할 북마크 ID", required = true) @PathVariable long bookmarkId,
+            @RequestBody(
+                    description = "북마크 수정 요청",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = BookmarkUpdateRequest.class))
+            ) BookmarkUpdateRequest request
+    );
 }
