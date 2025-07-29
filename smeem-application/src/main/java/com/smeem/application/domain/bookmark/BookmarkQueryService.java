@@ -4,7 +4,11 @@ import com.smeem.application.domain.bookmark.model.Bookmark;
 import com.smeem.application.port.input.bookmark.BookmarkQueryUseCase;
 import com.smeem.application.port.input.bookmark.dto.BookmarkDetailResponse;
 import com.smeem.application.port.input.bookmark.dto.BookmarkListResponse;
+import com.smeem.application.port.input.bookmark.dto.BookmarkModifyResponse;
+import com.smeem.application.port.input.bookmark.dto.BookmarkUpdateRequest;
 import com.smeem.application.port.output.persistence.BookmarkPort;
+import com.smeem.common.exception.ExceptionCode;
+import com.smeem.common.exception.SmeemException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class BookmarkQueryService implements BookmarkQueryUseCase {
 
@@ -33,5 +37,20 @@ public class BookmarkQueryService implements BookmarkQueryUseCase {
                 .sorted((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()))
                 .toList();
         return BookmarkListResponse.from(bookmarks);
+    }
+
+    @Override
+    public void deleteBookmark(long memberId, long bookmarkId) {
+        Bookmark bookmark = bookmarkPort.getById(bookmarkId);
+        bookmark.validateBookmarkOwnership(memberId);
+        bookmarkPort.deleteByBookmarkId(bookmarkId);
+    }
+
+    @Override
+    public BookmarkModifyResponse updateBookmark(long memberId, long bookmarkId, BookmarkUpdateRequest request) {
+        Bookmark bookmark = bookmarkPort.getById(bookmarkId);
+        bookmark.validateBookmarkOwnership(memberId);
+        Bookmark updatedBookmark = bookmarkPort.update(request.update(bookmark));
+        return BookmarkModifyResponse.from(updatedBookmark);
     }
 }

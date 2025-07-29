@@ -1,5 +1,7 @@
 package com.smeem.application.domain.bookmark.model;
 
+import com.smeem.common.exception.ExceptionCode;
+import com.smeem.common.exception.SmeemException;
 import lombok.Builder;
 import lombok.Data;
 
@@ -24,5 +26,11 @@ public class Bookmark {
     private String thumbnailImageUrl;
     private String scrapedUrl;
     private String description;
+
+    public void validateBookmarkOwnership(long memberId) {
+        if (this.memberId != memberId) {
+            throw new SmeemException(ExceptionCode.INVALID_MEMBER_AND_BOOKMARK);
+        }
+    }
 }
 
