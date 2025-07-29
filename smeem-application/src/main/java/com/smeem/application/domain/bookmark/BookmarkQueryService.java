@@ -42,15 +42,21 @@ public class BookmarkQueryService implements BookmarkQueryUseCase {
     @Override
     public void deleteBookmark(long memberId, long bookmarkId) {
         Bookmark bookmark = bookmarkPort.getById(bookmarkId);
-        bookmark.validateBookmarkOwnership(memberId);
+        validateBookmarkOwnership(bookmark.getMemberId(), memberId);
         bookmarkPort.deleteByBookmarkId(bookmarkId);
     }
 
     @Override
     public BookmarkModifyResponse updateBookmark(long memberId, long bookmarkId, BookmarkUpdateRequest request) {
         Bookmark bookmark = bookmarkPort.getById(bookmarkId);
-        bookmark.validateBookmarkOwnership(memberId);
-        Bookmark updatedBookmark = bookmarkPort.update(request.update(bookmark));
+        validateBookmarkOwnership(bookmark.getMemberId(), memberId);
+        Bookmark updatedBookmark = bookmarkPort.update(request.toDomain(bookmark));
         return BookmarkModifyResponse.from(updatedBookmark);
+    }
+
+    private void validateBookmarkOwnership(long bookmarkWriterId, long memberId) {
+        if (bookmarkWriterId != memberId) {
+            throw new SmeemException(ExceptionCode.INVALID_MEMBER_AND_BOOKMARK);
+        }
     }
 }

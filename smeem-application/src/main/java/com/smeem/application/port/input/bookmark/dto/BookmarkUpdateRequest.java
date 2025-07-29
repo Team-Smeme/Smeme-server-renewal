@@ -11,7 +11,7 @@ public record BookmarkUpdateRequest(
         @Schema(description = "본문")
         String description
 ) {
-        public Bookmark update(Bookmark originBookmark) {
+        public Bookmark toDomain(Bookmark originBookmark) {
                 return Bookmark.builder()
                         .id(originBookmark.getId())
                         .memberId(originBookmark.getMemberId())

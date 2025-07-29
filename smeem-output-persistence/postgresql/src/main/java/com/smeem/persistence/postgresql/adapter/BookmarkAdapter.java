@@ -48,7 +48,6 @@ public class BookmarkAdapter implements BookmarkPort {
 
     @Override
     public void deleteByBookmarkId(long bookmarkId) {
-        find(bookmarkId);
         bookmarkRepository.deleteById(bookmarkId);
     }
 
