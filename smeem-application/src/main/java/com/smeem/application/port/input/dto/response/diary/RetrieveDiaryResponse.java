@@ -33,7 +33,7 @@ public record RetrieveDiaryResponse(
         int correctionCount,
         @Schema(description = "코칭 최대 횟수")
         int correctionMaxCount,
-        @Schema(description = "사용한 북마크 표현")
+        @Schema(description = "사용한 북마크 표현", example = "be happy 행복하다")
         String engKorExpression
 ) {
         public static RetrieveDiaryResponse of(

@@ -21,14 +21,14 @@ public class DiaryEntity extends BaseEntity {
     private Long topicId;
     @Column(nullable = false)
     private long memberId;
-    private String expression;
+    private String engKorExpression;
 
     public DiaryEntity(Diary diary) {
         this.content = diary.getContent();
         this.targetLang = diary.getTargetLang();
         this.topicId = diary.getTopicId();
         this.memberId = diary.getMemberId();
-        this.expression = diary.getEngKorExpression();
+        this.engKorExpression = diary.getEngKorExpression();
     }
 
     public Diary toDomain() {
@@ -40,7 +40,7 @@ public class DiaryEntity extends BaseEntity {
                 .memberId(memberId)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
-                .engKorExpression(expression)
+                .engKorExpression(engKorExpression)
                 .build();
     }
 
