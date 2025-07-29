@@ -30,7 +30,8 @@ public record RetrieveDiariesResponse(
             @Schema(description = "일기 내용")
             String content,
             @Schema(description = "일기 작성일")
-            String createdAt
+            String createdAt,
+            String engKorExpression
     ) {
 
         private static DiaryResponse of(Diary diary) {
@@ -38,6 +39,7 @@ public record RetrieveDiariesResponse(
                     .diaryId(diary.getId())
                     .content(diary.getContent())
                     .createdAt(SmeemConverter.toString(diary.getCreatedAt()))
+                    .engKorExpression(diary.getEngKorExpression())
                     .build();
         }
     }

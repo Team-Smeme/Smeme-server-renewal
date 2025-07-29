@@ -6,11 +6,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.NonNull;
 
 public record WriteDiaryRequest(
-        @Schema(description = "작성한 내용")
+        @Schema(description = "작성한 내용", example = "I am very happy today")
         @NonNull
         String content,
         @Schema(description = "일기 주제 id")
-        Long topicId
+        Long topicId,
+        @Schema(description = "사용한 북마크 표현", example = "be happy 행복하다")
+        String engKorExpression
 ) {
 
         public Diary toDomain(Member member) {
@@ -19,6 +21,7 @@ public record WriteDiaryRequest(
                         .targetLang(member.getTargetLang())
                         .topicId(topicId)
                         .memberId(member.getId())
+                        .engKorExpression(engKorExpression)
                         .build();
         }
 

@@ -32,7 +32,9 @@ public record RetrieveDiaryResponse(
         @Schema(description = "코칭 횟수")
         int correctionCount,
         @Schema(description = "코칭 최대 횟수")
-        int correctionMaxCount
+        int correctionMaxCount,
+        @Schema(description = "사용한 북마크 표현")
+        String engKorExpression
 ) {
         public static RetrieveDiaryResponse of(
                 @NotNull Diary diary,
@@ -51,6 +53,7 @@ public record RetrieveDiaryResponse(
                         .corrections(corrections.stream().map(CorrectionResponse::from).toList())
                         .correctionCount(correctionCount)
                         .correctionMaxCount(1)
+                        .engKorExpression(diary.getEngKorExpression())
                         .build();
         }
 }
