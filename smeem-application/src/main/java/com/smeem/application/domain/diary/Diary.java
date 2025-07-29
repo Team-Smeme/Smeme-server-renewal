@@ -18,6 +18,7 @@ public class Diary {
     private long memberId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String engKorExpression;
 
     public void validateDiaryOwnership(long memberId) {
         if (this.memberId != memberId) {
