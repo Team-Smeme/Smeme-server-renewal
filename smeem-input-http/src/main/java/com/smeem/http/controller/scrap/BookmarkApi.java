@@ -1,5 +1,6 @@
 package com.smeem.http.controller.scrap;
 
+import com.smeem.application.domain.generic.SmeemMessage;
 import com.smeem.application.port.input.bookmark.BookmarkCommandUseCase;
 import com.smeem.application.port.input.bookmark.BookmarkQueryUseCase;
 import com.smeem.application.port.input.bookmark.dto.*;
@@ -51,5 +52,25 @@ public class BookmarkApi implements BookmarkApiDocs {
     @GetMapping
     public SmeemResponse<BookmarkListResponse> getBookmarks(@MemberId long memberId) {
         return SmeemResponse.of(bookmarkQueryUseCase.getBookmarks(memberId), SUCCESS_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/{bookmarkId}")
+    public SmeemResponse<?> deleteBookmark(
+            @MemberId long memberId,
+            @PathVariable long bookmarkId
+    ) {
+        bookmarkCommandUseCase.deleteBookmark(memberId, bookmarkId);
+        return SmeemResponse.of(SmeemMessage.DELETE_BOOKMARK);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/{bookmarkId}")
+    public SmeemResponse<BookmarkModifyResponse> modifyBookmark(
+            @MemberId long memberId,
+            @PathVariable long bookmarkId,
+            @RequestBody BookmarkUpdateRequest request
+    ) {
+        return SmeemResponse.of(bookmarkCommandUseCase.updateBookmark(memberId, bookmarkId, request), SmeemMessage.MODIFY_BOOKMARK);
     }
 }

@@ -14,6 +14,7 @@ public enum ExceptionCode {
     TOO_MANY_REQUESTS(429, "너무 많은 요청"),
     INVALID_FIELD(400, "잘못된 필드 값"),
     INVALID_ENUM_TYPE(400, "유효하지 않은 Enum 값"),
+    INVALID_MEMBER_AND_BOOKMARK(400, "회원의 북마크가 아닙니다."),
 
     // 5xx
     SERVICE_AVAILABLE(503, "서비스에 접근할 수 없음 "),

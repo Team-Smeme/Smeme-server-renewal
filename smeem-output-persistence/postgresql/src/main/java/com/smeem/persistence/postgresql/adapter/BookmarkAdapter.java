@@ -2,6 +2,8 @@ package com.smeem.persistence.postgresql.adapter;
 
 import com.smeem.application.domain.bookmark.model.Bookmark;
 import com.smeem.application.port.output.persistence.BookmarkPort;
+import com.smeem.common.exception.ExceptionCode;
+import com.smeem.common.exception.SmeemException;
 import com.smeem.persistence.postgresql.persistence.entity.BookmarkEntity;
 import com.smeem.persistence.postgresql.persistence.repository.bookmark.BookmarkRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,10 +47,13 @@ public class BookmarkAdapter implements BookmarkPort {
     }
 
     @Override
+    public void deleteByBookmarkId(long bookmarkId) {
+        bookmarkRepository.deleteById(bookmarkId);
+    }
+
+    @Override
     public Bookmark getById(long bookmarkId) {
-        return bookmarkRepository.findById(bookmarkId)
-                .map(BookmarkEntity::toDomain)
-                .orElse(null);
+        return find(bookmarkId).toDomain();
     }
 
     @Override
@@ -57,5 +62,16 @@ public class BookmarkAdapter implements BookmarkPort {
                 .stream()
                 .map(BookmarkEntity::toDomain)
                 .toList();
+    }
+
+    @Override
+    public Bookmark update(Bookmark bookmark) {
+        BookmarkEntity foundBookmark = find(bookmark.getId());
+        return foundBookmark.update(bookmark).toDomain();
+    }
+
+    private BookmarkEntity find(long id) {
+        return bookmarkRepository.findById(id)
+                .orElseThrow(() -> new SmeemException(ExceptionCode.NOT_FOUND, "(Bookmark ID: " + id + ")"));
     }
 }

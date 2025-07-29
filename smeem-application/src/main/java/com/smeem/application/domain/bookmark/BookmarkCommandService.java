@@ -5,14 +5,18 @@ import com.smeem.application.domain.bookmark.model.Expression;
 import com.smeem.application.domain.member.Member;
 import com.smeem.application.port.input.bookmark.BookmarkCommandUseCase;
 import com.smeem.application.port.input.bookmark.dto.BookmarkFallbackRequest;
+import com.smeem.application.port.input.bookmark.dto.BookmarkModifyResponse;
 import com.smeem.application.port.input.bookmark.dto.BookmarkRequest;
 import com.smeem.application.port.input.bookmark.dto.BookmarkResponse;
+import com.smeem.application.port.input.bookmark.dto.BookmarkUpdateRequest;
 import com.smeem.application.port.input.bookmark.dto.ScrapResponse;
 import com.smeem.application.port.output.persistence.BookmarkPort;
 import com.smeem.application.port.output.persistence.MemberPort;
 import com.smeem.application.port.output.web.openai.OpenAiPort;
 import com.smeem.application.port.output.web.scrap.ScrapInfo;
 import com.smeem.application.port.output.web.scrap.ScrapPort;
+import com.smeem.common.exception.ExceptionCode;
+import com.smeem.common.exception.SmeemException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -94,5 +98,26 @@ public class BookmarkCommandService implements BookmarkCommandUseCase {
                 .translatedExpression(savedBookmark.getTranslatedExpression())
                 .scrapedCountPerDay(LocalDate.now().equals(member.getLastScrapedDate()) ? member.getScrapedCountPerDay() : 0)
                 .build();
+    }
+
+    @Override
+    public void deleteBookmark(long memberId, long bookmarkId) {
+        Bookmark bookmark = bookmarkPort.getById(bookmarkId);
+        validateBookmarkOwnership(bookmark.getMemberId(), memberId);
+        bookmarkPort.deleteByBookmarkId(bookmarkId);
+    }
+
+    @Override
+    public BookmarkModifyResponse updateBookmark(long memberId, long bookmarkId, BookmarkUpdateRequest request) {
+        Bookmark bookmark = bookmarkPort.getById(bookmarkId);
+        validateBookmarkOwnership(bookmark.getMemberId(), memberId);
+        Bookmark updatedBookmark = bookmarkPort.update(request.toDomain(bookmark));
+        return BookmarkModifyResponse.from(updatedBookmark);
+    }
+
+    private void validateBookmarkOwnership(long bookmarkWriterId, long memberId) {
+        if (bookmarkWriterId != memberId) {
+            throw new SmeemException(ExceptionCode.INVALID_MEMBER_AND_BOOKMARK);
+        }
     }
 }

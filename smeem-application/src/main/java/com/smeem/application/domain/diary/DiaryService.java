@@ -11,6 +11,8 @@ import com.smeem.application.port.input.dto.response.diary.RetrieveDiariesRespon
 import com.smeem.application.port.input.dto.response.diary.RetrieveDiaryResponse;
 import com.smeem.application.port.input.dto.response.diary.WriteDiaryResponse;
 import com.smeem.application.port.output.persistence.*;
+import com.smeem.common.exception.ExceptionCode;
+import com.smeem.common.exception.SmeemException;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -75,7 +77,7 @@ public class DiaryService implements DiaryUseCase {
     @Transactional
     public void modifyDiary(long memberId, long diaryId, WriteDiaryRequest request) {
         Diary foundDiary = diaryPort.findById(diaryId);
-        foundDiary.validateDiaryOwnership(memberId);
+        validateDiaryOwnership(foundDiary.getMemberId(), memberId);
         diaryPort.update(request.update(foundDiary));
         correctionPort.deleteByDiary(diaryId);
     }
@@ -97,5 +99,11 @@ public class DiaryService implements DiaryUseCase {
     public void deleteExpiredDiaries(int duration) {
         val expiredDate = LocalDate.now().minusDays(duration - 1);
         diaryPort.deleteByCreatedAt(expiredDate);
+    }
+
+    private void validateDiaryOwnership(long diaryWriterId, long memberId) {
+        if (diaryWriterId != memberId) {
+            throw new SmeemException(ExceptionCode.INVALID_MEMBER_AND_DIARY);
+        }
     }
 }

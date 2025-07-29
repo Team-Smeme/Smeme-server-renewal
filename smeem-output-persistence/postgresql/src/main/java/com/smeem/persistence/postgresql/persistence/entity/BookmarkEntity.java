@@ -64,4 +64,11 @@ public class BookmarkEntity extends BaseEntity {
                 .scrapType(this.scrapType)
                 .build();
     }
+
+    public BookmarkEntity update(Bookmark bookmark) {
+        this.expression = bookmark.getExpression();
+        this.translatedExpression = bookmark.getTranslatedExpression();
+        this.description = bookmark.getDescription();
+        return this;
+    }
 }
