@@ -60,7 +60,7 @@ public class BookmarkApi implements BookmarkApiDocs {
             @MemberId long memberId,
             @PathVariable long bookmarkId
     ) {
-        bookmarkQueryUseCase.deleteBookmark(memberId, bookmarkId);
+        bookmarkCommandUseCase.deleteBookmark(memberId, bookmarkId);
         return SmeemResponse.of(SmeemMessage.DELETE_BOOKMARK);
     }
 
@@ -71,6 +71,6 @@ public class BookmarkApi implements BookmarkApiDocs {
             @PathVariable long bookmarkId,
             @RequestBody BookmarkUpdateRequest request
     ) {
-        return SmeemResponse.of(bookmarkQueryUseCase.updateBookmark(memberId, bookmarkId, request), SmeemMessage.MODIFY_BOOKMARK);
+        return SmeemResponse.of(bookmarkCommandUseCase.updateBookmark(memberId, bookmarkId, request), SmeemMessage.MODIFY_BOOKMARK);
     }
 }
