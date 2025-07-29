@@ -1,6 +1,7 @@
 package com.smeem.persistence.postgresql.persistence.entity;
 
 import com.smeem.application.domain.bookmark.model.Bookmark;
+import com.smeem.application.domain.bookmark.model.ScrapType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -31,11 +32,14 @@ public class BookmarkEntity extends BaseEntity {
     @Column
     private String thumbnailImageUrl;
 
-    @Column(nullable = false)
+    @Column
     private String scrapedUrl;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
+
+    @Enumerated(value = EnumType.STRING)
+    private ScrapType scrapType;
 
     public BookmarkEntity(Bookmark domain) {
         this.memberId = domain.getMemberId();
@@ -44,6 +48,7 @@ public class BookmarkEntity extends BaseEntity {
         this.thumbnailImageUrl = domain.getThumbnailImageUrl();
         this.scrapedUrl = domain.getScrapedUrl();
         this.description = domain.getDescription();
+        this.scrapType = domain.getScrapType();
     }
 
     public Bookmark toDomain() {
@@ -56,6 +61,7 @@ public class BookmarkEntity extends BaseEntity {
                 .scrapedUrl(this.scrapedUrl)
                 .description(this.description)
                 .createdAt(this.createdAt)
+                .scrapType(this.scrapType)
                 .build();
     }
 }

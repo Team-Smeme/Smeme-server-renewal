@@ -1,6 +1,7 @@
 package com.smeem.application.port.input.bookmark.dto;
 
 import com.smeem.application.domain.bookmark.model.Bookmark;
+import com.smeem.application.domain.bookmark.model.ScrapType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
@@ -34,7 +35,10 @@ public record BookmarkListResponse(
             String description,
 
             @Schema(description = "등록 일자", example = "2025-07-16T00:34:49.396436")
-            LocalDateTime createdAt
+            LocalDateTime createdAt,
+
+            @Schema(description = "스크랩 컨텐츠 타입", example = "REELS")
+            ScrapType scrapType
     ) {
 
         private static BookmarkResponse from(Bookmark bookmark) {
@@ -44,6 +48,7 @@ public record BookmarkListResponse(
                     .expression(bookmark.getExpression())
                     .description(bookmark.getDescription())
                     .createdAt(bookmark.getCreatedAt())
+                    .scrapType(bookmark.getScrapType())
                     .build();
         }
     }

@@ -1,6 +1,7 @@
 package com.smeem.application.port.input.bookmark.dto;
 
 import com.smeem.application.domain.bookmark.model.Bookmark;
+import com.smeem.application.domain.bookmark.model.ScrapType;
 import com.smeem.application.port.output.web.scrap.ScrapInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -16,7 +17,10 @@ public record ScrapResponse(
         String url,
 
         @Schema(description = "본문 내용", example = "1. Pissed off: 엄청 화나다 ...")
-        String description
+        String description,
+
+        @Schema(description = "스크랩 컨텐츠 타입", example = "REELS")
+        ScrapType scrapType
 ) {
         public static ScrapResponse from(ScrapInfo scrapInfo) {
                 return ScrapResponse.builder()
@@ -31,6 +35,7 @@ public record ScrapResponse(
                         .thumbnail(bookmark.getThumbnailImageUrl())
                         .url(bookmark.getScrapedUrl())
                         .description(bookmark.getDescription())
+                        .scrapType(bookmark.getScrapType())
                         .build();
         }
 }
