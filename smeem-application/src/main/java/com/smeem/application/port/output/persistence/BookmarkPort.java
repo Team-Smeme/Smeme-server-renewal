@@ -14,7 +14,11 @@ public interface BookmarkPort {
 
     void deleteByMemberId(long memberId);
 
+    void deleteByBookmarkId(long bookmarkId);
+
     Bookmark getById(long bookmarkId);
 
     List<Bookmark> getByMemberId(long memberId);
+
+    Bookmark update(Bookmark bookmark);
 }
