@@ -29,7 +29,7 @@ public class BookmarkEntity extends BaseEntity {
     @Column(nullable = false)
     private String translatedExpression;
 
-    @Column
+    @Column(length = 1500)
     private String thumbnailImageUrl;
 
     @Column
