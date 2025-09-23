@@ -24,8 +24,7 @@ public class AuthService implements AuthUseCase {
 
     private final MemberPort memberPort;
     private final CorrectionPort correctionPort;
-    private BookmarkPort bookmarkPort;
-
+    private final BookmarkPort bookmarkPort;
     private final OauthPort oauthPort;
     private final TokenGenerator tokenGenerator;
     private final HookLogger hookLogger;
