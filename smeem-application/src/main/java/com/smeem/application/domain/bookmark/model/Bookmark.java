@@ -11,6 +11,7 @@ public class Bookmark {
     private Long id;
     private long memberId;
     private LocalDateTime createdAt;
+    private LocalDateTime updateAt;
 
     /**
      * expression

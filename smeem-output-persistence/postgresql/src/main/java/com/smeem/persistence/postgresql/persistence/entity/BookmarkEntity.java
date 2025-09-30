@@ -61,6 +61,7 @@ public class BookmarkEntity extends BaseEntity {
                 .scrapedUrl(this.scrapedUrl)
                 .description(this.description)
                 .createdAt(this.createdAt)
+                .updateAt(this.updatedAt)
                 .scrapType(this.scrapType)
                 .build();
     }
@@ -69,6 +70,7 @@ public class BookmarkEntity extends BaseEntity {
         this.expression = bookmark.getExpression();
         this.translatedExpression = bookmark.getTranslatedExpression();
         this.description = bookmark.getDescription();
+        this.thumbnailImageUrl = bookmark.getThumbnailImageUrl();
         return this;
     }
 }
