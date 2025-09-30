@@ -19,30 +19,47 @@ public class PromptTemplate {
 
     public static String getExpressionPrompt(String content) {
         return String.format("""
-                Based on the text below, extract exactly **one useful English expression (a phrase or short sentence)** and its **Korean meaning** that would help a Korean English learner.
+                You are helping Korean English learners extract useful expressions from Instagram posts.
                 
-                ❗️Use only the information in the text. Do NOT use outside knowledge.
-                
-                The expression should:
-                - Be more than just a word (preferably a phrase or short sentence).
-                - Be practically useful for real-life situations.
-                
-                When translating to Korean:
-                - Translate in a natural and commonly spoken form.
-                - Do **not** include punctuation like question marks (?) unless it's truly necessary for the Korean sentence.
-                
+                Based on the text below, extract exactly **one useful English expression (a phrase or short sentence)** and its **Korean meaning**.
+   
+                📋 **Rules:**
+    
+                1. **Expression Field (English only)**
+                   - MUST contain English text only (no Korean characters allowed)
+                   - Should be a phrase or short sentence (more than just a single word)
+                   - Should be practically useful for real-life situations
+    
+                2. **Korean-only posts:**
+                   - If the post contains Korean translation/meaning but no English expression, try to infer what common English expression it might be referring to
+                   - Only do this if you're confident about the match
+    
+                3. **Invalid/Irrelevant posts:**
+                   - If the post is empty, contains only hashtags, or is unrelated to English learning:
+                     - Set expression to: "-"
+                     - Set translatedExpression to: "인스타그램 열어 학습하기"
+    
+                4. **Translation style:**
+                   - Use natural, conversational Korean
+                   - Avoid unnecessary punctuation (e.g., question marks unless essential)
+    
+                ❗️**CRITICAL:** Use ONLY the information provided in the text. Do NOT use outside knowledge unless handling Korean-only posts (Rule 2).
+    
                 ---
                 %s
                 ---
-                
-                ✅ Your output must be in the following **JSON format**, with no explanation — just the JSON block.
-                
+    
+                ✅ Output must be valid JSON only (no explanation):
+    
                 ```json
                 {
                   "expression": "EnglishExpression",
                   "translatedExpression": "KoreanMeaning"
                 }
-                ```
+                
+                **Validation:**
+                - Before outputting, verify that "expression" contains at least one English word
+                - If "expression" contains any Korean characters (가-힣), retry extraction or use fallback ("-")
                 """, content);
     }
 }
