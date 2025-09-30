@@ -60,7 +60,8 @@ public class OpenAiAdapter implements OpenAiPort {
         }
 
         try {
-            return objectMapper.readValue(response, Expression.class);
+            Expression expression = objectMapper.readValue(response, Expression.class);
+            return expression.validate() ? expression : null;
         } catch (JsonProcessingException e) {
             hookLogger.send(LoggingMessage.error(e, "[OpenAiAdapter][promptExpression]"));
             return null;
