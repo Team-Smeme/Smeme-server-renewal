@@ -26,7 +26,7 @@ public class Member {
     private int visitDays;
     private LocalDate lastVisitDate;
 
-    private Integer scrapedCountPerDay;
+    private int scrapedCountPerDay;
     private LocalDate lastScrapedDate;
 
     public Member(SocialType socialType, String socialId, String fcmToken) {

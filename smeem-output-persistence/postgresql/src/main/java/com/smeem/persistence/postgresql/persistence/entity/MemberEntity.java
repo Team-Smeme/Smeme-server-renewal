@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static com.smeem.application.util.DomainConstant.MEMBER;
 import static com.smeem.application.util.DomainConstant.SMEEM;
@@ -60,7 +61,7 @@ public class MemberEntity extends BaseEntity {
                 .diaryComboCount(diaryComboCount)
                 .visitDays(visitDays)
                 .lastVisitDate(lastVisitDate)
-                .scrapedCountPerDay(scrapedCountPerDay)
+                .scrapedCountPerDay(Optional.ofNullable(scrapedCountPerDay).orElse(0))
                 .lastScrapedDate(lastScrapedDate)
                 .build();
     }
