@@ -18,13 +18,13 @@ public record Expression(
         if (StringUtils.isEmpty(str)) {
             return false;
         }
-        return str.matches("^[a-zA-Z]+$");
+        return str.matches("^[a-zA-Z\\s]+$");
     }
 
     private boolean isKorean(String str) {
         if (StringUtils.isEmpty(str)) {
             return false;
         }
-        return str.matches("^[가-힣]+$");
+        return str.matches("^[가-힣\\s]+$");
     }
 }
