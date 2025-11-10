@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface MemberPort {
     Optional<Member> findBySocial(Member.Social social);
     Member save(Member member);
-    void update(Member member);
+    Member update(Member member);
     Member findById(long id);
     void deleteById(long id);
     boolean isExistByUsername(String username);

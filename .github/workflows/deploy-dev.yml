@@ -90,6 +90,8 @@ jobs:
             echo "IMAGE_NAME=${{ secrets.IMAGE_NAME_DEV }}" >> .env
             echo "SECRET_MANAGER_TOKEN=${{ secrets.SECRET_MANAGER_TOKEN }}" >> .env
             echo "SECRET_MANAGER_WORKSPACE_ID=${{ secrets.SECRET_MANAGER_WORKSPACE_ID }}" >> .env
+            echo "DOCKER_USERNAME=${{ secrets.DOCKERHUB_LOGIN_USERNAME_DEV }}" >> .env
+            echo "DOCKER_PASSWORD=${{ secrets.DOCKERHUB_LOGIN_ACCESSTOKEN_DEV }}" >> .env
 
             # 배포 스크립트 실행
             sudo ./deploy.sh

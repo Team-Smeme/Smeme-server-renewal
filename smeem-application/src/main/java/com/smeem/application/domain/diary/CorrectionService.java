@@ -1,13 +1,13 @@
 package com.smeem.application.domain.diary;
 
 import com.smeem.application.config.SmeemProperties;
-import com.smeem.application.domain.member.Member;
 import com.smeem.application.port.input.CorrectionUseCase;
 import com.smeem.application.port.input.dto.response.diary.CorrectionsResponse;
 import com.smeem.application.port.output.persistence.CorrectionPort;
 import com.smeem.application.port.output.persistence.DiaryPort;
-import com.smeem.application.port.output.persistence.MemberPort;
 import com.smeem.application.port.output.web.openai.OpenAiPort;
+import com.smeem.common.exception.ExceptionCode;
+import com.smeem.common.exception.SmeemException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +24,6 @@ public class CorrectionService implements CorrectionUseCase {
     private final DiaryPort diaryPort;
     private final OpenAiPort openAiPort;
     private final SmeemProperties smeemProperties;
-    private final MemberPort memberPort;
 
     @Transactional
     public CorrectionsResponse correctDiary(long memberId, long diaryId) {
@@ -36,17 +35,20 @@ public class CorrectionService implements CorrectionUseCase {
 
         // 일기 소유권 검증
         Diary diary = diaryPort.findById(diaryId);
-        diary.validateDiaryOwnership(memberId);
+        validateDiaryOwnership(diary.getMemberId(), memberId);
 
         List<Correction> corrections = createCorrections(diary);
-
-        Member member = memberPort.findById(memberId);
-        int totalCorrectionCount = correctionPort.countByMember(memberId);
-        return CorrectionsResponse.of(corrections, member, totalCorrectionCount);
+        return CorrectionsResponse.of(corrections);
     }
 
     private List<Correction> createCorrections(Diary diary) {
         List<Correction> corrections = openAiPort.promptCorrections(diary.getContent());
         return correctionPort.save(corrections, diary);
+    }
+
+    private void validateDiaryOwnership(long diaryWriterId, long memberId) {
+        if (diaryWriterId != memberId) {
+            throw new SmeemException(ExceptionCode.INVALID_MEMBER_AND_DIARY);
+        }
     }
 }

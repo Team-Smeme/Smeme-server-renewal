@@ -4,6 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class SmeemMessage {
+    // general
+    public static final String SUCCESS_REQUEST = "요청처리 성공";
+
     // auth
     public static final String SIGNED_IN = "로그인 성공";
     public static final String SIGNED_OUT = "로그아웃 성공";
@@ -41,4 +44,8 @@ public class SmeemMessage {
 
     // survey
     public static final String SURVEY_COACHING = "만족도 조사 결과 보내기 성공";
+
+    // bookmark
+    public static final String DELETE_BOOKMARK = "북마크 삭제 성공";
+    public static final String MODIFY_BOOKMARK = "북마크 수정 성공";
 }

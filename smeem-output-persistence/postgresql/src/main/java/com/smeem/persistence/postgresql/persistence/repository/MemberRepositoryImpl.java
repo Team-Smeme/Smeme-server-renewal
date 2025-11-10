@@ -21,6 +21,7 @@ public class MemberRepositoryImpl implements MemberCustomRepository {
     public List<MemberEntity> findByTrainingTime(LocalDateTime trainingTime) {
         return queryFactory
                 .selectFrom(memberEntity)
+                .join(memberEntity).on(trainingTimeEntity.memberId.eq(memberEntity.id))
                 .where(
                         trainingTimeEntity.memberId.eq(memberEntity.id),
                         trainingTimeEntity.dayType.eq(DayType.fromValue(trainingTime.getDayOfWeek().getValue())),

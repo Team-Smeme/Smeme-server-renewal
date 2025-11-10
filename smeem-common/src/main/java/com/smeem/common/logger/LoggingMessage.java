@@ -6,13 +6,13 @@ import lombok.val;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder(access = AccessLevel.PRIVATE)
 public record LoggingMessage(
         String title,
         String content,
-        LocalDate sendAt,
+        LocalDateTime sendAt,
         LoggerType noticeType
 ) {
 
@@ -20,7 +20,7 @@ public record LoggingMessage(
         return LoggingMessage.builder()
                 .title("# " + title)
                 .content(content)
-                .sendAt(LocalDate.now())
+                .sendAt(LocalDateTime.now())
                 .noticeType(noticeType)
                 .build();
     }
@@ -29,7 +29,7 @@ public record LoggingMessage(
         return LoggingMessage.builder()
                 .title("# 전체 회원 수: " + memberCount)
                 .content("새로운 회원 " + username + "님이 가입했습니다.")
-                .sendAt(LocalDate.now())
+                .sendAt(LocalDateTime.now())
                 .noticeType(LoggerType.SIGN_IN)
                 .build();
     }
@@ -38,7 +38,16 @@ public record LoggingMessage(
         return LoggingMessage.builder()
                 .title("# 🧨 500 에러 발생")
                 .content(exception.getMessage() + "\n\n 🔗 [요청 URI] " + getRequestUri(webRequest))
-                .sendAt(LocalDate.now())
+                .sendAt(LocalDateTime.now())
+                .noticeType(LoggerType.ERROR)
+                .build();
+    }
+
+    public static LoggingMessage error(Exception exception, String caller) {
+        return LoggingMessage.builder()
+                .title("# 🧨 500 에러 발생")
+                .content(exception.getMessage() + "\n\n 🔗 Caller=" + caller)
+                .sendAt(LocalDateTime.now())
                 .noticeType(LoggerType.ERROR)
                 .build();
     }
@@ -49,7 +58,7 @@ public record LoggingMessage(
                 .content("기존 회원이 탈퇴했습니다."
                         + "\n탈퇴 사유: " + withdrawType
                         + "\n상세 의견: " + reason)
-                .sendAt(LocalDate.now())
+                .sendAt(LocalDateTime.now())
                 .noticeType(LoggerType.WITHDRAW)
                 .build();
     }
@@ -59,7 +68,7 @@ public record LoggingMessage(
                 .title((isSatisfied ? "# 👍 좋은" : "# 👎 아쉬운") + " 만족도 조사 결과")
                 .content((isSatisfied ? "" : "\n불만족 사유: " + dissatisfactionTypes)
                         + "\n상세 이유: " + reason)
-                .sendAt(LocalDate.now())
+                .sendAt(LocalDateTime.now())
                 .noticeType(LoggerType.SURVEY)
                 .build();
     }
